@@ -1,17 +1,18 @@
-import { Outlet } from 'react-router-dom'
-import Header from '../Components/Header'
-import Footer from '../Components/Footer'
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import Header from '../Components/Header';
+import Footer from '../Components/Footer';
 import { ToastContainer } from 'react-toastify';
 
-const LayOut = () => {
+const Layout = () => {
   return (
     <>
-    <Header/>
-    <Outlet/>
-    <Footer/>
-    <ToastContainer/>
+      <Header />
+      <Outlet />
+      <Footer />
+      <ToastContainer />
     </>
-  )
-}
+  );
+};
 
-export default LayOut
+export default Layout;
