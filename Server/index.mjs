@@ -1,9 +1,10 @@
 import express from "express";
-import cors from "cors";
-import { configDotenv } from "dotenv";
 import mongoose from "mongoose";
+import { configDotenv } from "dotenv";
+import cors from "cors";
 import adminRoute from "./routes/adminRoutes.mjs";
 import userRoute from "./routes/userRoutes.mjs";
+import HireFormRoutes from "./routes/FormRoutes.js";
 
 //express app
 const app = express();
@@ -12,12 +13,16 @@ const app = express();
 configDotenv();
 app.use(express.json());
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
+app.use("/uploads", express.static("/uploads"));
 
 app.use("/api/v1/admin", (req, res, next) => {
   console.log(req.method, req.path);
   next();
 });
 
+//base path router module
+app.use("/api/v1/web", HireFormRoutes);
 app.use("/api/v1/admin", adminRoute);
 app.use("/api/v1/user", userRoute);
 
