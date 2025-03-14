@@ -5,7 +5,7 @@ export const submitHireForm = async (req, res) => {
   const { name, email, mobile, serviceLocation, district, nearestCity, startDate, daysNeed, serviceType, additionalDetails } = req.body;
 
   try {
-    const hireReq = await HireForm.create(req.body);
+    const hireReq = await HireForm.create({ name, email, mobile, serviceLocation, district, nearestCity, startDate, daysNeed, serviceType, additionalDetails });
 
     res.status(200).json(hireReq);
   } catch (error) {
@@ -15,10 +15,10 @@ export const submitHireForm = async (req, res) => {
 
 export const getHireForms = async (req, res) => {
   try {
+    
     const { name, dob, address, gender, nationality, citizenship, maritalStatus, disabilities, hasExperience, experience, handlingGuns, idCardPath, cvPath, gsCertificationPath, email, mobile } = req.body;
 
-    console.log(name, idCardPath, cvPath, gsCertificationPath, email, mobile);
-
+   
     const employeeForm = await EmployeeForm.create({
       name,
       dob,
@@ -30,7 +30,7 @@ export const getHireForms = async (req, res) => {
       disabilities,
       hasExperience,
       experience,
-      handlingGuns, // Fixed spelling
+      handlingGuns, 
       idCardPath,
       cvPath,
       gsCertificationPath,

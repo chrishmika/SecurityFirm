@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import { configDotenv } from "dotenv";
 import cors from "cors";
+
 import adminRoute from "./routes/adminRoutes.mjs";
 import userRoute from "./routes/userRoutes.mjs";
 import HireFormRoutes from "./routes/FormRoutes.js";

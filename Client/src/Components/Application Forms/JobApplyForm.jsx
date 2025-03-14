@@ -26,6 +26,34 @@ const JobApplyForm = () => {
 
   const [loading, setLoading] = useState(false);
 
+  const [errors, setErrors] = useState({
+    email: "",
+    mobile: "",
+    serviceType: "",
+  });
+
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = {
+      email: "",
+      mobile: "",
+      serviceType: "",
+    };
+
+    if (email && !/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = "Please enter a valid email address";
+      isValid = false;
+    }
+    if (mobile && !/^\d{10}$/.test(mobile)) {
+      newErrors.mobile = "Please enter a valid phone number (format: 000-0000000)";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+    
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -74,8 +102,8 @@ const JobApplyForm = () => {
       setMaritalStatus("*");
       setDisabilities("");
       setExperience("");
-      setHasExperience(false);
-      setHandlingGuns(false);
+      setHasExperience("0");
+      setHandlingGuns("0");
       setIdCard(null);
       setCv(null);
       setGSCertification(null);
@@ -177,6 +205,26 @@ const JobApplyForm = () => {
               />
             </div>
           </div>
+          <div className="bg-purple-50 p-4 rounded-lg mb-4">
+            <p className="font-medium mb-3">Contact Information</p>
+            <div className="mb-5">
+              <label className="text-gray-900 text-sm font-medium mb-2">Email: </label>
+              <input className={`bg-gray-50 border ${errors.email ? "border-red-500" : "border-gray-300"} border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full`} type="email" onChange={(e) => {
+              setEmail(e.target.value);
+              if (errors.email) setErrors({ ...errors, email: "" });
+            }}
+               value={email} required placeholder="example@email.com" />
+            </div>
+            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+            <div className="mb-5">
+              <label className="text-gray-900 text-sm font-medium mb-2">Mobile: </label>
+              <input className={`bg-gray-50 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full`} type="tel" onChange={(e) => {
+              setMobile(e.target.value);
+              if (errors.mobile) setErrors({ ...errors, mobile: "" });
+            }} value={mobile} required placeholder="000-0000000" />
+            </div>
+            {errors.mobile && <p className="text-red-500 text-xs mt-1">{errors.mobile}</p>}
+          </div>
 
           <div className="bg-blue-50 p-4 rounded-lg mb-4">
             <p className="font-medium mb-3">Previous Work Details</p>
@@ -185,23 +233,23 @@ const JobApplyForm = () => {
               <select
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 value={hasExperience}
-                onChange={(e) => setHasExperience(e.target.value === "1")}
-                // required
+                onChange={(e) => setHasExperience(e.target.value )}
+                required
               >
                 <option value="*">Select</option>
                 <option value="0">No</option>
                 <option value="1">Yes</option>
               </select>
             </div>
-            {hasExperience === true && (
+            {hasExperience === "1" && (
               <React.Fragment>
                 <div className="mb-5">
                   <label className="text-gray-900 text-sm font-medium mb-2">Years of service: </label>
-                  <input className="bg-gray-50 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full" type="number" onChange={(e) => setExperience(e.target.value)} value={experience} required placeholder="Enter years of service" />
+                  <input className="bg-gray-50 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full" type="number" onChange={(e) => setExperience(e.target.value)} value={experience} placeholder="Enter years of service" />
                 </div>
                 <div className="mb-5">
                   <label className="text-gray-900 text-sm font-medium mb-2">Do you have experience in handling firearms or weapons as part of your job? </label>
-                  <select className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value={handlingGuns} onChange={(e) => setHandlingGuns(e.target.value === "1")} required>
+                  <select className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value={handlingGuns} onChange={(e) => setHandlingGuns(e.target.value)} >
                     <option value="*">Please choose</option>
                     <option value="1">Yes</option>
                     <option value="0">No</option>
@@ -226,35 +274,25 @@ const JobApplyForm = () => {
                 type="file"
                 onChange={(e) => setCv(e.target.files[0])}
                 accept=".pdf"
-                // required
+                required
               />
             </div>
 
-            {hasExperience === true && (
+            {hasExperience === "1" && (
               <div className="mb-5">
                 <label className="text-gray-900 text-sm font-medium mb-2">GS certification (JPG, JPEG, PNG ,pdf): </label>
                 <input
                   className="block w-full bg-gray-50 border text-sm border-gray-300 p-2.5 rounded-lg"
                   type="file"
                   onChange={(e) => setGSCertification(e.target.files[0])}
-                  accept="image/*"
+                  accept="image/*,.pdf"
                   // required
                 />
               </div>
             )}
           </div>
 
-          <div className="bg-purple-50 p-4 rounded-lg mb-4">
-            <p className="font-medium mb-3">Contact Information</p>
-            <div className="mb-5">
-              <label className="text-gray-900 text-sm font-medium mb-2">Email: </label>
-              <input className="bg-gray-50 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full" type="email" onChange={(e) => setEmail(e.target.value)} value={email} required placeholder="example@email.com" />
-            </div>
-            <div className="mb-5">
-              <label className="text-gray-900 text-sm font-medium mb-2">Mobile: </label>
-              <input className="bg-gray-50 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full" type="tel" onChange={(e) => setMobile(e.target.value)} value={mobile} required placeholder="000-0000000" />
-            </div>
-          </div>
+         
 
           <div className="mb-5 flex justify-center">
             <button className="text-white bg-blue-600 px-6 py-3 text-sm font-medium rounded-lg hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed" type="submit" disabled={loading}>
