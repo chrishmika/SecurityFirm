@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { FaAlignJustify, FaImagePortrait, FaFileLines, FaAtom, FaBinoculars, FaEarthAmericas, FaBlackTie } from "react-icons/fa6";
+import { FaAlignJustify, FaImagePortrait, FaFileLines, FaAtom, FaBinoculars, FaEarthAmericas, FaBlackTie, FaAlignLeft } from "react-icons/fa6";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -20,8 +20,8 @@ const Navigation = () => {
       <div className={`p-4 pt-10 transition-all duration-350 ease-in-out ${isMenuOpen ? "w-64" : "w-16"} `}>
         <ul className="flex flex-col gap-8">
           {/* Menu Toggle */}
-          <li className="cursor-pointer flex items-center gap-4" onClick={toggleNavigationMenu}>
-            <FaAlignJustify className="text-3xl" />
+          <li className="cursor-pointer flex items-center gap-4 " onClick={toggleNavigationMenu}>
+            {isMenuOpen ? <FaAlignLeft className="text-3xl" /> : <FaAlignJustify className="text-3xl" />}
             {isMenuOpen && <span className="text-xl font-bold ">Dvison</span>}
           </li>
 
