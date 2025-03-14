@@ -16,7 +16,7 @@ const Navigation = () => {
   ];
 
   return (
-    <div className={`bg-white h-[100vh]  shadow-2xl transition-all duration-300 ease-in-out ${isMenuOpen ? "w-64" : "w-16"}`}>
+    <div className={`bg-white h-[100vh] shadow-2xl transition-all duration-300 ease-in-out ${isMenuOpen ? "w-64" : "w-16"}`}>
       <div className={`p-4 pt-10 transition-all duration-350 ease-in-out ${isMenuOpen ? "w-64" : "w-16"} `}>
         <ul className="flex flex-col gap-8">
           {/* Menu Toggle */}
@@ -41,7 +41,7 @@ const Navigation = () => {
 
           {/* Admin & Logout */}
           <li className={`md:mt-40 mt-auto `}>
-            <div className={`bg-amber-200 flex flex-col rounded-md p-4 gap-2 ${isMenuOpen ? "block" : "w-5 h-5"} transition-all duration-300 ease-in-out `}>
+            <div className={`bg-amber-200 flex flex-col  p-4 gap-2 ${isMenuOpen ? "block rounded-md" : "w-5 h-5 rounded-full"}  `}>
               <span className={`font-semibold text-gray-800 ${isMenuOpen ? "block" : "hidden"}`}>Admin</span>
               <button className={`bg-white rounded-xl p-2 hover:bg-gray-200 ${isMenuOpen ? "block" : "hidden"} `}>Log Out</button>
             </div>
