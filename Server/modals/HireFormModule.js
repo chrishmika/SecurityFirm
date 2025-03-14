@@ -8,10 +8,12 @@ const hireFormModelSchema = mongoose.Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   mobile: {
     type: String,
     required: true,
+    unique: true,
   },
   serviceLocation: {
     type: String,
@@ -31,7 +33,7 @@ const hireFormModelSchema = mongoose.Schema({
   },
   daysNeed: {
     type: Number,
-    required: true,
+    required: false,
   },
   serviceType: {
     type: String,

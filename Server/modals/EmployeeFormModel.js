@@ -34,36 +34,41 @@ const employeeFormSchema = mongoose.Schema({
     required: true,
   },
   hasExperience: {
-    type: Boolean,
+    type: String,
     required: true,
   },
   experience: {
     type: Number,
-    required: true,
+    required: false,
   },
   handlingGuns: {
-    type: Boolean,
-    required: true,
+    type: String,
+    required: false,
   },
   idCardPath: {
     type: String,
     required: true,
+    unique: true,
   },
   cvPath: {
     type: String,
-    required: false,
+    required: true,
+    unique: true,
   },
   gsCertificationPath: {
     type: String,
     required: false,
+    unique: true,
   },
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   mobile: {
     type: String,
     required: true,
+    unique: true,
   },
 });
 

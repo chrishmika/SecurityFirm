@@ -15,6 +15,8 @@ const GetHireForm = () => {
   const [serviceType, setServiceType] = useState("");
   const [additionalDetails, setAdditionalDetails] = useState("");
 
+  const [loading, setLoading] = useState(false);
+
   // Add error states
   const [errors, setErrors] = useState({
     email: "",
@@ -44,7 +46,7 @@ const GetHireForm = () => {
     }
 
     // Validate service type
-    if (serviceType === "*") {
+    if (serviceType === "" || serviceType === "*") {
       newErrors.serviceType = "Please select a service type";
       isValid = false;
     }
@@ -53,11 +55,21 @@ const GetHireForm = () => {
     return isValid;
   };
 
+  const districts = [
+    "Ampara", "Anuradhapura", "Badulla", "Batticaloa", "Colombo",
+    "Galle", "Gampaha", "Hambantota", "Jaffna", "Kalutara",
+    "Kandy", "Kegalle", "Kilinochchi", "Kurunegala", "Mannar",
+    "Matale", "Matara", "Monaragala", "Mullaitivu", "Nuwara Eliya",
+    "Polonnaruwa", "Puttalam", "Ratnapura", "Trincomalee", "Vavuniya"
+  ];
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     // Validate form before submission
     if (!validateForm()) {
+      setLoading(false);
       toast.error("Please correct the errors in the form", {
         position: "top-right",
         autoClose: 3000,
@@ -115,9 +127,11 @@ const GetHireForm = () => {
         progress: undefined,
         theme: "light",
       });
+    } finally {
+      setLoading(false);
     }
   };
-
+  
   return (
     <div className="bg-white lg:w-[500px] sm:w-100 ">
       <h1 className="text-red-800 text-2xl mb-4 p-3 font-medium text-center">Fill the form completely </h1>
@@ -159,7 +173,7 @@ const GetHireForm = () => {
             }}
             value={mobile}
             required
-            placeholder="000-00000000"
+            placeholder="000-0000000"
           />
           {errors.mobile && <p className="text-red-500 text-xs mt-1">{errors.mobile}</p>}
         </div>
@@ -175,7 +189,16 @@ const GetHireForm = () => {
           <label className="text-gray-900 text-sm font-medium mb-2" htmlFor="">
             District :{" "}
           </label>
-          <input className="bg-gray-50 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full " type="text" onChange={(e) => setDistrict(e.target.value)} value={district} required placeholder="Enter district" />
+
+          <select className="bg-gray-50 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full " type="text"
+            onChange={(e) => setDistrict(e.target.value)}
+            value={district}
+            required  >
+            <option value="*">Select a district</option>
+            {districts.map((district, index) => (
+              <option key={index} value={district}>{district}</option>
+            ))}
+          </select>
         </div>
 
         <div className="mb-5">
@@ -196,9 +219,9 @@ const GetHireForm = () => {
             </div>
             <div className="">
               <label className="text-gray-900 text-sm font-medium mb-2" htmlFor="">
-                How many days :{" "}
+                How many days of service ? :{" "}
               </label>
-              <input className="bg-gray-50 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full " type="number" min="1" step="1" onChange={(e) => setDaysNeed(e.target.value)} value={daysNeed} required />
+              <input className="bg-gray-50 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full " type="number" min="1" step="1" onChange={(e) => setDaysNeed(e.target.value)} value={daysNeed} placeholder="Number of days" />
             </div>
           </div>
         </div>
@@ -229,8 +252,6 @@ const GetHireForm = () => {
             Provide details of your security services request:
           </label>
           <textarea
-            name=""
-            id=""
             className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
             rows="5"
             placeholder="Provide additional details : Specific days, Hours ... "
@@ -240,8 +261,8 @@ const GetHireForm = () => {
         </div>
 
         <div className="mb-5 flex justify-center">
-          <button className="text-gray-800 bg-blue-300 px-4 py-2 text-sm font-medium rounded-lg hover:bg-blue-400" type="submit">
-            Submit
+          <button className="text-white bg-blue-600 px-6 py-3 text-sm font-medium rounded-lg hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed" type="submit" disabled={loading}>
+            {loading ? "Submitting..." : "Submit Application"}
           </button>
         </div>
       </form>
