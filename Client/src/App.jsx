@@ -38,8 +38,9 @@ const webRouter = createBrowserRouter(
   )
 );
 
+  
 const App = () => {
-  return <RouterProvider router={webRouter} />;
+  return <RouterProvider router={(webRouter)} />;
 };
 
 export default App;
