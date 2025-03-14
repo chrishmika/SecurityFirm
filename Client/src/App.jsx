@@ -1,3 +1,4 @@
+import React from "react";
 import { createBrowserRouter, RouterProvider, Route, createRoutesFromElements } from "react-router-dom";
 //website imports
 import Layout from "./Layout/LayoutWeb";
@@ -16,31 +17,29 @@ import SignIn from "./Pages/SignIn";
 //routings that related with website
 const webRouter = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Layout />}>
-      <Route path="/" element={<Home />} />
-      <Route path="about" element={<AboutUs />} />
-      <Route path="services" element={<Services />} />
-      <Route path="clients" element={<Clients />} />
-      <Route path="joinus" element={<JoinUs />}>
-        <Route path="jobapply" element={<JobApplyForm />} />
+    <React.Fragment>
+      <Route path="/" element={<Layout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="about" element={<AboutUs />} />
+        <Route path="services" element={<Services />} />
+        <Route path="clients" element={<Clients />} />
+        <Route path="joinus" element={<JoinUs />}>
+          <Route path="jobapply" element={<JobApplyForm />} />
+        </Route>
+        <Route path="gethired" element={<GetHired />} />
+        <Route path="signin" element={<SignIn />} />
       </Route>
-      <Route path="gethired" element={<GetHired />} />
-       <Route path="signin" element={<SignIn />} />
-    </Route>
+
+      {/* Admin Routes */}
+      <Route path="/dashboard" element={<LayoutAdmin />}>
+        <Route path="signin" element={<SignIn />} />
+      </Route>
+    </React.Fragment>
   )
 );
 
-//routings that related with admin dashboard
-//const adminRouter = createBrowserRouter(
- // createRoutesFromElements(
-   // <Route path="/dashboard" element={<LayoutAdmin />}>
-      //<Route path="signin" element={<SignIn />} />
-    //</Route>
-  //)
-//);
-
+  
 const App = () => {
-  //return <RouterProvider router={(webRouter, adminRouter)} />;
   return <RouterProvider router={(webRouter)} />;
 };
 
