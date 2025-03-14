@@ -30,7 +30,7 @@ const Navigation = () => {
             <li key={path}>
               <NavLink
                 to={path}
-                className={({ isActive }) => `flex items-center gap-4 p-2 rounded-md transition duration-300 ease-in-out ${isActive ? "bg-blue-400 text-white" : "hover:bg-blue-300 text-[#282828dd]"} ${isMenuOpen ? "justify-between pr-4" : "justify-center"}`}
+                className={({ isActive }) => `flex items-center gap-4 p-2 rounded-md transition duration-300 ease-in-out ${isActive ? "bg-blue-400 text-white" : "hover:bg-blue-300 text-[#282828dd]"} ${isMenuOpen ? "justify-between pr-4 " : "pr-8 justify-right"}`}
                 onClick={() => screen.width <= 500 && setIsMenuOpen(false)}
               >
                 <span>{icon}</span>
