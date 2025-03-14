@@ -25,21 +25,23 @@ const webRouter = createBrowserRouter(
         <Route path="jobapply" element={<JobApplyForm />} />
       </Route>
       <Route path="gethired" element={<GetHired />} />
+       <Route path="signin" element={<SignIn />} />
     </Route>
   )
 );
 
 //routings that related with admin dashboard
-const adminRouter = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/dashboard" element={<LayoutAdmin />}>
-      <Route path="signin" element={<SignIn />} />
-    </Route>
-  )
-);
+//const adminRouter = createBrowserRouter(
+ // createRoutesFromElements(
+   // <Route path="/dashboard" element={<LayoutAdmin />}>
+      //<Route path="signin" element={<SignIn />} />
+    //</Route>
+  //)
+//);
 
 const App = () => {
-  return <RouterProvider router={(webRouter, adminRouter)} />;
+  //return <RouterProvider router={(webRouter, adminRouter)} />;
+  return <RouterProvider router={(webRouter)} />;
 };
 
 export default App;
