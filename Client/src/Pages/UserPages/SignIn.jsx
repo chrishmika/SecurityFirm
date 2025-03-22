@@ -33,13 +33,13 @@ const SignIn = () => {
       });
 
       if (response.status == 200) {
-        localStorage.setItem("user", response.data.token);
+        localStorage.setItem("user", JSON.stringify(response.data));
         console.log(response.data);
         if (response.data.role == "admin") {
-          navigate("/dashboard/admindashboard/dashboard");
+          // navigate("/dashboard/admindashboard/dashboard");
         }
         if (response.data.role == "user") {
-          navigate("/user");
+          // navigate("/user");
         }
         return;
       } else {
