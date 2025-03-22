@@ -1,23 +1,18 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { Info, Notify } from "../../Components/AdminDashboard/Notifications/Notification";
+import { ToastContainer } from "react-toastify";
 
 const SignIn = () => {
-  const [loginData, setLoginData] = useState({ username: "", password: "" });
+  const [loginData, setLoginData] = useState({ nic: "", password: "" });
   const navigate = useNavigate();
-
-  {
-    /**toatify notification settings*/
-  }
-  const notify = (message) => toast.error(message ? message : "error occur");
-  const info = (message) => toast.info(message ? message : "Empty message");
 
   {
     /**handlers*/
   }
   const handleLoginData = (e) => setLoginData({ ...loginData, [e.target.name]: e.target.value });
-  const forgetPasswordHandle = () => info("Contact Admin");
+  const forgetPasswordHandle = () => Info("Contact Admin");
 
   {
     /**sending data to backend */
@@ -25,13 +20,13 @@ const SignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!loginData.username && !loginData.password) {
-      notify("Both Username and Password needed");
+    if (!loginData.nic && !loginData.password) {
+      Notify("Fields are Empty");
       return;
     }
 
     try {
-      const response = await axios.post("http://localhost:4000/app/v1/AdminValidate/", loginData, {
+      const response = await axios.post("http://localhost:4000/api/v1/user/signin", loginData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -39,14 +34,20 @@ const SignIn = () => {
 
       if (response.status == 200) {
         localStorage.setItem("token", response.data.token);
-        navigate("/admindashboard");
+        console.log(response.data.role);
+        if (response.data.role == "admin") {
+          navigate("/dashboard/admindashboard/dashboard");
+        }
+        if (response.data.role == "user") {
+          navigate("/user");
+        }
         return;
       } else {
-        notify(response.data.message); //message from backend
+        Notify(response.data.message); //message from backend
         return;
       }
     } catch (error) {
-      notify("Networ Error");
+      Notify(error.response.data.err);
       console.log(error);
     }
   };
@@ -58,8 +59,8 @@ const SignIn = () => {
         <div className="border-1 border-[#D9D9D9] p-6 rounded-md">
           <form className="flex flex-col gap-5 mb-3" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-1">
-              <label>User</label>
-              <input type="text" name="username" value={loginData.username} onChange={handleLoginData} placeholder="User Name" className={inputStyle} />
+              <label>NIC</label>
+              <input type="text" name="nic" value={loginData.nic} onChange={handleLoginData} placeholder="User Name" className={inputStyle} />
             </div>
 
             <div className="flex flex-col gap-1">

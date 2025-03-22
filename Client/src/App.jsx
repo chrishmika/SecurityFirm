@@ -1,5 +1,5 @@
 import React from "react";
-import { createBrowserRouter, RouterProvider, Route, createRoutesFromElements } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Route, createRoutesFromElements, Router } from "react-router-dom";
 //website imports
 import Layout from "./Layout/LayoutWeb";
 import AboutUs from "./Pages/AboutUs";
@@ -11,7 +11,7 @@ import GetHired from "./Pages/GetHired";
 import JobApplyForm from "./Components/Application Forms/JobApplyForm";
 //admin imports
 import LayoutAdmin from "./Layout/LayoutAdmin";
-import SignIn from "./Pages/AdminPages/SignIn";
+// import SignIn from "./Pages/AdminPages/SignIn";
 import Admin from "./Pages/AdminPages/Admin";
 import AttendanceView from "./Components/AdminDashboard/AttendanceView";
 import AddCompany from "./Components/AdminDashboard/AddCompany";
@@ -19,6 +19,8 @@ import AddEmployee from "./Components/AdminDashboard/AddEmployee";
 import AdminDashboard from "./Components/AdminDashboard/AdminDashboard";
 import ApplicationsView from "./Components/AdminDashboard/ApplicationsView";
 import Web from "./Components/AdminDashboard/Web";
+import SignIn from "./Pages/UserPages/SignIn";
+import User from "./Pages/UserPages/User";
 
 // Using the createRoutesFromElements approach from the main branch
 //routings that related with website
@@ -34,12 +36,13 @@ const webRouter = createBrowserRouter(
           <Route path="jobapply" element={<JobApplyForm />} />
         </Route>
         <Route path="gethired" element={<GetHired />} />
-        <Route path="signin" element={<SignIn />} />
       </Route>
+
+      {/**sign in router*/}
+      <Route path="/signin" element={<SignIn />} />
 
       {/* Admin Routes */}
       <Route path="/dashboard" element={<LayoutAdmin />}>
-        <Route path="signin" element={<SignIn />} />
         <Route path="admindashboard" element={<Admin />}>
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="attendance" element={<AttendanceView />} />
@@ -49,6 +52,9 @@ const webRouter = createBrowserRouter(
           <Route path="web" element={<Web />} />
         </Route>
       </Route>
+
+      {/* user Routes */}
+      <Route path="/user" element={<User />}></Route>
     </React.Fragment>
   )
 );

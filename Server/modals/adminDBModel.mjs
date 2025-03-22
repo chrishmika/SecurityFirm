@@ -21,3 +21,4 @@ const adminLoginSchema = new Schema({
 export const adminschemas = mongoose.model("adminschemas", adminLoginSchema);
 
 //roles can be added in case of saving employee account details
+//may be can removed this file
