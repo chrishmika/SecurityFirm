@@ -1,12 +1,12 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { Info, Notify } from "../../Components/AdminDashboard/Notifications/Notification";
 import { ToastContainer } from "react-toastify";
 
 const SignIn = () => {
   const [loginData, setLoginData] = useState({ nic: "", password: "" });
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   {
     /**handlers*/

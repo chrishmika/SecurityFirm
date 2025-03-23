@@ -18,12 +18,12 @@ const AttendanceView = () => {
   };
 
   //styles
-  const buttonStyle = "border-1 border-[#2C2C2C] rounded-md px-10 hover:cursor-pointer hover:bg-blue-500 hover:border-blue-500";
+  const buttonStyle = "border-1 border-[#2C2C2C] rounded-md px-10 hover:cursor-pointer hover:bg-blue-500 hover:border-blue-500 font-medium min-h-8";
   const inputFieldStyle = "border-1 rounded-md px-4 border-[#D9D9D9] placeholder:text-[#D9D9D9]";
 
   return (
     <div>
-      <div className="shadow-md px-2 mb-3">
+      <div className="shadow-md rounded-2xl px-2 mb-3">
         <form onSubmit={submitHandeler}>
           <div className="flex md:gap-8 gap-2 flex-wrap justify-between w-full sm:items-center ">
             <div className="flex md:flex-row flex-col gap-1">
