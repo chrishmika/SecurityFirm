@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ApplicationCard from "./ApplicationCard";
 
 const buttonStyle = "border-1 border-[#2C2C2C] rounded-md px-10 hover:cursor-pointer hover:bg-blue-500 hover:border-blue-500 hover:text-white font-medium min-h-8";
 const ApplicationsView = () => {
@@ -23,6 +24,12 @@ const ApplicationsView = () => {
       <div className={` flex md:justify-between border-1 border-[#D9D9D9] rounded-2xl w-full justify-normal my-1.5 flex-col md:flex-row hover:cursor-pointer p-2`}>
         <div className="border-b-1 border-[#D9D9D9] w-full m-2">
           <h1 className="font-bold">Applications</h1>
+          <div className="mx-2">
+            <ApplicationCard />
+            <ApplicationCard />
+            <ApplicationCard />
+            <ApplicationCard />
+          </div>
         </div>
       </div>
     </React.Fragment>
