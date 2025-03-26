@@ -368,7 +368,7 @@ const AddEmployee = () => {
 
               {documents.length > 0 && (
                 <div className="mt-2">
-                  <ul className="flex gap-10 my-3 flex-wrap overflow-y-scroll max-h-20">
+                  <ul className="flex gap-10 -my-2 flex-wrap overflow-y-scroll max-h-20">
                     {documents.map((file, index) => (
                       <li key={index} className="flex flex-col items-start w-12 overflow-clip" data-tooltip-id="detailedTooltip">
                         <Tooltip id="detailedTooltip" place="top" effect="solid">
