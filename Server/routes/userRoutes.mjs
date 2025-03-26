@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { markAttendance } from "../controllers/attendanceControllers.mjs";
-import { signInUser, signOutUser } from "../controllers/userControllers.mjs";
+import { signInUser, signOutUser, signupUser } from "../controllers/userControllers.mjs";
 
 const userRoute = Router();
 
@@ -8,7 +8,10 @@ const userRoute = Router();
 userRoute.post("/signin", signInUser);
 
 //signOut
-userRoute.post("/signin", signOutUser);
+userRoute.post("/signout", signOutUser);
+
+//signup create account
+userRoute.post("/signup", signupUser);
 
 //markAttendance
 userRoute.post("/attendanceSend", markAttendance); //done datavalidation is needed

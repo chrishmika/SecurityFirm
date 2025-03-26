@@ -1,21 +1,37 @@
 import mongoose from "mongoose";
-import { adminschemas } from "../modals/adminDBModel.mjs";
+import jwt from "jsonwebtoken";
+import { usermodel } from "../modals/userModel.mjs";
+// import { adminschemas } from "../modals/adminDBModel.mjs";
 import { employeeschemas } from "../modals/employeeDBModel.mjs";
 import { companyschemas } from "../modals/companyDBModel.mjs";
 
-//login
-export const signInUser = async (req, res) => {
+const createToken = (_id) => {
+  return jwt.sign({ _id }, process.env.JWT_SECRET, { expiresIn: "3d" });
+};
+
+//signup user create new account
+export const signupUser = async (req, res) => {
+  const { nic, password, role } = req.body;
   try {
-    const loginData = { ...req.body }; //[username , passwoed]
-    const response = adminschemas.findOne({ username: loginData.username });
-    if (response.password == loginData.password) {
-      if (response.role == "admin") {
-      } //admin authentication
-      if (response.role == "user") {
-      } //user authentication
-    }
+    const user = await usermodel.signup(nic, password, role);
+    const token = createToken(user._id);
+    res.status(200).json({ nic, token, role });
   } catch (error) {
-    res.status(400).json({ msg: error.message });
+    res.status(400).json({ err: error.message });
+  }
+};
+
+//signinuser to exixting account
+
+export const signInUser = async (req, res) => {
+  const { nic, password } = req.body; //[nic , password]
+  try {
+    const user = await usermodel.login(nic, password);
+    const token = createToken(user._id);
+    const role = user.role;
+    res.status(200).json({ nic, token, role });
+  } catch (error) {
+    res.status(400).json({ err: error.message });
   }
 };
 

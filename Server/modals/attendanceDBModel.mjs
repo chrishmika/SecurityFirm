@@ -36,8 +36,8 @@ const attendanceDB = new Schema(
   { timestamps: true }
 );
 
+attendanceDB.statics.markAttendance = async function (employID, employName, date, workStatus, workplace, locationX, locationY) {};
 // Compound index to enforce uniqueness on date + status
-attendanceDB.index({ date: 1, workStatus: 1 }, { unique: true });
 // Create the index manually after schema definition
 
 export const attendanceschemas = mongoose.model("attendanceschemas", attendanceDB);
