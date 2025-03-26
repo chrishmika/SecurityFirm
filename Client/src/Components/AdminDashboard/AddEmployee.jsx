@@ -2,29 +2,12 @@ import { useState } from "react";
 import { Tooltip } from "react-tooltip";
 import fileIcon from "../../assets/fileIcon.png";
 import { ImCross } from "react-icons/im";
+import EmployeeSearch from "./EmployeeSearch";
+import { useEmployeeContext } from "../../hooks/useEmployeeContext";
 
 const AddEmployee = () => {
-  const [searchEmp, setSearchEmp] = useState("");
-  const [searchEmpName, setSearchEmpName] = useState("");
-  const [empId, setEmpId] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [initials, setInitials] = useState("");
-  const [DOB, setDOB] = useState("");
-  const [address, setAddress] = useState("");
-  const [nationality, setNationality] = useState("");
-  const [citizenship, setCitizenship] = useState("");
-  const [contact1, setContact1] = useState("");
-  const [contact2, setContact2] = useState("");
-  const [email, setEmail] = useState("");
-  const [EPF, setEPF] = useState(null);
-  const [ETF, setETF] = useState(null);
-  const [NIC, setNIC] = useState(null);
-  const [marital, setMarital] = useState("");
-  const [gender, setGender] = useState("");
-  const [militaryExperience, setMilitaryExperience] = useState(null);
-  const [handleGuns, setHandleGuns] = useState(null);
-  const [experience, setExperience] = useState("");
-  const [disabilities, setDisabilities] = useState("");
+  const { employee, setEmployee } = useEmployeeContext();
+  //this part is also need to put into context//////////////////////////
   const [documents, setDocuments] = useState([]); // Store multiple files
 
   const downloadFile = (file) => {
@@ -47,10 +30,6 @@ const AddEmployee = () => {
     setDocuments(documents.filter((_, i) => i !== index)); // Remove file by index
   };
 
-  const searchHandle = (e) => {
-    e.preventDefault();
-  };
-
   const submitHandle = (e) => {
     e.preventDefault();
   };
@@ -58,37 +37,7 @@ const AddEmployee = () => {
   return (
     <div className="  flex items-center justify-center ">
       <div className="w-full max-w-max bg-white p-6 rounded-lg shadow-lg">
-        {/*<h2 className="text-2xl font-bold mb-4">Employee Form</h2>*/}
-        <div>
-          <form action="#" onSubmit={searchHandle} className="space-y-4">
-            <div className="flex space-x-2">
-              <input
-                type="text"
-                onChange={(e) => {
-                  setSearchEmp(e.target.value);
-                }}
-                value={searchEmp}
-                name="search_emp_id"
-                placeholder="Employee ID"
-                className="border p-2 rounded w-full"
-              />
-              <input
-                type="text"
-                onChange={(e) => {
-                  setSearchEmpName(e.target.value);
-                }}
-                value={searchEmpName}
-                name="search_emp_name"
-                placeholder="Employee Name"
-                className="border p-2 rounded w-full"
-              />
-              <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded">
-                Search
-              </button>
-            </div>
-          </form>
-          <hr className="mt-5 shadow-2xl" />
-        </div>
+        <EmployeeSearch />
 
         <form action="#" className="space-y-2" onSubmit={submitHandle}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
@@ -96,9 +45,9 @@ const AddEmployee = () => {
               <label>Employee ID</label>
               <input
                 type="text"
-                value={empId}
+                value={employee.empId}
                 onChange={(e) => {
-                  setEmpId(e.target.value);
+                  setEmployee({ ...employee, empId: e.target.value });
                 }}
                 name="emp_id"
                 placeholder="EMP123456"
@@ -108,33 +57,33 @@ const AddEmployee = () => {
               <label>Full Name</label>
               <input
                 type="text"
-                value={fullName}
+                value={employee.fullName}
                 onChange={(e) => {
-                  setFullName(e.target.value);
+                  setEmployee({ ...employee, fullName: e.target.value });
                 }}
                 name="full_name"
-                placeholder="John Doe"
+                placeholder="Ushan kavindu Sumanasekara"
                 className="border p-2 rounded w-full"
                 required
               />
               <label>Name With Initials</label>
               <input
                 type="text"
-                value={initials}
+                value={employee.initials}
                 onChange={(e) => {
-                  setInitials(e.target.value);
+                  setEmployee({ ...employee, initials: e.target.value });
                 }}
                 name="initials"
-                placeholder="J. D. Perera"
+                placeholder="U. K. Sumanasekara"
                 className="border p-2 rounded w-full"
                 required
               />
               <label>Date of Birth:</label>
               <input
                 type="date"
-                value={DOB}
+                value={employee.DOB}
                 onChange={(e) => {
-                  setDOB(e.target.value);
+                  setEmployee({ ...employee, DOB: e.target.value });
                 }}
                 name="dob"
                 className="border p-2 rounded w-full"
@@ -143,9 +92,9 @@ const AddEmployee = () => {
               <label>Address</label>
               <input
                 type="text"
-                value={address}
+                value={employee.address}
                 onChange={(e) => {
-                  setAddress(e.target.value);
+                  setEmployee({ ...employee, address: e.target.value });
                 }}
                 name="address"
                 placeholder="No 0000/ X, Street, City, Postal Code"
@@ -154,31 +103,30 @@ const AddEmployee = () => {
               />
               <label>Nationality</label>
               <select
-                value={nationality}
+                value={employee.nationality}
                 onChange={(e) => {
-                  setNationality(e.target.value);
+                  setEmployee({ ...employee, nationality: e.target.value });
                 }}
                 name="nationality"
                 className="border p-2 rounded w-full"
                 required
               >
+                <option>Select</option>
                 <option>Sinhalese</option>
                 <option>Tamil</option>
-                <option>Moors</option>
                 <option>Burghers</option>
-                <option>Malays</option>
-                <option>Vedda</option>
               </select>
               <label>Citizenship</label>
               <select
-                value={citizenship}
+                value={employee.citizenship}
                 onChange={(e) => {
-                  setCitizenship(e.target.value);
+                  setEmployee({ ...employee, citizenship: e.target.value });
                 }}
                 name="citizenship"
                 className="border p-2 rounded w-full"
                 required
               >
+                <option>Select</option>
                 <option>Sri Lankan by Descent</option>
                 <option>Sri Lankan by Registration</option>
                 <option>Foreign National</option>
@@ -188,14 +136,14 @@ const AddEmployee = () => {
                   <label htmlFor="contact1">Contact Number 1</label>
                   <input
                     type="tel"
-                    value={contact1}
+                    value={employee.contact1}
                     onChange={(e) => {
-                      setContact1(e.target.value);
+                      setEmployee({ ...employee, contact1: e.target.value });
                     }}
                     name="contact1"
                     pattern="0\d{9}"
                     title="Phone number must be 10 digits and start with 0"
-                    placeholder="eg., 0712345678"
+                    placeholder="e.g 0712345678"
                     className="border p-2 rounded w-full"
                     maxLength="10"
                     required
@@ -213,14 +161,14 @@ const AddEmployee = () => {
                   <label htmlFor="contact2">Contact Number 2</label>
                   <input
                     type="tel"
-                    value={contact2}
+                    value={employee.contact2}
                     onChange={(e) => {
-                      setContact2(e.target.value);
+                      setEmployee({ ...employee, contact2: e.target.value });
                     }}
                     name="contact2"
                     pattern="0\d{9}"
                     title="Phone number must be 10 digits and start with 0"
-                    placeholder="eg., 0712345678"
+                    placeholder="e.g 0712345678"
                     className="border p-2 rounded w-full"
                     maxLength="10"
                     onInput={(e) => {
@@ -237,12 +185,12 @@ const AddEmployee = () => {
               <label>Email</label>
               <input
                 type="email"
-                value={email}
+                value={employee.email}
                 onChange={(e) => {
-                  setEmail(e.target.value);
+                  setEmployee({ ...employee, email: e.target.value });
                 }}
                 name="email"
-                placeholder="e.g., john.doe@example.com"
+                placeholder="e.g email@example.com"
                 className="border p-2 rounded w-full"
                 required
               />
@@ -251,9 +199,9 @@ const AddEmployee = () => {
                   <label htmlFor="epf">EPF Number</label>
                   <input
                     type="text"
-                    value={EPF}
+                    value={employee.EPF}
                     onChange={(e) => {
-                      setEPF(e.target.value);
+                      setEmployee({ ...employee, EPF: e.target.value });
                     }}
                     name="epf"
                     placeholder="EPF Number"
@@ -264,9 +212,9 @@ const AddEmployee = () => {
                   <label htmlFor="etf">ETF Number</label>
                   <input
                     type="text"
-                    value={ETF}
+                    value={employee.ETF}
                     onChange={(e) => {
-                      setETF(e.target.value);
+                      setEmployee({ ...employee, ETF: e.target.value });
                     }}
                     name="etf"
                     placeholder="ETF Number"
@@ -280,9 +228,9 @@ const AddEmployee = () => {
               <label>NIC Number</label>
               <input
                 type="text"
-                value={NIC}
+                value={employee.NIC}
                 onChange={(e) => {
-                  setNIC(e.target.value);
+                  setEmployee({ ...employee, NIC: e.target.value });
                 }}
                 name="nic"
                 maxLength="12"
@@ -300,7 +248,7 @@ const AddEmployee = () => {
                     <input
                       type="radio"
                       onChange={(e) => {
-                        setMarital(e.target.value);
+                        setEmployee({ ...employee, marital: e.target.value });
                       }}
                       name="marital_status"
                       value="Married"
@@ -311,7 +259,7 @@ const AddEmployee = () => {
                     <input
                       type="radio"
                       onChange={(e) => {
-                        setMarital(e.target.value);
+                        setEmployee({ ...employee, marital: e.target.value });
                       }}
                       name="marital_status"
                       value="Unmarried"
@@ -328,7 +276,7 @@ const AddEmployee = () => {
                     <input
                       type="radio"
                       onChange={(e) => {
-                        setGender(e.target.value);
+                        setEmployee({ ...employee, gender: e.target.value });
                       }}
                       name="gender"
                       value="Male"
@@ -339,7 +287,7 @@ const AddEmployee = () => {
                     <input
                       type="radio"
                       onChange={(e) => {
-                        setGender(e.target.value);
+                        setEmployee({ ...employee, gender: e.target.value });
                       }}
                       name="gender"
                       value="Female"
@@ -352,13 +300,13 @@ const AddEmployee = () => {
               <label>Number Of Years In Military</label>
               <input
                 type="number"
-                value={militaryExperience}
+                value={employee.militaryExperience}
                 onChange={(e) => {
-                  setMilitaryExperience(e.target.value);
+                  setEmployee({ ...employee, militaryExperience: e.target.value });
                 }}
                 name="military_years"
                 min="0"
-                placeholder="e.g., 5 years"
+                placeholder="e.g 5 years"
                 className="border p-2 rounded w-full"
               />
 
@@ -369,7 +317,7 @@ const AddEmployee = () => {
                     <input
                       type="radio"
                       onChange={(e) => {
-                        setHandleGuns(e.target.value);
+                        setEmployee({ ...employee, handleGuns: e.target.value });
                       }}
                       name="gun_handling"
                       value="Yes"
@@ -381,7 +329,7 @@ const AddEmployee = () => {
                     <input
                       type="radio"
                       onChange={(e) => {
-                        setHandleGuns(e.target.value);
+                        setEmployee({ ...employee, handleGuns: e.target.value });
                       }}
                       name="gun_handling"
                       value="No"
@@ -394,24 +342,24 @@ const AddEmployee = () => {
               <label>Experience</label>
               <textarea
                 onChange={(e) => {
-                  setExperience(e.target.value);
+                  setEmployee({ ...employee, experience: e.target.value });
                 }}
-                value={experience}
+                value={employee.experience}
                 name="experience"
                 rows="3"
-                placeholder="e.g., 5 years as a security officer at XYZ Bank"
+                placeholder="e.g 5 years as a security officer at XYZ Bank"
                 className="border p-2 rounded w-full"
               ></textarea>
 
               <label>Disabilities (Leave empty is not applicable)</label>
               <textarea
-                value={disabilities}
+                value={employee.disabilities}
                 onChange={(e) => {
-                  setDisabilities(e.target.value);
+                  setEmployee({ ...employee, disabilities: e.target.value });
                 }}
                 name="disabilities"
                 rows="2"
-                placeholder="e.g., Visual impairment, hearing disability, mobility challenges, etc."
+                placeholder="e.g Visual impairment, hearing disability, mobility challenges, etc."
                 className="border p-2 rounded w-full"
               ></textarea>
 
@@ -455,6 +403,8 @@ const AddEmployee = () => {
             </button>
           </div>
         </form>
+        {/*employee.gender}
+        {employee.NIC*/}
       </div>
     </div>
   );
