@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 const buttonStyle = "border-1 border-[#2C2C2C] rounded-md px-10 hover:cursor-pointer hover:bg-blue-500 hover:border-blue-500 hover:text-white font-medium min-h-8";
 const ApplicationsView = () => {

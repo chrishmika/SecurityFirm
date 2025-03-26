@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import ColorSlider from "../Components/Slider";
 
 const Home = () => {
   return (
-    <div>Home</div>
-  )
-}
+    <div>
+      <ColorSlider />
+    </div>
+  );
+};
 
-export default Home
+export default Home;
