@@ -1,15 +1,14 @@
-import axios from "axios";
 import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
 import { Info, Notify } from "../../Components/AdminDashboard/Notifications/Notification";
 import { ToastContainer } from "react-toastify";
+import useLogin from "../../hooks/useLogin";
 
 const SignIn = () => {
   const [loginData, setLoginData] = useState({ nic: "", password: "" });
-  // const navigate = useNavigate();
+  const { Login } = useLogin();
 
   {
-    /**handlers*/
+    /*handlers*/
   }
   const handleLoginData = (e) => setLoginData({ ...loginData, [e.target.name]: e.target.value });
   const forgetPasswordHandle = () => Info("Contact Admin");
@@ -20,32 +19,13 @@ const SignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!loginData.nic && !loginData.password) {
+    if (!loginData.nic || !loginData.password) {
       Notify("Fields are Empty");
       return;
     }
 
     try {
-      const response = await axios.post("http://localhost:4000/api/v1/user/signin", loginData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (response.status == 200) {
-        localStorage.setItem("user", JSON.stringify(response.data));
-        console.log(response.data);
-        if (response.data.role == "admin") {
-          // navigate("/dashboard/admindashboard/dashboard");
-        }
-        if (response.data.role == "user") {
-          // navigate("/user");
-        }
-        return;
-      } else {
-        Notify(response.data.message); //message from backend
-        return;
-      }
+      Login(loginData.nic, loginData.password);
     } catch (error) {
       Notify(error.response.data.err);
       console.log(error);

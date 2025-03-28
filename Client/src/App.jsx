@@ -1,5 +1,7 @@
 import React from "react";
-import { createBrowserRouter, RouterProvider, Route, createRoutesFromElements } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Route, createRoutesFromElements, Navigate } from "react-router-dom";
+import { useAuthContext } from "./hooks/useAuthContext";
+
 //website imports
 import Layout from "./Layout/LayoutWeb";
 import AboutUs from "./Pages/AboutUs";
@@ -21,8 +23,26 @@ import Web from "./Components/AdminDashboard/Web";
 import User from "./Pages/UserPages/User";
 //signin import
 import SignIn from "./Pages/UserPages/SignIn";
+import NotFound from "./Pages/AdminPages/NotFound";
+import PropTypes from "prop-types";
 
-// Using the createRoutesFromElements approach from the main branch
+//conditional routings
+const SignInRedirect = () => {
+  const { user } = useAuthContext();
+  return user ? <Navigate to="/dashboard/admindashboard/dashboard" /> : <SignIn />;
+};
+
+//conditional routings
+const NotSignInRedirect = ({ children }) => {
+  const { user } = useAuthContext();
+  return user ? children : <Navigate to="/signin" />;
+};
+
+//prop validation for children
+NotSignInRedirect.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
 //routings that related with website
 const webRouter = createBrowserRouter(
   createRoutesFromElements(
@@ -37,12 +57,18 @@ const webRouter = createBrowserRouter(
         </Route>
         <Route path="gethired" element={<GetHired />} />
       </Route>
-
-      {/**sign in router*/}
-      <Route path="/signin" element={<SignIn />} />
-
-      {/* Admin Routes */}
-      <Route path="/dashboard" element={<LayoutAdmin />}>
+      {/**sign in router*/} {/**this Route is protected with conditional routings */}
+      <Route path="/signin" element={<SignInRedirect />} />
+      {/*Admin Routes*/}
+      {/*this Route is protected with conditional routings */}
+      <Route
+        path="/dashboard"
+        element={
+          <NotSignInRedirect>
+            <LayoutAdmin />
+          </NotSignInRedirect>
+        }
+      >
         <Route path="admindashboard" element={<Admin />}>
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="attendance" element={<AttendanceView />} />
@@ -52,9 +78,10 @@ const webRouter = createBrowserRouter(
           <Route path="web" element={<Web />} />
         </Route>
       </Route>
-
-      {/* user Routes */}
-      <Route path="/user" element={<User />}></Route>
+      {/* user Routes irusha is creating on mobile app sides*/}
+      <Route path="/user" element={<User />} />
+      {/* Fallback Route */}
+      <Route path="*" element={<NotFound />} />
     </React.Fragment>
   )
 );
