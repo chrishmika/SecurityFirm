@@ -1,10 +1,22 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FaAlignJustify, FaImagePortrait, FaFileLines, FaAtom, FaBinoculars, FaEarthAmericas, FaBlackTie, FaAlignLeft } from "react-icons/fa6";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { useLogout } from "../../hooks/useLogout";
+import { FaCircleUser } from "react-icons/fa6";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user } = useAuthContext();
+  const { logout } = useLogout();
+
   const toggleNavigationMenu = () => setIsMenuOpen(!isMenuOpen);
+  const handelClick = () => logout();
+
+  ////////add "are you sure you wanna logout" confirmation window
+  const Confirmation = () => {
+    return <div></div>;
+  };
 
   const navItems = [
     { icon: <FaAtom className="text-2xl" />, path: "dashboard", link: "Dashboard" },
@@ -42,9 +54,16 @@ const Navigation = () => {
           {/* Admin & Logout */}
           <li className={` mt-auto `}>
             <div className={`bg-gray-800 flex flex-col ml-1 p-4 gap-2 ${isMenuOpen ? "block rounded-md" : "w-5 h-5 rounded-full items-center"}  `}>
-              <span className={`font-semibold text-white ${isMenuOpen ? "block" : "hidden"}`}>Admin</span>
-              <span className={`font-semibold text-white -my-3  ${isMenuOpen ? "hidden" : "block"}`}>A</span>
-              <button className={`bg-white rounded-xl p-2 hover:bg-gray-200 ${isMenuOpen ? "block" : "hidden"} `}>Logout</button>
+              <span className={`font-semibold text-white flex items-center gap-3 ${isMenuOpen ? "block" : "hidden"}`}>
+                <FaCircleUser className="" />
+                {user.nic}
+              </span>
+              <span className={`font-semibold text-white -my-3 flex items-center justify-center h-8 ${isMenuOpen ? "hidden" : "block"}`}>
+                <FaCircleUser />
+              </span>
+              <button className={`bg-white rounded-xl p-2 hover:bg-gray-200 ${isMenuOpen ? "block" : "hidden"} `} onClick={handelClick}>
+                Logout
+              </button>
             </div>
           </li>
         </ul>

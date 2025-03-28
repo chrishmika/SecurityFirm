@@ -1,7 +1,12 @@
-import React from "react";
+import { useAuthContext } from "./useAuthContext";
 
-const useLogout = () => {
-  return <div></div>;
+export const useLogout = () => {
+  const { setStatus, setUser } = useAuthContext();
+
+  const logout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+    setStatus("LOGOUT");
+  };
+  return { logout };
 };
-
-export default useLogout;
