@@ -1,12 +1,15 @@
 import { useState, createContext } from "react";
+import PropTypes from "prop-types";
 
-export authContext = createContext()
+export const AuthContext = createContext();
 
-export authContexProvider = ({children}) =>{
+export const AuthContexProvider = ({ children }) => {
+  const [status, setStatus] = useState("");
+  const [user, setUser] = useState();
 
+  return <AuthContext.Provider value={{ status, setStatus, user, setUser }}>{children}</AuthContext.Provider>;
+};
 
-
-    return (
-        <authContext.Provider value={}>{children}</authContext.Provider>
-    )
-}
+AuthContexProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
