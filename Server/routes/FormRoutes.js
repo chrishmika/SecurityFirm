@@ -1,13 +1,11 @@
-import express from 'express'
+import express from "express";
 const router = express.Router();
 
-import { submitHireForm , getHireForms, imageController} from '../Controllers/FormController.js';
-import { upload } from '../Middleware/uploadMiddleware.js';
+import { submitHireForm, getHireForms, imageController } from "../controllers/FormController.js";
+import { upload } from "../middleware/uploadMiddleware.js";
 
-router.post("/hire" , submitHireForm)
+router.post("/hire", submitHireForm);
+router.post("/uploads", upload.single("file"), imageController);
+router.post("/employeeform", getHireForms);
 
-router.post("/uploads" , upload.single('file'),imageController)
-
-router.post("/employeeform" , getHireForms)
-
-export default router
+export default router;

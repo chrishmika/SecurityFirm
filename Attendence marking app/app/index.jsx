@@ -27,6 +27,12 @@ const SearchableLocationSelector = () => {
     }
   }, [isLoading, userInfo]);
 
+  useEffect(() => {
+    if(userInfo){
+      loadSelection();
+    }
+  }, [userInfo]);
+
   // Save location selection with expiry time
   const saveSelection = async (location) => {
     try {
@@ -113,11 +119,7 @@ const SearchableLocationSelector = () => {
     }
   };
 
-  useEffect(() => {
-    if(userInfo){
-      loadSelection();
-    }
-  }, [userInfo]);
+  
 
   return (
     <View style={styles.container}>
