@@ -12,13 +12,14 @@ const useLogin = () => {
     setError(null);
     setIsLoading(true);
     const loginData = { nic, password };
-    const response = await axios.post("http://localhost:4000/api/v1/user/signin", loginData, {
+    const response = await axios.post("v1/user/signin", loginData, {
+      // const response = await axios.post("http://localhost:4000/api/v1/user/signin", loginData, {
       headers: {
         "Content-Type": "application/json",
       },
     });
 
-    if (!response.status === 200) {
+    if (response.status !== 200) {
       Notify(response.data.message); //message from backend
       return;
     }

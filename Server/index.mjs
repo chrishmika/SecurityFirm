@@ -59,7 +59,7 @@ mongoose
     });
   })
   .catch((err) => {
-    app.listen(process.env.PORT, (err) => {
+    app.listen(process.env.PORT, "0.0.0.0", (err) => {
       !err ? console.log(`data base not onnected and listen to server on ${process.env.PORT}`) : console.log(err);
     });
   });
