@@ -13,12 +13,12 @@ const AttendanceCard = () => {
 
   const [editInterface, setEditInterface] = useState(false);
   const editHandeler = () => {
-    setEditInterface(true);
+    setEditInterface(!editInterface);
     console.log("edit interface");
   };
   return (
     <React.Fragment>
-      <div className={` flex md:justify-between justify-normal my-1.5 flex-col md:flex-row hover:bg-[#e9e9e9] hover:cursor-pointer p-2`} onClick={editHandeler}>
+      <div className={`flex md:justify-between justify-normal my-1.5 flex-col md:flex-row hover:bg-[#e9e9e9] hover:cursor-pointer p-2`} onClick={editHandeler}>
         <div className="flex flex-col pr-10">
           <span className="font-bold">{`Name`}</span>
           <span className="text-[#b9b9b9]">{`Place`}</span>
@@ -40,19 +40,21 @@ const AttendanceCard = () => {
       </div>
       <hr />
       {/**edit screen */}
-      <div className={` fixed inset-0  bg-none backdrop-blur-xs ${editInterface ? "flex" : "hidden"}`}>
-        <div className={`p-8  flex flex-col fixed inset-0 bg-black bg-opacity-50 items-center justify-center rounded-2xl text-white w-fit h-fit mx-auto my-auto ${editInterface ? "flex" : "hidden"}`}>
-          <span className="md:block hidden h-26 w-26 bg-amber-50 rounded-full"></span>
-          <div className="flex flex-col">
-            <span>
-              <input type="text" className={`border-1 rounded-md px-2 my-1 border-[#ffffff22]`} value={employee} onChange={(e) => setEmployee(e.target.value)} />
-            </span>
-            <span>
-              <input type="text" className={`border-1 rounded-md px-2 my-1 border-[#ffffff22]`} value={id} onChange={(e) => setId(e.target.value)} />
-            </span>
-            <span>
-              <input type="text" className={`border-1 rounded-md px-2 my-1 border-[#ffffff22]`} value={company} onChange={(e) => setCompany(e.target.value)} />
-            </span>
+      <div className={`fixed inset-0  bg-none backdrop-blur-xs ${editInterface ? "flex" : "hidden"}`}>
+        <div className={`p-8 flex flex-col fixed inset-0 bg-white bg-opacity-50 items-center justify-center rounded-2xl text-black shadow-xl w-fit h-fit mx-auto my-auto ${editInterface ? "flex" : "hidden"}`}>
+          <div className="flex flex-row gap-10 justify-self-start items-center">
+            <span className="md:block hidden h-26 w-26 bg-amber-500 rounded-full"></span>
+            <div className="flex flex-col">
+              <span>
+                <input type="text" className={`border-1 rounded-md px-2 my-1 border-[#ffffff22]`} value={employee} onChange={(e) => setEmployee(e.target.value)} />
+              </span>
+              <span>
+                <input type="text" className={`border-1 rounded-md px-2 my-1 border-[#ffffff22]`} value={id} onChange={(e) => setId(e.target.value)} />
+              </span>
+              <span>
+                <input type="text" className={`border-1 rounded-md px-2 my-1 border-[#ffffff22]`} value={company} onChange={(e) => setCompany(e.target.value)} />
+              </span>
+            </div>
           </div>
           <div className="flex gap-8 flex-col md:flex-row">
             <div className="flex flex-col gap-5 mt-5">
@@ -80,7 +82,7 @@ const AttendanceCard = () => {
                 // alert("Do You want To Edit");
                 setEditInterface(false);
               }}
-              className="bg-white text-black font-bold w-20 rounded-md mx-auto my-5 hover:cursor-pointer"
+              className=" text-black font-bold border-1 w-20 hover:bg-[#5932EA] hover:text-white rounded-md mx-auto mt-7 py-2 hover:cursor-pointer"
             >
               Save
             </button>
@@ -88,7 +90,7 @@ const AttendanceCard = () => {
               onClick={() => {
                 setEditInterface(false);
               }}
-              className="bg-white text-black font-bold w-20 rounded-md mx-auto my-5 hover:cursor-pointer"
+              className="border-1 text-black font-bold w-20 hover:bg-[#5932EA] hover:text-white rounded-md mx-auto mt-7 py-2 hover:cursor-pointer"
             >
               Close
             </button>
