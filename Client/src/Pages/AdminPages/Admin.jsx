@@ -3,7 +3,7 @@ import Navigation from "../../Components/AdminDashboard/Navigation";
 
 const Admin = () => {
   return (
-    <div className="border-1">
+    <div className="">
       <div className="grid h-screen grid-cols-[auto_1fr] bg-[#FAFBFF]">
         {/* Sidebar */}
         <aside className="w-auto grid md:relative absolute">
@@ -11,7 +11,10 @@ const Admin = () => {
         </aside>
 
         {/* Main Content */}
-        <main className="flex flex-col flex-1 py-10 md:pl-10 pl-18 pr-3 overflow-y-auto  justify-start">
+        <main
+          className="flex flex-col flex-1 py-10 md:pl-10 pl-18 pr-3 overflow-y-auto justify-start mx-0 my-4 
+        "
+        >
           <Outlet />
         </main>
       </div>

@@ -6,31 +6,31 @@ import { useLogout } from "../../hooks/useLogout";
 import { FaCircleUser } from "react-icons/fa6";
 
 const Navigation = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user } = useAuthContext();
   const { logout } = useLogout();
 
   const toggleNavigationMenu = () => setIsMenuOpen(!isMenuOpen);
   const handelClick = () => logout();
 
-  useEffect(() => {
-    const handleResize = () => {
-      // 768px is the 'md' breakpoint in Tailwind
-      if (window.innerWidth < 768) {
-        setIsMenuOpen(false);
-      } else {
-        setIsMenuOpen(true);
-      }
-    };
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     // 768px is the 'md' breakpoint in Tailwind
+  //     if (window.innerWidth < 768) {
+  //       setIsMenuOpen(false);
+  //     } else {
+  //       setIsMenuOpen(true);
+  //     }
+  //   };
 
-    handleResize();
+  // handleResize();
 
-    // Add event listener for window resize
-    window.addEventListener("resize", handleResize);
+  // Add event listener for window resize
+  // window.addEventListener("resize", handleResize);
 
-    // Clean up the event listener on unmount
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  // Clean up the event listener on unmount
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, []);
 
   ////////add "are you sure you wanna logout" confirmation window
   const Confirmation = () => {
@@ -47,8 +47,8 @@ const Navigation = () => {
   ];
 
   return (
-    <div className={`bg-white h-[100vh] shadow-2xl transition-all duration-300 ease-in-out ${isMenuOpen ? "w-64" : "w-16"}  `}>
-      <div className={`p-4 pt-10 transition-all duration-350 ease-in-out ${isMenuOpen ? "w-64" : "w-16"} `}>
+    <div className={`bg-white h-[100vh] shadow-2xl transition-all duration-300 ease-in-out ${isMenuOpen ? "w-64" : "w-16"} z-999 `}>
+      <div className={`p-3 pt-10 transition-all duration-350 ease-in-out ${isMenuOpen ? "w-64" : "w-16"} `}>
         <ul className="flex flex-col gap-8 ">
           {/* Menu Toggle */}
           <li className="cursor-pointer flex items-center gap-4 ml-1.5 text-[#1E1E1E]" onClick={toggleNavigationMenu}>
@@ -71,11 +71,11 @@ const Navigation = () => {
           ))}
 
           {/* Admin & Logout */}
-          <li className={` mt-auto `}>
+          <li className={`mt-auto`} onClick={() => setIsMenuOpen(true)}>
             <div className={`bg-gray-800 flex flex-col ml-1 p-4 gap-2 ${isMenuOpen ? "block rounded-md" : "w-5 h-5 rounded-full items-center"}  `}>
               <span className={`font-semibold text-white flex items-center  gap-3 ${isMenuOpen ? "block" : "hidden"}`}>
                 <FaCircleUser className="border-amber-50 border-2 rounded-full" />
-                {user.nic}
+                {`Hi ${user.nic}`}
               </span>
               <span className={`font-semibold text-white -my-3 flex items-center justify-center h-8 ${isMenuOpen ? "hidden" : "block"}`}>
                 <FaCircleUser />

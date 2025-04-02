@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import ApplicationCard from "./ApplicationCard";
+import ApplicationCard from "./Cards/ApplicationCard";
 
 const buttonStyle = "border-1 border-[#2C2C2C] rounded-md px-9 md:px-15 hover:cursor-pointer hover:bg-[#5932EA] hover:border-[#5932EA] hover:text-white font-medium min-h-8";
 const ApplicationsView = () => {
   return (
     <React.Fragment>
-      <div className="flex flex-col gap-5 w-full mx-auto shadow-md rounded-2xl pb-5 ">
+      <div className="flex flex-col gap-5 w-full shadow-md rounded-2xl pb-5 ">
         <div className="flex flex-wrap gap-5 justify-center">
           <button className={`${buttonStyle} md:w-[40%]`}>Recrute</button>
           <button className={`${buttonStyle} md:w-[40%]`}>Client</button>

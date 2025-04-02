@@ -1,5 +1,5 @@
 import { useState } from "react";
-import AttendanceCard from "./AttendanceCard";
+import AttendanceCard from "./Cards/AttendanceCard";
 
 const AttendanceView = () => {
   const [startDate, setStartDate] = useState(new Date().toISOString().split("T")[0]);
@@ -23,7 +23,6 @@ const AttendanceView = () => {
 
   return (
     <div>
-      {/* <div className=" md:mx-1 grid grid-cols-5 sm:grid-cols-2 md:grid-cols-1 shadow-md rounded-md mb-3 justify-items-center  ">*/}
       <div className="shadow-md rounded-2xl px-2 mb-3">
         <form onSubmit={submitHandeler}>
           <div className="flex md:gap-8 gap-2 flex-wrap justify-between w-full sm:items-center ">
