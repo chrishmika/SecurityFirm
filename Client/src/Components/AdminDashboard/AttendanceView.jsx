@@ -1,5 +1,5 @@
 import { useState } from "react";
-import AttendanceCard from "./AttendanceCard";
+import AttendanceCard from "./Cards/AttendanceCard";
 
 const AttendanceView = () => {
   const [startDate, setStartDate] = useState(new Date().toISOString().split("T")[0]);

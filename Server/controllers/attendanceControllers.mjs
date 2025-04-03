@@ -11,15 +11,16 @@ export const markAttendance = async (req, res) => {
     const attendanceData = { ...req.body };
     console.log({ ...req.body });
 
-    ////data need to send [employID, , employName,Date, workStatus, workplace, locationX, locationY];
+    ////data needed to send [employID, , employName,Date, workStatus, workplace, locationX, locationY];
     //validate using the cordinates of workspace that taken from location database and this  locationX, locationY
     //if and only if its validate add to database
+
     const attendeance = await attendanceschemas.create(attendanceData);
     if (!attendeance) {
       res.status(400).json({ msg: error });
       return;
     }
-    res.status(400).json({ msg: "successfully marked" });
+    res.status(201).json({ msg: "successfully marked" });
   } catch (error) {
     res.status(404).json({ msg: error });
   }
