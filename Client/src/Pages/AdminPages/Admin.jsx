@@ -12,7 +12,7 @@ const Admin = () => {
 
         {/* Main Content */}
         <main
-          className="flex flex-col flex-1 py-10 md:pl-10 pl-18 pr-3 overflow-y-auto justify-start mx-0 my-4 
+          className="flex flex-col flex-1 py-10 md:pl-10 pl-18 pr-3 overflow-y-auto justify-start mx-0 my-4 overflow-auto
         "
         >
           <Outlet />
