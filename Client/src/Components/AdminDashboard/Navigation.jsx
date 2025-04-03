@@ -70,16 +70,17 @@ const Navigation = () => {
               </NavLink>
             </li>
           ))}
-
+        </ul>
+        <ul className="mt-20 mb-5">
           {/* Admin & Logout */}
           <li className={`mt-auto`} onClick={() => setIsMenuOpen(true)}>
-            <div className={`bg-gray-800 flex flex-col ml-1 p-4 gap-2 ${isMenuOpen ? "block rounded-md" : "w-5 h-5 rounded-full items-center"}  `}>
-              <span className={`font-semibold text-white flex items-center  gap-3 ${isMenuOpen ? "block" : "hidden"}`}>
+            <div className={`bg-[#000000] hover:bg-[#5932EA] flex flex-col ml-1 p-4 gap-2 ${isMenuOpen ? "block rounded-md" : "w-5 h-5 rounded-full items-center"}  `}>
+              <span className={`font-semibold text-white flex items-center  gap-3 ${isMenuOpen ? "block" : "hidden"} `}>
                 <FaCircleUser className="border-amber-50 border-2 rounded-full" />
                 {`Hi ${user.nic}`}
               </span>
               <span className={`font-semibold text-white -my-3 flex items-center justify-center h-8 ${isMenuOpen ? "hidden" : "block"}`}>
-                <FaCircleUser />
+                <FaCircleUser className="" />
               </span>
               <button className={`bg-white rounded-xl p-2 hover:bg-[#5a32eae0] hover:text-white ${isMenuOpen ? "block" : "hidden"} `} onClick={handelClick}>
                 Logout
