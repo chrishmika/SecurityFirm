@@ -1,5 +1,5 @@
-import HireForm from "../modals/HireFormModule.js";
-import EmployeeForm from "../modals/EmployeeFormModel.js";
+import HireForm from "../models/HireFormModule.js";
+import EmployeeForm from "../models/EmployeeFormModel.mjs";
 
 export const submitHireForm = async (req, res) => {
   const { name, email, mobile, serviceLocation, district, nearestCity, startDate, daysNeed, serviceType, additionalDetails } = req.body;
@@ -15,10 +15,8 @@ export const submitHireForm = async (req, res) => {
 
 export const getHireForms = async (req, res) => {
   try {
-    
     const { name, dob, address, gender, nationality, citizenship, maritalStatus, disabilities, hasExperience, experience, handlingGuns, idCardPath, cvPath, gsCertificationPath, email, mobile } = req.body;
 
-   
     const employeeForm = await EmployeeForm.create({
       name,
       dob,
@@ -30,7 +28,7 @@ export const getHireForms = async (req, res) => {
       disabilities,
       hasExperience,
       experience,
-      handlingGuns, 
+      handlingGuns,
       idCardPath,
       cvPath,
       gsCertificationPath,

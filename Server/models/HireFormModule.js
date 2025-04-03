@@ -13,7 +13,6 @@ const hireFormModelSchema = mongoose.Schema({
   mobile: {
     type: String,
     required: true,
-    unique: true,
   },
   serviceLocation: {
     type: String,

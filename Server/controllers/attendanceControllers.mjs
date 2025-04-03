@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { attendanceschemas } from "../modals/AttendanceDBModel.mjs";
+import { attendanceschemas } from "../models/AttendanceDBModel.mjs";
 
 //crud for attendance
 

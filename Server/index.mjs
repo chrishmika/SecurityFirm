@@ -11,6 +11,7 @@ import { fileURLToPath } from "url";
 import adminRoute from "./routes/adminRoutes.mjs";
 import userRoute from "./routes/userRoutes.mjs";
 import HireFormRoutes from "./routes/FormRoutes.mjs";
+import companyRoute from "./routes/companyRoutes.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 //express app
@@ -19,7 +20,7 @@ const app = express();
 //middleware
 configDotenv();
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: "*" }));
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static("/uploads"));
 
@@ -46,6 +47,7 @@ app.use("/api/v1/admin", (req, res, next) => {
 app.use("/api/v1/web", HireFormRoutes);
 app.use("/api/v1/admin", adminRoute);
 app.use("/api/v1/user", userRoute);
+app.use("/api/v1/company", companyRoute);
 
 //generate docs
 const Doc = swaggerJsDoc(swaggerOptions);

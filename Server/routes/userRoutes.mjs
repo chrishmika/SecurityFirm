@@ -1,8 +1,11 @@
 import { Router } from "express";
 import { markAttendance } from "../controllers/attendanceControllers.mjs";
 import { signInUser, signOutUser, signupUser } from "../controllers/userControllers.mjs";
+import requireAuth from "../middleware/requireAuth.mjs";
 
 const userRoute = Router();
+
+// userRoute.use(requireAuth)
 
 //signIn
 userRoute.post("/signin", signInUser);
