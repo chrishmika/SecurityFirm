@@ -2,7 +2,7 @@ import express from "express";
 const router = express.Router();
 
 import { submitHireForm, getHireForms, imageController } from "../controllers/FormController.js";
-import { upload } from "../middleware/uploadMiddleware.js";
+import { upload } from "../middleware/uploadMiddleware.mjs";
 
 router.post("/hire", submitHireForm);
 router.post("/uploads", upload.single("file"), imageController);

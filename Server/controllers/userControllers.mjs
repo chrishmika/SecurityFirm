@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
-import { usermodel } from "../modals/userModel.mjs";
+import { usermodel } from "../models/userModel.mjs";
 // import { adminschemas } from "../modals/adminDBModel.mjs";
-import { employeeschemas } from "../modals/employeeDBModel.mjs";
-import { companyschemas } from "../modals/companyDBModel.mjs";
+import { employeeschemas } from "../models/employeeDBModel.mjs";
+import { companyschemas } from "../models/companyDBModel.mjs";
 
 const createToken = (_id) => {
   return jwt.sign({ _id }, process.env.JWT_SECRET, { expiresIn: "3d" });
