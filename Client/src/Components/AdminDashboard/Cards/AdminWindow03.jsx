@@ -1,7 +1,11 @@
 import React from "react";
 
 const AdminWindow03 = () => {
-  return <div className="bg-sky-300 h-full rounded-2xl p-4">AdminWindow03</div>;
+  return (
+    <div className="bg-sky-300 h-full rounded-2xl">
+      <div className="flex justify-center pt-2">AdminWindow03</div>
+    </div>
+  );
 };
 
 export default AdminWindow03;
