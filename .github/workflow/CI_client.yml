@@ -2,9 +2,9 @@ name: CI for frontend
 
 on:
   push:
-    branchs: [{ main, chrishmika }]
+    branchs: [{ main, Chrishmika }]
   pull_request:
-    branches: [{ main, chrishmika }]
+    branches: [{ main, Chrishmika }]
 
 jobs:
   build-and-test-frontend:
