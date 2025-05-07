@@ -2,9 +2,9 @@ name: CI for backend
 
 on:
   push:
-    branches: [chrishmika]
+    branches: [main, Chrishmika]
   pull_request:
-    branches: [main]
+    branches: [main, Chrishmika]
 
 jobs:
   build-and-test:
