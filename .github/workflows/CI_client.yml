@@ -2,9 +2,10 @@ name: CI for frontend
 
 on:
   push:
-    branchs: [{ main, Chrishmika }]
+    branches: [main, Chrishmika]
+
   pull_request:
-    branches: [{ main, Chrishmika }]
+    branches: [main, Chrishmika]
 
 jobs:
   build-and-test-frontend:
@@ -16,7 +17,7 @@ jobs:
 
     steps:
       - name: check code
-        uses: acti/checkout@v3
+        uses: actions/checkout@v3
 
       - name: setup node
         uses: actions/setup-node@v3
