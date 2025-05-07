@@ -1,0 +1,33 @@
+name: CI for frontend
+
+on:
+  push:
+    branchs: [chrishmika]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test-frontend:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./client
+
+    steps:
+      - name: check code
+        uses: acti/checkout@v3
+
+      - name: setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: install dependancies
+        run: npm i
+
+      - name: build client
+        run: npm run build
+
+      - name: run test
+        run: npm test
