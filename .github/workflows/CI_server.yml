@@ -12,7 +12,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: server
+        working-directory: Server
 
     steps:
       - name: Checkout code
