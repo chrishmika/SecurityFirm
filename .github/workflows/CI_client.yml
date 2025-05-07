@@ -13,21 +13,21 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./client
+        working-directory: client
 
     steps:
-      - name: check code
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: setup node
+      - name: set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "18"
 
-      - name: install dependancies
+      - name: install frontend dependancies
         run: npm i
 
-      - name: build client
+      - name: build frontend
         run: npm run build
 
       - name: run test
