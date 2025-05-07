@@ -1,0 +1,30 @@
+name: CI for backend
+
+on:
+  push:
+    branches: [main, Chrishmika]
+  pull_request:
+    branches: [main, Chrishmika]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: Server
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Insall dependancies
+        run: npm i
+
+      - name: Run tests
+        run: npm test
