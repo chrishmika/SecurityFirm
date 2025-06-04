@@ -12,6 +12,7 @@ const useLogin = () => {
     setError(null);
     setIsLoading(true);
     const loginData = { nic, password };
+
     const response = await axios.post("v1/user/signin", loginData, {
       // const response = await axios.post("http://localhost:4000/api/v1/user/signin", loginData, {
       headers: {
