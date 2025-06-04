@@ -2,7 +2,11 @@ import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { useState, useEffect } from "react";
 import DropDownPicker from 'react-native-dropdown-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { useAuth } from "@/context/AuthContext";
+import { useLanguage } from "@/context/LanguageContext";
+import i18n from '@/locales/i18n';
+
 import { useRouter } from "expo-router";
 
 const EXPIRY_TIME = 2000; // 2000 hours expiry time
@@ -10,28 +14,44 @@ const EXPIRY_TIME = 2000; // 2000 hours expiry time
 const SearchableLocationSelector = () => {
 
   const router = useRouter();
-  const { userInfo , isLoading, logout } = useAuth();
+  const { userInfo, isLoading, logout } = useAuth();
 
   const [open, setOpen] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [checkedIn, setCheckedIn] = useState(false);
+
   const [locations, setLocations] = useState([
     { label: 'Location 1', value: 'location1' },
     { label: 'Location 2', value: 'location2' },
     { label: 'Location 3', value: 'location3' },
   ]);
 
-  useEffect( () => {
-    if(!isLoading && !userInfo) {
+  //language selecter
+  const { language, changeLanguage } = useLanguage();
+  const [langOpen, setLangOpen] = useState(false);
+  const [langItems, setLangItems] = useState([
+    { label: 'English', value: 'en' },
+    { label: 'සිංහල', value: 'si' },
+  ]);
+
+  useEffect(() => {
+    if (!isLoading && !userInfo) {
       router.replace('/auth');
     }
   }, [isLoading, userInfo]);
 
   useEffect(() => {
-    if(userInfo){
+    if (userInfo) {
       loadSelection();
     }
   }, [userInfo]);
+
+  // Update i18n locale when language changes
+  useEffect(() => {
+    if (language) {
+      i18n.locale = language;
+    }
+  }, [language]);
 
   // Save location selection with expiry time
   const saveSelection = async (location) => {
@@ -50,7 +70,7 @@ const SearchableLocationSelector = () => {
     try {
       const storedData = await AsyncStorage.getItem('selectedLocation');
       const checkInStatus = await AsyncStorage.getItem('checkedInStatus');
-      
+
       if (checkInStatus) {
         setCheckedIn(JSON.parse(checkInStatus));
       }
@@ -75,14 +95,14 @@ const SearchableLocationSelector = () => {
   // Handle check in
   const handleCheckIn = async () => {
     if (!selectedLocation) {
-      alert('Please select a location first');
+      alert(i18n.t('selectLocation'));
       return;
     }
-    
+
     try {
       await AsyncStorage.setItem('checkedInStatus', JSON.stringify(true));
       setCheckedIn(true);
-      alert('Successfully checked in!');
+      alert(i18n.t('successfulCheckIn'));
     } catch (error) {
       console.error('Error checking in:', error);
     }
@@ -93,7 +113,7 @@ const SearchableLocationSelector = () => {
     try {
       await AsyncStorage.setItem('checkedInStatus', JSON.stringify(false));
       setCheckedIn(false);
-      alert('Successfully checked out!');
+      alert(i18n.t('successfulCheckOut'));
       // Note: We're not clearing the location so it persists until expiry
     } catch (error) {
       console.error('Error checking out:', error);
@@ -104,14 +124,14 @@ const SearchableLocationSelector = () => {
   const handleLogout = async () => {
     try {
       if (checkedIn) {
-        alert('Please check out before logging out');
+        alert(i18n.t('checkOutBeforeLogout'));
         return;
       }
-      
+
       await AsyncStorage.removeItem('selectedLocation');
       setSelectedLocation(null);
       // Additional logout logic here
-      alert('Successfully logged out');
+      alert(i18n.t('successfulLogout'));
       logout();
       router.replace('/auth');
     } catch (error) {
@@ -119,12 +139,10 @@ const SearchableLocationSelector = () => {
     }
   };
 
-  
-
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Hello Welcome User</Text>
-      <Text style={styles.title}>Mark Attendance</Text>
+      <Text style={styles.title}>{i18n.t('welcome')}</Text>
+      <Text style={styles.title}>{i18n.t('markAttendance')}</Text>
 
       <DropDownPicker
         open={open}
@@ -133,33 +151,45 @@ const SearchableLocationSelector = () => {
         setOpen={setOpen}
         setValue={(val) => saveSelection(val)}
         setItems={setLocations}
-        placeholder="Select a location"
+        placeholder={i18n.t('selectLocation')}
         searchable={true}
-        searchablePlaceholder="Search for a location"
+        searchablePlaceholder={i18n.t('searchLocation')}
         searchablePlaceholderTextColor="gray"
         style={styles.dropdown}
         disabled={checkedIn} // Disable dropdown when checked in
       />
 
-      <TouchableOpacity 
-        style={[styles.checkInButton, checkedIn && styles.disabledButton]} 
+      <TouchableOpacity
+        style={[styles.checkInButton, checkedIn && styles.disabledButton]}
         onPress={handleCheckIn}
         disabled={checkedIn}
       >
-        <Text style={styles.checkInText}>Check In</Text>
+        <Text style={styles.checkInText}>{i18n.t('checkIn')}</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity 
-        style={[styles.checkOutButton, !checkedIn && styles.disabledButton]} 
+      <TouchableOpacity
+        style={[styles.checkOutButton, !checkedIn && styles.disabledButton]}
         onPress={handleCheckOut}
         disabled={!checkedIn}
       >
-        <Text style={styles.checkOutText}>Check Out</Text>
+        <Text style={styles.checkOutText}>{i18n.t('checkOut')}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.LogoutButton} onPress={handleLogout}>
-        <Text style={styles.LogoutText}>Logout</Text>
+        <Text style={styles.LogoutText}>{i18n.t('logout')}</Text>
       </TouchableOpacity>
+
+      <DropDownPicker
+        open={langOpen}
+        value={language}
+        items={langItems}
+        setOpen={setLangOpen}
+        setValue={(val) => changeLanguage(val)}
+        setItems={setLangItems}
+        style={styles.languageDropdown}
+        containerStyle={{ marginBottom: 10 }}
+      />
+
     </View>
   );
 };
@@ -188,7 +218,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
-  }, 
+  },
   checkOutButton: {
     backgroundColor: 'red',
     paddingVertical: 12,
@@ -201,7 +231,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
-  }, 
+  },
   LogoutButton: {
     backgroundColor: 'green',
     paddingVertical: 12,
@@ -209,12 +239,12 @@ const styles = StyleSheet.create({
     width: '80%',
     alignItems: 'center',
     marginTop: '20%',
-  }, 
+  },
   LogoutText: {
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
-  }, 
+  },
   dropdown: {
     borderColor: '#ccc',
     height: 50,
@@ -224,7 +254,14 @@ const styles = StyleSheet.create({
   },
   disabledButton: {
     opacity: 0.5,
-  }
+  },
+  languageDropdown: {
+    borderColor: '#ccc',
+    height: 50,
+    width: '80%',
+    marginBottom: 10,
+    marginTop: 10,
+  },
 });
 
 export default SearchableLocationSelector;

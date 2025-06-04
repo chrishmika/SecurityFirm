@@ -1,9 +1,11 @@
 import { Stack } from "expo-router";
 import { AuthProvider } from '@/context/AuthContext'
+import { LanguageProvider} from '@/context/LanguageContext'
 
 const RootLayout = () => {
   return (
     <AuthProvider>
+      <LanguageProvider>
       <Stack
         screenOptions={{
           headerStyle: {
@@ -24,6 +26,7 @@ const RootLayout = () => {
         <Stack.Screen name='index' options={{ title: 'Home' }} />
         <Stack.Screen name='auth' options={{ headerTitle: '/Login' }} />
       </Stack>
+      </LanguageProvider>
     </AuthProvider>
   );
 }

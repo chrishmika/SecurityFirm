@@ -1,37 +1,45 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native"
-import { useState } from "react"
-import { useRouter } from "expo-router"
-import { useAuth } from "@/context/AuthContext"
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import { useState, useEffect } from "react";
+import { useRouter } from "expo-router";
+import { useAuth } from "@/context/AuthContext";
+import { useLanguage } from "@/context/LanguageContext";
+import i18n from "@/locales/i18n";
 
 const AuthScreen = () => {
+    const router = useRouter();
+    const { login, isLoading } = useAuth();
+    const { language } = useLanguage();
 
-    const router = useRouter()
-    const { login , isLoading } = useAuth()
+    const [nic, setNic] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
-    const [nic, setNic] = useState('')
-    const [password, setPassword] = useState('')
-    const [error, setError] = useState('')
+    // Update i18n locale when language changes
+    useEffect(() => {
+        if (language) {
+            i18n.locale = language;
+        }
+    }, [language]);
 
     const handleLogin = async () => {
         if (!nic.trim() || !password.trim()) {
-            setError('Please enter NIC number and password')
+            setError(i18n.t('pleaseEnterCredentials'));
             return;
         }
         
         try {
-            await login(nic, password)
-            router.replace('/')
+            await login(nic, password);
+            router.replace('/');
         } catch (error) {
-            console.log('Login failed:', error)
-
-            setError('Invalid NIC number or password')
-            Alert.alert('Login Failed', 'Invalid NIC number or password')
+            console.log('Login failed:', error);
+            setError(i18n.t('invalidCredentials'));
+            Alert.alert(i18n.t('loginFailed'), i18n.t('invalidCredentials'));
         }
-    }
+    };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>Login</Text>
+            <Text style={styles.header}>{i18n.t('login')}</Text>
 
             {error ? <Text style={styles.errors}>{error}</Text> : null}
 
@@ -39,7 +47,7 @@ const AuthScreen = () => {
                 style={styles.input}
                 value={nic}
                 onChangeText={setNic}
-                placeholder="NIC Number"
+                placeholder={i18n.t('nicNumber')}
                 placeholderTextColor='#aaa'
             />
             <TextInput
@@ -48,17 +56,16 @@ const AuthScreen = () => {
                 onChangeText={setPassword}
                 placeholderTextColor='#aaa'
                 secureTextEntry
-                placeholder="Password"
+                placeholder={i18n.t('password')}
                 textContentType="none"
             />
 
             <TouchableOpacity style={styles.button} onPress={handleLogin}>
-                <Text style={styles.buttonText}>Login</Text>
+                <Text style={styles.buttonText}>{i18n.t('login')}</Text>
             </TouchableOpacity>
-
         </View>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -82,7 +89,8 @@ const styles = StyleSheet.create({
         marginBottom: 12,
         backgroundColor: '#fff',
         fontSize: 16,
-    }, button: {
+    }, 
+    button: {
         backgroundColor: '#007bff',
         paddingVertical: 12,
         borderRadius: 8,
@@ -94,12 +102,12 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 18,
         fontWeight: 'bold',
-    }, errors: {
+    }, 
+    errors: {
         color: 'red',
         fontSize: 16,
         marginBottom: 12,
     }
+});
 
-})
-
-export default AuthScreen
+export default AuthScreen;
