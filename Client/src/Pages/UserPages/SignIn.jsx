@@ -42,14 +42,17 @@ const SignIn = () => {
               <label>NIC</label>
               <input type="text" name="nic" value={loginData.nic} onChange={handleLoginData} placeholder="User Name" className={inputStyle} />
             </div>
+
             <div className="flex flex-col gap-1">
               <label>Password</label>
               <input type="password" name="password" value={loginData.password} onChange={handleLoginData} placeholder="Password" className={inputStyle} />
             </div>
+
             <button type="submit" className="border rounded-md bg-[#2C2C2C] h-9 hover:bg-[#333] text-white">
               Sign In
             </button>
           </form>
+
           <p onClick={forgetPasswordHandle} className="underline cursor-pointer">
             Forget password?
           </p>
