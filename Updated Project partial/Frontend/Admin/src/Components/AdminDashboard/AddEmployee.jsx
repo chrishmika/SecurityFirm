@@ -8,7 +8,10 @@ import { useEmployeeContext } from "../../hooks/useEmployeeContext";
 const AddEmployee = () => {
   const { employee, setEmployee } = useEmployeeContext();
   //this part is also need to put into context//////////////////////////
-  const [documents, setDocuments] = useState([]); // Store multiple files
+  const [img, setimg] = useState(); // Store a file
+  const [CV, setCV] = useState(); // Store a file
+  const [gs, setGs] = useState(); // Store a file
+  const [NIC, setNIC] = useState(); // Store a file
 
   const downloadFile = (file) => {
     const url = URL.createObjectURL(file);
@@ -21,13 +24,41 @@ const AddEmployee = () => {
     URL.revokeObjectURL(url);
   };
 
-  const handleFileChange = (e) => {
-    const selectedFiles = Array.from(e.target.files); // Convert FileList to array
-    setDocuments((prevFiles) => [...prevFiles, ...selectedFiles]); // Append new files
+  //this code block might shorten the repeating code below
+  // const handleFileChange = (e) => {
+  //   setEmployee({ ...employee, [e.target.name]: e.target.value });
+  // };
+  // const removeFile = (e) => {
+  //   setEmployee({ ...employee, [e.target.name]: null });
+  // };
+
+  const handleFileChangeImg = (e) => {
+    setimg(e.target.files);
+    setEmployee({ ...employee, img: e.target.value });
+  };
+  const removeFileImg = () => {
+    setimg(null); // Remove file by index
   };
 
-  const removeFile = (index) => {
-    setDocuments(documents.filter((_, i) => i !== index)); // Remove file by index
+  const handleFileChangeCV = (e) => {
+    setCV(e.target.files); // Append new files
+  };
+  const removeFileCV = () => {
+    setCV(CV.filter(null)); // Remove file by index
+  };
+
+  const handleFileChangeGs = (e) => {
+    setGs(e.target.files); // Append new files
+  };
+  const removeFileGs = () => {
+    setGs(null); // Remove file by index
+  };
+
+  const handleFileChangeNIC = (e) => {
+    setNIC(e.target.files); // Append new files
+  };
+  const removeFileNIC = () => {
+    setNIC(null); // Remove file by index
   };
 
   const submitHandle = (e) => {
@@ -50,7 +81,7 @@ const AddEmployee = () => {
                   setEmployee({ ...employee, empId: e.target.value });
                 }}
                 name="emp_id"
-                placeholder="EMP123456"
+                placeholder="EMP123456 //Needed to assign automatically"
                 className="border p-2 rounded w-full"
                 required
               />
@@ -375,34 +406,29 @@ const AddEmployee = () => {
                 className="border p-2 rounded w-full"
               ></textarea>
 
-              <label>Documents:</label>
-              <input type="file" onChange={handleFileChange} name="documents" className="border p-2 rounded w-full" multiple />
-
-              {documents.length > 0 && (
-                <div className="mt-2">
-                  <ul className="flex gap-10 -my-2 flex-wrap overflow-y-scroll max-h-20">
-                    {documents.map((file, index) => (
-                      <li key={index} className="flex flex-col items-start w-12 overflow-clip" data-tooltip-id="detailedTooltip">
-                        <Tooltip id="detailedTooltip" place="top" effect="solid">
-                          {file.name}
-                        </Tooltip>
-                        <button onClick={() => removeFile(index)} className="text-red-200 hover:text-red-500  cursor-pointer relative top-2 left-8">
-                          <ImCross />
-                        </button>
-                        <button
-                          onClick={() => {
-                            downloadFile(file);
-                          }}
-                          className="cursor-pointer"
-                        >
-                          <img src={fileIcon} alt="My Image" />
-                        </button>
-                        <span className="flex flex-wrap">{file.name.split(" ")[0]}</span>
-                      </li>
-                    ))}
-                  </ul>
+              {/*image uploading part, feel better if i can use drag and drop here 
+                image preview is needed to add as well */}
+              <div className="flex gap-3 justify-between">
+                <div>
+                  <label>Image:</label>
+                  <input type="file" onChange={handleFileChangeImg} name="img" className="border p-2 rounded w-full" multiple />
                 </div>
-              )}
+
+                <div>
+                  <label>CV:</label>
+                  <input type="file" onChange={handleFileChangeCV} name="cv" className="border p-2 rounded w-full" multiple />
+                </div>
+
+                <div>
+                  <label>NIC Copy:</label>
+                  <input type="file" onChange={handleFileChangeNIC} name="NICCopy" className="border p-2 rounded w-full" multiple />
+                </div>
+
+                <div>
+                  <label>GS Certificate:</label>
+                  <input type="file" onChange={handleFileChangeGs} name="gsCertificate" className="border p-2 rounded w-full" multiple />
+                </div>
+              </div>
             </div>
           </div>
 

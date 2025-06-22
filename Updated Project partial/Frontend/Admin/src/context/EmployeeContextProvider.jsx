@@ -17,6 +17,8 @@ export const EmployeeProvider = ({ children }) => {
     EPF: "",
     ETF: "",
     NIC: "",
+    img: null,
+    NICCopy: null,
     marital: "",
     gender: "",
     militaryExperience: "",

@@ -45,8 +45,9 @@ const requestSchema = new mongoose.Schema(
       default: false,
     },
     status: {
-      type: Boolean,
-      default: false,
+      type: String,
+      default: "waiting",
+      enum: ["accept", "reject", "waiting"],
     },
   },
   { timestamps: true }

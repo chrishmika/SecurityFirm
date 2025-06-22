@@ -14,25 +14,25 @@ export const createEmployee = async (req, res) => {
     const existingEmployee = await Employee.findOne({ NIC });
     if (existingEmployee) return res.status(400).json({ error: `Employee already exist` });
 
-    if (newData.img) {
-      const uploadedDocument = cloudinary.uploader(newData.img);
-      newData.img = uploadedDocument.secure_url;
-    }
+    // if (newData.img) {
+    //   const uploadedDocument = cloudinary.uploader(newData.img);
+    // newData.img = uploadedDocument.secure_url;
+    // }
 
-    if (newData.cv) {
-      const uploadedDocument = cloudinary.uploader(newData.cv);
-      newData.cv = uploadedDocument.secure_url;
-    }
+    // if (newData.cv) {
+    //   const uploadedDocument = cloudinary.uploader(newData.cv);
+    //   newData.cv = uploadedDocument.secure_url;
+    // }
 
-    if (newData.gsCertificate) {
-      const uploadedDocument = cloudinary.uploader(newData.gsCertificate);
-      newData.gsCertificate = uploadedDocument.secure_url;
-    }
+    // if (newData.gsCertificate) {
+    //   const uploadedDocument = cloudinary.uploader(newData.gsCertificate);
+    //   newData.gsCertificate = uploadedDocument.secure_url;
+    // }
 
-    if (newData.NICCopy) {
-      const uploadedDocument = cloudinary.uploader(newData.NICCopy);
-      newData.NICCopy = uploadedDocument.secure_url;
-    }
+    // if (newData.NICCopy) {
+    //   const uploadedDocument = cloudinary.uploader(newData.NICCopy);
+    //   newData.NICCopy = uploadedDocument.secure_url;
+    // }
 
     const newRequest = new Employee(newData); //if this not works remove this 2 and uncomment the other 2
 
