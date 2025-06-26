@@ -2,9 +2,17 @@ import mongoose from "mongoose";
 
 const employeeSchema = new mongoose.Schema(
   {
+    empId: {
+      type: String,
+      // required: true,
+    },
     name: {
       type: String,
       required: true,
+    },
+    initials: {
+      type: String,
+      // required: true,
     },
     NIC: {
       type: String,

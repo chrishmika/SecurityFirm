@@ -5,27 +5,29 @@ import { EmployeeContext } from "./EmployeeContext";
 export const EmployeeProvider = ({ children }) => {
   const [employee, setEmployee] = useState({
     empId: "",
-    fullName: "",
+    name: "",
     initials: "",
-    DOB: "",
+    NIC: "",
+    sex: "",
+    birthday: "",
     address: "",
     nationality: "",
     citizenship: "",
     contact1: "",
     contact2: "",
     email: "",
-    EPF: "",
-    ETF: "",
-    NIC: "",
-    img: null,
-    NICCopy: null,
+    position: "",
+    epf: "", //need to capitalize both in database
+    eft: "", //need to capitalize
     marital: "",
-    gender: "",
     militaryExperience: "",
     handleGuns: "",
     experience: "",
     disabilities: "",
-    documents: [],
+    img: null,
+    NICCopy: null,
+    cv: null,
+    gsCertificate: null,
   });
   return <EmployeeContext.Provider value={{ employee, setEmployee }}>{children}</EmployeeContext.Provider>;
 };
