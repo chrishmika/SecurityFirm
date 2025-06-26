@@ -16,6 +16,7 @@ const EmployeeSearch = () => {
   const searchHandle = (e) => {
     e.preventDefault();
   };
+
   return (
     <React.Fragment>
       <div>
@@ -41,7 +42,7 @@ const EmployeeSearch = () => {
               placeholder="Employee Name"
               className="border p-2 rounded w-full"
             />
-            <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded">
+            <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer">
               Search
             </button>
           </div>

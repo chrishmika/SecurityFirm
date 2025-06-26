@@ -1,13 +1,13 @@
-import { useRef, useState } from "react";
-import { Tooltip } from "react-tooltip";
+import { useRef } from "react";
 
 // import fileIcon from "../../assets/fileIcon.png";
-
-import { ImCross } from "react-icons/im";
-import { MdCloudUpload } from "react-icons/md";
+import { IoCloseSharp } from "react-icons/io5";
+import { CiFileOn } from "react-icons/ci";
 
 import EmployeeSearch from "./EmployeeSearch";
 import { useEmployeeContext } from "../../hooks/useEmployeeContext";
+
+import { toast } from "react-toastify";
 
 const AddEmployee = () => {
   const { employee, setEmployee } = useEmployeeContext();
@@ -17,19 +17,21 @@ const AddEmployee = () => {
   const gsRef = useRef(null);
   const nicRef = useRef(null);
 
-  // const downloadFile = (file) => {
-  //   const url = URL.createObjectURL(file);
-  //   const a = document.createElement("a");
-  //   a.href = url;
-  //   a.download = file.name;
-  //   document.body.appendChild(a);
-  //   a.click();
-  //   document.body.removeChild(a);
-  //   URL.revokeObjectURL(url);
-  // };
+  const downloadFile = (file) => {
+    const url = URL.createObjectURL(file);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = file.name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
 
   const submitHandle = (e) => {
     e.preventDefault();
+    toast.success("look console");
+    console.log(employee);
     //send data to backend
   };
 
@@ -41,6 +43,7 @@ const AddEmployee = () => {
   const handleFileChange = (e) => {
     const { name } = e.target;
     const file = e.target.files[0];
+
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
@@ -157,7 +160,7 @@ const AddEmployee = () => {
                 <legend className="font-semibold">Gender:</legend>
                 {["Male", "Female"].map((gender) => (
                   <label key={gender} className="inline-flex items-center gap-1 space-x-2 pr-2">
-                    <input type="radio" name="sex" value={employee.sex} onChange={handleChange} checked={employee.gender === gender} />
+                    <input type="radio" name="sex" value={gender} onChange={handleChange} />
                     <span>{gender}</span>
                   </label>
                 ))}
@@ -194,32 +197,51 @@ const AddEmployee = () => {
 
               {/*image uploading part, feel better if i can use drag and drop here 
                 image preview is needed to add as well */}
-
-              <div className="flex gap-3 justify-between">
+              <div className="flex gap-3 flex-wrap justify-between">
                 {[
                   ["img", imageRef],
                   ["cv", cvRef],
                   ["NICCopy", gsRef],
                   ["gsCertificate", nicRef],
                 ].map((field) => (
-                  <label key={field[0]} className=" items-center space-x-2">
-                    <span>{field[0]}</span>
-                    <MdCloudUpload className="text-4xl " />
-                    <input type="file" hidden onChange={handleFileChange} ref={field[1]} name={field[0]} className="border p-2 rounded w-full" />
-                  </label>
+                  <div key={field[0]} className="flex flex-col gap-2">
+                    {/*Image preview*/}
+                    {employee?.[field[0]] && (
+                      <div className="w-full">
+                        <span className="flex w-25 justify-end z-10 relative top-2 left-2 ">
+                          <IoCloseSharp
+                            className=" text-white bg-gray-800 rounded-full h-5 flex cursor-pointer w-5 hover:bg-red-400"
+                            onClick={() => {
+                              setEmployee((prev) => ({ ...prev, [field[0]]: null }));
+                              field[1].current.value = null;
+                            }}
+                          />
+                        </span>
+                        <img src={employee[field[0]]} className="w-25 h-auto rounded-md" onClick={() => downloadFile(employee[field[0]])} />
+                      </div>
+                    )}
+
+                    <label className=" items-center flex flex-col space-x-2">
+                      {/*upload image */}
+                      {!employee[field[0]] && <CiFileOn className="text-7xl my-3 cursor-pointer" />}
+                      <span>{field[0].toUpperCase()}</span>
+
+                      <input type="file" accept="image/*" hidden onChange={handleFileChange} ref={field[1]} name={field[0]} className="border p-2 rounded w-full" />
+                    </label>
+                  </div>
                 ))}
               </div>
+
+              <div className="flex gap-3">
+                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded w-full">
+                  Submit
+                </button>
+
+                <button type="reset" className="bg-black text-white px-4 py-2 rounded w-full">
+                  Cancel
+                </button>
+              </div>
             </div>
-          </div>
-
-          <div className="flex space-x-4">
-            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded w-full">
-              Submit
-            </button>
-
-            <button type="reset" className="bg-black text-white px-4 py-2 rounded w-full">
-              Cancel
-            </button>
           </div>
         </form>
       </div>

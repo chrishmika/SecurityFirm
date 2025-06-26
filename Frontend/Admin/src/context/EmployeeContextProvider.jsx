@@ -17,8 +17,8 @@ export const EmployeeProvider = ({ children }) => {
     contact2: "",
     email: "",
     position: "",
-    epf: "", //need to capitalize both in database
-    eft: "", //need to capitalize
+    EPF: "", //need to capitalize both in database
+    ETF: "", //need to capitalize
     marital: "",
     militaryExperience: "",
     handleGuns: "",

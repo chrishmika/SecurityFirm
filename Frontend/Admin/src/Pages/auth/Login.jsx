@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Info, Notify } from "../../Components/AdminDashboard/Notifications/Notification";
+// import { Info, Notify } from "../../Components/AdminDashboard/Notifications/Notification";
 import useLogin from "../../hooks/useLogin";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [loginData, setLoginData] = useState({ NIC: "", password: "" });
@@ -10,7 +11,7 @@ const Login = () => {
     /*handlers*/
   }
   const handleLoginData = (e) => setLoginData({ ...loginData, [e.target.name]: e.target.value });
-  const forgetPasswordHandle = () => Info("Contact Admin");
+  const forgetPasswordHandle = () => toast.info("Contact Admin");
 
   {
     /**sending data to backend */
@@ -20,13 +21,13 @@ const Login = () => {
       e.preventDefault();
 
       if (!loginData.NIC || !loginData.password) {
-        Notify("Fields are Empty");
+        toast.error("Fields are Empty");
         return;
       }
 
       Login(loginData.NIC, loginData.password);
     } catch (error) {
-      Notify(error.response.data.error);
+      toast.error(error.response.data.error);
       console.log(error);
     }
   };

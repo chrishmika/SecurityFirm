@@ -35,12 +35,12 @@ const employeeSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    eft: {
+    ETF: {
       type: String,
       required: true,
       unique: true,
     },
-    epf: {
+    EPF: {
       type: String,
       required: true,
       unique: true,
