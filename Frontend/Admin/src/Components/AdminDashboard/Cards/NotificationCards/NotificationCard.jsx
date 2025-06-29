@@ -5,7 +5,7 @@ import { FaStar } from "react-icons/fa";
 import { IoCloseSharp } from "react-icons/io5";
 
 const NotificationCard = ({ notification }) => {
-  let { id, to, fromModel, type, favourite, read, message } = notification;
+  let { to, fromModel, type, favourite, read, description, createdAt, _id } = notification;
 
   const [favourites, setFavourite] = useState(favourite);
   const [viewNotification, setViewNotification] = useState(false);
@@ -23,8 +23,8 @@ const NotificationCard = ({ notification }) => {
   };
 
   return (
-    <div className="flex justify-center items-center cursor-pointer">
-      <div className={`flex border-b-2 pb-3 justify-between sm:w-2xl w-screen m-1 px-10 `} key={id}>
+    <div className="flex justify-center items-center cursor-pointer ">
+      <div className={`flex border-b-2 pb-3 justify-between sm:w-2xl w-screen m-1 px-5 `} key={_id}>
         <div className="flex flex-col" onClick={viewNotificationhandler}>
           <span className="text-2xl font-bold">{fromModel}</span>
           <span>{type}</span>
@@ -59,10 +59,10 @@ NotificationCard.propTypes = {
   notification: PropTypes.shape({
     id: PropTypes.string,
     to: PropTypes.string,
-    from: PropTypes.string,
+    from: PropTypes.object,
     fromModel: PropTypes.string,
     type: PropTypes.string,
-    message: PropTypes.string,
+    description: PropTypes.string,
     read: PropTypes.bool,
     favourite: PropTypes.bool,
   }),
