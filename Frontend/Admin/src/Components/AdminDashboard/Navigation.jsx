@@ -45,7 +45,7 @@ const Navigation = () => {
     { title: "Customers", icon: <FaBlackTie className="text-xl" />, path: "customers", link: "Customers" },
     { title: "Employees", icon: <FaImagePortrait className="text-xl" />, path: "employees", link: "Employees" },
     { title: "Applications", icon: <FaFileLines className="text-xl" />, path: "applications", link: "Applications" },
-    { title: "Notifications", icon: <IoNotifications className="text-xl" />, path: "notifications", link: "notifications" },
+    { title: "Notifications", icon: <IoNotifications className="text-xl" />, path: "notifications", link: "Notifications" },
     { title: "Web", icon: <FaEarthAmericas className="text-xl" />, path: "web", link: "Web" },
   ];
 
