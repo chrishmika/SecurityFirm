@@ -22,6 +22,7 @@ import Login from "./Pages/auth/Login";
 
 import NotFound from "./Pages/notFound/NotFound";
 import { useEffect } from "react";
+import Notifications from "./Components/AdminDashboard/Notifications";
 
 //conditional routings
 const SignInRedirect = () => {
@@ -59,6 +60,7 @@ const webRouter = createBrowserRouter(
           <Route path="customers" element={<AddCompany />} />
           <Route path="employees" element={<AddEmployee />} />
           <Route path="applications" element={<ApplicationsView />} />
+          <Route path="notifications" element={<Notifications />} />
           <Route path="web" element={<Web />} />
         </Route>
       </Route>

@@ -1,9 +1,9 @@
 import React from "react";
-import PieChart from "./Cards/PieChart";
-import Summary from "./Cards/Summary";
-import AdminWindow03 from "./Cards/AdminWindow03";
-import MiniNotificationWindow from "./Cards/MiniNotificationWindow";
-import AdminWindow05 from "./Cards/AdminWindow05";
+import PieChart from "./Cards/DashboarsCards/PieChart";
+import Summary from "./Cards/DashboarsCards/Summary";
+import AdminWindow03 from "./Cards/DashboarsCards/AdminWindow03";
+import MiniNotificationWindow from "./Cards/DashboarsCards/MiniNotificationWindow";
+import AdminWindow05 from "./Cards/DashboarsCards/AdminWindow05";
 
 const AdminDashboard = () => {
   return (

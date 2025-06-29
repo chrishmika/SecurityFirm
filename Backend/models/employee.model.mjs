@@ -87,6 +87,10 @@ const employeeSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
     },
+    militaryDescription: {
+      //newly added
+      type: String,
+    },
     gunHandling: {
       type: Boolean,
       required: true,
