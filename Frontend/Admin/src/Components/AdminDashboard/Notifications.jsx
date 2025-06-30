@@ -13,6 +13,8 @@ const Notifications = () => {
         setIsLoading(true);
         const response = await axios.get("/api/notification/", { withCredentials: true });
         setNotifications(response.data);
+        console.log(response.data);
+
         setIsLoading(false);
       } catch (error) {
         throw new Error(error);
