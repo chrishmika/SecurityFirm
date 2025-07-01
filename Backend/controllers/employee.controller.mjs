@@ -57,6 +57,7 @@ export const deleteEmployee = async (req, res) => {
 
 export const updateEmoloyee = async (req, res) => {
   try {
+    const publicIds = [];
     const requesId = req.params.id;
     const updatedData = req.body;
 
@@ -66,7 +67,7 @@ export const updateEmoloyee = async (req, res) => {
     if (updatedData.img) {
       publicIds.push(employee.img.split("/").pop().split(".")[0]);
 
-      const uploadedDocument = await cloudinary.uploader(newData.cv);
+      const uploadedDocument = await cloudinary.uploader(newData.img);
       updatedData.img = uploadedDocument.secure_url;
     }
 
@@ -80,14 +81,14 @@ export const updateEmoloyee = async (req, res) => {
     if (updatedData.gsCertificate) {
       publicIds.push(employee.gsCertificate.split("/").pop().split(".")[0]);
 
-      const uploadedDocument = await cloudinary.uploader(newData.cv);
+      const uploadedDocument = await cloudinary.uploader(newData.gsCertificate);
       updatedData.gsCertificate = uploadedDocument.secure_url;
     }
 
     if (updatedData.NICCopy) {
       publicIds.push(employee.NICCopy.split("/").pop().split(".")[0]);
 
-      const uploadedDocument = await cloudinary.uploader(newData.cv);
+      const uploadedDocument = await cloudinary.uploader(newData.NICCopy);
       updatedData.NICCopy = uploadedDocument.secure_url;
     }
 

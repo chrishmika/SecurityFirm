@@ -4,6 +4,8 @@ import Company from "../models/company.model.mjs";
 import User from "../models/user.model.mjs";
 import createNotification from "../lib/utils/createNotification.mjs";
 import { v2 as cloudinary } from "cloudinary";
+import { deleteCloudinary, uploadCloudinary } from "../middleware/uploadCloudinary.mjs";
+
 //it feels better to delete application data when the new entity is joined with company both from db and cloudinary not implimented yet that part
 
 export const createEmployee = async (req, res) => {
@@ -15,22 +17,22 @@ export const createEmployee = async (req, res) => {
     if (existingEmployee) return res.status(400).json({ error: `Employee already exist` });
 
     // if (newData.img) {
-    //   const uploadedDocument = cloudinary.uploader(newData.img);
+    //   const uploadedDocument = await cloudinary.uploader(newData.img);
     // newData.img = uploadedDocument.secure_url;
     // }
 
     // if (newData.cv) {
-    //   const uploadedDocument = cloudinary.uploader(newData.cv);
+    //   const uploadedDocument = await cloudinary.uploader(newData.cv);
     //   newData.cv = uploadedDocument.secure_url;
     // }
 
     // if (newData.gsCertificate) {
-    //   const uploadedDocument = cloudinary.uploader(newData.gsCertificate);
+    //   const uploadedDocument = await cloudinary.uploader(newData.gsCertificate);
     //   newData.gsCertificate = uploadedDocument.secure_url;
     // }
 
     // if (newData.NICCopy) {
-    //   const uploadedDocument = cloudinary.uploader(newData.NICCopy);
+    //   const uploadedDocument = await cloudinary.uploader(newData.NICCopy);
     //   newData.NICCopy = uploadedDocument.secure_url;
     // }
 
@@ -57,9 +59,9 @@ export const createCompany = async (req, res) => {
     const existingCompany = await Company.findOne({ name }); //need an effectie way to check this
     if (existingCompany) return res.status(400).json({ error: `Company already exist` });
 
+    //cloudinary function used
     if (newData.proposal) {
-      const uploadedDocument = await cloudinary.uploader(newData.proposal);
-      newData.proposal = uploadedDocument.secure_url;
+      newData.proposal = uploadCloudinary(newData.proposal);
     }
 
     const newRequest = new Company(newData);
@@ -93,3 +95,5 @@ export const createDutySheet = async (req, res) => {
     return res.status(500).json({ error: `internal server error on admin controller` });
   }
 };
+
+//cloudinary function used

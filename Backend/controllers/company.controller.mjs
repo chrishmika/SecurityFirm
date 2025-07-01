@@ -1,3 +1,4 @@
+import { deleteCloudinary, uploadCloudinary } from "../middleware/uploadCloudinary.mjs";
 import Company from "../models/company.model.mjs";
 //delete data from cloudinary.........................
 
@@ -34,8 +35,10 @@ export const deleteCompany = async (req, res) => {
     const company = await Company.findById(requestId);
     if (!company) return res.status(400).json({ error: `Company not found` });
 
-    
-
+    //to delete from cloudinary
+    if (company.proposal) {
+      deleteCloudinary(company.proposal);
+    }
     await Company.findByIdAndDelete(requestId);
 
     res.status(200).json({ message: `delete sucessfull` });
@@ -53,6 +56,12 @@ export const updateCompany = async (req, res) => {
     const company = await Company.findById(requesId);
     if (!company) return res.status(400).json({ error: `Company not exist` });
 
+    //update cloudinary
+    if (company.proposal) {
+      deleteCloudinary(company.proposal);
+      updatedData.proposal = uploadCloudinary(updatedData.proposal);
+    }
+
     Object.assign(company, updatedData);
     await company.save();
 
@@ -62,3 +71,5 @@ export const updateCompany = async (req, res) => {
     return res.status(500).json({ error: `internal server error on Company controller` });
   }
 };
+
+//cloudinary function userd
