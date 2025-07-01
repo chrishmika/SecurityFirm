@@ -37,13 +37,11 @@ const employeeSchema = new mongoose.Schema(
     },
     ETF: {
       type: String,
-      required: true,
-      unique: true,
+      // unique: true,
     },
     EPF: {
       type: String,
-      required: true,
-      unique: true,
+      // unique: true,
     },
     contact1: {
       type: String,

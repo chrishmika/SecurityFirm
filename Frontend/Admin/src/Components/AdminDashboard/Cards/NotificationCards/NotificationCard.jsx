@@ -11,9 +11,6 @@ const NotificationCard = ({ notification }) => {
   const [favourites, setFavourite] = useState(favourite);
   const [viewNotification, setViewNotification] = useState(false);
   const [isRead, setRead] = useState(read);
-  const button = () => {
-    read = !read;
-  };
 
   const favBtnHandler = async () => {
     setFavourite(!favourites);

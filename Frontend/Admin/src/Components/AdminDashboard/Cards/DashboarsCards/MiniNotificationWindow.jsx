@@ -21,7 +21,30 @@ const MiniNotificationWindow = () => {
     getAllNotifications();
   }, []);
 
-  const notificationsset = notifications.slice(0, 7);
+  const notificationsset = notifications?.slice(0, 7);
+
+  // const viewNotificationhandler = async () => {
+  //     setViewNotification((prev) => !prev);
+  //     {
+  //       !isRead && setRead(true);
+  //     }
+  //     const response = await axios.get(`/api/notification/${_id}`, { withCredentials: true });
+  //     if (response.status == 200) {
+  //       console.log("read the notification", response.data);
+  //     }
+
+  const deleteNotificationHandler = async (_id) => {
+    console.log("ask to delete");
+    //auto remove part is need to impliment
+    const response = await axios.delete(`/api/notification/${_id}`, { withCredentials: true });
+    if (response.status == 200) {
+      console.log("deleted", response.data);
+    }
+
+    setNotifications((prevNotifications) => {
+      return prevNotifications.filter((notification) => notification._id !== _id);
+    });
+  };
 
   return (
     <div className=" h-full rounded-2xl pl-2 pr-2 overflow-y-scroll overflow-x-hidden flex-wrap scroll-m-0">
@@ -46,7 +69,14 @@ const MiniNotificationWindow = () => {
               </div>
               <div className="flex flex-col gap-1 items-center justify-center h-full border-l-1 pl-2">
                 <span key={key}>Read</span>
-                <span key={key}>Delete</span>
+
+                <span
+                  onClick={() => {
+                    deleteNotificationHandler(notification._id);
+                  }}
+                >
+                  Delete
+                </span>
               </div>
             </div>
           ))}
