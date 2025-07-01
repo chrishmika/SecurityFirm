@@ -10,7 +10,11 @@ const MiniNotificationWindow = () => {
     const getAllNotifications = async () => {
       try {
         const response = await axios.get("/api/notification", { withCredentials: true });
-        setNotifications(response.data);
+        setNotifications(
+          response.data.filter((notification) => {
+            return notification.read === false;
+          })
+        );
         setFetching(false);
         console.log(response.data);
       } catch (error) {
