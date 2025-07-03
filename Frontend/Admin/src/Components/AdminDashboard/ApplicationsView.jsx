@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ApplicationCard from "./Cards/ApplicationCard";
+import ApplicationCard from "./Cards/ApplicationCards/ApplicationCard";
 import { FaToggleOff, FaToggleOn } from "react-icons/fa6";
 
 // const buttonStyle = "border-1 border-[#2C2C2C] rounded-md px-9 md:px-15 hover:cursor-pointer hover:bg-[#5932EA] hover:border-[#5932EA] hover:text-white font-medium min-h-8";

@@ -5,38 +5,39 @@ import User from "../models/user.model.mjs";
 import createNotification from "../lib/utils/createNotification.mjs";
 import { v2 as cloudinary } from "cloudinary";
 import { deleteCloudinary, uploadCloudinary } from "../middleware/uploadCloudinary.mjs";
+import { log } from "console";
 
 //it feels better to delete application data when the new entity is joined with company both from db and cloudinary not implimented yet that part
 
 export const createEmployee = async (req, res) => {
   try {
-    const newData = req.body;
+    let newData = req.body;
     const NIC = newData.NIC;
 
     const existingEmployee = await Employee.findOne({ NIC });
     if (existingEmployee) return res.status(400).json({ error: `Employee already exist` });
 
-    // if (newData.img) {
-    //   const uploadedDocument = await cloudinary.uploader(newData.img);
-    // newData.img = uploadedDocument.secure_url;
-    // }
+    if (newData.img) {
+      const uploadedDocument = await cloudinary.uploader.upload(newData.img);
+      newData.img = uploadedDocument.secure_url;
+    }
 
-    // if (newData.cv) {
-    //   const uploadedDocument = await cloudinary.uploader(newData.cv);
-    //   newData.cv = uploadedDocument.secure_url;
-    // }
+    if (newData.cv) {
+      const uploadedDocument = await cloudinary.uploader.upload(newData.cv);
+      newData.cv = uploadedDocument.secure_url;
+    }
 
-    // if (newData.gsCertificate) {
-    //   const uploadedDocument = await cloudinary.uploader(newData.gsCertificate);
-    //   newData.gsCertificate = uploadedDocument.secure_url;
-    // }
+    if (newData.gsCertificate) {
+      const uploadedDocument = await cloudinary.uploader.upload(newData.gsCertificate);
+      newData.gsCertificate = uploadedDocument.secure_url;
+    }
 
-    // if (newData.NICCopy) {
-    //   const uploadedDocument = await cloudinary.uploader(newData.NICCopy);
-    //   newData.NICCopy = uploadedDocument.secure_url;
-    // }
+    if (newData.NICCopy) {
+      const uploadedDocument = await cloudinary.uploader.upload(newData.NICCopy);
+      newData.NICCopy = uploadedDocument.secure_url;
+    }
 
-    const newRequest = new Employee(newData); //if this not works remove this 2 and uncomment the other 2
+    const newRequest = new Employee(newData);
 
     await newRequest.save();
 

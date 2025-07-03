@@ -17,11 +17,14 @@ export const EmployeeProvider = ({ children }) => {
     contact2: "",
     email: "",
     position: "",
+    emergancey: [], //need to create correctly
     EPF: "", //need to capitalize both in database
     ETF: "", //need to capitalize
     marital: "",
+    basicSalary: "", //new added
+    specialAbilities: "",
     militaryExperience: "",
-    handleGuns: "",
+    gunHandling: false,
     experience: "",
     disabilities: "",
     img: null,

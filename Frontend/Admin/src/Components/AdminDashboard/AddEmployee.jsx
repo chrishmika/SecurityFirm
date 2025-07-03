@@ -4,10 +4,11 @@ import { useRef } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 import { CiFileOn } from "react-icons/ci";
 
-import EmployeeSearch from "./EmployeeSearch";
+// import EmployeeSearch from "./EmployeeSearch";
 import { useEmployeeContext } from "../../hooks/useEmployeeContext";
 
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const AddEmployee = () => {
   const { employee, setEmployee } = useEmployeeContext();
@@ -28,11 +29,17 @@ const AddEmployee = () => {
     URL.revokeObjectURL(url);
   };
 
-  const submitHandle = (e) => {
+  const submitHandle = async (e) => {
     e.preventDefault();
-    toast.success("look console");
-    console.log(employee);
-    //send data to backend
+    try {
+      const response = await axios.post("/api/admin/createEmployee", employee, { withCredentials: true });
+      if (response.status == 200) {
+        toast.success("data added");
+        toast.success(response.message);
+      }
+    } catch (error) {
+      toast.error(error.response.data.error);
+    }
   };
 
   const handleChange = (e) => {
@@ -59,17 +66,20 @@ const AddEmployee = () => {
     { label: "Name With Initials", name: "initials", placeholder: "U. K. Sumanasekara" },
     { label: "Date of Birth", name: "birthday", type: "date" },
     { label: "Address", name: "address", placeholder: "No 0000/ X, Street, City, Postal Code" },
+    { label: "position", name: "position", placeholder: "LSO" },
   ];
 
   return (
     <div className="flex items-center justify-center ">
       <div className="w-full max-w-max bg-white p-6 rounded-lg shadow-lg">
-        <EmployeeSearch />
+        {/* <EmployeeSearch />*/}
 
         <form action="#" className="space-y-2" onSubmit={submitHandle}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-7 mt-8">
             {/* LEFT COLUMN */}
             <div className="space-y-4">
+              <span className="text-white bg-black flex px-3 font-medium">Personal Details</span>
+
               {fields.map(({ label, name, placeholder = "", type = "text" }) => (
                 <div key={name}>
                   <label>{label}</label>
@@ -96,6 +106,7 @@ const AddEmployee = () => {
                   <option>Foreign National</option>
                 </select>
               </div>
+              <span className="text-white bg-black flex px-3  font-medium">Contact Details</span>
 
               {/* Contacts */}
               <div className="grid grid-cols-2 gap-4">
@@ -121,6 +132,7 @@ const AddEmployee = () => {
                 ))}
               </div>
 
+              {/*Email*/}
               <div>
                 <label>Email</label>
                 <input type="email" name="email" value={employee.email} onChange={handleChange} placeholder="e.g email@example.com" className="border p-2 rounded w-full" required />
@@ -135,10 +147,19 @@ const AddEmployee = () => {
                   </div>
                 ))}
               </div>
+
+              <span className="text-white bg-black flex px-3  font-medium">Emergency Details</span>
+
+              {/*Salary*/}
+              <div>
+                <label>Basic Salary</label>
+                <input type="text" name="basicSalary" value={employee.basicSalary} onChange={handleChange} maxLength="5" placeholder="123456789V or 123456789123" className="border p-2 rounded w-full" />
+              </div>
             </div>
 
             {/* RIGHT COLUMN */}
             <div className="space-y-4">
+              {/*NIC number */}
               <div>
                 <label>NIC Number</label>
                 <input type="text" name="NIC" value={employee.NIC} onChange={handleChange} maxLength="12" pattern="\d{9}[vV]|\d{12}" placeholder="123456789V or 123456789123" className="border p-2 rounded w-full" required />
@@ -147,12 +168,16 @@ const AddEmployee = () => {
               {/* Marital Status */}
               <fieldset className="space-y-2">
                 <legend className="font-semibold">Marital Status:</legend>
-                {["Married", "Unmarried"].map((status) => (
-                  <label key={status} className="inline-flex items-center space-x-2 pr-2">
-                    <input type="radio" name="marital" value={status} onChange={handleChange} checked={employee.marital === status} />
-                    <span>{status}</span>
-                  </label>
-                ))}
+
+                <label className="inline-flex items-center space-x-2 pr-2">
+                  <input type="radio" name="marital" value={true} onChange={handleChange} />
+                  <span>Married</span>
+                </label>
+
+                <label className="inline-flex items-center space-x-2 pr-2">
+                  <input type="radio" name="marital" value={false} onChange={handleChange} />
+                  <span>Unmarried</span>
+                </label>
               </fieldset>
 
               {/* Gender */}
@@ -166,22 +191,25 @@ const AddEmployee = () => {
                 ))}
               </fieldset>
 
-              {/* Military Experience */}
-              <div>
-                <label>Number Of Years In Military</label>
-                <input type="number" name="militaryExperience" value={employee.militaryExperience} onChange={handleChange} placeholder="e.g 5 years" min="0" className="border p-2 rounded w-full" />
-              </div>
+              <span className="text-white bg-black flex px-3  font-medium">Specialities</span>
 
-              {/* Handle Guns */}
-              <fieldset className="space-y-2">
-                <legend className="font-semibold">Ability to Handle Guns:</legend>
-                {["Yes", "No"].map((option) => (
-                  <label key={option} className="inline-flex items-center space-x-2 pr-2">
-                    <input type="radio" name="handleGuns" value={option} onChange={handleChange} checked={employee.handleGuns === option} required />
-                    <span>{option}</span>
+              {/**new added */}
+              {/* Military Experience */}
+              <div className="flex flex-col">
+                <fieldset className="space-y-2">
+                  <legend className="font-semibold">Military Experience:</legend>
+
+                  <label className="inline-flex items-center space-x-2 pr-2">
+                    <input type="radio" name="militaryStatus" value={true} onChange={handleChange} />
+                    <span>Yes</span>
                   </label>
-                ))}
-              </fieldset>
+
+                  <label className="inline-flex items-center space-x-2 pr-2">
+                    <input type="radio" name="militaryStatus" value={false} onChange={handleChange} />
+                    <span>No</span>
+                  </label>
+                </fieldset>
+              </div>
 
               {/* Experience */}
               <div>
@@ -189,11 +217,35 @@ const AddEmployee = () => {
                 <textarea name="experience" value={employee.experience} onChange={handleChange} rows="3" placeholder="e.g 5 years as a security officer at XYZ Bank" className="border p-2 rounded w-full"></textarea>
               </div>
 
+              {/*specialAbilities*/}
+              <div>
+                <label>Special Abilities</label>
+                <textarea name="specialAbilities" value={employee.specialAbilities} onChange={handleChange} rows="3" placeholder="e.g " className="border p-2 rounded w-full"></textarea>
+              </div>
+
+              {/**new added */}
+              {/* Handle Guns */}
+              <fieldset className="space-y-2">
+                <legend className="font-semibold">Ability to Handle Guns:</legend>
+
+                <label className="inline-flex items-center space-x-2 pr-2">
+                  <input type="radio" name="gunHandling" value={true} onChange={handleChange} />
+                  <span>yes</span>
+                </label>
+
+                <label className="inline-flex items-center space-x-2 pr-2">
+                  <input type="radio" name="gunHandling" value={false} onChange={handleChange} />
+                  <span>No</span>
+                </label>
+              </fieldset>
+
               {/* Disabilities */}
               <div>
                 <label>Disabilities (Leave empty if not applicable)</label>
                 <textarea name="disabilities" value={employee.disabilities} onChange={handleChange} rows="2" placeholder="e.g Visual impairment, hearing disability, mobility challenges, etc." className="border p-2 rounded w-full"></textarea>
               </div>
+
+              <span className="text-white bg-black flex px-3  font-medium">Documents</span>
 
               {/*image uploading part, feel better if i can use drag and drop here 
                 image preview is needed to add as well */}
@@ -232,6 +284,7 @@ const AddEmployee = () => {
                 ))}
               </div>
 
+              {/**Buttons */}
               <div className="flex gap-3">
                 <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded w-full">
                   Submit

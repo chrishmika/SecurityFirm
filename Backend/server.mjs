@@ -20,6 +20,7 @@ cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: true,
 });
 
 const app = express();
@@ -30,7 +31,7 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.json({ limit: "5mb" })); //this can cause DOS atatacks bit needed to upload pdfs
+app.use(express.json({ limit: "50mb" })); //this can cause DOS atatacks bit needed to upload pdfs
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use("/uploadDocument", express.static("/uploads")); //need to understand and not tested

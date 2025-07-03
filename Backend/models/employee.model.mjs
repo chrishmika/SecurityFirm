@@ -69,7 +69,7 @@ const employeeSchema = new mongoose.Schema(
         },
       },
     ],
-    married: {
+    marital: {
       type: Boolean,
       required: true,
     },
@@ -95,12 +95,8 @@ const employeeSchema = new mongoose.Schema(
     },
     disabilities: {
       type: String,
-      required: true,
     },
-    disabilityDescription: {
-      type: String,
-      required: true,
-    },
+
     specialAbilities: {
       type: String,
       required: true,
@@ -127,7 +123,7 @@ const employeeSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      required: true,
+      //required: true,
     },
   },
   { timestamps: true }
