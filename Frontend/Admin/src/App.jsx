@@ -10,8 +10,8 @@ import "react-toastify/dist/ReactToastify.css";
 import LayoutAdmin from "./Layout/LayoutAdmin";
 import Admin from "./Pages/admin/Admin";
 import AttendanceView from "./Components/AdminDashboard/AttendanceView";
-import AddCompany from "./Components/AdminDashboard/AddCompany";
-import AddEmployee from "./Components/AdminDashboard/AddEmployee";
+import ShowCustomers from "./Components/AdminDashboard/ShowCustomers";
+import AddUsers from "./Components/AdminDashboard/AddUsers";
 import AdminDashboard from "./Components/AdminDashboard/AdminDashboard";
 import ApplicationsView from "./Components/AdminDashboard/ApplicationsView";
 import Web from "./Components/AdminDashboard/Web";
@@ -57,8 +57,8 @@ const webRouter = createBrowserRouter(
         <Route path="admin" element={<Admin />}>
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="attendance" element={<AttendanceView />} />
-          <Route path="customers" element={<AddCompany />} />
-          <Route path="employees" element={<AddEmployee />} />
+          <Route path="customers" element={<ShowCustomers />} />
+          <Route path="addUsers" element={<AddUsers />} />
           <Route path="applications" element={<ApplicationsView />} />
           <Route path="notifications" element={<Notifications />} />
           <Route path="web" element={<Web />} />

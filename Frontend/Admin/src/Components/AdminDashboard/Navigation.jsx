@@ -36,14 +36,18 @@ const Navigation = () => {
   ////////add "are you sure you wanna logout" confirmation window
 
   const Confirmation = () => {
-    return <div></div>;
+    return (
+      <div>
+        <span>Do you want to Logout</span>
+      </div>
+    );
   };
 
   const navItems = [
     { title: "Dashboard", icon: <FaAtom className="text-xl" />, path: "dashboard", link: "Dashboard" },
     { title: "Attendance", icon: <FaBinoculars className="text-xl" />, path: "attendance", link: "Attendance" },
-    { title: "Customers", icon: <FaBlackTie className="text-xl" />, path: "customers", link: "Customers" },
-    { title: "Employees", icon: <FaImagePortrait className="text-xl" />, path: "employees", link: "Employees" },
+    { title: "Customers", icon: <FaBlackTie className="text-xl" />, path: "customers", link: "Connections" },
+    { title: "Add Users", icon: <FaImagePortrait className="text-xl" />, path: "addUsers", link: "Connect" },
     { title: "Applications", icon: <FaFileLines className="text-xl" />, path: "applications", link: "Applications" },
     { title: "Notifications", icon: <IoNotifications className="text-xl" />, path: "notifications", link: "Notifications" },
     { title: "Web", icon: <FaEarthAmericas className="text-xl" />, path: "web", link: "Web" },
