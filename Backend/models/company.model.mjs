@@ -10,17 +10,23 @@ const companySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    locationX: {
+    longitude: {
       type: String,
       required: true,
     },
-    locationY: {
+    latitude: {
       type: String,
       required: true,
     },
     proposal: {
       type: String,
       required: true,
+    },
+    companyEmail: {
+      type: String,
+    },
+    companyMobile: {
+      type: String,
     },
     contractPeriod: [
       {
@@ -34,15 +40,19 @@ const companySchema = new mongoose.Schema(
         },
       },
     ],
-    responsiblePerson: {
+    Agent: {
       type: String,
       required: true,
     },
-    responsiblePersonContact: {
+    AgentContact1: {
       type: Number,
       required: true,
     },
-    responsiblePersonNIC: {
+    AgentContact2: {
+      type: Number,
+      required: true,
+    },
+    AgentNIC: {
       type: String,
       required: true,
     },
