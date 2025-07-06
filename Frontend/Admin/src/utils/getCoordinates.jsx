@@ -16,6 +16,7 @@ const getCoordinates = async (address) => {
     }
     const response = await Geocode.fromAddress(address);
     const { lat, lng } = response.results[0].geometry.location;
+    toast.success("Location fetched");
     return { lat, lng };
   } catch (error) {
     console.error("Geocoding error:", error);

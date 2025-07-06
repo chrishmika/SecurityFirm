@@ -373,22 +373,37 @@ const AddUsers = () => {
                 {/*col 1*/}
                 <div className="space-y-4">
                   <span className="text-white bg-black flex px-3  font-medium">Company Details</span>
+
                   <label>Company Name</label>
-                  <input type="text" name="" onChange={handleChange} className="border p-2 rounded w-full" />
+                  <input type="text" name="name" onChange={handleChange} placeholder="DVision Security" className="border p-2 rounded w-full" />
 
                   <label>Address</label>
                   <div className="flex gap-2 justify-center items-center">
-                    <input type="text" name="address" value={company?.address} onChange={handleChange} className="border p-2 rounded w-full" />
+                    <input type="text" name="address" value={company?.address} onChange={handleChange} placeholder="Main street, Collombo" className="border p-2 rounded w-full" />
+
                     <span onClick={handleGetLocation} className="rounded-md bg-green-500 p-2 text-white cursor-pointer">
                       Submit
                     </span>
                   </div>
 
-                  <label>longitude</label>
-                  <input type="text" name="longitude" value={company?.longitude} onChange={handleChange} className="border p-2 rounded w-full" readOnly />
+                  {company?.latitude && (
+                    <div>
+                      <a href={`https://gps-coordinates.org/my-location.php?lat=${company?.latitude}&lng=${company?.longitude}`} target="_blank" className="text-blue-500">
+                        Check the location
+                      </a>
+                    </div>
+                  )}
+                  <div className="grid grid-cols-2 gap-4">
+                    <label>
+                      Longitude
+                      <input type="text" name="longitude" value={company?.longitude} onChange={handleChange} className="border p-2 rounded w-full" readOnly />
+                    </label>
 
-                  <label>latitude</label>
-                  <input type="text" name="latitude" value={company?.latitude} onChange={handleChange} className="border p-2 rounded w-full" readOnly />
+                    <label>
+                      Latitude
+                      <input type="text" name="latitude" value={company?.latitude} onChange={handleChange} className="border p-2 rounded w-full" readOnly />
+                    </label>
+                  </div>
 
                   <span className="text-white bg-black flex px-3  font-medium">Contact Details</span>
 
@@ -406,10 +421,10 @@ const AddUsers = () => {
                   <span className="text-white bg-black flex px-3  font-medium">Agent Details</span>
 
                   <label>Name</label>
-                  <input type="text" name="" value={company.agent} onChange={handleChange} className="border p-2 rounded w-full" />
+                  <input type="text" name="agent" value={company.agent} placeholder="Mr.Dharshana Ukuwela" onChange={handleChange} className="border p-2 rounded w-full" />
 
                   <label>NIC Number</label>
-                  <input type="text" name="agentNIC" value={company.agentNIC} onChange={handleChange} className="border p-2 rounded w-full" />
+                  <input type="text" name="agentNIC" value={company.agentNIC} placeholder="200XXXXXXX" onChange={handleChange} className="border p-2 rounded w-full" />
 
                   {/*Email*/}
                   <div>
@@ -420,11 +435,11 @@ const AddUsers = () => {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label>Contact 1</label>
-                      <input type="text" name="agentContact1" value={company.agentContact1} onChange={handleChange} className="border p-2 rounded w-full" />
+                      <input type="text" name="agentContact1" placeholder="07X XXX XXXX" value={company.agentContact1} onChange={handleChange} className="border p-2 rounded w-full" />
                     </div>
                     <div>
                       <label>Contact 2</label>
-                      <input type="text" name="agentContact2" value={company.agentContact2} onChange={handleChange} className="border p-2 rounded w-full" />
+                      <input type="text" name="agentContact2" placeholder="07X XXX XXXX" value={company.agentContact2} onChange={handleChange} className="border p-2 rounded w-full" />
                     </div>
                   </div>
                 </div>
