@@ -5,6 +5,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import { useLogout } from "../../hooks/useLogout";
 import { FaCircleUser } from "react-icons/fa6";
 import { IoNotifications } from "react-icons/io5";
+import { GrSchedule } from "react-icons/gr";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -50,6 +51,7 @@ const Navigation = () => {
     { title: "Add Users", icon: <FaImagePortrait className="text-xl" />, path: "addUsers", link: "Connect" },
     { title: "Applications", icon: <FaFileLines className="text-xl" />, path: "applications", link: "Applications" },
     { title: "Notifications", icon: <IoNotifications className="text-xl" />, path: "notifications", link: "Notifications" },
+    { title: "Schedule", icon: <GrSchedule className="text-xl" />, path: "schedule", link: "Schedule" },
     { title: "Web", icon: <FaEarthAmericas className="text-xl" />, path: "web", link: "Web" },
   ];
 

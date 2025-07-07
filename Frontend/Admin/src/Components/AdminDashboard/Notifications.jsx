@@ -24,7 +24,7 @@ const Notifications = () => {
   }, []);
 
   return (
-    <div className="my-10">
+    <div className="my-10 overflow-hidden">
       {!isLoading ? (
         notifications.length > 0 ? (
           notifications.map((notification, key) => <NotificationCard key={key} notification={notification} />)
@@ -32,7 +32,7 @@ const Notifications = () => {
           <div className="flex items-center justify-center w-screen">{`No Notifications Found at the moment`}</div>
         )
       ) : (
-        <div className="flex justify-center items-center w-screen">
+        <div className="flex justify-center items-center w-screen h-screen ">
           <PuffLoader />
         </div>
       )}

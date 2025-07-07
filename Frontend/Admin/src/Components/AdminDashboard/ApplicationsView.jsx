@@ -31,7 +31,7 @@ const ApplicationsView = () => {
         {choice ? `Company` : `Employee`}
       </div>
 
-      <div className={`flex md:justify-between border-1 border-[#D9D9D9] rounded-2xl w-full h-screen justify- my-1.5 flex-col md:flex-row cursor-pointer p-2`}>
+      <div className={`flex flex-col md:justify-between border-1 border-[#D9D9D9] rounded-2xl w-full h-screen justify- my-1.5  md:flex-row cursor-pointer p-2 overflow-hidden`}>
         {!isLoading ? (
           <div className=" border-[#D9D9D9] w-screen m-2">
             <h1 className="font-bold">{!choice ? "Employee Applications" : "Company Applications"}</h1>
@@ -42,7 +42,7 @@ const ApplicationsView = () => {
             </div>
           </div>
         ) : (
-          <div className="grid-cols-1 grid items-center w-screen h-screen">{<PuffLoader />}</div>
+          <div className="flex justify-center items-center w-screen ">{<PuffLoader />}</div>
         )}
       </div>
     </React.Fragment>
