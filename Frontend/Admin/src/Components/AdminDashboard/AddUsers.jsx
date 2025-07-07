@@ -355,11 +355,11 @@ const AddUsers = () => {
 
                     {/**Buttons */}
                     <div className="flex gap-3">
-                      <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded w-full">
+                      <button type="submit" className="bg-[#2c2c2c] hover:bg-[#716acd] cursor-pointer text-white px-4 py-2 rounded w-full">
                         Submit
                       </button>
 
-                      <button type="reset" className="bg-black text-white px-4 py-2 rounded w-full">
+                      <button type="reset" className="bg-[#2c2c2c]  hover:bg-[#716acd] cursor-pointer text-white px-4 py-2 rounded w-full">
                         Cancel
                       </button>
                     </div>
@@ -541,11 +541,11 @@ const AddUsers = () => {
 
                   {/*Buttons */}
                   <div className="flex gap-3">
-                    <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded w-full">
+                    <button type="submit" className="bg-[#2c2c2c] cursor-pointer hover:bg-[#716acd] text-white px-4 py-2 rounded w-full">
                       Submit
                     </button>
 
-                    <button type="reset" className="bg-black text-white px-4 py-2 rounded w-full">
+                    <button type="reset" className="bg-[#2c2c2c]  hover:bg-[#716acd] cursor-pointer text-white px-4 py-2 rounded w-full">
                       Cancel
                     </button>
                   </div>
