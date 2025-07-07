@@ -20,11 +20,6 @@ function Schedule() {
   const submitHandeler = (e) => {
     e.preventDefault();
 
-    // if (e.target.value == null) {
-    //   toast.error("All Fields Must Be Filled");
-    //   return;
-    // }
-
     console.log(" year: ", year, " month: ", month, " day: ", day);
     console.log("schedule :", schedule);
   };
