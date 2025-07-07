@@ -24,7 +24,9 @@ function Schedule() {
     console.log("schedule :", schedule);
   };
 
+  //dummy data
   const shift = [8, 12, 24];
+
   const Employees = [
     { _id: 1, name: "gayan" },
     { _id: 2, name: "niro" },
@@ -100,9 +102,10 @@ function Schedule() {
             </select>
           </div>
 
-          <button className=" bg-[#2c2c2c]  hover:bg-[#716acd] p-2 rounded-md md:w-auto w-full text-white font-bold cursor-pointer">Submit</button>
+          <button className=" bg-[#2c2c2c] hover:bg-[#716acd] p-2 rounded-md md:w-auto w-full text-white font-bold cursor-pointer">Submit</button>
         </form>
       </div>
+
       {console.log(year)}
       {console.log(month)}
       {console.log(day)}
