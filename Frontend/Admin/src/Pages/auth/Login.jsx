@@ -36,7 +36,7 @@ const Login = () => {
   return (
     <React.Fragment>
       <div className="flex gap-20 h-screen w-screen justify-center items-center">
-        <div className="flex justify-center items-center">
+        <div className="md:flex justify-center items-center hidden">
           <img src="/logo-01.png" className="h-auto w-60 " />
         </div>
         <div className="flex flex-col justify-center items-center bg-white overflow-hidden">

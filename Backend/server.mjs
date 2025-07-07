@@ -28,7 +28,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: "http://localhost:2000",
+    origin: ["http://localhost:2000", "https://swxlqlfk-2000.asse.devtunnels.ms"],
     credentials: true,
   })
 );

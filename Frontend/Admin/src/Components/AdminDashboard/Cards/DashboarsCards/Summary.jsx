@@ -25,23 +25,23 @@ const Summary = () => {
   }, []);
 
   return (
-    <div className=" h-full  font-bold p-4 flex justify-around flex-wrap ">
+    <div className=" h-full gap-5 font-bold p-4 flex justify-around flex-wrap ">
       <div className="flex flex-col justify-center items-center drop-shadow-  rounded-2xl">
         {fetching ? <div className="flex justify-center items-center  ">{<PuffLoader />}</div> : ""}
         <span className=" text-3xl">{employeeCount}</span>
-        <span className=" text-xl">No of Employess</span>
+        <span className=" text-xl">Employess</span>
       </div>
 
       <div className="flex flex-col justify-center items-center drop-shadow-  rounded-2xl">
         {fetching ? <div className="flex justify-center items-center  ">{<PuffLoader />}</div> : ""}
         <span className=" text-3xl">{companyCount}</span>
-        <span className=" text-xl">No of Companies</span>
+        <span className=" text-xl">Companies</span>
       </div>
 
       <div className="flex flex-col justify-center items-center drop-shadow-  rounded-2xl">
         {fetching ? <div className="flex justify-center items-center  ">{<PuffLoader />}</div> : ""}
         <span className=" text-3xl">{applicationCount}</span>
-        <span className=" text-xl">New of Applications</span>
+        <span className=" text-xl">Applications</span>
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import * as Geocode from "react-geocode";
 import { toast } from "react-toastify";
 

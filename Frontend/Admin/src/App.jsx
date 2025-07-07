@@ -21,7 +21,6 @@ import User from "./Pages/user/User";
 import Login from "./Pages/auth/Login";
 
 import NotFound from "./Pages/notFound/NotFound";
-// import { useEffect } from "react";
 import Notifications from "./Components/AdminDashboard/Notifications";
 
 //conditional routings
