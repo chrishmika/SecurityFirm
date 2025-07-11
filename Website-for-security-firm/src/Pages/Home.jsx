@@ -13,8 +13,8 @@ const Home = () => {
     <div>
       {/* <Slider/> */}
       <MainHomeCard />
-      <AboutUsCard />
       <WhyChooseUsCard />
+      <AboutUsCard />
       <ServicesListCard isHome={true} />
       <AllServises />
       <InfiniteScrollAnimationPage />
