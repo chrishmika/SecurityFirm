@@ -50,3 +50,4 @@ app.use("/api/req", reqRouter); //not tested
 
 app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
 connectMongoDB();
+
