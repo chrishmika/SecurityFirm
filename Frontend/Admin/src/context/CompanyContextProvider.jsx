@@ -13,14 +13,16 @@ export const CompanyProvider = ({ children }) => {
     contractPeriod: { from: "", to: "" },
     companyMobile: "",
     companyEmail: "",
-    Agent: "",
+    agent: "",
     agentContact1: "",
     agentContact2: "",
     agentNIC: "",
     agentEmail: "",
     count: null,
   });
-  return <CompanyContext.Provider value={{ company, setCompany }}>{children}</CompanyContext.Provider>;
+  return (
+    <CompanyContext.Provider value={{ company, setCompany }}>{children}</CompanyContext.Provider>
+  );
 };
 
 CompanyProvider.propTypes = {

@@ -40,19 +40,19 @@ const companySchema = new mongoose.Schema(
         },
       },
     ],
-    Agent: {
+    agent: {
       type: String,
       required: true,
     },
-    AgentContact1: {
+    agentContact1: {
       type: Number,
       required: true,
     },
-    AgentContact2: {
+    agentContact2: {
       type: Number,
       required: true,
     },
-    AgentNIC: {
+    agentNIC: {
       type: String,
       required: true,
     },

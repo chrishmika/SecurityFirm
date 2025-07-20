@@ -43,7 +43,13 @@ export const createEmployee = async (req, res) => {
 
     //create new Notification
     const admin = await User.findOne({ role: "admin" });
-    createNotification(admin._id, newRequest._id, "Employee", "employee", "New Employee joined to company");
+    createNotification(
+      admin._id,
+      newRequest._id,
+      "Employee",
+      "employee",
+      "New Employee joined to company"
+    );
 
     res.status(200).json({ message: `added successfull`, newRequest });
   } catch (error) {
@@ -60,18 +66,26 @@ export const createCompany = async (req, res) => {
     const existingCompany = await Company.findOne({ name }); //need an effectie way to check this
     if (existingCompany) return res.status(400).json({ error: `Company already exist` });
 
+    console.log(newData);
     //cloudinary function used
     if (newData.proposal) {
-      newData.proposal = uploadCloudinary(newData.proposal);
+      newData.proposal = await uploadCloudinary(newData.proposal);
     }
 
     const newRequest = new Company(newData);
+    console.log(newRequest);
 
     await newRequest.save();
 
     //create new Notification
     const admin = await User.findOne({ role: "admin" });
-    createNotification(admin._id, newRequest._id, "Company", "company", "New Company joined with Us");
+    createNotification(
+      admin._id,
+      newRequest._id,
+      "Company",
+      "company",
+      "New Company joined with Us"
+    );
 
     res.status(200).json({ message: `added successfull`, newRequest });
   } catch (error) {
