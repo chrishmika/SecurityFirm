@@ -292,7 +292,7 @@ const RadioGroup = ({ label, name, options, onChange }) => (
           <input
             type="radio"
             name={name}
-            value={opt === "yes" ? true : opt === "no" ? false : opt}
+            value={opt.toUpperCase() === "YES" ? true : opt.toUpperCase() === "NO" ? false : opt}
             onChange={onChange}
           />
           <span>{opt}</span>
@@ -302,7 +302,7 @@ const RadioGroup = ({ label, name, options, onChange }) => (
   </fieldset>
 );
 
-const FileUpload = ({ label, file, name, onChange, clear, onDownload, ref }) => (
+const FileUpload = ({ label, file, name, onChange, clear, onDownload, ref = null }) => (
   <div className="flex flex-col items-center w-[120px]">
     {file ? (
       <div className="relative w-full">
