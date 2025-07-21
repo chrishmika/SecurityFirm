@@ -42,12 +42,11 @@ app.use("/uploadDocument", express.static("/uploads")); //need to understand and
 app.use("/api/auth", authRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/employee", employeeRouter);
-app.use("/api/duty", dutyRouter);
+app.use("/api/duty", dutyRouter); //testing...
 app.use("/api/company", companyRouter);
 app.use("/api/notification", notificationRouter);
 app.use("/api/web", webRouter);
-app.use("/api/req", reqRouter); //not tested
+app.use("/api/req", reqRouter); //not tested //from web site
 
 app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
 connectMongoDB();
-

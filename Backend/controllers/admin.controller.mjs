@@ -94,21 +94,5 @@ export const createCompany = async (req, res) => {
   }
 };
 
-export const createDutySheet = async (req, res) => {
-  try {
-    const { company, year, month } = req.body();
-
-    const existingDutySheet = await Duty.findOne({ company, year, month });
-    if (existingDutySheet) return res.status(400).json({ error: `Duty sheet already created` });
-
-    const newSheet = new Duty({ company, year, month });
-    await newSheet.save();
-
-    return res.status(200).json(newSheet);
-  } catch (error) {
-    console.log(`error in createDutySheet ${error.message}`);
-    return res.status(500).json({ error: `internal server error on admin controller` });
-  }
-};
 
 //cloudinary function used
