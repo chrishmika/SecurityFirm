@@ -77,7 +77,11 @@ export const editDuty = async (req, res) => {
 
     const result = await Duty.findOneAndUpdate(
       { _id: sheetId, "duty._id": dutyEntryId },
-      { $set: Object.fromEntries(Object.entries(updateFields).map(([key, val]) => [`duty.$.${key}`, val])) },
+      {
+        $set: Object.fromEntries(
+          Object.entries(updateFields).map(([key, val]) => [`duty.$.${key}`, val])
+        ),
+      },
       { new: true }
     );
 
@@ -95,7 +99,11 @@ export const deleteDuty = async (req, res) => {
   try {
     const { sheetId, dutyEntryId } = req.params;
 
-    const result = await Duty.findByIdAndUpdate(sheetId, { $pull: { duty: { _id: dutyEntryId } } }, { new: true });
+    const result = await Duty.findByIdAndUpdate(
+      sheetId,
+      { $pull: { duty: { _id: dutyEntryId } } },
+      { new: true }
+    );
 
     if (!result) return res.status(404).json({ error: "Duty sheet or entry not found" });
 
@@ -225,6 +233,26 @@ export const deleteDutySheet = async (req, res) => {
     res.status(200).json({ message: `sheet deleted` });
   } catch (error) {
     console.log(`error in deleteDutySheet ${error.message}`);
+    return res.status(500).json({ error: `internal server error on duty controller` });
+  }
+};
+
+//need to complete///////
+export const updateSheet = async (req, res) => {
+  try {
+    const request = req.params.id; //sheet id that send from all sheets
+    const { company, year, month } = req.body;
+
+    const sheet = await Duty.findById(request);
+
+    if (!sheet) return res.status(404).json({ error: `Sheet not found` });
+
+    //update data with new data
+    await sheet.save();
+
+    res.status(200).json(sheet);
+  } catch (error) {
+    console.log(`error in viewDutySheet ${error.message}`);
     return res.status(500).json({ error: `internal server error on duty controller` });
   }
 };
