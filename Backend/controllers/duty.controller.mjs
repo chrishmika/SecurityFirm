@@ -78,9 +78,7 @@ export const editDuty = async (req, res) => {
     const result = await Duty.findOneAndUpdate(
       { _id: sheetId, "duty._id": dutyEntryId },
       {
-        $set: Object.fromEntries(
-          Object.entries(updateFields).map(([key, val]) => [`duty.$.${key}`, val])
-        ),
+        $set: Object.fromEntries(Object.entries(updateFields).map(([key, val]) => [`duty.$.${key}`, val])),
       },
       { new: true }
     );
@@ -99,11 +97,7 @@ export const deleteDuty = async (req, res) => {
   try {
     const { sheetId, dutyEntryId } = req.params;
 
-    const result = await Duty.findByIdAndUpdate(
-      sheetId,
-      { $pull: { duty: { _id: dutyEntryId } } },
-      { new: true }
-    );
+    const result = await Duty.findByIdAndUpdate(sheetId, { $pull: { duty: { _id: dutyEntryId } } }, { new: true });
 
     if (!result) return res.status(404).json({ error: "Duty sheet or entry not found" });
 
@@ -118,7 +112,7 @@ export const deleteDuty = async (req, res) => {
 export const markAttendance = async (req, res) => {
   try {
     const { sheetId, dutyEntryId } = req.params;
-    const { checkIn, checkOut } = req.body;
+    const { checkIn, checkOut, day } = req.body;
 
     const expected = moment(duty.Time, "hh:mm A");
     const actual = moment(duty.checkIn);
