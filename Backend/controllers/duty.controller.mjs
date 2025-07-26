@@ -3,6 +3,7 @@ import Duty from "../models/duty.model.mjs";
 import Employee from "../models/employee.model.mjs";
 
 import moment from "moment";
+// import moment from "moment-timezone";
 
 export const createDutySheet = async (req, res) => {
   try {
@@ -287,3 +288,7 @@ export const updateSheet = async (req, res) => {
     return res.status(500).json({ error: `internal server error on duty controller` });
   }
 };
+
+//to mark attendance date time is need to send through the front end
+//format =>     "checkOut":"2025-07-15T08:05:00"
+//correct data is need to be send from front end

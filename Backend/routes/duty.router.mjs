@@ -22,6 +22,6 @@ router.put("/:id", protectedRoute, updateSheet); //not tested
 router.post("/addDuty/:id", protectedRoute, addDuties);
 router.put("/editDuty/:sheetId/:dutyEntryId", protectedRoute, editDuty); //not tested
 router.delete("/deleteDuty/:sheetId/:dutyEntryId", protectedRoute, deleteDuty); //not tested
-router.post("/markAttendance/:sheetId/:dutyEntryId", protectedRoute, markAttendance); //not tested
+router.post("/markAttendance/:sheetId/:dutyEntryId", protectedRoute, markAttendance); //partially tested
 
 export default router;
