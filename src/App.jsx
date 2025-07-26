@@ -2,7 +2,6 @@ import './App.css'
 import profilePic from './assets/profile.jpg'
 
 function App() {
-  // Files data with labels and URLs (update URLs accordingly)
   const files = [
     { label: 'File 1', url: '/files/file1.pdf' },
     { label: 'File 2', url: '/files/image2.png' },
@@ -10,42 +9,44 @@ function App() {
   ]
 
   return (
-    <main className="flex h-screen bg-white p-4 gap-4 text-sm text-gray-800 font-medium">
+    <main className="flex h-screen bg-white p-4 gap-2 text-sm text-gray-800 font-medium">
       {/* Left Column */}
-      <aside className="w-1/3 flex flex-col items-start p-4 space-y-4 overflow-hidden">
-        <img
-          src={profilePic}
-          alt="Profile of Shehan Krismika"
-          className="w-28 h-28 rounded-full object-cover border-2 border-blue-500 shadow"
-        />
+      <aside className="w-1/3 flex flex-col items-end p-2 space-y-4 overflow-hidden">
+        <div className="w-full max-w-[280px] text-left">
+          <img
+            src={profilePic}
+            alt="Profile of Shehan Krismika"
+            className="w-28 h-28 rounded-full object-cover border-2 border-blue-500 shadow mb-4"
+          />
 
-        <address className="not-italic space-y-1">
-          <p>hi@gmail.com</p>
-          <p>+94 123456789</p>
-          <p>Colombo</p>
-        </address>
+          <address className="not-italic space-y-1 mb-4">
+            <p>hi@gmail.com</p>
+            <p>+94 123456789</p>
+            <p>Colombo</p>
+          </address>
 
-        <div className="space-y-4 w-full">
-          <Info label="Employee Number" value="EP656565" />
-          <Info label="Full Name" value="Shehan Krismika" />
-          <Info label="Name with Initials" value="P. P Shehan Krismika" />
-          <Info label="NIC" value="200018701528" />
-          <Info label="Gender" value="Male" />
+          <div className="space-y-4 w-full">
+            <Info label="Employee Number" value="EP656565" />
+            <Info label="Full Name" value="Shehan Krismika" />
+            <Info label="Name with Initials" value="P. P Shehan Krismika" />
+            <Info label="NIC" value="200018701528" />
+            <Info label="Gender" value="Male" />
 
-          <div className="flex gap-6">
-            <Info label="ETF" value="sp5645" />
-            <Info label="EPF" value="pt45485" />
+            <div className="flex gap-6">
+              <Info label="ETF" value="sp5645" />
+              <Info label="EPF" value="pt45485" />
+            </div>
+
+            <Info label="Birthday" value="2001/09/25" />
+            <Info label="Address" value="Angoda road, Gampaha" />
+
+            <div className="flex gap-6">
+              <Info label="Contact 1" value="+94 123456789" />
+              <Info label="Contact 2" value="+94 987654321" />
+            </div>
+
+            <Info label="Citizenship" value="Sri Lankan" />
           </div>
-
-          <Info label="Birthday" value="2001/09/25" />
-          <Info label="Address" value="Angoda road, Gampaha" />
-
-          <div className="flex gap-6">
-            <Info label="Contact 1" value="+94 123456789" />
-            <Info label="Contact 2" value="+94 987654321" />
-          </div>
-
-          <Info label="Citizenship" value="Sri Lankan" />
         </div>
       </aside>
 
@@ -100,7 +101,7 @@ function App() {
 
           {/* Uploaded Files Section */}
           <section className="mt-10">
-            <h3 className="text-sm font-semibold mb-4"> Files</h3>
+            <h3 className="text-sm font-semibold mb-4">Files</h3>
 
             <ul className="flex gap-8 text-gray-700">
               {files.map((file) => (
@@ -112,7 +113,6 @@ function App() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {/* Bigger File Icon SVG */}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-10 w-10 mb-1 flex-shrink-0"
