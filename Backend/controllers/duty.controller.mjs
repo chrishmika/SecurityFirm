@@ -78,7 +78,9 @@ export const editDuty = async (req, res) => {
     const result = await Duty.findOneAndUpdate(
       { _id: sheetId, "duty._id": dutyEntryId },
       {
-        $set: Object.fromEntries(Object.entries(updateFields).map(([key, val]) => [`duty.$.${key}`, val])),
+        $set: Object.fromEntries(
+          Object.entries(updateFields).map(([key, val]) => [`duty.$.${key}`, val])
+        ),
       },
       { new: true }
     );
@@ -97,7 +99,11 @@ export const deleteDuty = async (req, res) => {
   try {
     const { sheetId, dutyEntryId } = req.params;
 
-    const result = await Duty.findByIdAndUpdate(sheetId, { $pull: { duty: { _id: dutyEntryId } } }, { new: true });
+    const result = await Duty.findByIdAndUpdate(
+      sheetId,
+      { $pull: { duty: { _id: dutyEntryId } } },
+      { new: true }
+    );
 
     if (!result) return res.status(404).json({ error: "Duty sheet or entry not found" });
 
@@ -112,21 +118,52 @@ export const deleteDuty = async (req, res) => {
 export const markAttendance = async (req, res) => {
   try {
     const { sheetId, dutyEntryId } = req.params;
-    const { checkIn, checkOut, day } = req.body;
+    const { checkIn, checkOut } = req.body;
 
-    const expected = moment(duty.Time, "hh:mm A");
+    if (checkIn) {
+      const actualCheckIn = moment.tz(checkIn, timeZone);
+      duty.checkIn = actualCheckIn.toDate();
+
+      //   const expectedTime = moment.tz(
+      //     `${day}-${sheet.month}-${sheet.year} ${duty.time}`,
+      //     "D-MMM-YYYY hh:mm A",
+      //     timeZone
+      //   );
+
+      //   const lateBy = actualCheckIn.diff(expectedTime, "minutes");
+
+      //   duty.status = lateBy <= 0 ? "present" : lateBy < 300 ? "late" : "absent";
+      // }
+
+      // if (checkOut) {
+      //   const checkOut = moment.tz(checkOut, timeZone);
+      //   duty.checkIn = actualCheckIn.toDate();
+
+      //   const expectedTime = moment.tz(
+      //     `${day}-${sheet.month}-${sheet.year} ${duty.time}`,
+      //     "D-MMM-YYYY hh:mm A",
+      //     timeZone
+      //   );
+
+      //const lateBy = actualCheckIn.diff(expectedTime, "minutes");
+
+      //duty.status = lateBy <= 0 ? "present" : lateBy < 300 ? "late" : "absent";
+    }
+
+    const sheet = await Duty.findById(sheetId);
+    if (!sheet) return res.status(404).json({ error: "Duty sheet not found" });
+
+    //get the certain duty from the array as duty
+    const duty = sheet.duties.id(dutyEntryId);
+    if (!duty) return res.status(404).json({ error: "Duty entry not found" });
+
+    const expected = moment(duty.time, "hh:mm A");
     const actual = moment(duty.checkIn);
 
     const expectedMinutes = expected.hours() * 60 + expected.minutes();
     const actualMinutes = actual.hours() * 60 + actual.minutes();
 
     const lateBy = actualMinutes - expectedMinutes; // difference in minutes
-
-    const sheet = await Duty.findById(sheetId);
-    if (!sheet) return res.status(404).json({ error: "Duty sheet not found" });
-
-    const duty = sheet.duty.id(dutyEntryId);
-    if (!duty) return res.status(404).json({ error: "Duty entry not found" });
 
     //  Mark check-in if provided
     if (checkIn) {
