@@ -11,6 +11,7 @@ const AddCompany = () => {
   const [company, setCompany] = useState();
   const [employee, setEmployee] = useState();
   const [namesData, setNamesData] = useState();
+  const [specifiicData, setSpecificData] = useState();
 
   // at start it takes data about employees
   useEffect(() => {
@@ -53,15 +54,21 @@ const AddCompany = () => {
     try {
       const response = await axios.post(
         `http://localhost:5000/api/${choice ? "company" : "employee"}/e.target.id`,
+        {},
         {
           withCredentials: true,
         }
       );
 
-      console.log(response);
+      if (response.data.employees) {
+        setSpecificData(response.data.employee);
+      } else {
+        setSpecificData(response.data.company);
+      }
     } catch (error) {
       console.log(error);
     }
+    console.log("specific", specifiicData); //remove this
   };
 
   return (

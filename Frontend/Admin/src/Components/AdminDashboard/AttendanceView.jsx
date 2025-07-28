@@ -44,8 +44,7 @@ const AttendanceView = () => {
               setDate(new Date().toISOString().split("T")[0]);
               setCompany("");
               setEmployee("");
-            }}
-          >
+            }}>
             {choice ? <FaToggleOn /> : <FaToggleOff />}
           </span>
           {choice ? `Company` : `Employee`}
@@ -53,8 +52,21 @@ const AttendanceView = () => {
 
         <div className="pr-4 " onSubmit={submitHandeler}>
           <form className="flex gap-2 flex-wrap  ">
-            <input type="date" onChange={handelChangeDate} value={date} name="date" className="px-3 border-2 rounded-2xl" />
-            <input type="text" onChange={choice ? handelChangeCompany : handelChangeEmployee} value={choice ? company : employee} name={choice ? "Company" : "Employee"} placeholder={choice ? "Enter Company" : "Enter Employee"} className="px-3 border-2 rounded-2xl" />
+            <input
+              type="date"
+              onChange={handelChangeDate}
+              value={date}
+              name="date"
+              className="px-3 border-2 rounded-2xl"
+            />
+            <input
+              type="text"
+              onChange={choice ? handelChangeCompany : handelChangeEmployee}
+              value={choice ? company : employee}
+              name={choice ? "Company" : "Employee"}
+              placeholder={choice ? "Enter Company" : "Enter Employee"}
+              className="px-3 border-2 rounded-2xl"
+            />
             <button className="cursor-pointer border-2 rounded-2xl w-20">Search</button>
           </form>
         </div>
