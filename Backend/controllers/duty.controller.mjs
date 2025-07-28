@@ -122,6 +122,34 @@ export const markAttendance = async (req, res) => {
     const { sheetId, dutyEntryId } = req.params;
     const { checkIn, checkOut, lat, lon } = req.body;
 
+    //data sheet finding...
+    const sheet = await Duty.findById(sheetId).populate({
+      path: "company",
+      select: "name longitude latitude",
+    });
+    if (!sheet) return res.status(404).json({ error: "Duty sheet not found" });
+
+    //location accuracy and availability check
+    const Realx = sheet.company.latitude;
+    const Realy = sheet.company.longitude;
+
+    const condition = isWithin2Km(Realx, Realy, lat, lon);
+
+    condition && console.log("person is on range");
+    !condition && console.log("person is NOT on range");
+
+    //uncoment or uncoment on mobile app implimentation and testing as needed
+    if (!condition) {
+      return res.status(400).json({ message: "Not in correct location area" });
+    }
+    // console.log(Realx);
+    // console.log(Realy);
+    // console.log(lat);
+    // console.log(lon);
+    // console.log(condition);
+
+    //////--------------------
+
     //time check with zones
     // if (checkIn) {
     //   const actualCheckIn = moment.tz(checkIn, timeZone);
@@ -152,35 +180,6 @@ export const markAttendance = async (req, res) => {
 
     //duty.status = lateBy <= 0 ? "present" : lateBy < 300 ? "late" : "absent";
     //}
-
-    //data sheet finding...
-    const sheet = await Duty.findById(sheetId).populate({
-      path: "company",
-      select: "name longitude latitude",
-    });
-
-    if (!sheet) return res.status(404).json({ error: "Duty sheet not found" });
-
-    //location accuracy and availability check
-    const Realx = sheet.company.latitude;
-    const Realy = sheet.company.longitude;
-
-    const condition = isWithin2Km(Realx, Realy, lat, lon);
-
-    condition && console.log("person is on range");
-    !condition && console.log("person is NOT on range");
-
-    //uncoment on app implimentation
-    if (!condition) {
-      return res.status(400).json({ message: "Not in correct location area" });
-    }
-    //////
-
-    // console.log(Realx);
-    // console.log(Realy);
-    // console.log(lat);
-    // console.log(lon);
-    // console.log(condition);
 
     //get the certain duty from the array as duty
     const duty = sheet.duties.id(dutyEntryId);
