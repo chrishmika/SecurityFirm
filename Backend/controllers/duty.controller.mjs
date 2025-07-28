@@ -1,3 +1,4 @@
+import isWithin2Km from "../lib/utils/locationCheck.mjs";
 import Company from "../models/company.model.mjs";
 import Duty from "../models/duty.model.mjs";
 import Employee from "../models/employee.model.mjs";
@@ -119,40 +120,67 @@ export const deleteDuty = async (req, res) => {
 export const markAttendance = async (req, res) => {
   try {
     const { sheetId, dutyEntryId } = req.params;
-    const { checkIn, checkOut } = req.body;
+    const { checkIn, checkOut, lat, lon } = req.body;
 
-    if (checkIn) {
-      const actualCheckIn = moment.tz(checkIn, timeZone);
-      duty.checkIn = actualCheckIn.toDate();
+    //time check with zones
+    // if (checkIn) {
+    //   const actualCheckIn = moment.tz(checkIn, timeZone);
+    //   duty.checkIn = actualCheckIn.toDate();
 
-      //   const expectedTime = moment.tz(
-      //     `${day}-${sheet.month}-${sheet.year} ${duty.time}`,
-      //     "D-MMM-YYYY hh:mm A",
-      //     timeZone
-      //   );
+    //   const expectedTime = moment.tz(
+    //     `${day}-${sheet.month}-${sheet.year} ${duty.time}`,
+    //     "D-MMM-YYYY hh:mm A",
+    //     timeZone
+    //   );
 
-      //   const lateBy = actualCheckIn.diff(expectedTime, "minutes");
+    //   const lateBy = actualCheckIn.diff(expectedTime, "minutes");
 
-      //   duty.status = lateBy <= 0 ? "present" : lateBy < 300 ? "late" : "absent";
-      // }
+    //   duty.status = lateBy <= 0 ? "present" : lateBy < 300 ? "late" : "absent";
+    // }
 
-      // if (checkOut) {
-      //   const checkOut = moment.tz(checkOut, timeZone);
-      //   duty.checkIn = actualCheckIn.toDate();
+    // if (checkOut) {
+    //   const checkOut = moment.tz(checkOut, timeZone);
+    //   duty.checkIn = actualCheckIn.toDate();
 
-      //   const expectedTime = moment.tz(
-      //     `${day}-${sheet.month}-${sheet.year} ${duty.time}`,
-      //     "D-MMM-YYYY hh:mm A",
-      //     timeZone
-      //   );
+    //   const expectedTime = moment.tz(
+    //     `${day}-${sheet.month}-${sheet.year} ${duty.time}`,
+    //     "D-MMM-YYYY hh:mm A",
+    //     timeZone
+    //   );
 
-      //const lateBy = actualCheckIn.diff(expectedTime, "minutes");
+    //const lateBy = actualCheckIn.diff(expectedTime, "minutes");
 
-      //duty.status = lateBy <= 0 ? "present" : lateBy < 300 ? "late" : "absent";
-    }
+    //duty.status = lateBy <= 0 ? "present" : lateBy < 300 ? "late" : "absent";
+    //}
 
-    const sheet = await Duty.findById(sheetId);
+    //data sheet finding...
+    const sheet = await Duty.findById(sheetId).populate({
+      path: "company",
+      select: "name longitude latitude",
+    });
+
     if (!sheet) return res.status(404).json({ error: "Duty sheet not found" });
+
+    //location accuracy and availability check
+    const Realx = sheet.company.latitude;
+    const Realy = sheet.company.longitude;
+
+    const condition = isWithin2Km(Realx, Realy, lat, lon);
+
+    condition && console.log("person is on range");
+    !condition && console.log("person is NOT on range");
+
+    //uncoment on app implimentation
+    if (!condition) {
+      return res.status(400).json({ message: "Not in correct location area" });
+    }
+    //////
+
+    // console.log(Realx);
+    // console.log(Realy);
+    // console.log(lat);
+    // console.log(lon);
+    // console.log(condition);
 
     //get the certain duty from the array as duty
     const duty = sheet.duties.id(dutyEntryId);
