@@ -14,7 +14,7 @@ const NotificationCard = ({ notification }) => {
 
   const favBtnHandler = async () => {
     setFavourite(!favourites);
-    const response = await axios(`/api/notification/${_id}`, { withCredentials: true });
+    const response = await axios.put(`/api/notification/${_id}`, { withCredentials: true });
     if (response.status == 200) {
       console.log("fav the notification", response.data);
     }

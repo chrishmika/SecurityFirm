@@ -7,16 +7,22 @@ export const CompanyProvider = ({ children }) => {
   const [company, setCompany] = useState({
     name: "",
     address: "",
-    locationX: "",
-    locationY: "",
+    longitude: "",
+    latitude: "",
     proposal: "",
     contractPeriod: { from: "", to: "" },
-    responsiblePerson: "",
-    responsiblePersonContact: "",
-    responsiblePersonNIC: "",
-    count: { position: "", amount: "" },
+    companyMobile: "",
+    companyEmail: "",
+    agent: "",
+    agentContact1: "",
+    agentContact2: "",
+    agentNIC: "",
+    agentEmail: "",
+    count: null,
   });
-  return <CompanyContext.Provider value={{ company, setCompany }}>{children}</CompanyContext.Provider>;
+  return (
+    <CompanyContext.Provider value={{ company, setCompany }}>{children}</CompanyContext.Provider>
+  );
 };
 
 CompanyProvider.propTypes = {

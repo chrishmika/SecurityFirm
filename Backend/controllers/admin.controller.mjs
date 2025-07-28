@@ -43,7 +43,13 @@ export const createEmployee = async (req, res) => {
 
     //create new Notification
     const admin = await User.findOne({ role: "admin" });
-    createNotification(admin._id, newRequest._id, "Employee", "employee", "New Employee joined to company");
+    createNotification(
+      admin._id,
+      newRequest._id,
+      "Employee",
+      "employee",
+      "New Employee joined to company"
+    );
 
     res.status(200).json({ message: `added successfull`, newRequest });
   } catch (error) {
@@ -60,18 +66,26 @@ export const createCompany = async (req, res) => {
     const existingCompany = await Company.findOne({ name }); //need an effectie way to check this
     if (existingCompany) return res.status(400).json({ error: `Company already exist` });
 
+    console.log(newData);
     //cloudinary function used
     if (newData.proposal) {
-      newData.proposal = uploadCloudinary(newData.proposal);
+      newData.proposal = await uploadCloudinary(newData.proposal);
     }
 
     const newRequest = new Company(newData);
+    console.log(newRequest);
 
     await newRequest.save();
 
     //create new Notification
     const admin = await User.findOne({ role: "admin" });
-    createNotification(admin._id, newRequest._id, "Company", "company", "New Company joined with Us");
+    createNotification(
+      admin._id,
+      newRequest._id,
+      "Company",
+      "company",
+      "New Company joined with Us"
+    );
 
     res.status(200).json({ message: `added successfull`, newRequest });
   } catch (error) {
@@ -80,21 +94,5 @@ export const createCompany = async (req, res) => {
   }
 };
 
-export const createDutySheet = async (req, res) => {
-  try {
-    const { company, year, month } = req.body();
-
-    const existingDutySheet = await Duty.findOne({ company, year, month });
-    if (existingDutySheet) return res.status(400).json({ error: `Duty sheet already created` });
-
-    const newSheet = new Duty({ company, year, month });
-    await newSheet.save();
-
-    return res.status(200).json(newSheet);
-  } catch (error) {
-    console.log(`error in createDutySheet ${error.message}`);
-    return res.status(500).json({ error: `internal server error on admin controller` });
-  }
-};
 
 //cloudinary function used

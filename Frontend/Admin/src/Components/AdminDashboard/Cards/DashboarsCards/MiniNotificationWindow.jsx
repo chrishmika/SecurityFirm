@@ -57,7 +57,7 @@ const MiniNotificationWindow = () => {
           <span className="font-bold text-2xl px-2 flex justify-center">Notifications</span>
         </div>
 
-        {fetching ? <div className="flex justify-center items-center  ">{<PuffLoader />}</div> : ""}
+        {fetching && <div className="flex justify-center items-center  w">{<PuffLoader />}</div>}
 
         <div className="">
           {notificationsset.map((notification, key) => (

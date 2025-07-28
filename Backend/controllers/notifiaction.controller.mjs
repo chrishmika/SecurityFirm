@@ -47,6 +47,7 @@ export const markFavourite = async (req, res) => {
 
     notification.favourite = !notification.favourite;
     await notification.save();
+    console.log(notification);
 
     res.status(200).json(notification);
   } catch (error) {

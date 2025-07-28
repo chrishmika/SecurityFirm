@@ -18,8 +18,12 @@ const dutySchema = new mongoose.Schema(
       required: true,
       enum: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
     },
-    duty: [
+    duties: [
       {
+        _id: {
+          type: mongoose.Schema.Types.ObjectId,
+          auto: true,
+        },
         employee: {
           type: mongoose.Schema.ObjectId,
           ref: "Employee",
@@ -30,7 +34,7 @@ const dutySchema = new mongoose.Schema(
           max: 31,
           // required: true,
         },
-        Time: {
+        time: {
           type: String,
           // required: true,
         },

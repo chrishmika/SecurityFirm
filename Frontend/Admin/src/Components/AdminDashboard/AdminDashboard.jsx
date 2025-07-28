@@ -8,25 +8,30 @@ import AdminWindow05 from "./Cards/DashboarsCards/AdminWindow05";
 const AdminDashboard = () => {
   return (
     <React.Fragment>
-      <div className="grid grid-cols-6 grid-rows-10 sm:grid-rows-6 sm:grid-cols-9 gap-5 w-full h-screen">
-        <div className="col-span-6 row-span-4 sm:col-span-3 sm:row-span-3 overflow-hidden rounded-2xl pb-5">
+      <div className="grid grid-cols-1 lg:grid-cols-9 gap-4 p-4 auto-rows-auto lg:grid-rows-4 max-h-screen ">
+        {/* PieChart – 3 cols on lg */}
+        <div className="col-span-1 lg:col-span-3 lg:row-span-2 bg-white rounded-2xl shadow-md p-4">
           <PieChart />
         </div>
 
-        <div className="col-span-6 row-span-2 sm:col-span-6 sm:row-span-2 rounded-2xl">
+        {/* Summary – 6 cols on lg */}
+        <div className="col-span-1 lg:col-span-6 lg:row-span-1 bg-white rounded-2xl shadow-md p-4">
           <Summary />
         </div>
 
-        <div className="col-span-2 row-span-4 sm:col-span-3 sm:row-span-4 shadow-md rounded-2xl">
-          <AdminWindow03 />
+        {/* AdminWindow05 – bottom row, 3 cols on lg */}
+        <div className="col-span-1 lg:col-span-3 lg:row-span-3 bg-white rounded-2xl shadow-md p-4">
+          <AdminWindow05 />
         </div>
 
-        <div className=" col-span-2 row-span-4 sm:col-span-3 sm:row-span-4 rounded-2xl">
+        {/* MiniNotificationWindow – bottom row, 3 cols on lg */}
+        <div className="col-span-1 lg:col-span-3 lg:row-span-3 bg-white rounded-2xl shadow-md p-4">
           <MiniNotificationWindow />
         </div>
 
-        <div className="col-span-2 row-span-4 sm:col-span-3 sm:row-span-3 shadow-md rounded-2xl">
-          <AdminWindow05 />
+        {/* AdminWindow03 – bottom row, 3 cols on lg */}
+        <div className="col-span-1 lg:col-span-3 lg:row-span-2 bg-white rounded-2xl shadow-md p-4">
+          <AdminWindow03 />
         </div>
       </div>
     </React.Fragment>

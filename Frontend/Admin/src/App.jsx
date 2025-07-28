@@ -14,6 +14,7 @@ import ShowCustomers from "./Components/AdminDashboard/ShowCustomers";
 import AddUsers from "./Components/AdminDashboard/AddUsers";
 import AdminDashboard from "./Components/AdminDashboard/AdminDashboard";
 import ApplicationsView from "./Components/AdminDashboard/ApplicationsView";
+import Schedule from "./Components/AdminDashboard/Schedule.jsx";
 import Web from "./Components/AdminDashboard/Web";
 import User from "./Pages/user/User";
 
@@ -21,7 +22,6 @@ import User from "./Pages/user/User";
 import Login from "./Pages/auth/Login";
 
 import NotFound from "./Pages/notFound/NotFound";
-// import { useEffect } from "react";
 import Notifications from "./Components/AdminDashboard/Notifications";
 
 //conditional routings
@@ -61,6 +61,7 @@ const webRouter = createBrowserRouter(
           <Route path="addUsers" element={<AddUsers />} />
           <Route path="applications" element={<ApplicationsView />} />
           <Route path="notifications" element={<Notifications />} />
+          <Route path="schedule" element={<Schedule />} />
           <Route path="web" element={<Web />} />
         </Route>
       </Route>

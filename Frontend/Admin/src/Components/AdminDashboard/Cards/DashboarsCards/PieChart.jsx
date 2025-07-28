@@ -74,10 +74,10 @@ const PieChart = () => {
                 anchor: "center",
                 align: "center",
                 formatter: (value, context) => {
-                  const dataset = context.chart.data.datasets[0].data;
-                  const total = dataset.reduce((acc, val) => acc + val, 0);
-                  const percentage = ((value / total) * 100).toFixed(1);
-                  return `${percentage}%`;
+                  // const dataset = context.chart.data.datasets[0].data;
+                  // const total = dataset.reduce((acc, val) => acc + val, 0);
+                  // const percentage = ((value / total) * 100).toFixed(1);
+                  return `${value}`;
                 },
               },
             },

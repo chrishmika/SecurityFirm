@@ -34,26 +34,39 @@ const AttendanceView = () => {
 
   return (
     <div>
-      <div className=" flex justify-between items-center mb-5">
+      <div className=" flex justify-between sm:items-center mb-5 sm:flex-row flex-col gap-3">
         {/*selector*/}
         <div className="text-xl flex gap-3 items-center">
           <span
-            className="text-4xl"
+            className="text-4xl flex justify-items-start"
             onClick={() => {
               setChoice(!choice);
               setDate(new Date().toISOString().split("T")[0]);
               setCompany("");
               setEmployee("");
-            }}
-          >
+            }}>
             {choice ? <FaToggleOn /> : <FaToggleOff />}
           </span>
           {choice ? `Company` : `Employee`}
         </div>
-        <div className="pr-4" onSubmit={submitHandeler}>
-          <form className="flex gap-2">
-            <input type="date" onChange={handelChangeDate} value={date} name="date" className="px-3 border-2 rounded-2xl" />
-            <input type="text" onChange={choice ? handelChangeCompany : handelChangeEmployee} value={choice ? company : employee} name={choice ? "Company" : "Employee"} placeholder={choice ? "Enter Company" : "Enter Employee"} className="px-3 border-2 rounded-2xl" />
+
+        <div className="pr-4 " onSubmit={submitHandeler}>
+          <form className="flex gap-2 flex-wrap  ">
+            <input
+              type="date"
+              onChange={handelChangeDate}
+              value={date}
+              name="date"
+              className="px-3 border-2 rounded-2xl"
+            />
+            <input
+              type="text"
+              onChange={choice ? handelChangeCompany : handelChangeEmployee}
+              value={choice ? company : employee}
+              name={choice ? "Company" : "Employee"}
+              placeholder={choice ? "Enter Company" : "Enter Employee"}
+              className="px-3 border-2 rounded-2xl"
+            />
             <button className="cursor-pointer border-2 rounded-2xl w-20">Search</button>
           </form>
         </div>
