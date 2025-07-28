@@ -73,7 +73,7 @@ const AddCompany = () => {
 
   return (
     <div>
-      {/*  name selection to find data*/}
+      {/*  name selection to find data need to impliimented the */}
       <div className=" flex justify-between sm:items-center mb-5 sm:flex-row flex-col gap-3">
         <div className="text-xl flex gap-3 items-center">
           <span

@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 import profilePic from "../../../../assets/boy1.png";
 
-const EmployeeDataView = (data) => {
+const EmployeeDataView = ({ data }) => {
   const files = [
     { label: "File 1", url: "/files/file1.pdf" },
     { label: "File 2", url: "/files/image2.png" },
     { label: "File 3", url: "/files/document3.docx" },
   ];
+  console.log(data);
 
   return (
     <main className="flex h-screen bg-white p-4 gap-2 text-sm text-gray-800 font-medium">
