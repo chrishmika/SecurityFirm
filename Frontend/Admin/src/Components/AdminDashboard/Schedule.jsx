@@ -51,6 +51,7 @@ const Schedule = () => {
   const [selectedDay, setSelectedDay] = useState(null);
 
   const dataCollectionArray = [];
+
   const dataCollection = ({ day, employee, start, shift, remark }) => {
     const data = { day, employee, start, shift, remark };
     dataCollectionArray.push(data);
@@ -67,6 +68,7 @@ const Schedule = () => {
             }}
           />
         </div>
+
         <div>{selectedDay}</div>
 
         <div className="my-10 overflow-x-auto">
@@ -81,9 +83,10 @@ const Schedule = () => {
                   <th className="p-2 border border-gray-300">Start</th>
                   <th className="p-2 border border-gray-300">Shift</th>
                   <th className="p-2 border border-gray-300">Remark</th>
-                  <th className="p-2 border border-gray-300">hi</th>
+                  <th className="p-2 border border-gray-300"></th>
                 </tr>
               </thead>
+
               <tbody>
                 {sheet.duties.map((duty, dindex) => (
                   <tr key={dindex}>
@@ -121,7 +124,7 @@ const Schedule = () => {
                     </td>
 
                     <td className="p-2 border border-gray-300">
-                      <button className="bg-green-300 p-1 w-full">Add</button>
+                      <button className="bg-green-300 p-1 w-full cursor-pointer">Add</button>
                     </td>
                   </tr>
                 ))}
@@ -129,39 +132,6 @@ const Schedule = () => {
             </table>
           ))}
         </div>
-
-        {/* <div>
-          {sampleDuties.map((dutySet) => (
-            <div key={dutySet._} className="mb-8">
-              <table className="table-auto w-full border-collapse border border-gray-400 mt-4">
-                <thead className="bg-gray-200">
-                  <tr>
-                    <th className="p-2 border">Day</th>
-                    <th className="p-2 border">Employee</th>
-                    <th className="p-2 border">Shift</th>
-                    <th className="p-2 border">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {dutySet.duties.map((d, i) => (
-                    <tr key={i}>
-                      <td className="p-2 border">{d.day}</td>
-                      <td className="p-2 border">{d.employee}</td>
-                      <td className="p-2 border">{d.shift}</td>
-                      <td className="p-2 border">{d.status}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ))}
-        </div>
-
-        <div className="flex gap-4 justify-end mx-5">
-          <button className="bg-amber-500 p-3 rounded-full">Submit</button>
-          <button className="bg-amber-500 p-3 rounded-full">Clear</button>
-        </div>
-        */}
       </div>
 
       {/* right side */}
@@ -184,3 +154,7 @@ const Schedule = () => {
 };
 
 export default Schedule;
+
+//to get list of companies and employees to choose them on list to assign
+//http://localhost:5000/api/company/getCompanyList
+//http://localhost:5000/api/employee/employeeList
