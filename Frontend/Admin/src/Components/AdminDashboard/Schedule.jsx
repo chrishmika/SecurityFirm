@@ -4,7 +4,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { sampleDuties } from "../samples/dutySample"; //sample data
 
-console.log(sampleDuties);
+// console.log(sampleDuties);
 
 const NumberLine = ({ month, onSelectDay }) => {
   const [clicked, setClicked] = useState(1);
