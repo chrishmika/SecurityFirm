@@ -95,12 +95,15 @@ const Schedule = () => {
 
               <div className="flex flex-col gap-1">
                 <label>Company</label>
-                <input
-                  type="text"
+                <select
                   name="Company"
                   className="outline-1 w-fill rounded-md px-4 h-10"
-                  placeholder="Enter Data"
-                />
+                  placeholder="Enter Data">
+                  {companylist.map(() => (
+                    //////////this is where i need to add company names
+                    <option key={id}>df</option>
+                  ))}
+                </select>
               </div>
 
               <div className="flex gap-1">
@@ -248,9 +251,20 @@ const Schedule = () => {
 
               <tbody>
                 {sheet.duties.map((duty, dindex) => (
-                  <tr key={dindex}>
+                  <tr
+                    key={dindex}
+                    // className={`${
+                    //   duty.status === "absent"
+                    //     ? "bg-red-400"
+                    //     : duty.status === "present"
+                    //     ? "bg-green-400"
+                    //     : duty.status === "late"
+                    //     ? "bg-yellow-400"
+                    //     : "bg-white"
+                    //}`}   //this is for attendance viewing area
+                  >
                     <td className="p-2 border border-gray-300">
-                      <input type="text" name="position" value={`OIC1`} />
+                      <input type="text" name="position" value={duty.employee.position} />
                     </td>
 
                     <td className="p-2 border border-gray-300">
