@@ -8,10 +8,10 @@ import "react-calendar/dist/Calendar.css";
 //sample data
 import { sampleDuties } from "../samples/dutySample";
 import { companylist } from "../samples/companylist";
-import { employeelist } from "../samples/employeelist";
 
 import NumberLine from "./subComponents/NumberLine";
 import { toast } from "react-toastify";
+import DutySearchForm from "./subComponents/DutySearchForm";
 
 const Schedule = () => {
   //for calender
@@ -58,64 +58,23 @@ const Schedule = () => {
 
   return (
     <div className="grid sm:grid-cols-3 grid-cols-1 gap-4">
-      <div className={`col-span-2 bg-red-100 ${!showData && !isloading ? "box" : "hidden"}`}>
+      <div className={`col-span-2 ${!showData && !isloading ? "block" : "hidden"}`}>
         <div className="grid grid-cols-2 gap-5 items-center justify-center h-full ">
           <div>
             <h2 className="font-bold">Find By Company Name</h2>
-            <form onSubmit={submitHandler} className="flex flex-col gap-2 border-3 p-4 rounded-2xl">
-              <div className="flex gap-3">
-                <div className="flex flex-col gap-1">
-                  <label>Year and Month</label>
-                  <input
-                    type="month"
-                    name="yearMonth"
-                    className="outline-1 w-fill rounded-md px-4 h-10"
-                    placeholder="Enter Data"
-                    onChange={changeHandler}
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-1">
-                <label>Company</label>
-                <select
-                  name="companyName"
-                  className="outline-1 w-fill rounded-md px-4 h-10"
-                  placeholder="Enter Data"
-                  value={selectedCompanyId}
-                  onChange={changeHandler}>
-                  <option>Select</option>
-                  {companylist.map((company) => (
-                    <option key={company._id} value={company.name}>
-                      {/*change this between id and name as needed  */}
-                      {company.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="flex gap-1">
-                <input
-                  type="submit"
-                  value={`submit`}
-                  className="bg-green-200 w-md cursor-pointer rounded-md h-10"
-                />
-
-                <input
-                  type="reset"
-                  value={`Clear`}
-                  className="bg-red-200 w-2xs cursor-pointer rounded-md h-10"
-                />
-              </div>
-            </form>
+            <DutySearchForm
+              submitHandler={submitHandler}
+              changeHandler={changeHandler}
+              selectedCompanyId={selectedCompanyId}
+              companylist={companylist}
+            />
           </div>
         </div>
       </div>
 
       {/* //////////////////////////////////////// */}
       {/* loading screen */}
-      <div className={`col-span-2 bg-red-100 ${isloading ? "box" : "hidden"}`}>
+      <div className={`col-span-2 bg-red-100 ${isloading ? "block" : "hidden"}`}>
         {/* toggle button */}
         {`Loading....`}
 
@@ -131,7 +90,7 @@ const Schedule = () => {
 
       {/* //////////////////////////////////////// */}
       {/* data is shown here after user enter the company name */}
-      <div className={`col-span-2 bg-red-100 ${showData && !isloading ? "box" : "hidden"} `}>
+      <div className={`col-span-2  ${showData && !isloading ? "block" : "hidden"} `}>
         <div>
           {/* back button */}
           <button
@@ -245,22 +204,21 @@ const Schedule = () => {
         </div>
       </div>
       {/* right side */}
-      <div className="bg-yellow-100 ">
-        <div className={`${showData ? "box" : "hidden"}`}>
+
+      <div className="bg-gray-200 h-screen  ">
+        <div className={`${showData ? "block" : "hidden"} font-bold ml-5`}>
           <span>Requirement</span>
+
           <div className="flex flex-col mx-10">
             {companylist.map((company) =>
               company.count.map((requirement) => (
                 <span
                   key={requirement._id}
-                  className={company.name == selectedCompanyId ? "box" : "hidden"}>
+                  className={company.name == selectedCompanyId ? "block" : "hidden"}>
                   {requirement.position} : {requirement.amount}
                 </span>
               ))
             )}
-            {/* <span>OSI : {"0 / 4"}</span>
-            <span>JSO : {"0 / 2"}</span>
-            <span>SO : {"0 / 3"}</span> */}
           </div>
         </div>
 
