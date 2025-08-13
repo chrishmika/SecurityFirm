@@ -97,6 +97,7 @@ const AddCompany = () => {
               placeholder={choice ? "Enter Company" : "Enter Employee"}
               className="px-3 border-2 rounded-2xl"
             />
+            {/* typing suggestns are the best in here */}
 
             <button className="cursor-pointer border-2 rounded-2xl w-20">Search</button>
           </form>
