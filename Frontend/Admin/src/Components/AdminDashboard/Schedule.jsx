@@ -154,7 +154,7 @@ const Schedule = () => {
           </h2>
 
           <NumberLine
-            month="January"
+            month={selectedMonth}
             onSelectDay={(day) => {
               setSelectedDay(day);
             }}

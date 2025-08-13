@@ -288,7 +288,7 @@ export const viewSheetByDetails = async (req, res) => {
     const sheet = await Duty.find({ year, month, company }).populate("company");
     console.log(sheet);
     if (sheet.length == 0) {
-      res.status(404).json({ message: "Sheet you look is not found create a new sheet" });
+      return res.status(404).json({ message: "Sheet you look is not found create a new sheet" });
     }
     res.status(200).json(sheet);
   } catch (error) {

@@ -43,7 +43,9 @@ const Schedule = () => {
       const response = await axios("http://localhost:5000/api/company/getCompanyList", {
         withCredentials: true,
       });
-      console.log(response.data);
+      if (!response) {
+        return toast.error("Error on server");
+      }
       setCompanylist(response.data);
     };
     getData();
@@ -59,7 +61,6 @@ const Schedule = () => {
       setSelectedMonth(year_month[1]);
     }
     if (e.target.name == "companyName") {
-      //currently this take the id change as needed
       const company = e.target.value;
 
       setCompanyId(companylist.find((company) => company.name == e.target.value)._id);
@@ -80,7 +81,7 @@ const Schedule = () => {
           month = "January";
           break;
         case "02":
-          month = "Februry";
+          month = "February";
           break;
         case "03":
           month = "March";
@@ -119,7 +120,6 @@ const Schedule = () => {
           { year: selectedYear, month: month, company: companyId },
           { withCredentials: true }
         );
-        console.log(response.data);
         setDutySet(response.data);
         SetIsLoading(false);
         setShowData(true);
@@ -172,7 +172,7 @@ const Schedule = () => {
           </h2>
 
           <NumberLine
-            month="January"
+            month={selectedMonth}
             onSelectDay={(day) => {
               setSelectedDay(day);
             }}
