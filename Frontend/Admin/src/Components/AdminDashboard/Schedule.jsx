@@ -84,7 +84,6 @@ const Schedule = () => {
               changeHandler={changeHandler}
               selectedCompanyId={selectedCompanyId}
               companylist={companylist}
-              s
             />
           </div>
 
