@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 import { FaArrowLeft } from "react-icons/fa6";
 
 //sample data
-import { sampleDuties } from "../samples/dutySample";
-import { companylist } from "../samples/companylist";
+//import { sampleDuties } from "../samples/dutySample";
+//import { companylist } from "../samples/companylist";
 
 import NumberLine from "./subComponents/NumberLine";
 import { toast } from "react-toastify";
@@ -32,11 +32,22 @@ const Schedule = () => {
 
   //for table data filling
   const [dutySet, setDutySet] = useState([]);
+  const [companylist, setCompanylist] = useState([]);
 
-  //feels like dosent need this, for select relevent sheet file . ?_?
-  const [isReady, setIsReady] = useState(false);
+  //const { isLoading,SetLoading } = useAuthContext();  //used in feature at last
 
   //i need to use a useEffect to fetch company data and then need to fetch duty list that aligns with year,company id and month, it will resolve the issue that showing details of every month and year
+
+  useEffect(() => {
+    const getData = async () => {
+      const response = await axios("http://localhost:5000/api/company/getCompanyList", {
+        withCredentials: true,
+      });
+      console.log(response.data);
+      setCompanylist(response.data);
+    };
+    getData();
+  }, []);
 
   const changeHandler = (e) => {
     e.preventDefault();
@@ -49,41 +60,74 @@ const Schedule = () => {
     }
     if (e.target.name == "companyName") {
       //currently this take the id change as needed
-      const company = JSON.parse(e.target.value);
-      console.log(company);
+      const company = e.target.value;
 
-      setCompanyId(company.id);
-      setSelectedCompanyName(company.name);
+      setCompanyId(companylist.find((company) => company.name == e.target.value)._id);
+      setSelectedCompanyName(company);
     }
   };
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    !selectedCompanyName ? toast.error("Company Name is Required") : SetIsLoading(!isloading); //take data from backend from tables
-    console.log(selectedCompanyName);
-    console.log(selectedYear);
-    console.log(selectedMonth);
+    if (!selectedCompanyName) {
+      toast.error("Company Name is Required");
+    } else {
+      SetIsLoading(true);
 
-    let month;
-    switch (selectedMonth) {
-      case "01":
-        month = "January";
-        break;
-      case 4:
-        month = "April";
-        break;
-      case "12":
-        month = "dec";
-        break;
+      let month;
+      switch (selectedMonth) {
+        case "01":
+          month = "January";
+          break;
+        case "02":
+          month = "Februry";
+          break;
+        case "03":
+          month = "March";
+          break;
+        case "04":
+          month = "April";
+          break;
+        case "05":
+          month = "May";
+          break;
+        case "06":
+          month = "June";
+          break;
+        case "07":
+          month = "July";
+          break;
+        case "08":
+          month = "August";
+          break;
+        case "09":
+          month = "September";
+          break;
+        case "10":
+          month = "Octomber";
+          break;
+        case "11":
+          month = "November";
+          break;
+        case "12":
+          month = "December";
+          break;
+      }
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/api/duty/viewSheetByDetails/",
+          { year: selectedYear, month: month, company: companyId },
+          { withCredentials: true }
+        );
+        console.log(response.data);
+        setDutySet(response.data);
+        SetIsLoading(false);
+        setShowData(true);
+      } catch (error) {
+        SetIsLoading(false);
+        toast.error(error.response.data.message);
+      }
     }
-
-    const { data } = await axios.post(
-      "http://localhost:5000/api/duty/viewSheetByDetails/",
-      { year: selectedYear, month: month, company: companyId },
-      { withCredentials: true }
-    );
-    console.log(data);
-    setDutySet(data);
   };
 
   return (
@@ -102,20 +146,10 @@ const Schedule = () => {
         </div>
       </div>
 
-      {/* //////////////////////////////////////// */}
       {/* loading screen */}
       <div className={`col-span-2 bg-red-100 ${isloading ? "block" : "hidden"}`}>
         {/* toggle button */}
         {`Loading....`}
-
-        <button
-          onClick={() => {
-            SetIsLoading(!isloading);
-            setShowData(!showData);
-            setIsReady(!isReady);
-          }}>
-          Click me 2
-        </button>
       </div>
 
       {/* //////////////////////////////////////// */}

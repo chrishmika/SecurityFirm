@@ -35,10 +35,7 @@ const DutySearchForm = ({
             <option>Select</option>
             {Array.isArray(companylist) &&
               companylist.map((company) => (
-                <option
-                  key={company._id}
-                  value={JSON.stringify({ id: company._id, name: company.name })}>
-                  {/*change this between id and name as needed  */}
+                <option key={company._id} value={company.name}>
                   {company.name}
                 </option>
               ))}

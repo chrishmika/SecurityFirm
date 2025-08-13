@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { FaArrowLeft } from "react-icons/fa6";
 
 import { sampleDuties } from "../samples/dutySample"; //sample data
-import { companylist } from "../samples/companylist";
+//import { companylist } from "../samples/companylist";
 import { employeelist } from "../samples/employeelist";
 
 import NumberLine from "./subComponents/NumberLine";
 import DutySearchForm from "./subComponents/DutySearchForm";
 import SideCalandeBar from "./subComponents/SideCalandeBar";
+import axios from "axios";
 
 // console.log(sampleDuties);
 
@@ -25,16 +26,27 @@ const Schedule = () => {
 
   //for view the selected company
   const [selectedCompanyName, setSelectedCompanyName] = useState();
+  const [selectedCompanyNameForCreateSheet, setSelectedCompanyNameForCreateSheet] = useState();
   const [companyId, setCompanyId] = useState("");
   const [selectedYear, setSelectedYear] = useState();
   const [selectedMonth, setSelectedMonth] = useState();
 
   //for gather data from table
+  const [companylist, setCompanylist] = useState([]);
 
   //feels like dosent need this, for select relevent sheet file . ?_?
   const [isReady, setIsReady] = useState(false);
 
-  //i need to use a useEffect to fetch company data and then need to fetch duty list that aligns with year,company id and month, it will resolve the issue that showing details of every month and year
+  useEffect(() => {
+    const getData = async () => {
+      const response = await axios("http://localhost:5000/api/company/getCompanyList", {
+        withCredentials: true,
+      });
+      console.log(response.data);
+      setCompanylist(response.data);
+    };
+    getData();
+  }, []);
 
   //for 1st searching from
   const changeHandler = (e) => {
@@ -46,12 +58,8 @@ const Schedule = () => {
     }
     if (e.target.name == "companyName") {
       //currently this take the id change as needed
-
-      const company = JSON.parse(e.target.value);
-      console.log(company);
-
-      setCompanyId(company.name);
-      setSelectedCompanyName(company.name);
+      setCompanyId(companylist.find((company) => company.name == e.target.value)._id);
+      setSelectedCompanyName(e.target.value);
     }
   };
 
