@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 
+import { FaArrowLeft } from "react-icons/fa6";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
@@ -31,6 +32,8 @@ const Schedule = () => {
   //feels like dosent need this, for select relevent sheet file . ?_?
   const [isReady, setIsReady] = useState(false);
 
+  //i need to use a useEffect to fetch company data and then need to fetch duty list that aligns with year,company id and month, it will resolve the issue that showing details of every month and year
+
   const changeHandler = (e) => {
     e.preventDefault();
     if (e.target.name == "yearMonth") {
@@ -57,15 +60,12 @@ const Schedule = () => {
     <div className="grid sm:grid-cols-3 grid-cols-1 gap-4">
       <div className={`col-span-2 bg-red-100 ${!showData && !isloading ? "box" : "hidden"}`}>
         <div className="grid grid-cols-2 gap-5 items-center justify-center h-full ">
-          {/* ////////////////////////////// */}
-          {/* create sheets */}
           <div>
             <h2 className="font-bold">Find By Company Name</h2>
             <form onSubmit={submitHandler} className="flex flex-col gap-2 border-3 p-4 rounded-2xl">
               <div className="flex gap-3">
                 <div className="flex flex-col gap-1">
                   <label>Year and Month</label>
-
                   <input
                     type="month"
                     name="yearMonth"
@@ -79,7 +79,6 @@ const Schedule = () => {
 
               <div className="flex flex-col gap-1">
                 <label>Company</label>
-
                 <select
                   name="companyName"
                   className="outline-1 w-fill rounded-md px-4 h-10"
@@ -102,6 +101,7 @@ const Schedule = () => {
                   value={`submit`}
                   className="bg-green-200 w-md cursor-pointer rounded-md h-10"
                 />
+
                 <input
                   type="reset"
                   value={`Clear`}
@@ -118,6 +118,7 @@ const Schedule = () => {
       <div className={`col-span-2 bg-red-100 ${isloading ? "box" : "hidden"}`}>
         {/* toggle button */}
         {`Loading....`}
+
         <button
           onClick={() => {
             SetIsLoading(!isloading);
@@ -132,19 +133,22 @@ const Schedule = () => {
       {/* data is shown here after user enter the company name */}
       <div className={`col-span-2 bg-red-100 ${showData && !isloading ? "box" : "hidden"} `}>
         <div>
-          {/* toggle button */}
+          {/* back button */}
           <button
             onClick={() => {
               setShowData(!showData);
               setSelectedCompanyId("");
               setSelectedMonth(null);
               setSelectedDay(null);
-            }}>
-            {"<=Back"}
+            }}
+            className=" flex gap-1 items-center cursor-pointer font-bold mb-2">
+            <FaArrowLeft /> {" Back"}
           </button>
+
           <h2 className="text-lg font-bold mb-5">
-            {selectedCompanyId} Duty Schedule – {selectedMonth} - {selectedYear}
+            {selectedCompanyId} Attendance . {` ${selectedMonth} - ${selectedYear} `}
           </h2>
+
           <NumberLine
             month="January"
             onSelectDay={(day) => {
@@ -152,8 +156,6 @@ const Schedule = () => {
             }}
           />
         </div>
-
-        <div>{selectedDay}</div>
 
         <div className="my-10 overflow-x-auto">
           {sampleDuties.map((sheet) => (
@@ -244,14 +246,14 @@ const Schedule = () => {
       </div>
       {/* right side */}
       <div className="bg-yellow-100 ">
-        <div className="">
+        <div className={`${showData ? "box" : "hidden"}`}>
           <span>Requirement</span>
           <div className="flex flex-col mx-10">
             {companylist.map((company) =>
               company.count.map((requirement) => (
                 <span
                   key={requirement._id}
-                  className={company._id == selectedCompanyId ? "box" : "hidden"}>
+                  className={company.name == selectedCompanyId ? "box" : "hidden"}>
                   {requirement.position} : {requirement.amount}
                 </span>
               ))

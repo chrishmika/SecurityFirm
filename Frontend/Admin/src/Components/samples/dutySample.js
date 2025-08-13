@@ -41,7 +41,7 @@ export const sampleDuties = [
         employee: {
           _id: "6866c61a216d3f29a6659aeb",
           empId: "1",
-          name: "shehan",
+          name: "saman",
           initials: "2",
           NIC: "200115987457",
           sex: "Male",
@@ -302,7 +302,7 @@ export const sampleDuties = [
         employee: {
           _id: "6866c61a216d3f29a6659aeb",
           empId: "1",
-          name: "shehan",
+          name: "gayan",
           initials: "2",
           NIC: "200115987457",
           sex: "Male",
