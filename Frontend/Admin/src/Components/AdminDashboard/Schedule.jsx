@@ -72,23 +72,13 @@ const Schedule = () => {
             <form action="" className="flex flex-col gap-2 border-3 p-4 rounded-2xl">
               <div className="flex gap-3">
                 <div className="flex flex-col gap-1">
-                  <label>Year</label>
+                  <label>Year and Month</label>
                   <input
-                    type="number"
-                    name="Year"
-                    min={2000}
-                    className="outline-cyan-900 outline-1 w-fill rounded-md pl-4 h-10"
+                    type="month"
+                    name="Year and Month"
+                    className="outline-1  rounded-md px-4 h-10"
                     placeholder="Enter Data"
-                  />
-                </div>
-
-                <div className="flex flex-col gap-1">
-                  <label>Month</label>
-                  <input
-                    type="text"
-                    name="Month"
-                    className="outline-1 w-fill rounded-md px-4 h-10"
-                    placeholder="Enter Data"
+                    required
                   />
                 </div>
               </div>
@@ -99,9 +89,9 @@ const Schedule = () => {
                   name="Company"
                   className="outline-1 w-fill rounded-md px-4 h-10"
                   placeholder="Enter Data">
-                  {companylist.map(() => (
-                    //////////this is where i need to add company names
-                    <option key={id}>df</option>
+                  <option>Select</option>
+                  {companylist.map((company) => (
+                    <option key={company._id}>{company.name}</option>
                   ))}
                 </select>
               </div>
@@ -121,41 +111,36 @@ const Schedule = () => {
             </form>
           </div>
 
-          {/* create shhets */}
+          {/* ////////////////////////////// */}
+          {/* create sheets */}
           <div>
             <h2 className="font-bold">Create a Duty sheet</h2>
             <form action="" className="flex flex-col gap-2 border-3 p-4 rounded-2xl">
               <div className="flex gap-3">
                 <div className="flex flex-col gap-1">
-                  <label>Year</label>
+                  <label>Year and Month</label>
                   <input
-                    type="number"
-                    name="Year"
-                    min={2000}
-                    className="outline-cyan-900 outline-1 w-fill rounded-md pl-4 h-10"
-                    placeholder="Enter Data"
-                  />
-                </div>
-
-                <div className="flex flex-col gap-1">
-                  <label>Month</label>
-                  <input
-                    type="text"
-                    name="Month"
+                    type="month"
+                    name="Year and Month"
                     className="outline-1 w-fill rounded-md px-4 h-10"
                     placeholder="Enter Data"
+                    required
                   />
                 </div>
               </div>
 
               <div className="flex flex-col gap-1">
                 <label>Company</label>
-                <input
-                  type="text"
+                <select
                   name="Company"
                   className="outline-1 w-fill rounded-md px-4 h-10"
-                  placeholder="Enter Data"
-                />
+                  placeholder="Enter Data">
+                  <option>Select</option>
+                  <option value={"all"}>All *</option>
+                  {companylist.map((company) => (
+                    <option key={company._id}>{company.name}</option>
+                  ))}
+                </select>
               </div>
 
               <div className="flex gap-1">
@@ -183,6 +168,8 @@ const Schedule = () => {
         </button>
       </div>
 
+      {/* //////////////////////////////////////// */}
+
       {/* ready  screen which shows all sheets and make user select one */}
       {/* <div className={`col-span-2 bg-red-100 ${isReady && !isloading ? "box" : "hidden"}`}> */}
       <div className={`col-span-2 bg-red-100 ${"hidden"}`}>
@@ -198,6 +185,8 @@ const Schedule = () => {
         </button>
       </div>
 
+      {/* //////////////////////////////////////// */}
+
       {/* loading screen */}
       <div className={`col-span-2 bg-red-100 ${isloading ? "box" : "hidden"}`}>
         {/* toggle button */}
@@ -211,6 +200,8 @@ const Schedule = () => {
           Click me 2
         </button>
       </div>
+
+      {/* //////////////////////////////////////// */}
 
       {/* data is shown here after user enter the company name */}
       <div className={`col-span-2 bg-red-100 ${showData && !isloading ? "box" : "hidden"} `}>
