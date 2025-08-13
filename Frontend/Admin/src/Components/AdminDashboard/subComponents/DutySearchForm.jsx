@@ -1,10 +1,9 @@
 /* eslint-disable react/prop-types */
-import React from "react";
 
 const DutySearchForm = ({
   submitHandler,
   changeHandler,
-  selectedCompanyId,
+  selectedCompanyName,
   companylist,
   submitHandler2,
 }) => {
@@ -31,12 +30,14 @@ const DutySearchForm = ({
             name="companyName"
             className="outline-1 w-fill rounded-md px-4 h-10"
             placeholder="Enter Data"
-            value={selectedCompanyId}
+            value={selectedCompanyName}
             onChange={changeHandler}>
             <option>Select</option>
             {Array.isArray(companylist) &&
               companylist.map((company) => (
-                <option key={company._id} value={company.name}>
+                <option
+                  key={company._id}
+                  value={JSON.stringify({ id: company._id, name: company.name })}>
                   {/*change this between id and name as needed  */}
                   {company.name}
                 </option>

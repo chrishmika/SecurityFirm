@@ -1,13 +1,14 @@
-/* eslint-disable react/prop-types */
 import { useState } from "react";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
+import { toast } from "react-toastify";
+import { FaArrowLeft } from "react-icons/fa6";
+
 import { sampleDuties } from "../samples/dutySample"; //sample data
 import { companylist } from "../samples/companylist";
 import { employeelist } from "../samples/employeelist";
+
 import NumberLine from "./subComponents/NumberLine";
-import { toast } from "react-toastify";
 import DutySearchForm from "./subComponents/DutySearchForm";
+import SideCalandeBar from "./subComponents/SideCalandeBar";
 
 // console.log(sampleDuties);
 
@@ -23,15 +24,19 @@ const Schedule = () => {
   const [isloading, SetIsLoading] = useState(false);
 
   //for view the selected company
-  const [selectedCompanyId, setSelectedCompanyId] = useState();
+  const [selectedCompanyName, setSelectedCompanyName] = useState();
+  const [companyId, setCompanyId] = useState("");
   const [selectedYear, setSelectedYear] = useState();
   const [selectedMonth, setSelectedMonth] = useState();
+
+  //for gather data from table
 
   //feels like dosent need this, for select relevent sheet file . ?_?
   const [isReady, setIsReady] = useState(false);
 
   //i need to use a useEffect to fetch company data and then need to fetch duty list that aligns with year,company id and month, it will resolve the issue that showing details of every month and year
 
+  //for 1st searching from
   const changeHandler = (e) => {
     e.preventDefault();
     if (e.target.name == "yearMonth") {
@@ -41,15 +46,22 @@ const Schedule = () => {
     }
     if (e.target.name == "companyName") {
       //currently this take the id change as needed
-      const company = e.target.value;
-      setSelectedCompanyId(company);
+
+      const company = JSON.parse(e.target.value);
+      console.log(company);
+
+      setCompanyId(company.name);
+      setSelectedCompanyName(company.name);
     }
   };
 
+  //for table data gathering from
+  const formChangeHandler = () => {};
+
   const submitHandler = async (e) => {
     e.preventDefault();
-    !selectedCompanyId ? toast.error("Company Name is Required") : SetIsLoading(!isloading); //take data from backend from tables
-    console.log(selectedCompanyId);
+    !selectedCompanyName ? toast.error("Company Name is Required") : SetIsLoading(!isloading); //take data from backend from tables
+    console.log(selectedCompanyName);
     console.log(selectedYear);
     console.log(selectedMonth);
     console.log("1nd is pressed ");
@@ -57,8 +69,8 @@ const Schedule = () => {
 
   const submitHandler2 = async (e) => {
     e.preventDefault();
-    !selectedCompanyId ? toast.error("Company Name is Required") : SetIsLoading(!isloading); //take data from backend from tables
-    console.log(selectedCompanyId);
+    !selectedCompanyName ? toast.error("Company Name is Required") : SetIsLoading(!isloading); //take data from backend from tables
+    console.log(selectedCompanyName);
     console.log(selectedYear);
     console.log(selectedMonth);
     console.log("2nd is pressed ");
@@ -72,8 +84,8 @@ const Schedule = () => {
   };
 
   return (
-    <div className="grid sm:grid-cols-3 grid-cols-1 gap-4">
-      <div className={`col-span-2 bg-red-100 ${!showData && !isloading ? "box" : "hidden"}`}>
+    <div className="grid sm:grid-cols-3 grid-cols-1 gap-4 h-screen">
+      <div className={`col-span-2  ${!showData && !isloading ? "box" : "hidden"}`}>
         <div className="grid grid-cols-2 gap-5 items-center justify-center h-full ">
           {/* while these2 are same can reduce them by making it as a function */}
           {/* Find Duty sheet */}
@@ -82,7 +94,7 @@ const Schedule = () => {
             <DutySearchForm
               submitHandler={submitHandler}
               changeHandler={changeHandler}
-              selectedCompanyId={selectedCompanyId}
+              selectedCompanyName={selectedCompanyName}
               companylist={companylist}
             />
           </div>
@@ -92,7 +104,7 @@ const Schedule = () => {
             <h2 className="font-bold">Create a Duty sheet</h2>
             <DutySearchForm
               changeHandler={changeHandler}
-              selectedCompanyId={selectedCompanyId}
+              selectedCompanyName={selectedCompanyName}
               companylist={companylist}
               submitHandler2={submitHandler2}
             />
@@ -115,10 +127,24 @@ const Schedule = () => {
       </div>
 
       {/* //////////////////////////////////////// */}
-
-      {/* data is shown here after user enter the company name */}
+      {/* data is shown here after user enter the company name and submit*/}
       <div className={`col-span-2 bg-red-100 ${showData && !isloading ? "box" : "hidden"} `}>
         <div>
+          {/* back button */}
+          <button
+            onClick={() => {
+              setShowData(!showData);
+              setSelectedCompanyName("");
+              setSelectedDay(null);
+            }}
+            className=" flex gap-1 items-center cursor-pointer font-bold mb-2">
+            <FaArrowLeft /> {" Back"}
+          </button>
+
+          <h2 className="text-lg font-bold mb-5">
+            {selectedCompanyName} Schedule . {` ${selectedMonth} - ${selectedYear} `}
+          </h2>
+
           <NumberLine
             month="January"
             onSelectDay={(day) => {
@@ -127,16 +153,8 @@ const Schedule = () => {
           />
 
           {/* toggle button */}
-          <button
-            onClick={() => {
-              setShowData(!showData);
-            }}>
-            Click me 3
-          </button>
         </div>
-
-        <div>{selectedDay}</div>
-
+        <div>{selectedDay}</div> {/* this line is need to be removed later */}
         <div className="my-10 overflow-x-auto">
           {sampleDuties.map((sheet) => (
             <table
@@ -157,47 +175,62 @@ const Schedule = () => {
                 {sheet.duties.map((duty, dindex) => (
                   <tr
                     key={dindex}
-                    // className={`${
-                    //   duty.status === "absent"
-                    //     ? "bg-red-400"
-                    //     : duty.status === "present"
-                    //     ? "bg-green-400"
-                    //     : duty.status === "late"
-                    //     ? "bg-yellow-400"
-                    //     : "bg-white"
-                    //}`}   //this is for attendance viewing area
+                    className={`${duty.day == (selectedDay || 1) ? "box" : "hidden"}
+                    `} //this is for attendance viewing area
                   >
                     <td className="p-2 border border-gray-300">
-                      <input type="text" name="position" value={duty.employee.position} />
+                      <input type="text" name="position" value={duty.employee.position} readOnly />
                     </td>
 
                     <td className="p-2 border border-gray-300">
-                      <select className="bg-blue-100 px-2 w-full" type="text">
+                      <select
+                        className="bg-blue-100 px-2 w-full"
+                        type="text"
+                        onChange={formChangeHandler}>
                         <option>Select</option>
-                        <option value={duty.employee.name}>{duty.employee.name}</option>
-                        <option value={"dd"}>dd</option>
-                        <option value={"ee"}>ee</option>
+                        {employeelist.map((employee) => (
+                          <option
+                            key={employee._id}
+                            value={employee.name}
+                            className={`${
+                              employee.position == duty.employee.position ? "block" : "hidden"
+                            }`}>
+                            {employee.name}
+                          </option>
+                        ))}
+                        {/* this above conditions duty.employee.position need to change as the position that ask by company */}
                       </select>
                     </td>
 
                     <td className="p-2 border border-gray-300">
-                      <select className="bg-blue-100 px-2 w-full" type="text">
+                      <select
+                        className="bg-blue-100 px-2 w-full"
+                        type="text"
+                        onChange={formChangeHandler}>
                         <option>Select</option>
-                        <option value={12}>{duty.time}</option>
-                        <option value={24}>{duty.time}</option>
+                        <option value={12}>{"12"}</option>
+                        <option value={24}>{"24"}</option>
                       </select>
                     </td>
 
                     <td className="p-2 border border-gray-300">
-                      <select className="bg-blue-100 px-2 w-full" type="text">
+                      <select
+                        className="bg-blue-100 px-2 w-full"
+                        type="text"
+                        onChange={formChangeHandler}>
                         <option>Select</option>
-                        <option value={12}>{duty.shift}</option>
-                        <option value={24}>24h</option>
+                        <option value={12}>8am</option>
+                        <option value={24}>6pm</option>
                       </select>
                     </td>
 
                     <td className="p-2 border border-gray-300">
-                      <input className="bg-blue-100 px-2 w-full" type="text" value={duty.remark} />
+                      <input
+                        className="bg-blue-100 px-2 w-full"
+                        type="text"
+                        value={duty.remark}
+                        onChange={formChangeHandler}
+                      />
                     </td>
 
                     <td className="p-2 border border-gray-300">
@@ -212,19 +245,14 @@ const Schedule = () => {
       </div>
 
       {/* right side */}
-      <div className="bg-yellow-100 ">
-        <div className="">
-          <span>Requirement</span>
-          <div className="flex flex-col mx-10">
-            <span>OSI : {"0 / 4"}</span>
-            <span>JSO : {"0 / 2"}</span>
-            <span>SO : {"0 / 3"}</span>
-          </div>
-        </div>
-
-        <div className="text-2xl scale-[0.9] lg:scale-[0.7] md:scale-[0.6] sm:scale-[0.5] ">
-          <Calendar onChange={setDateValue} value={dateValue} />
-        </div>
+      <div className={`bg-gray-200 ${showData ? "block" : "hidden"} `}>
+        <SideCalandeBar
+          showData={showData}
+          companylist={companylist}
+          selectedCompanyName={selectedCompanyName}
+          setDateValue={setDateValue}
+          dateValue={dateValue}
+        />
       </div>
     </div>
   );
@@ -235,3 +263,4 @@ export default Schedule;
 //to get list of companies and employees to choose them on list to assign
 //http://localhost:5000/api/company/getCompanyList
 //http://localhost:5000/api/employee/employeeList
+//need to print the schedule

@@ -279,6 +279,24 @@ export const viewDutySheet = async (req, res) => {
   }
 };
 
+//View a Duty Sheet by year,month,company
+export const viewSheetByDetails = async (req, res) => {
+  try {
+    const { year, month, company } = req.body;
+    console.log(year, month, company);
+
+    const sheet = await Duty.find({ year, month, company }).populate("company");
+    console.log(sheet);
+    if (sheet.length == 0) {
+      res.status(404).json({ message: "sheet not found" });
+    }
+    res.status(200).json(sheet);
+  } catch (error) {
+    console.log(`error in viewSheetByDetails ${error.message}`);
+    return res.status(500).json({ error: `internal server error on duty controller` });
+  }
+};
+
 // delete duty sheet
 export const deleteDutySheet = async (req, res) => {
   try {
