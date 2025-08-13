@@ -20,13 +20,13 @@ export const companylist = [
     name: "SC Security Services",
     count: [
       {
-        position: "SO",
-        amount: 8,
+        position: "SSO",
+        amount: 20,
         _id: "684713abcaee1deb54481a93",
       },
       {
         position: "OIC",
-        amount: 2,
+        amount: 3,
         _id: "684713abcaee1deb54481a94",
       },
     ],
