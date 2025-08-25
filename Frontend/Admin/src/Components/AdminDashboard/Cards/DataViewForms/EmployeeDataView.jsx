@@ -23,7 +23,7 @@ const EmployeeDataView = ({ data }) => {
           />
 
           <address className="not-italic space-y-1 mb-4">
-            <p>hi@gmail.com</p>
+            <p>{data?.email}</p>
             <p>+94 123456789</p>
             <p>Colombo</p>
           </address>
@@ -32,8 +32,8 @@ const EmployeeDataView = ({ data }) => {
             <Info label="Employee Number" value="EP656565" />
             <Info label="Full Name" value="Shehan Krismika" />
             <Info label="Name with Initials" value="P. P Shehan Krismika" />
-            <Info label="NIC" value="200018701528" />
-            <Info label="Gender" value="Male" />
+            <Info label="NIC" value={data?.NIC} />
+            <Info label="Gender" value={data?.sex} />
 
             <div className="flex gap-6">
               <Info label="ETF" value="sp5645" />
