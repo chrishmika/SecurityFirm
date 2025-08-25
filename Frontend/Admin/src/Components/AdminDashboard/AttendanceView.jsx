@@ -4,10 +4,6 @@ import axios from "axios";
 
 import { FaArrowLeft } from "react-icons/fa6";
 
-//sample data
-//import { sampleDuties } from "../samples/dutySample";
-//import { companylist } from "../samples/companylist";
-
 import NumberLine from "./subComponents/NumberLine";
 import { toast } from "react-toastify";
 import DutySearchForm from "./subComponents/DutySearchForm";
@@ -133,7 +129,7 @@ const Schedule = () => {
   return (
     <div className="grid sm:grid-cols-3 grid-cols-1 h-screen gap-4">
       <div className={`col-span-2 ${!showData && !isloading ? "block" : "hidden"}`}>
-        <div className="grid grid-cols-2 gap-5 items-center justify-center h-full ">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-center justify-center h-full ">
           <div>
             <h2 className="font-bold">Find By Company Name</h2>
             <DutySearchForm

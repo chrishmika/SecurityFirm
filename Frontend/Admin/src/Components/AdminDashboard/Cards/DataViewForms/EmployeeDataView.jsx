@@ -7,7 +7,7 @@ const EmployeeDataView = ({ data }) => {
     { label: "File 2", url: "/files/image2.png" },
     { label: "File 3", url: "/files/document3.docx" },
   ];
-  console.log(data);
+  console.log("employeedata", data);
 
   return (
     <main className="flex h-screen bg-white p-4 gap-2 text-sm text-gray-800 font-medium">
