@@ -4,6 +4,7 @@ import {
   deleteDuty,
   deleteDutySheet,
   editDuty,
+  findDutyForEmployee,
   markAttendance,
   updateSheet,
   viewAllDutySheets,
@@ -25,5 +26,7 @@ router.post("/addDuty/:id", protectedRoute, addDuties);
 router.put("/editDuty/:sheetId/:dutyEntryId", protectedRoute, editDuty); //not tested
 router.delete("/deleteDuty/:sheetId/:dutyEntryId", protectedRoute, deleteDuty); //not tested
 router.post("/markAttendance/:sheetId/:dutyEntryId", protectedRoute, markAttendance); //partially tested
+
+router.post("/fetchlocation", protectedRoute, findDutyForEmployee); //partially tested
 
 export default router;

@@ -337,3 +337,40 @@ export const updateSheet = async (req, res) => {
 //to mark attendance date time is need to send through the front end
 //format =>     "checkOut":"2025-07-15T08:05:00"
 //correct data is need to be send from front end
+
+export const findDutyForEmployee = async (req, res) => {
+  try {
+    const { year, month, day, employeeId } = req.body;
+
+    if (!year || !month || !day || !employeeId) {
+      return res.status(400).json({ message: "year, month, day, and employeeId are required" });
+    }
+
+    const duty = await Duty.findOne(
+      {
+        year,
+        month,
+        duties: {
+          $elemMatch: { employee: employeeId, day: day },
+        },
+      },
+      {
+        "duties.$": 1, // return only the matching duty subdocument
+        company: 1,
+      }
+    ).populate("company"); // only populate location
+
+    if (!duty) {
+      return res.status(404).json({ message: "Duty not found" });
+    }
+
+    res.json({
+      dutyId: duty.duties[0]._id,
+      longitude: duty.company.longitude,
+      latitude: duty.company.latitude,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
