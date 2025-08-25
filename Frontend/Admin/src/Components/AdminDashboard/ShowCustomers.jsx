@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, isValidElement } from "react";
 import axios from "axios";
 
 import { FaToggleOff, FaToggleOn } from "react-icons/fa6";
@@ -11,24 +11,26 @@ const AddCompany = () => {
   const [company, setCompany] = useState();
   const [employee, setEmployee] = useState();
   const [namesData, setNamesData] = useState();
-  const [specifiicData, setSpecificData] = useState();
+  const [specificData, setSpecificData] = useState();
+  const [selected, setSelected] = useState();
 
   // at start it takes data about employees
   useEffect(() => {
     const getNames = async () => {
       try {
-        const response = await axios.post(
-          `http://localhost:5000/api/${choice ? "company" : "employee"}/`,
-          {},
+        const response = await axios(
+          `http://localhost:5000/api/${
+            choice ? "company/getCompanyList" : "employee/employeeList"
+          }`,
           {
             withCredentials: true,
           }
         );
 
         if (response.data.employees) {
-          setNamesData(response.data.employees);
+          setNamesData(response.data);
         } else {
-          setNamesData(response.data.companies);
+          setNamesData(response.data);
         }
       } catch (error) {
         console.log("error", error);
@@ -38,7 +40,13 @@ const AddCompany = () => {
     getNames();
   }, [choice]);
 
-  console.log("data1", namesData);
+  console.log("list of name list", namesData);
+
+  const handelSelectedId = (e) => {
+    e.preventDefault();
+    setSelected(e.target.value);
+    console.log(selected, "sellected id ");
+  };
 
   const handelChangeCompany = async (e) => {
     setCompany(e.target.value);
@@ -52,28 +60,34 @@ const AddCompany = () => {
   const submitHandeler = async (e) => {
     e.preventDefault();
     try {
+      console.log("selected id 2", selected);
+
       const response = await axios.post(
-        `http://localhost:5000/api/${choice ? "company" : "employee"}/e.target.id`,
+        `http://localhost:5000/api/${choice ? "company" : "employee"}/${selected}`,
         {},
         {
           withCredentials: true,
         }
       );
+      console.log("specific data", response.data);
 
-      if (response.data.employees) {
-        setSpecificData(response.data.employee);
-      } else {
+      if (choice) {
         setSpecificData(response.data.company);
+        console.log("copany");
+      } else {
+        setSpecificData(response.data.employee);
+        console.log("employe");
       }
     } catch (error) {
       console.log(error);
     }
-    console.log("specific", specifiicData); //remove this
+
+    // console.log("specific", specificData); //remove this
   };
 
   return (
     <div>
-      {/*  name selection to find data*/}
+      {/*  name selection to find data need to impliimented the */}
       <div className=" flex justify-between sm:items-center mb-5 sm:flex-row flex-col gap-3">
         <div className="text-xl flex gap-3 items-center">
           <span
@@ -87,16 +101,32 @@ const AddCompany = () => {
           {choice ? `Company` : `Employee`}
         </div>
 
-        <div className="pr-4 " onSubmit={submitHandeler}>
-          <form className="flex gap-2 flex-wrap  ">
-            <input
+        <div className="pr-4 ">
+          <form className="flex gap-2 flex-wrap  " onSubmit={submitHandeler}>
+            {/* <input
               type="text"
               onChange={choice ? handelChangeCompany : handelChangeEmployee}
               value={choice ? company : employee}
               name={choice ? "Company" : "Employee"}
               placeholder={choice ? "Enter Company" : "Enter Employee"}
               className="px-3 border-2 rounded-2xl"
-            />
+            /> */}
+            {/* typing suggestns are the best in here */}
+
+            <select
+              type="text"
+              // onChange={choice ? handelChangeCompany : handelChangeEmployee}
+              onChange={handelSelectedId}
+              value={choice ? company : employee}
+              name={choice ? "Company" : "Employee"}
+              placeholder={choice ? "Enter Company" : "Enter Employee"}
+              className="px-3 border-2 rounded-2xl">
+              {namesData?.map((names) => (
+                <option value={names._id} key={names._id}>
+                  {names.name}
+                </option>
+              ))}
+            </select>
 
             <button className="cursor-pointer border-2 rounded-2xl w-20">Search</button>
           </form>
@@ -107,7 +137,11 @@ const AddCompany = () => {
 
       <div>
         {/* need to add company view sheet */}
-        {choice ? <CompanyDataView data={"hi"} /> : <EmployeeDataView data={"hi"} />}
+        {choice ? (
+          <CompanyDataView data={specificData} />
+        ) : (
+          <EmployeeDataView data={specificData} />
+        )}
       </div>
     </div>
   );

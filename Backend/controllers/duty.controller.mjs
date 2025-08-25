@@ -279,6 +279,24 @@ export const viewDutySheet = async (req, res) => {
   }
 };
 
+//View a Duty Sheet by year,month,company
+export const viewSheetByDetails = async (req, res) => {
+  try {
+    const { year, month, company } = req.body;
+    console.log(year, month, company);
+
+    const sheet = await Duty.find({ year, month, company }).populate("company");
+    console.log(sheet);
+    if (sheet.length == 0) {
+      return res.status(404).json({ message: "Sheet you look is not found create a new sheet" });
+    }
+    res.status(200).json(sheet);
+  } catch (error) {
+    console.log(`error in viewSheetByDetails ${error.message}`);
+    return res.status(500).json({ error: `internal server error on duty controller` });
+  }
+};
+
 // delete duty sheet
 export const deleteDutySheet = async (req, res) => {
   try {
@@ -319,3 +337,40 @@ export const updateSheet = async (req, res) => {
 //to mark attendance date time is need to send through the front end
 //format =>     "checkOut":"2025-07-15T08:05:00"
 //correct data is need to be send from front end
+
+export const findDutyForEmployee = async (req, res) => {
+  try {
+    const { year, month, day, employeeId } = req.body;
+
+    if (!year || !month || !day || !employeeId) {
+      return res.status(400).json({ message: "year, month, day, and employeeId are required" });
+    }
+
+    const duty = await Duty.findOne(
+      {
+        year,
+        month,
+        duties: {
+          $elemMatch: { employee: employeeId, day: day },
+        },
+      },
+      {
+        "duties.$": 1, // return only the matching duty subdocument
+        company: 1,
+      }
+    ).populate("company"); // only populate location
+
+    if (!duty) {
+      return res.status(404).json({ message: "Duty not found" });
+    }
+
+    res.json({
+      dutyId: duty.duties[0]._id,
+      longitude: duty.company.longitude,
+      latitude: duty.company.latitude,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};

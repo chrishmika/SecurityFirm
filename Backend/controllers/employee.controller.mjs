@@ -39,7 +39,8 @@ export const deleteEmployee = async (req, res) => {
 
     if (employee.img) publicIds.push(employee.img.split("/").pop().split(".")[0]);
     if (employee.cv) publicIds.push(employee.cv.split("/").pop().split(".")[0]);
-    if (employee.gsCertificate) publicIds.push(employee.gsCertificate.split("/").pop().split(".")[0]);
+    if (employee.gsCertificate)
+      publicIds.push(employee.gsCertificate.split("/").pop().split(".")[0]);
     if (employee.NICCopy) publicIds.push(employee.NICCopy.split("/").pop().split(".")[0]);
 
     if (publicIds.length > 0) {
@@ -103,5 +104,15 @@ export const updateEmoloyee = async (req, res) => {
   } catch (error) {
     console.log(`error in updateEmployee ${error.message}`);
     return res.status(500).json({ error: `internal server error on employee controller` });
+  }
+};
+
+export const getEmployeeList = async (req, res) => {
+  try {
+    const employees = await Employee.find({}, "empId name position");
+    res.status(200).json(employees);
+  } catch (error) {
+    console.error("Error fetching employees on getEmployeeList:", error);
+    res.status(500).json({ error: `internal server error on employee controller` });
   }
 };

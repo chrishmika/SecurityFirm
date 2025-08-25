@@ -1,12 +1,15 @@
 /* eslint-disable react/prop-types */
 import profilePic from "../../../../assets/boy1.png";
 
-const EmployeeDataView = (data) => {
+const EmployeeDataView = ({ data }) => {
   const files = [
     { label: "File 1", url: "/files/file1.pdf" },
     { label: "File 2", url: "/files/image2.png" },
     { label: "File 3", url: "/files/document3.docx" },
   ];
+
+  console.log("employeedata data side");
+  console.log("employeedata", data);
 
   return (
     <main className="flex h-screen bg-white p-4 gap-2 text-sm text-gray-800 font-medium">
@@ -53,8 +56,8 @@ const EmployeeDataView = (data) => {
       {/* Middle Column */}
       <section className="w-1/3 p-4 space-y-6 overflow-hidden">
         <header>
-          <h1 className="text-2xl font-bold text-blue-900">Shehan Krismika</h1>
-          <p className="text-gray-600">Security Officer</p>
+          <h1 className="text-2xl font-bold text-blue-900">{data?.name}</h1>
+          <p className="text-gray-600">{data?.position}</p>
         </header>
 
         {/* EXPERIENCE */}

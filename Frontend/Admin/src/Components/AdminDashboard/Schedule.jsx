@@ -1,118 +1,274 @@
-import { useState } from "react";
-import Calendar from "react-calendar";
-
-import "react-calendar/dist/Calendar.css";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { FaArrowLeft } from "react-icons/fa6";
 
-function Schedule() {
-  const [value, setValue] = useState(new Date());
-  const [schedule, setSchedule] = useState({});
+import { sampleDuties } from "../samples/dutySample"; //sample data
+//import { companylist } from "../samples/companylist";
+import { employeelist } from "../samples/employeelist";
 
-  const year = value.getFullYear();
-  const month = value.getMonth(); // 0-based (Jan = 0)
-  const day = value.getDate();
+import NumberLine from "./subComponents/NumberLine";
+import DutySearchForm from "./subComponents/DutySearchForm";
+import SideCalandeBar from "./subComponents/SideCalandeBar";
+import axios from "axios";
 
-  const handelChange = (e) => {
+// console.log(sampleDuties);
+
+const Schedule = () => {
+  //for calender
+  const [dateValue, setDateValue] = useState(new Date());
+
+  //from date number line
+  const [selectedDay, setSelectedDay] = useState(null);
+  const [showData, setShowData] = useState(false);
+
+  //for loading screen
+  const [isloading, SetIsLoading] = useState(false);
+
+  //for view the selected company
+  const [selectedCompanyName, setSelectedCompanyName] = useState();
+  const [selectedCompanyNameForCreateSheet, setSelectedCompanyNameForCreateSheet] = useState();
+  const [companyId, setCompanyId] = useState("");
+  const [selectedYear, setSelectedYear] = useState();
+  const [selectedMonth, setSelectedMonth] = useState();
+
+  //for gather data from table
+  const [companylist, setCompanylist] = useState([]);
+
+  //feels like dosent need this, for select relevent sheet file . ?_?
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    const getData = async () => {
+      const response = await axios("http://localhost:5000/api/company/getCompanyList", {
+        withCredentials: true,
+      });
+      console.log(response.data);
+      setCompanylist(response.data);
+    };
+    getData();
+  }, []);
+
+  //for 1st searching from
+  const changeHandler = (e) => {
     e.preventDefault();
-    setSchedule((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    if (e.target.name == "yearMonth") {
+      const year_month = e.target.value.split("-");
+      setSelectedYear(year_month[0]);
+      setSelectedMonth(year_month[1]);
+    }
+    if (e.target.name == "companyName") {
+      //currently this take the id change as needed
+      setCompanyId(companylist.find((company) => company.name == e.target.value)._id);
+      setSelectedCompanyName(e.target.value);
+    }
   };
 
-  const submitHandeler = (e) => {
-    e.preventDefault();
+  //for table data gathering from
+  const formChangeHandler = () => {};
 
-    console.log(" year: ", year, " month: ", month, " day: ", day);
-    console.log("schedule :", schedule);
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    !selectedCompanyName ? toast.error("Company Name is Required") : SetIsLoading(!isloading); //take data from backend from tables
+    console.log(selectedCompanyName);
+    console.log(selectedYear);
+    console.log(selectedMonth);
+    console.log("1nd is pressed ");
   };
 
-  //dummy data
-  const shift = [8, 12, 24];
+  const submitHandler2 = async (e) => {
+    e.preventDefault();
+    !selectedCompanyName ? toast.error("Company Name is Required") : SetIsLoading(!isloading); //take data from backend from tables
+    console.log(selectedCompanyName);
+    console.log(selectedYear);
+    console.log(selectedMonth);
+    console.log("2nd is pressed ");
+  };
 
-  const Employees = [
-    { _id: 1, name: "gayan" },
-    { _id: 2, name: "niro" },
-    { _id: 3, name: "saha" },
-  ];
-  const Companies = [
-    { _id: 1, name: "Abans" },
-    { _id: 2, name: "Singer" },
-    { _id: 3, name: "Cocacola" },
-  ];
+  const dataCollectionArray = [];
 
-  const style = `border-1 rounded-md px-4 md:w-[250px]`;
+  const dataCollection = ({ day, employee, start, shift, remark }) => {
+    const data = { day, employee, start, shift, remark };
+    dataCollectionArray.push(data);
+  };
 
   return (
-    <div className="flex flex-col lg:flex-row gap-7 md:justify-evenly items-center h-screen">
-      <div className="text-2xl scale-[0.9] lg:scale-[1.3] md:scale-[1.1] sm:scale-[1] ">
-        <Calendar onChange={setValue} value={value} />
+    <div className="grid sm:grid-cols-3 grid-cols-1 gap-4 h-screen">
+      <div className={`col-span-2  ${!showData && !isloading ? "box" : "hidden"}`}>
+        <div className="grid grid-cols-2 gap-5 items-center justify-center h-full ">
+          {/* while these2 are same can reduce them by making it as a function */}
+          {/* Find Duty sheet */}
+          <div>
+            <h2 className="font-bold">Find a Duty sheet</h2>
+            <DutySearchForm
+              submitHandler={submitHandler}
+              changeHandler={changeHandler}
+              selectedCompanyName={selectedCompanyName}
+              companylist={companylist}
+            />
+          </div>
+
+          {/* create sheets */}
+          <div>
+            <h2 className="font-bold">Create a Duty sheet</h2>
+            <DutySearchForm
+              changeHandler={changeHandler}
+              selectedCompanyName={selectedCompanyName}
+              companylist={companylist}
+              submitHandler2={submitHandler2}
+            />
+          </div>
+        </div>
       </div>
 
-      <div className="w-px h-100 bg-gray-400 lg:block hidden"></div>
-
-      <div className="flex gap-4 text-2xl  rounded-md">
-        <form className="flex gap-7 flex-wrap flex-col" onSubmit={submitHandeler}>
-          <div className="flex gap-10 justify-between">
-            <span className="font-bold">Company</span>
-
-            <select name="Company" className={style} onChange={handelChange} required>
-              <option>Select</option>
-              {Companies.map((company) => {
-                return (
-                  <option key={company._id} value={company.name}>
-                    {company.name}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-
-          <div className="flex gap-10 justify-between">
-            <span className="font-bold">Security</span>
-            <select name="Employee" className={style} onChange={handelChange} required>
-              <option>Select</option>
-              {Employees.map((employee) => {
-                return (
-                  <option key={employee._id} value={employee.name}>
-                    {employee.name}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-
-          <div className="flex gap-10 justify-between">
-            <span className="font-bold">Start Time</span>
-            <select name="Time" className={style} onChange={handelChange} required>
-              <option>Select</option>
-              <option value="8.00 am">8.00 am</option>
-              <option value="6.00 pm">6.00 pm</option>
-            </select>
-          </div>
-
-          <div className="flex gap-10 justify-between">
-            <span className="font-bold">Shift</span>
-            <select name="Shift" className={style} onChange={handelChange} required>
-              <option>Select</option>
-              {shift.map((period) => {
-                return (
-                  <option key={period} value={period}>
-                    {period}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-
-          <button className=" bg-[#2c2c2c] hover:bg-[#716acd] p-2 rounded-md md:w-auto w-full text-white font-bold cursor-pointer">Submit</button>
-        </form>
+      {/* loading screen */}
+      <div className={`col-span-2 bg-red-100 ${isloading ? "box" : "hidden"}`}>
+        {/* toggle button */}
+        {`Loading....`}
+        <button
+          onClick={() => {
+            SetIsLoading(!isloading);
+            setShowData(!showData);
+            setIsReady(!isReady);
+          }}>
+          Click me 2
+        </button>
       </div>
 
-      {console.log(year)}
-      {console.log(month)}
-      {console.log(day)}
+      {/* //////////////////////////////////////// */}
+      {/* data is shown here after user enter the company name and submit*/}
+      <div className={`col-span-2 bg-red-100 ${showData && !isloading ? "box" : "hidden"} `}>
+        <div>
+          {/* back button */}
+          <button
+            onClick={() => {
+              setShowData(!showData);
+              setSelectedCompanyName("");
+              setSelectedDay(null);
+            }}
+            className=" flex gap-1 items-center cursor-pointer font-bold mb-2">
+            <FaArrowLeft /> {" Back"}
+          </button>
+
+          <h2 className="text-lg font-bold mb-5">
+            {selectedCompanyName} Schedule . {` ${selectedMonth} - ${selectedYear} `}
+          </h2>
+
+          <NumberLine
+            month={selectedMonth}
+            onSelectDay={(day) => {
+              setSelectedDay(day);
+            }}
+          />
+
+          {/* toggle button */}
+        </div>
+        <div>{selectedDay}</div> {/* this line is need to be removed later */}
+        <div className="my-10 overflow-x-auto">
+          {sampleDuties.map((sheet) => (
+            <table
+              className="table-auto w-full border-collapse border border-gray-400"
+              key={selectedDay}>
+              <thead className="bg-gray-200">
+                <tr>
+                  <th className="p-2 border border-gray-300">Position</th>
+                  <th className="p-2 border border-gray-300">Employee</th>
+                  <th className="p-2 border border-gray-300">Start</th>
+                  <th className="p-2 border border-gray-300">Shift</th>
+                  <th className="p-2 border border-gray-300">Remark</th>
+                  <th className="p-2 border border-gray-300"></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {sheet.duties.map((duty, dindex) => (
+                  <tr
+                    key={dindex}
+                    className={`${duty.day == (selectedDay || 1) ? "box" : "hidden"}
+                    `} //this is for attendance viewing area
+                  >
+                    <td className="p-2 border border-gray-300">
+                      <input type="text" name="position" value={duty.employee.position} readOnly />
+                    </td>
+
+                    <td className="p-2 border border-gray-300">
+                      <select
+                        className="bg-blue-100 px-2 w-full"
+                        type="text"
+                        onChange={formChangeHandler}>
+                        <option>Select</option>
+                        {employeelist.map((employee) => (
+                          <option
+                            key={employee._id}
+                            value={employee.name}
+                            className={`${
+                              employee.position == duty.employee.position ? "block" : "hidden"
+                            }`}>
+                            {employee.name}
+                          </option>
+                        ))}
+                        {/* this above conditions duty.employee.position need to change as the position that ask by company */}
+                      </select>
+                    </td>
+
+                    <td className="p-2 border border-gray-300">
+                      <select
+                        className="bg-blue-100 px-2 w-full"
+                        type="text"
+                        onChange={formChangeHandler}>
+                        <option>Select</option>
+                        <option value={12}>{"12"}</option>
+                        <option value={24}>{"24"}</option>
+                      </select>
+                    </td>
+
+                    <td className="p-2 border border-gray-300">
+                      <select
+                        className="bg-blue-100 px-2 w-full"
+                        type="text"
+                        onChange={formChangeHandler}>
+                        <option>Select</option>
+                        <option value={12}>8am</option>
+                        <option value={24}>6pm</option>
+                      </select>
+                    </td>
+
+                    <td className="p-2 border border-gray-300">
+                      <input
+                        className="bg-blue-100 px-2 w-full"
+                        type="text"
+                        value={duty.remark}
+                        onChange={formChangeHandler}
+                      />
+                    </td>
+
+                    <td className="p-2 border border-gray-300">
+                      <button className="bg-green-300 p-1 w-full cursor-pointer">Add</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ))}
+        </div>
+      </div>
+
+      {/* right side */}
+      <div className={`bg-gray-200 ${showData ? "block" : "hidden"} `}>
+        <SideCalandeBar
+          showData={showData}
+          companylist={companylist}
+          selectedCompanyName={selectedCompanyName}
+          setDateValue={setDateValue}
+          dateValue={dateValue}
+        />
+      </div>
     </div>
   );
-}
+};
 
 export default Schedule;
 
-//backend is need to be implimented
+//to get list of companies and employees to choose them on list to assign
+//http://localhost:5000/api/company/getCompanyList
+//http://localhost:5000/api/employee/employeeList
+//need to print the schedule

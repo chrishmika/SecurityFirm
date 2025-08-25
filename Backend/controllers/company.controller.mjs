@@ -72,4 +72,14 @@ export const updateCompany = async (req, res) => {
   }
 };
 
+export const getCompanyList = async (req, res) => {
+  try {
+    const companies = await Company.find({}, "name count");
+    res.status(200).json(companies);
+  } catch (error) {
+    console.log(`error in getCompanyList ${error.message}`);
+    return res.status(500).json({ error: `internal server error on Company controller` });
+  }
+};
+
 //cloudinary function userd

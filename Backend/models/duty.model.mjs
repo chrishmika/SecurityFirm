@@ -16,7 +16,20 @@ const dutySchema = new mongoose.Schema(
     month: {
       type: String,
       required: true,
-      enum: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
+      enum: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "Octomber",
+        "November",
+        "December",
+      ],
     },
     duties: [
       {
