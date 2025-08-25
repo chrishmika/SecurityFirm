@@ -11,7 +11,7 @@ const AddCompany = () => {
   const [company, setCompany] = useState();
   const [employee, setEmployee] = useState();
   const [namesData, setNamesData] = useState();
-  const [specifiicData, setSpecificData] = useState();
+  const [specificData, setSpecificData] = useState();
   const [selected, setSelected] = useState();
 
   // at start it takes data about employees
@@ -40,13 +40,12 @@ const AddCompany = () => {
     getNames();
   }, [choice]);
 
-  console.log("data1", namesData);
+  console.log("list of name list", namesData);
 
   const handelSelectedId = (e) => {
     e.preventDefault();
     setSelected(e.target.value);
-    console.log("sellected");
-    console.log(selected, "sellected");
+    console.log(selected, "sellected id ");
   };
 
   const handelChangeCompany = async (e) => {
@@ -61,7 +60,7 @@ const AddCompany = () => {
   const submitHandeler = async (e) => {
     e.preventDefault();
     try {
-      console.log("selected id", selected);
+      console.log("selected id 2", selected);
 
       const response = await axios.post(
         `http://localhost:5000/api/${choice ? "company" : "employee"}/${selected}`,
@@ -70,16 +69,20 @@ const AddCompany = () => {
           withCredentials: true,
         }
       );
+      console.log("specific data", response.data);
 
-      if (!choice) {
-        setSpecificData(response.data.employees);
-      } else {
+      if (choice) {
         setSpecificData(response.data.company);
+        console.log("copany");
+      } else {
+        setSpecificData(response.data.employee);
+        console.log("employe");
       }
     } catch (error) {
       console.log(error);
     }
-    // console.log("specific", specifiicData); //remove this
+
+    // console.log("specific", specificData); //remove this
   };
 
   return (
@@ -135,9 +138,9 @@ const AddCompany = () => {
       <div>
         {/* need to add company view sheet */}
         {choice ? (
-          <CompanyDataView data={specifiicData} />
+          <CompanyDataView data={specificData} />
         ) : (
-          <EmployeeDataView data={specifiicData} />
+          <EmployeeDataView data={specificData} />
         )}
       </div>
     </div>

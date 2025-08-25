@@ -7,6 +7,8 @@ const EmployeeDataView = ({ data }) => {
     { label: "File 2", url: "/files/image2.png" },
     { label: "File 3", url: "/files/document3.docx" },
   ];
+
+  console.log("employeedata data side");
   console.log("employeedata", data);
 
   return (
@@ -54,8 +56,8 @@ const EmployeeDataView = ({ data }) => {
       {/* Middle Column */}
       <section className="w-1/3 p-4 space-y-6 overflow-hidden">
         <header>
-          <h1 className="text-2xl font-bold text-blue-900">Shehan Krismika</h1>
-          <p className="text-gray-600">Security Officer</p>
+          <h1 className="text-2xl font-bold text-blue-900">{data?.name}</h1>
+          <p className="text-gray-600">{data?.position}</p>
         </header>
 
         {/* EXPERIENCE */}
