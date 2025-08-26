@@ -36,19 +36,19 @@ const EmployeeDataView = ({ data }) => {
             <Info label="Gender" value={data?.sex} />
 
             <div className="flex gap-6">
-              <Info label="ETF" value="sp5645" />
-              <Info label="EPF" value="pt45485" />
+              <Info label="ETF" value={data?.ETF} />
+              <Info label="EPF" value={data?.EPF} />
             </div>
 
-            <Info label="Birthday" value="2001/09/25" />
-            <Info label="Address" value="Angoda road, Gampaha" />
+            <Info label="Birthday" value={data?.birthday} />
+            <Info label="Address" value={data?.address} />
 
             <div className="flex gap-6">
-              <Info label="Contact 1" value="+94 123456789" />
-              <Info label="Contact 2" value="+94 987654321" />
+              <Info label="Contact 1" value={data?.contact1} />
+              <Info label="Contact 2" value={data?.contact2} />
             </div>
 
-            <Info label="Citizenship" value="Sri Lankan" />
+            <Info label="Citizenship" value={data?.citizenship} />
           </div>
         </div>
       </aside>
