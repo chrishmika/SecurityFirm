@@ -5,18 +5,18 @@
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
-  /* font-weight: <weight>; */
 }
 
-/* :root {
-  color: black;
-  background-color: white;
+/* to remove the downheaded arrow in input datalists */
+/* Only affect inputs with .no-arrow */
+
+/* Chrome, Edge, Safari */
+.no-arrow::-webkit-calendar-picker-indicator {
+  display: none !important;
+  -webkit-appearance: none;
 }
 
-body {
-  margin: 0;
-  padding: 2rem;
-  min-width: 320px;
-  min-height: 100vh;
-  background-color: var(--surface-card);
-} */
+/* firefox */
+.no-arrow::-moz-list-dropdown {
+  display: none !important;
+}

@@ -1,0 +1,100 @@
+{
+  "services": [
+    {
+      "title": "Unarmed Security Guards",
+      "description": "Trained personnel who provide surveillance, access control, and patrolling to prevent theft, vandalism, and unauthorized entry"
+    },
+    {
+      "title": "Armed Security Guards",
+      "description": "Licensed professionals equipped with firearms for high-risk environments like banks, jewelry stores, and VIP protection"
+    },
+    {
+      "title": "Event Security Services",
+      "description": "Specialized security for events, including crowd management, access control, and emergency response to ensure safety and order"
+    },
+    {
+      "title": "Corporate Security Services",
+      "description": "Comprehensive security solutions for businesses, including risk assessment, surveillance systems, and employee safety protocols"
+    },
+    {
+      "title": "Industrial & Warehouse Security",
+      "description": "Security services tailored for industrial sites and warehouses, focusing on asset protection, inventory control, and safety compliance"
+    },
+    {
+      "title": "Residential Security Services",
+      "description": "Security solutions for residential areas, including neighborhood watch programs, patrols, and alarm systems to enhance community safety"
+    },
+    {
+      "title": "VIP & Executive Protection",
+      "description": "Personalized security for high-profile individuals, including bodyguards, secure transportation, and risk management to ensure personal safety"
+    },
+    {
+      "title": "Bank & Financial Institution Security",
+      "description": "Specialized security for banks and financial institutions, focusing on cash handling, fraud prevention, and emergency response protocols"
+    },
+    {
+      "title": "CCTV & Surveillance Monitoring",
+      "description": "Installation and monitoring of CCTV systems to enhance security, deter crime, and provide real-time surveillance for various environments"
+    },
+    {
+      "title": "Mobile Patrol Services",
+      "description": "Regular patrols by security personnel in marked vehicles to deter crime, provide a visible security presence, and respond to incidents"
+    },
+    {
+      "title": "Industrial & Construction Site Security",
+      "description": "Security services for industrial and construction sites, focusing on asset protection, site access control, and safety compliance"
+    },
+    {
+      "title": "Cash-in-Transit (CIT) Services",
+      "description": "Secure transportation of cash and valuables, including armored vehicles and trained personnel to ensure safe delivery"
+    }
+  ],
+  "clients": [
+    {
+      "name": "Client 1",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
+      "logo":"https://th.bing.com/th/id/R.35720bbf29a0f0f1d48195bafdbedf7a?rik=1ArMFF%2fGA8AK1g&riu=http%3a%2f%2fshmector.com%2f_ph%2f13%2f188552034.png&ehk=4W3VAJ3Rgszg4unVrkViPToNE%2b15%2bt3SxRm%2b2VYCdIk%3d&risl=&pid=ImgRaw&r=0",
+      "alt":"Client 1 Logo"
+    },{
+      "name": "Client 2",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
+      "logo":"https://th.bing.com/th/id/R.35720bbf29a0f0f1d48195bafdbedf7a?rik=1ArMFF%2fGA8AK1g&riu=http%3a%2f%2fshmector.com%2f_ph%2f13%2f188552034.png&ehk=4W3VAJ3Rgszg4unVrkViPToNE%2b15%2bt3SxRm%2b2VYCdIk%3d&risl=&pid=ImgRaw&r=0",
+      "alt":"Client 1 Logo"
+    },{
+      "name": "Client 3",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
+      "logo":"https://th.bing.com/th/id/R.35720bbf29a0f0f1d48195bafdbedf7a?rik=1ArMFF%2fGA8AK1g&riu=http%3a%2f%2fshmector.com%2f_ph%2f13%2f188552034.png&ehk=4W3VAJ3Rgszg4unVrkViPToNE%2b15%2bt3SxRm%2b2VYCdIk%3d&risl=&pid=ImgRaw&r=0",
+      "alt":"Client 1 Logo"
+    },{
+      "name": "Client 4",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
+      "logo":"https://th.bing.com/th/id/R.35720bbf29a0f0f1d48195bafdbedf7a?rik=1ArMFF%2fGA8AK1g&riu=http%3a%2f%2fshmector.com%2f_ph%2f13%2f188552034.png&ehk=4W3VAJ3Rgszg4unVrkViPToNE%2b15%2bt3SxRm%2b2VYCdIk%3d&risl=&pid=ImgRaw&r=0",
+      "alt":"Client 1 Logo"
+    },{
+      "name": "Client 5",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
+      "logo":"https://th.bing.com/th/id/R.35720bbf29a0f0f1d48195bafdbedf7a?rik=1ArMFF%2fGA8AK1g&riu=http%3a%2f%2fshmector.com%2f_ph%2f13%2f188552034.png&ehk=4W3VAJ3Rgszg4unVrkViPToNE%2b15%2bt3SxRm%2b2VYCdIk%3d&risl=&pid=ImgRaw&r=0",
+      "alt":"Client 1 Logo"
+    },{
+      "name": "Client 6",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
+      "logo":"https://th.bing.com/th/id/R.35720bbf29a0f0f1d48195bafdbedf7a?rik=1ArMFF%2fGA8AK1g&riu=http%3a%2f%2fshmector.com%2f_ph%2f13%2f188552034.png&ehk=4W3VAJ3Rgszg4unVrkViPToNE%2b15%2bt3SxRm%2b2VYCdIk%3d&risl=&pid=ImgRaw&r=0",
+      "alt":"Client 1 Logo"
+    },{
+      "name": "Client 8",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
+      "logo":"https://th.bing.com/th/id/R.35720bbf29a0f0f1d48195bafdbedf7a?rik=1ArMFF%2fGA8AK1g&riu=http%3a%2f%2fshmector.com%2f_ph%2f13%2f188552034.png&ehk=4W3VAJ3Rgszg4unVrkViPToNE%2b15%2bt3SxRm%2b2VYCdIk%3d&risl=&pid=ImgRaw&r=0",
+      "alt":"Client 1 Logo"
+    },{
+      "name": "Client 9",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
+      "logo":"https://th.bing.com/th/id/R.35720bbf29a0f0f1d48195bafdbedf7a?rik=1ArMFF%2fGA8AK1g&riu=http%3a%2f%2fshmector.com%2f_ph%2f13%2f188552034.png&ehk=4W3VAJ3Rgszg4unVrkViPToNE%2b15%2bt3SxRm%2b2VYCdIk%3d&risl=&pid=ImgRaw&r=0",
+      "alt":"Client 1 Logo"
+    },{
+      "name": "Client 10",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
+      "logo":"https://th.bing.com/th/id/R.35720bbf29a0f0f1d48195bafdbedf7a?rik=1ArMFF%2fGA8AK1g&riu=http%3a%2f%2fshmector.com%2f_ph%2f13%2f188552034.png&ehk=4W3VAJ3Rgszg4unVrkViPToNE%2b15%2bt3SxRm%2b2VYCdIk%3d&risl=&pid=ImgRaw&r=0",
+      "alt":"Client 1 Logo"
+    }
+  ]
+}

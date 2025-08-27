@@ -1,18 +1,22 @@
-import { useState, useEffect, isValidElement } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 import { FaToggleOff, FaToggleOn } from "react-icons/fa6";
+import { RiCloseFill } from "react-icons/ri";
 
 import EmployeeDataView from "./Cards/DataViewForms/EmployeeDataView";
 import CompanyDataView from "./Cards/DataViewForms/CompanyDataView";
+import { toast } from "react-toastify";
 
 const AddCompany = () => {
   const [choice, setChoice] = useState(false);
-  const [company, setCompany] = useState();
-  const [employee, setEmployee] = useState();
+  // const [company, setCompany] = useState();
+  // const [employee, setEmployee] = useState();
   const [namesData, setNamesData] = useState();
   const [specificData, setSpecificData] = useState();
   const [selected, setSelected] = useState();
+  const [nameToFind, setNameToFind] = useState();
+  const [isDataFetched, setIsDataFetched] = useState(false);
 
   // at start it takes data about employees
   useEffect(() => {
@@ -44,24 +48,21 @@ const AddCompany = () => {
 
   const handelSelectedId = (e) => {
     e.preventDefault();
-    setSelected(e.target.value);
-    console.log(selected, "sellected id ");
-  };
+    try {
+      setNameToFind(e.target.value);
 
-  const handelChangeCompany = async (e) => {
-    setCompany(e.target.value);
-  };
-
-  const handelChangeEmployee = (e) => {
-    setEmployee(e.target.value);
+      const employee = namesData.find((emp) => emp.name == e.target.value);
+      setSelected(employee._id);
+    } catch {
+      console.log("cannot find id for this");
+    }
   };
 
   // take data from database --------------
   const submitHandeler = async (e) => {
     e.preventDefault();
     try {
-      console.log("selected id 2", selected);
-
+      setIsDataFetched(false);
       const response = await axios.post(
         `http://localhost:5000/api/${choice ? "company" : "employee"}/${selected}`,
         {},
@@ -69,20 +70,17 @@ const AddCompany = () => {
           withCredentials: true,
         }
       );
-      console.log("specific data", response.data);
 
       if (choice) {
         setSpecificData(response.data.company);
-        console.log("copany");
       } else {
         setSpecificData(response.data.employee);
-        console.log("employe");
       }
+      setIsDataFetched(true);
     } catch (error) {
       console.log(error);
+      toast.error("No data found");
     }
-
-    // console.log("specific", specificData); //remove this
   };
 
   return (
@@ -94,6 +92,9 @@ const AddCompany = () => {
             className="text-4xl flex justify-items-start"
             onClick={() => {
               setChoice(!choice);
+              setSpecificData(null);
+              setIsDataFetched(false);
+              setNameToFind("");
             }}>
             {choice ? <FaToggleOn /> : <FaToggleOff />}
           </span>
@@ -103,45 +104,61 @@ const AddCompany = () => {
 
         <div className="pr-4 ">
           <form className="flex gap-2 flex-wrap  " onSubmit={submitHandeler}>
-            {/* <input
-              type="text"
-              onChange={choice ? handelChangeCompany : handelChangeEmployee}
-              value={choice ? company : employee}
-              name={choice ? "Company" : "Employee"}
-              placeholder={choice ? "Enter Company" : "Enter Employee"}
-              className="px-3 border-2 rounded-2xl"
-            /> */}
-            {/* typing suggestns are the best in here */}
+            <div className="relative w-64">
+              {/* Search Input */}
+              <input
+                onChange={handelSelectedId}
+                className="px-3 pr-10 border-2 rounded-2xl focus:outline-none w-full appearance-none hover:border-gray-900 border-gray-400 no-arrow"
+                list="searchList"
+                placeholder={choice ? " Company Name" : " Employee Name"}
+                name={choice ? "Company" : "Employee"}
+                value={nameToFind}
+              />
 
-            <select
-              type="text"
-              // onChange={choice ? handelChangeCompany : handelChangeEmployee}
-              onChange={handelSelectedId}
-              value={choice ? company : employee}
-              name={choice ? "Company" : "Employee"}
-              placeholder={choice ? "Enter Company" : "Enter Employee"}
-              className="px-3 border-2 rounded-2xl">
-              {namesData?.map((names) => (
-                <option value={names._id} key={names._id}>
-                  {names.name}
-                </option>
-              ))}
-            </select>
+              {/* Reset (X) Button Inside Input */}
+              {nameToFind && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setNameToFind("");
+                    setSelected(null);
+                  }}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-red-500 font-bold">
+                  <RiCloseFill />
+                </button>
+              )}
 
-            <button className="cursor-pointer border-2 rounded-2xl w-20">Search</button>
+              {/* Datalist */}
+              <datalist id="searchList">
+                {namesData?.map((names) => (
+                  <option value={names.name} key={names._id} />
+                ))}
+              </datalist>
+            </div>
+
+            {/* Search Button */}
+            <button className="cursor-pointer border-2 rounded-2xl w-20 ml-2">Search</button>
           </form>
         </div>
       </div>
 
       {/* data viewing area */}
-
       <div>
-        {/* need to add company view sheet */}
-        {choice ? (
-          <CompanyDataView data={specificData} />
-        ) : (
-          <EmployeeDataView data={specificData} />
-        )}
+        <div className={isDataFetched ? "" : "hidden"}>
+          {/* need to add company view sheet */}
+          {choice ? (
+            <CompanyDataView data={specificData} />
+          ) : (
+            <EmployeeDataView data={specificData} />
+          )}
+        </div>
+
+        <div
+          className={`flex justify-center items-center h-[70vh] w-full overflow-hidden ${
+            !isDataFetched ? "" : "hidden"
+          }`}>
+          <span className=""> Search For details</span>
+        </div>
       </div>
     </div>
   );

@@ -3,37 +3,45 @@
 ## How to Run the Project
 
 ### Step 1: Install Dependencies
+
 ```bash
 git clone https://github.com/chrishmika/SecurityFirm.git
-```
-
-### Step 2: Go Into The Repository
-
-```bash
 cd SecurityFirm
 ```
 
-### Step 3: Install Dependencies For backend
-Run the following command in all folders to install the required Node modules:
+### Step 2: Install Dependencies and Run Backend
+
+Run the following commands on root directory:
+
 ```bash
 npm install
-```
-
-### Step 4: Install Dependencies For Frontend Admin Panel
-Run the following command in all folders to install the required Node modules:
-```bash
-cd frontend/admin
-npm install
-```
-
-### Step 5: Start the Development Servers
-#### For Client and Server:
-```bash
 npm run dev
 ```
 
-#### For Mobile Application:
+### Step 3: Install Dependencies for Admin pannel
+
+Run the following command in new terminal:
+
 ```bash
+cd Frontend/Admin
+npm install
+npm run dev
+```
+
+### Step 4: Start the website 
+
+Run the following command in new terminal:
+
+```bash
+cd Frontend/website
+npm install
+npm run dev
+```
+
+### Step 5: Start the Mobile app Development Servers
+
+```bash
+cd Frontend/Mobile
 npm install
 npx expo start
 ```

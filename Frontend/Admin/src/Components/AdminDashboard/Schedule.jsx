@@ -191,23 +191,30 @@ const Schedule = () => {
                     </td>
 
                     <td className="p-2 border border-gray-300">
-                      <select
-                        className="bg-blue-100 px-2 w-full"
-                        type="text"
-                        onChange={formChangeHandler}>
-                        <option>Select</option>
-                        {employeelist.map((employee) => (
+                      <input
+                        list="dataScheduleNames"
+                        onChange={formChangeHandler}
+                        className={`bg-blue-100 px-2 w-full no-arrow `}
+                      />
+
+                      <datalist id="dataScheduleNames">
+                        {/* {employeelist.map((employee) => (
                           <option
                             key={employee._id}
                             value={employee.name}
                             className={`${
                               employee.position == duty.employee.position ? "block" : "hidden"
-                            }`}>
-                            {employee.name}
-                          </option>
-                        ))}
+                            }`}
+                          />
+                          // need to check issues in data list
+                        ))} */}
+                        {employeelist
+                          .filter((employee) => employee.position === duty.employee.position) // replace requiredPosition accordingly
+                          .map((employee) => (
+                            <option key={employee._id} value={employee.name} />
+                          ))}
                         {/* this above conditions duty.employee.position need to change as the position that ask by company */}
-                      </select>
+                      </datalist>
                     </td>
 
                     <td className="p-2 border border-gray-300">
