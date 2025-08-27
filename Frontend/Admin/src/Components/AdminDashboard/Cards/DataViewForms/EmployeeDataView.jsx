@@ -135,6 +135,12 @@ const EmployeeDataView = ({ data }) => {
               })}
             </ul>
           </section>
+
+          <div className="flex justify-end mt-10 ">
+            <button className="rounded-lg text-white hover:cursor-pointer hover:bg-pink-600 py-2 px-4 bg-pink-400 ">
+              Print
+            </button>
+          </div>
         </section>
       </aside>
     </main>

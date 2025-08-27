@@ -108,7 +108,7 @@ const AddCompany = () => {
               {/* Search Input */}
               <input
                 onChange={handelSelectedId}
-                className="px-3 pr-10 border-2 rounded-2xl focus:outline-none w-full appearance-none no-arrow"
+                className="px-3 pr-10 border-2 rounded-2xl focus:outline-none w-full appearance-none hover:border-gray-900 border-gray-400 no-arrow"
                 list="searchList"
                 placeholder={choice ? " Company Name" : " Employee Name"}
                 name={choice ? "Company" : "Employee"}

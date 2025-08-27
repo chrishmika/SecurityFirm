@@ -10,7 +10,7 @@ const CompanyDataView = ({ data }) => {
   ];
 
   return (
-    <main className="flex sm:flex-row flex-col  justify-center gap-55 p-4 bg-white text-sm text-gray-800 font-medium h-full">
+    <main className="flex sm:flex-row flex-col  justify-center sm:gap-55 p-4 bg-white text-sm text-gray-800 font-medium h-full">
       {/* Left Column */}
       <aside className="flex flex-col items-start p-2 space-y-4 overflow-hidden">
         <div className="w-full max-w-[280px] text-left">
@@ -38,21 +38,20 @@ const CompanyDataView = ({ data }) => {
               <Info label="Longitudes" value={data?.longitude || "none"} />
               <Info label="Latitudes" value={data?.latitude || "none"} />
             </div>
+            {/* Contract period */}
+            <div>
+              <h2 className="text-sm font-semibold mb-2">Contract period</h2>
+              <div className="flex gap-6">
+                <Info label="From" value={data?.contractPeriod[0]?.from || "none"} />
+                <Info label="To" value={data?.contractPeriod[0]?.to || "none"} />
+              </div>
+            </div>
           </div>
         </div>
       </aside>
 
       {/* Right Column (Middle + Right Combined) */}
       <section className="flex flex-col p-4 space-y-6 overflow-hidden">
-        {/* Contract period */}
-        <div>
-          <h2 className="text-sm font-semibold mb-2">Contract period</h2>
-          <div className="flex gap-6">
-            <Info label="From" value={data?.contractPeriod[0]?.from || "none"} />
-            <Info label="To" value={data?.contractPeriod[0]?.to || "none"} />
-          </div>
-        </div>
-
         {/* Requirement Count  */}
         <div>
           <h2 className="text-sm font-semibold mb-2">Requirement Count</h2>
@@ -128,6 +127,11 @@ const CompanyDataView = ({ data }) => {
               );
             })}
           </ul>
+        </div>
+        <div className="flex justify-end mt-4 ">
+          <button className="rounded-lg text-white hover:cursor-pointer hover:bg-pink-600 py-2 px-4 bg-pink-400 ">
+            Print
+          </button>
         </div>
       </section>
     </main>
