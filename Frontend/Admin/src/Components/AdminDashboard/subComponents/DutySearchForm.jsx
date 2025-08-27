@@ -36,7 +36,6 @@ const DutySearchForm = ({
             value={selectedCompanyName}
           />
           <datalist id="searchCompany">
-            <option>Select</option>
             {Array.isArray(companylist) &&
               companylist.map((company) => <option key={company._id} value={company.name} />)}
           </datalist>

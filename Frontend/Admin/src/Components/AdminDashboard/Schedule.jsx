@@ -194,12 +194,11 @@ const Schedule = () => {
                       <input
                         list="dataScheduleNames"
                         onChange={formChangeHandler}
-                        className="bg-blue-100 px-2 w-full"
+                        className={`bg-blue-100 px-2 w-full `}
                       />
 
                       <datalist id="dataScheduleNames">
-                        <option>Select</option>
-                        {employeelist.map((employee) => (
+                        {/* {employeelist.map((employee) => (
                           <option
                             key={employee._id}
                             value={employee.name}
@@ -208,7 +207,12 @@ const Schedule = () => {
                             }`}
                           />
                           // need to check issues in data list
-                        ))}
+                        ))} */}
+                        {employeelist
+                          .filter((employee) => employee.position === duty.employee.position) // replace requiredPosition accordingly
+                          .map((employee) => (
+                            <option key={employee._id} value={employee.name} />
+                          ))}
                         {/* this above conditions duty.employee.position need to change as the position that ask by company */}
                       </datalist>
                     </td>

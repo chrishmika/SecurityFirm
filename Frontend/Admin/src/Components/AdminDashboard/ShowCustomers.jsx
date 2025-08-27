@@ -1,4 +1,4 @@
-import { useState, useEffect, isValidElement } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 import { FaToggleOff, FaToggleOn } from "react-icons/fa6";
@@ -82,8 +82,6 @@ const AddCompany = () => {
     } catch (error) {
       console.log(error);
     }
-
-    // console.log("specific", specificData); //remove this
   };
 
   return (
@@ -104,21 +102,11 @@ const AddCompany = () => {
 
         <div className="pr-4 ">
           <form className="flex gap-2 flex-wrap  " onSubmit={submitHandeler}>
-            {/* <input
-              type="text"
-              onChange={choice ? handelChangeCompany : handelChangeEmployee}
-              value={choice ? company : employee}
-              name={choice ? "Company" : "Employee"}
-              placeholder={choice ? "Enter Company" : "Enter Employee"}
-              className="px-3 border-2 rounded-2xl"
-            /> */}
-            {/* typing suggestns are the best in here */}
-
             <input
               onChange={handelSelectedId}
-              className="px-3 border-2 rounded-2xl"
+              className={`px-3 border-2 rounded-2xl focus:outline-none`}
               list="searchList"
-              placeholder={choice ? "Enter Company" : "Enter Employee"}
+              placeholder={choice ? " Company Name" : " Employee Name"}
               name={choice ? "Company" : "Employee"}
             />
             <datalist
