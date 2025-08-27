@@ -26,20 +26,20 @@ const DutySearchForm = ({
 
         <div className="flex flex-col gap-1">
           <label>Company</label>
-          <select
+
+          <input
+            list="searchCompany"
             name="companyName"
             className="outline-1 w-fill rounded-md px-4 h-10"
             placeholder="Enter Data"
+            onChange={changeHandler}
             value={selectedCompanyName}
-            onChange={changeHandler}>
+          />
+          <datalist id="searchCompany">
             <option>Select</option>
             {Array.isArray(companylist) &&
-              companylist.map((company) => (
-                <option key={company._id} value={company.name}>
-                  {company.name}
-                </option>
-              ))}
-          </select>
+              companylist.map((company) => <option key={company._id} value={company.name} />)}
+          </datalist>
         </div>
 
         <div className="flex gap-1">

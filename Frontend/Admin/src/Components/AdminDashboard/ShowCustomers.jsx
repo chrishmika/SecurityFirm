@@ -44,8 +44,9 @@ const AddCompany = () => {
 
   const handelSelectedId = (e) => {
     e.preventDefault();
-    setSelected(e.target.value);
-    console.log(selected, "sellected id ");
+    const name = e.target.value;
+    const employee = namesData.find((emp) => emp.name == name);
+    setSelected(employee._id);
   };
 
   const handelChangeCompany = async (e) => {
@@ -113,20 +114,22 @@ const AddCompany = () => {
             /> */}
             {/* typing suggestns are the best in here */}
 
-            <select
-              type="text"
-              // onChange={choice ? handelChangeCompany : handelChangeEmployee}
+            <input
               onChange={handelSelectedId}
-              value={choice ? company : employee}
-              name={choice ? "Company" : "Employee"}
+              className="px-3 border-2 rounded-2xl"
+              list="searchList"
               placeholder={choice ? "Enter Company" : "Enter Employee"}
-              className="px-3 border-2 rounded-2xl">
+              name={choice ? "Company" : "Employee"}
+            />
+            <datalist
+              id="searchList"
+              // onChange={choice ? handelChangeCompany : handelChangeEmployee}
+              // onChange={handelSelectedId}
+              value={choice ? company : employee}>
               {namesData?.map((names) => (
-                <option value={names._id} key={names._id}>
-                  {names.name}
-                </option>
+                <option value={names.name} key={names._id} />
               ))}
-            </select>
+            </datalist>
 
             <button className="cursor-pointer border-2 rounded-2xl w-20">Search</button>
           </form>

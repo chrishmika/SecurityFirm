@@ -3,13 +3,10 @@ import profilePic from "../../../../assets/boy1.png";
 
 const EmployeeDataView = ({ data }) => {
   const files = [
-    { label: "File 1", url: "/files/file1.pdf" },
-    { label: "File 2", url: "/files/image2.png" },
-    { label: "File 3", url: "/files/document3.docx" },
+    { label: "CV", url: data?.cv },
+    { label: "GS", url: data?.gsCertificate },
+    { label: "NIC Copy", url: data?.NICCopy },
   ];
-
-  console.log("employeedata data side");
-  console.log("employeedata", data);
 
   return (
     <main className="flex h-screen bg-white p-4 gap-2 text-sm text-gray-800 font-medium">
@@ -17,38 +14,40 @@ const EmployeeDataView = ({ data }) => {
       <aside className="w-1/3 flex flex-col items-end p-2 space-y-4 overflow-hidden">
         <div className="w-full max-w-[280px] text-left">
           <img
-            src={profilePic}
-            alt="Profile of Shehan Krismika"
+            src={data?.img || profilePic}
+            alt={`profile pic`}
             className="w-28 h-28 rounded-full object-cover border-2 border-blue-500 shadow mb-4"
           />
 
           <address className="not-italic space-y-1 mb-4">
-            <p>hi@gmail.com</p>
-            <p>+94 123456789</p>
-            <p>Colombo</p>
+            <p>{data?.email}</p>
+            <p>{data?.contact1}</p>
+            {/* ?<p>Colombo</p> */}
           </address>
 
           <div className="space-y-4 w-full">
-            <Info label="Employee Number" value="EP656565" />
-            <Info label="Full Name" value="Shehan Krismika" />
-            <Info label="Name with Initials" value="P. P Shehan Krismika" />
-            <Info label="NIC" value="200018701528" />
-            <Info label="Gender" value="Male" />
+            <Info label="Employee Number" value={data?.empId} />
+            <Info label="Full Name" value={data?.name} />
+            <Info label="Name with Initials" value={data?.initials} />
+            <Info label="NIC" value={data?.NIC} />
+            <Info label="Gender" value={data?.sex} />
 
             <div className="flex gap-6">
-              <Info label="ETF" value="sp5645" />
-              <Info label="EPF" value="pt45485" />
+              <Info label="ETF" value={data?.ETF} />
+              <Info label="EPF" value={data?.EPF} />
             </div>
 
-            <Info label="Birthday" value="2001/09/25" />
-            <Info label="Address" value="Angoda road, Gampaha" />
+            <Info label="Birthday" value={data?.birthday} />
+            <Info label="Address" value={data?.address} />
 
             <div className="flex gap-6">
-              <Info label="Contact 1" value="+94 123456789" />
-              <Info label="Contact 2" value="+94 987654321" />
+              <Info label="Contact 1" value={data?.contact1} />
+              <Info label="Contact 2" value={data?.contact2} />
             </div>
 
-            <Info label="Citizenship" value="Sri Lankan" />
+            <Info label="Basic Salary" value={`Rs.${data?.basicSalary}`} />
+            <Info label="Citizenship" value={data?.citizenship} />
+            <Info label="Nationality" value={data?.nationality} />
           </div>
         </div>
       </aside>
@@ -63,31 +62,16 @@ const EmployeeDataView = ({ data }) => {
         {/* EXPERIENCE */}
         <section>
           <h2 className="text-sm font-semibold mb-2">EXPERIENCE</h2>
-
-          <Detail
-            title="Military"
-            content="Served in the armed forces for several years with experience in field operations, security coordination, and discipline under high-pressure environments."
-          />
-
-          <Detail
-            title="Gun Handling"
-            content="Proficient in safe and effective use of firearms including rifles and handguns. Trained in tactical positioning, target identification, and controlled response."
-          />
+          <Detail title="Military" content={data?.militaryDescription} />
+          <Detail title="Special Abilities" content={data?.specialAbilities} />
         </section>
 
         {/* SPECIAL DETAILS */}
         <section>
           <h2 className="text-sm font-semibold mb-2">SPECIAL DETAILS</h2>
 
-          <Detail
-            title="Disabilities"
-            content="No physical or mental disabilities reported. Fully fit for duty and capable of performing physical tasks required in high-security roles."
-          />
-
-          <Detail
-            title="Description"
-            content="Dedicated and disciplined professional with a strong background in military operations, threat assessment, and team coordination. Committed to ensuring safety, security, and reliability in all tasks assigned."
-          />
+          <Detail title="Disabilities" content={data?.disabilities} />
+          <Detail title="Description" content={data?.description} />
         </section>
       </section>
 
@@ -97,24 +81,22 @@ const EmployeeDataView = ({ data }) => {
           <h2 className="text-sm font-semibold">EMERGENCY</h2>
 
           <div className="mt-12 space-y-6">
-            <Info label="Name" value="Asanka Kavinda" />
-            <Info label="Address" value="No 938/35 KKS road, Jaffna" />
-            <Info label="Contacts" value="+94 456123789" />
+            <Info label="Name" value={data?.emergancey[0].name} />
+            <Info label="Address" value={data?.emergancey[0].address} />
+            <Info label="Contacts" value={data?.emergancey[0].contact} />
           </div>
 
           {/* Uploaded Files Section */}
           <section className="mt-10">
             <h3 className="text-sm font-semibold mb-4">Files</h3>
 
-            <ul className="flex gap-8 text-gray-700">
+            {/* <ul className="flex gap-8 text-gray-700">
               {files.map((file) => (
                 <li key={file.label} className="flex flex-col items-center">
                   <a
-                    href={file.url}
-                    download
-                    className="flex flex-col items-center text-blue-600 hover:underline"
-                    target="_blank"
-                    rel="noopener noreferrer">
+                    href={file?.url ? file.url.replace("/upload/", "/upload/fl_attachment/") : "#"}
+                    download={file?.label}
+                    className="flex flex-col items-center text-blue-600 hover:underline">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-10 w-10 mb-1 flex-shrink-0"
@@ -128,10 +110,50 @@ const EmployeeDataView = ({ data }) => {
                         d="M7 21h10a2 2 0 002-2V7l-5-5H7a2 2 0 00-2 2v14a2 2 0 002 2z"
                       />
                     </svg>
-                    {file.label}
+                    {file?.label}
                   </a>
                 </li>
               ))}
+            </ul> */}
+
+            <ul className="flex gap-8 text-gray-700">
+              {files.map((file) => {
+                const isImage = file?.url?.match(/\.(jpg|jpeg|png|gif|webp)$/i);
+                const isPdf = file?.url?.match(/\.pdf$/i);
+
+                return (
+                  <li key={file?.label} className="flex flex-col items-center">
+                    <a
+                      href={
+                        file?.url ? file.url.replace("/upload/", "/upload/fl_attachment/") : "#"
+                      }
+                      download={file?.label}
+                      className="flex flex-col items-center text-blue-600 hover:underline"
+                      target="_blank"
+                      rel="noopener noreferrer">
+                      {/* PREVIEW */}
+                      {isImage ? (
+                        <img
+                          src={file.url}
+                          alt={file.label}
+                          className="h-20 w-20 object-cover rounded mb-2"
+                        />
+                      ) : isPdf ? (
+                        <div className="h-20 w-20 flex items-center justify-center bg-red-100 text-red-600 font-bold rounded mb-2">
+                          PDF
+                        </div>
+                      ) : (
+                        <div className="h-20 w-20 flex items-center justify-center bg-gray-200 text-gray-600 font-bold rounded mb-2">
+                          FILE
+                        </div>
+                      )}
+
+                      {/* LABEL */}
+                      {file?.label}
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
           </section>
         </section>
