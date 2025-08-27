@@ -25,9 +25,12 @@ Run the following command in new terminal:
 ```bash
 cd Frontend/Admin
 npm install
+npm run dev
 ```
 
-### Step 4: Start the website Development Servers
+### Step 4: Start the website 
+
+Run the following command in new terminal:
 
 ```bash
 cd Frontend/website
