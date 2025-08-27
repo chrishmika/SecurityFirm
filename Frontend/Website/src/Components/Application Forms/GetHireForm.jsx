@@ -56,11 +56,31 @@ const GetHireForm = () => {
   };
 
   const districts = [
-    "Ampara", "Anuradhapura", "Badulla", "Batticaloa", "Colombo",
-    "Galle", "Gampaha", "Hambantota", "Jaffna", "Kalutara",
-    "Kandy", "Kegalle", "Kilinochchi", "Kurunegala", "Mannar",
-    "Matale", "Matara", "Monaragala", "Mullaitivu", "Nuwara Eliya",
-    "Polonnaruwa", "Puttalam", "Ratnapura", "Trincomalee", "Vavuniya"
+    "Ampara",
+    "Anuradhapura",
+    "Badulla",
+    "Batticaloa",
+    "Colombo",
+    "Galle",
+    "Gampaha",
+    "Hambantota",
+    "Jaffna",
+    "Kalutara",
+    "Kandy",
+    "Kegalle",
+    "Kilinochchi",
+    "Kurunegala",
+    "Mannar",
+    "Matale",
+    "Matara",
+    "Monaragala",
+    "Mullaitivu",
+    "Nuwara Eliya",
+    "Polonnaruwa",
+    "Puttalam",
+    "Ratnapura",
+    "Trincomalee",
+    "Vavuniya",
   ];
 
   const handleSubmit = async (e) => {
@@ -83,7 +103,18 @@ const GetHireForm = () => {
       return;
     }
 
-    const getHireData = { name, email, mobile, serviceLocation, district, nearestCity, startDate, daysNeed, serviceType, additionalDetails };
+    const getHireData = {
+      name,
+      email,
+      mobile,
+      serviceLocation,
+      district,
+      nearestCity,
+      startDate,
+      daysNeed,
+      serviceType,
+      additionalDetails,
+    };
 
     try {
       const apiUrl = "http://localhost:4000/api/v1/web/hire";
@@ -131,15 +162,24 @@ const GetHireForm = () => {
       setLoading(false);
     }
   };
-  
+
   return (
     <div className="bg-white lg:w-[500px] sm:w-100 ">
-      <h1 className="text-red-800 text-2xl mb-4 p-3 font-medium text-center">Fill the form completely </h1>
+      <h1 className="text-red-800 text-2xl mb-4 p-3 font-medium text-center">
+        Fill the form completely{" "}
+      </h1>
 
       <form onSubmit={handleSubmit}>
         <div className="mb-5">
           <label className="text-gray-900 text-sm font-medium mb-2">Full Name : </label>
-          <input className="bg-gray-50 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full " type="text" onChange={(e) => setName(e.target.value)} value={name} required placeholder="Enter Full Name" />
+          <input
+            className="bg-gray-50 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full "
+            type="text"
+            onChange={(e) => setName(e.target.value)}
+            value={name}
+            required
+            placeholder="Enter Full Name"
+          />
         </div>
 
         <div className="mb-5">
@@ -147,7 +187,9 @@ const GetHireForm = () => {
             Email :{" "}
           </label>
           <input
-            className={`bg-gray-50 border ${errors.email ? "border-red-500" : "border-gray-300"} rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full`}
+            className={`bg-gray-50 border ${
+              errors.email ? "border-red-500" : "border-gray-300"
+            } rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full`}
             type="email"
             onChange={(e) => {
               setEmail(e.target.value);
@@ -165,7 +207,9 @@ const GetHireForm = () => {
             Mobile :{" "}
           </label>
           <input
-            className={`bg-gray-50 border ${errors.mobile ? "border-red-500" : "border-gray-300"} rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full`}
+            className={`bg-gray-50 border ${
+              errors.mobile ? "border-red-500" : "border-gray-300"
+            } rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full`}
             type="text"
             onChange={(e) => {
               setMobile(e.target.value);
@@ -182,7 +226,14 @@ const GetHireForm = () => {
           <label className="text-gray-900 text-sm font-medium mb-2" htmlFor="">
             Service Location :{" "}
           </label>
-          <input className="bg-gray-50 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full " type="text" onChange={(e) => setServiceLocation(e.target.value)} value={serviceLocation} required placeholder="Enter location" />
+          <input
+            className="bg-gray-50 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full "
+            type="text"
+            onChange={(e) => setServiceLocation(e.target.value)}
+            value={serviceLocation}
+            required
+            placeholder="Enter location"
+          />
         </div>
 
         <div className="mb-5">
@@ -190,13 +241,17 @@ const GetHireForm = () => {
             District :{" "}
           </label>
 
-          <select className="bg-gray-50 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full " type="text"
+          <select
+            className="bg-gray-50 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full "
+            type="text"
             onChange={(e) => setDistrict(e.target.value)}
             value={district}
-            required  >
+            required>
             <option value="*">Select a district</option>
             {districts.map((district, index) => (
-              <option key={index} value={district}>{district}</option>
+              <option key={index} value={district}>
+                {district}
+              </option>
             ))}
           </select>
         </div>
@@ -205,7 +260,14 @@ const GetHireForm = () => {
           <label className="text-gray-900 text-sm font-medium mb-2" htmlFor="">
             Nearest City :{" "}
           </label>
-          <input className="bg-gray-50 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full " type="text" onChange={(e) => setNearestCity(e.target.value)} value={nearestCity} required placeholder="Enter nearest city" />
+          <input
+            className="bg-gray-50 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full "
+            type="text"
+            onChange={(e) => setNearestCity(e.target.value)}
+            value={nearestCity}
+            required
+            placeholder="Enter nearest city"
+          />
         </div>
 
         <div className="mb-5">
@@ -215,13 +277,27 @@ const GetHireForm = () => {
               <label className="text-gray-900 text-sm font-medium mb-2" htmlFor="">
                 Start of service date
               </label>
-              <input className="bg-gray-50 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full " type="date" onChange={(e) => setStartDate(e.target.value)} value={startDate} required />
+              <input
+                className="bg-gray-50 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full "
+                type="date"
+                onChange={(e) => setStartDate(e.target.value)}
+                value={startDate}
+                required
+              />
             </div>
             <div className="">
               <label className="text-gray-900 text-sm font-medium mb-2" htmlFor="">
                 How many days of service ? :{" "}
               </label>
-              <input className="bg-gray-50 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full " type="number" min="1" step="1" onChange={(e) => setDaysNeed(e.target.value)} value={daysNeed} placeholder="Number of days" />
+              <input
+                className="bg-gray-50 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full "
+                type="number"
+                min="1"
+                step="1"
+                onChange={(e) => setDaysNeed(e.target.value)}
+                value={daysNeed}
+                placeholder="Number of days"
+              />
             </div>
           </div>
         </div>
@@ -231,14 +307,15 @@ const GetHireForm = () => {
             What type of service are you looking for?
           </label>
           <select
-            className={`bg-gray-50 border ${errors.serviceType ? "border-red-500" : "border-gray-300"} text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
+            className={`bg-gray-50 border ${
+              errors.serviceType ? "border-red-500" : "border-gray-300"
+            } text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
             onChange={(e) => {
               setServiceType(e.target.value);
               if (errors.serviceType) setErrors({ ...errors, serviceType: "" });
             }}
             value={serviceType}
-            required
-          >
+            required>
             <option value="">Please choose</option>
             <option value="Security Guard Services">Security Guard Services</option>
             <option value="Event Security">Event Security</option>
@@ -256,12 +333,14 @@ const GetHireForm = () => {
             rows="5"
             placeholder="Provide additional details : Specific days, Hours ... "
             onChange={(e) => setAdditionalDetails(e.target.value)}
-            value={additionalDetails}
-          ></textarea>
+            value={additionalDetails}></textarea>
         </div>
 
         <div className="mb-5 flex justify-center">
-          <button className="text-white bg-blue-600 px-6 py-3 text-sm font-medium rounded-lg hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed" type="submit" disabled={loading}>
+          <button
+            className="text-white bg-blue-600 px-6 py-3 text-sm font-medium rounded-lg hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed"
+            type="submit"
+            disabled={loading}>
             {loading ? "Submitting..." : "Submit Application"}
           </button>
         </div>

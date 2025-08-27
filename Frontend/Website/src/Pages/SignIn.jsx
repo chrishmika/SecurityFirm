@@ -59,22 +59,41 @@ const SignIn = () => {
           <form className="flex flex-col gap-5 mb-3" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-1">
               <label>User</label>
-              <input type="text" name="username" value={loginData.username} onChange={handleLoginData} placeholder="User Name" className={inputStyle} />
+              <input
+                type="text"
+                name="username"
+                value={loginData.username}
+                onChange={handleLoginData}
+                placeholder="User Name"
+                className={inputStyle}
+              />
             </div>
 
             <div className="flex flex-col gap-1">
               <label>Password</label>
-              <input type="password" name="password" value={loginData.password} onChange={handleLoginData} placeholder="Password" className={inputStyle} />
+              <input
+                type="password"
+                name="password"
+                value={loginData.password}
+                onChange={handleLoginData}
+                placeholder="Password"
+                className={inputStyle}
+              />
             </div>
 
             <div className="flex flex-col">
-              <button type="submit" name="submit" className="border-1 rounded-md bg-[#2C2C2C] h-9 hover:bg-[#] hover:cursor-pointer">
+              <button
+                type="submit"
+                name="submit"
+                className="border-1 rounded-md bg-[#2C2C2C] h-9 hover:bg-[#] hover:cursor-pointer">
                 <span className="text-white">Sign In</span>
               </button>
             </div>
           </form>
 
-          <p onClick={forgetPasswordHandle} className="underline underline-offset-4  cursor-pointer">
+          <p
+            onClick={forgetPasswordHandle}
+            className="underline underline-offset-4  cursor-pointer">
             Forget password?
           </p>
         </div>

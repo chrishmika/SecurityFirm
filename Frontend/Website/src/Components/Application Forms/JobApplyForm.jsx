@@ -51,8 +51,7 @@ const JobApplyForm = () => {
 
     setErrors(newErrors);
     return isValid;
-
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -144,17 +143,20 @@ const JobApplyForm = () => {
           {/* Header */}
           <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-8 py-6">
             <h1 className="text-white text-3xl font-bold">Job Application</h1>
-            <p className="text-blue-100 mt-2">Please fill out all required fields to complete your application</p>
+            <p className="text-blue-100 mt-2">
+              Please fill out all required fields to complete your application
+            </p>
           </div>
 
-          <form onSubmit={handleSubmit} >
-
+          <form onSubmit={handleSubmit}>
             <div className="p-8">
               <div className="grid lg:grid-cols-2 gap-8">
                 {/* Personal Information Section */}
                 <div className="space-y-6">
                   <div className="border-l-4 border-blue-500 pl-4">
-                    <h2 className="text-xl font-semibold text-gray-800 mb-1">Personal Information</h2>
+                    <h2 className="text-xl font-semibold text-gray-800 mb-1">
+                      Personal Information
+                    </h2>
                     <p className="text-sm text-gray-600">Basic details about yourself</p>
                   </div>
 
@@ -208,8 +210,7 @@ const JobApplyForm = () => {
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-sm bg-white"
                         onChange={(e) => setGender(e.target.value)}
                         value={gender}
-                        required
-                      >
+                        required>
                         <option value="*">Please select your gender</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
@@ -239,7 +240,9 @@ const JobApplyForm = () => {
                   {/* Contact Information */}
                   <div>
                     <div className="border-l-4 border-green-500 pl-4 mb-6">
-                      <h2 className="text-xl font-semibold text-gray-800 mb-1">Contact Information</h2>
+                      <h2 className="text-xl font-semibold text-gray-800 mb-1">
+                        Contact Information
+                      </h2>
                       <p className="text-sm text-gray-600">How we can reach you</p>
                     </div>
 
@@ -249,7 +252,9 @@ const JobApplyForm = () => {
                           Email Address <span className="text-red-500">*</span>
                         </label>
                         <input
-                          className={`w-full px-4 py-3 border ${errors.email ? "border-red-500 ring-2 ring-red-200" : "border-gray-300"} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-sm placeholder-gray-400`}
+                          className={`w-full px-4 py-3 border ${
+                            errors.email ? "border-red-500 ring-2 ring-red-200" : "border-gray-300"
+                          } rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-sm placeholder-gray-400`}
                           type="email"
                           onChange={(e) => {
                             setEmail(e.target.value);
@@ -259,9 +264,12 @@ const JobApplyForm = () => {
                           required
                           placeholder="example@email.com"
                         />
-                        {errors.email && <p className="text-red-500 text-xs mt-2 flex items-center">
-                          <span className="mr-1">⚠️</span>{errors.email}
-                        </p>}
+                        {errors.email && (
+                          <p className="text-red-500 text-xs mt-2 flex items-center">
+                            <span className="mr-1">⚠️</span>
+                            {errors.email}
+                          </p>
+                        )}
                       </div>
 
                       <div>
@@ -279,9 +287,12 @@ const JobApplyForm = () => {
                           required
                           placeholder="+1 (555) 000-0000"
                         />
-                        {errors.mobile && <p className="text-red-500 text-xs mt-2 flex items-center">
-                          <span className="mr-1">⚠️</span>{errors.mobile}
-                        </p>}
+                        {errors.mobile && (
+                          <p className="text-red-500 text-xs mt-2 flex items-center">
+                            <span className="mr-1">⚠️</span>
+                            {errors.mobile}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -289,7 +300,9 @@ const JobApplyForm = () => {
                   {/* Documents Section */}
                   <div>
                     <div className="border-l-4 border-purple-500 pl-4 mb-6">
-                      <h2 className="text-xl font-semibold text-gray-800 mb-1">Required Documents</h2>
+                      <h2 className="text-xl font-semibold text-gray-800 mb-1">
+                        Required Documents
+                      </h2>
                       <p className="text-sm text-gray-600">Upload your identification and resume</p>
                     </div>
 
@@ -299,7 +312,8 @@ const JobApplyForm = () => {
                           Government-Issued ID <span className="text-red-500">*</span>
                         </label>
                         <p className="text-xs text-gray-500 mb-3">
-                          Upload a clear photo of your passport, driver's license, or national ID (JPG, PNG, PDF)
+                          Upload a clear photo of your passport, driver's license, or national ID
+                          (JPG, PNG, PDF)
                         </p>
                         <div className="relative">
                           <input
@@ -354,13 +368,25 @@ const JobApplyForm = () => {
                   <button
                     className="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 focus:ring-4 focus:ring-blue-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl"
                     type="submit"
-                    disabled={loading}
-                  >
+                    disabled={loading}>
                     {loading ? (
                       <span className="flex items-center">
-                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        <svg
+                          className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24">
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
                         Submitting Application...
                       </span>
@@ -368,14 +394,10 @@ const JobApplyForm = () => {
                       "Submit Application"
                     )}
                   </button>
-
                 </div>
               </div>
             </div>
-
           </form>
-
-
         </div>
       </div>
     </div>

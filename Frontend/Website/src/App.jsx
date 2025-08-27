@@ -1,5 +1,10 @@
 import React from "react";
-import { createBrowserRouter, RouterProvider, Route, createRoutesFromElements } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  createRoutesFromElements,
+} from "react-router-dom";
 //website imports
 import Layout from "./Layout/LayoutWeb";
 import AboutUs from "./Pages/AboutUs";
@@ -38,9 +43,8 @@ const webRouter = createBrowserRouter(
   )
 );
 
-  
 const App = () => {
-  return <RouterProvider router={(webRouter)} />;
+  return <RouterProvider router={webRouter} />;
 };
 
 export default App;
