@@ -194,7 +194,7 @@ const Schedule = () => {
                       <input
                         list="dataScheduleNames"
                         onChange={formChangeHandler}
-                        className={`bg-blue-100 px-2 w-full `}
+                        className={`bg-blue-100 px-2 w-full no-arrow `}
                       />
 
                       <datalist id="dataScheduleNames">

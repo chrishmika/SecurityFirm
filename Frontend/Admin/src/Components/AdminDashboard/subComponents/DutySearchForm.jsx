@@ -30,11 +30,12 @@ const DutySearchForm = ({
           <input
             list="searchCompany"
             name="companyName"
-            className="outline-1 w-fill rounded-md px-4 h-10"
+            className="outline-1 w-fill rounded-md px-4 h-10 no-arrow"
             placeholder="Enter Data"
             onChange={changeHandler}
             value={selectedCompanyName}
           />
+
           <datalist id="searchCompany">
             {Array.isArray(companylist) &&
               companylist.map((company) => <option key={company._id} value={company.name} />)}

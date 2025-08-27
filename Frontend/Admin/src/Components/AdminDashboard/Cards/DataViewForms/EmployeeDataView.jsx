@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import profilePic from "../../../../assets/boy1.png";
+import { Detail, Info } from "./Components";
 
 const EmployeeDataView = ({ data }) => {
   const files = [
@@ -9,7 +10,7 @@ const EmployeeDataView = ({ data }) => {
   ];
 
   return (
-    <main className="flex sm:flex-row flex-col justify-around items-center h-full bg-white p-4 gap-2 text-sm text-gray-800 font-medium">
+    <main className="flex sm:flex-row flex-col justify-around  h-full bg-white p-4 gap-2 text-sm text-gray-800 font-medium">
       {/* Left Column */}
       <aside className=" flex flex-col items-end p-2 space-y-4 overflow-hidden">
         <div className="w-full max-w-[280px] text-left">
@@ -20,27 +21,29 @@ const EmployeeDataView = ({ data }) => {
           />
 
           <address className="not-italic space-y-1 mb-4">
-            <p>{data?.NIC || "none"}</p>
-            <p>{data?.email || "none"}</p>
+            <p>{data?.NIC || "000000000000"}</p>
+            <p>{data?.email || "none@email.com"}</p>
             {/* ?<p>Colombo</p> */}
           </address>
 
           <div className="space-y-4 w-full">
-            <Info label="Employee Number" value={data?.empId || "none"} />
+            <Info label="Employee Number" value={data?.empId || "0000"} />
             <Info label="Full Name" value={data?.name || "none"} />
             <Info label="Name with Initials" value={data?.initials || "none"} />
+            <Info label="Address" value={data?.address || "none"} />
+            <Info label="Birthday" value={data?.birthday.split("T")[0] || "0000-00-00"} />
             <Info label="Gender" value={data?.sex || "none"} />
 
-            <Info label="Birthday" value={data?.birthday.split("T")[0] || "none"} />
-            <Info label="Address" value={data?.address || "none"} />
-
             <div className="flex gap-6">
-              <Info label="Contact 1" value={data?.contact1 || "none"} />
-              <Info label="Contact 2" value={data?.contact2 || "none"} />
+              <Info label="Contact 1" value={data?.contact1 || "000-000-000"} />
+              <Info label="Contact 2" value={data?.contact2 || "000-000-000"} />
             </div>
 
-            <Info label="Citizenship" value={data?.citizenship || "none"} />
-            <Info label="Nationality" value={data?.nationality || "none"} />
+            <div className="flex gap-6">
+              <Info label="Citizenship" value={data?.citizenship || "none"} />
+              <Info label="Nationality" value={data?.nationality || "none"} />
+            </div>
+
             <Info label="Maritial" value={data?.marital ? "Married" : "Single"} />
           </div>
         </div>
@@ -54,10 +57,11 @@ const EmployeeDataView = ({ data }) => {
         </header>
 
         <div className="flex gap-6">
-          <Info label="ETF" value={data?.ETF || "none"} />
-          <Info label="EPF" value={data?.EPF || "none"} />
+          <Info label="ETF" value={data?.ETF || "0000"} />
+          <Info label="EPF" value={data?.EPF || "0000"} />
         </div>
-        <Info label="Basic Salary" value={`Rs.${data?.basicSalary || "none"}`} />
+
+        <Info label="Basic Salary" value={`Rs.${data?.basicSalary || "000"}`} />
 
         {/* EXPERIENCE */}
         <section>
@@ -71,7 +75,6 @@ const EmployeeDataView = ({ data }) => {
         {/* SPECIAL DETAILS */}
         <section>
           <h2 className="text-sm font-semibold mb-2">SPECIAL DETAILS</h2>
-
           <Detail title="Disabilities" content={data?.disabilities || "none"} />
           <Detail title="Description" content={data?.description || "none"} />
         </section>
@@ -137,20 +140,5 @@ const EmployeeDataView = ({ data }) => {
     </main>
   );
 };
-
-// Reusable components
-const Info = ({ label, value }) => (
-  <div>
-    <p className="font-semibold mb-1">{label}</p>
-    <p>{value}</p>
-  </div>
-);
-
-const Detail = ({ title, content }) => (
-  <div className="mb-4">
-    <h3 className="font-semibold text-gray-800 mb-1">{title}</h3>
-    <p className="text-xs text-gray-600 leading-tight">{content}</p>
-  </div>
-);
 
 export default EmployeeDataView;
