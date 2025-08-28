@@ -16,7 +16,6 @@ import GetHired from "./Pages/GetHired";
 import JobApplyForm from "./Components/Application Forms/JobApplyForm";
 //admin imports
 import LayoutAdmin from "./Layout/LayoutAdmin";
-import SignIn from "./Pages/SignIn";
 import NotFound from "./Pages/notFound/NotFound";
 
 // Using the createRoutesFromElements approach from the main branch
@@ -33,13 +32,8 @@ const webRouter = createBrowserRouter(
           <Route path="jobapply" element={<JobApplyForm />} />
         </Route>
         <Route path="gethired" element={<GetHired />} />
-        {/* <Route path="signin" element={<SignIn />} /> */}
       </Route>
       <Route path="*" element={<NotFound />} />
-      {/* Admin Routes */}
-      {/* <Route path="/dashboard" element={<LayoutAdmin />}>
-        <Route path="signin" element={<SignIn />} />
-      </Route> */}
     </React.Fragment>
   )
 );
