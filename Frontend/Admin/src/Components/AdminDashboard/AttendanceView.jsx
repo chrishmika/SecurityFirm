@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import axios from "axios";
-
+import { toast } from "react-toastify";
 import { FaArrowLeft } from "react-icons/fa6";
 
-import NumberLine from "./subComponents/NumberLine";
-import { toast } from "react-toastify";
-import DutySearchForm from "./subComponents/DutySearchForm";
 import SideCalandeBar from "./subComponents/SideCalandeBar";
+import NumberLine from "./subComponents/NumberLine";
+import DutySearchForm from "./subComponents/DutySearchForm";
+
+import axios from "axios";
 
 const Schedule = () => {
   //for calender
@@ -56,9 +56,9 @@ const Schedule = () => {
       setSelectedYear(year_month[0]);
       setSelectedMonth(year_month[1]);
     }
+
     if (e.target.name == "companyName") {
       const company = e.target.value;
-
       setCompanyId(companylist.find((company) => company.name == e.target.value)._id);
       setSelectedCompanyName(company);
     }
