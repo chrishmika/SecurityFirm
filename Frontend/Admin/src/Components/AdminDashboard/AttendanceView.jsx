@@ -216,6 +216,7 @@ const Schedule = () => {
                           className="outline-0"
                           readOnly
                         />
+                        {console.log("duty,", duty)}
                       </td>
 
                       <td className="p-2 border border-gray-300">

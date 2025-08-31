@@ -51,7 +51,9 @@ export const addDuties = async (req, res) => {
       return res.status(400).json({ error: "Duties must be an array" });
     }
 
+    const position = await Employee.findOne({ name: duty.employee }).select("position");
     // Append each duty
+    ///========position need to be updated as employees position
     for (let duty of duties) {
       sheet.duties.push({
         employee: duty.employee,
@@ -59,6 +61,7 @@ export const addDuties = async (req, res) => {
         time: duty.time,
         shift: duty.shift,
         remark: duty.remark,
+        position,
       });
     }
 
@@ -286,7 +289,7 @@ export const viewSheetByDetails = async (req, res) => {
     console.log(year, month, company);
 
     const sheet = await Duty.find({ year, month, company }).populate("company");
-    console.log(sheet);
+    console.log("sheeet", sheet);
     if (sheet.length == 0) {
       return res.status(404).json({ message: "Sheet you look is not found create a new sheet" });
     }
