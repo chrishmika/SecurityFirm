@@ -24,10 +24,12 @@ const Notifications = () => {
   }, []);
 
   return (
-    <div className="my-10 overflow-hidden">
+    <div className="my-10 overflow-y-scroll overflow-x-hidden container">
       {!isLoading ? (
         notifications.length > 0 ? (
-          notifications.map((notification, key) => <NotificationCard key={key} notification={notification} />)
+          notifications.map((notification, key) => (
+            <NotificationCard key={key} notification={notification} />
+          ))
         ) : (
           <div className="flex items-center justify-center w-screen">{`No Notifications Found at the moment`}</div>
         )

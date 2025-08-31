@@ -10,7 +10,7 @@ const Admin = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex flex-col flex-1 py-5 md:pl-10 pl-18 pr-3 overflow-y-auto justify-start mx-0 my-1 overflow-auto">
+      <main className="flex flex-col flex-1 py-5 md:pl-10 pl-18 pr-3 overflow-y-auto justify-start mx-0 my-1 overflow-auto ">
         <Outlet />
       </main>
     </div>

@@ -20,3 +20,15 @@
 .no-arrow::-moz-list-dropdown {
   display: none !important;
 }
+
+/* hide scroll bars------------> */
+.container {
+  scrollbar-width: none; /* hides scrollbar */
+  -ms-overflow-style: none; /* for IE and Edge */
+  overflow: auto; /* make sure scrolling still works */
+}
+
+/* For Chrome, Safari, and Edge */
+.container::-webkit-scrollbar {
+  display: none;
+}

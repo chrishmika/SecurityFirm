@@ -38,9 +38,13 @@ export const createEmployee = async (req, res) => {
       newData.NICCopy = uploadedDocument.secure_url;
     }
 
+    //adding default passsword if not provided
+    if (!newData.password || newData.password == "") {
+      newData.password = "123456";
+    }
     //password is hashed
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(newData.password || "123456", salt); //given password or 123456
+    const hashedPassword = await bcrypt.hash(newData.password, salt); //given password or 123456
 
     const newRequest = new Employee(newData);
     const newUser = new User({
@@ -70,6 +74,7 @@ export const createEmployee = async (req, res) => {
     res.status(200).json({ message: `added successfull`, newRequest });
   } catch (error) {
     console.log(`error in createEmployee ${error.message}`);
+
     const msg = error?.message || JSON.stringify(error) || "Unknown error";
     console.log(msg);
 

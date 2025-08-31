@@ -82,7 +82,7 @@ const App = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center h-screen ">
         <PuffLoader />
       </div>
     );

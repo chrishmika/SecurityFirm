@@ -59,8 +59,10 @@ const CompanyDataView = ({ data }) => {
             {/* need to map data from array */}
             <table className="">
               <thead className="">
-                <th className="pr-15">Position</th>
-                <th className="pr-15">Amount</th>
+                <tr>
+                  <th className="pr-15">Position</th>
+                  <th className="pr-15">Amount</th>
+                </tr>
               </thead>
 
               <tbody>
@@ -137,7 +139,5 @@ const CompanyDataView = ({ data }) => {
     </main>
   );
 };
-
-// Reusable components
 
 export default CompanyDataView;

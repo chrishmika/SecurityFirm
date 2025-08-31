@@ -25,7 +25,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* MiniNotificationWindow – bottom row, 3 cols on lg */}
-        <div className="col-span-1 lg:col-span-3 lg:row-span-3 bg-white rounded-2xl shadow-md p-4">
+        <div className="col-span-1 lg:col-span-3 lg:row-span-3 bg-white rounded-2xl shadow-md p-4 ">
           <MiniNotificationWindow />
         </div>
 
