@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
   empId: {
     type: String,
     required: false,
-  }, //newly added
+  },
   NIC: {
     type: String,
     required: true,
