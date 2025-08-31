@@ -212,7 +212,7 @@ const Schedule = () => {
                         <input
                           type="text"
                           name="position"
-                          value={duty.employee.position}
+                          value={duty.employee?.position}
                           className="outline-0"
                           readOnly
                         />
@@ -223,11 +223,12 @@ const Schedule = () => {
                         <input
                           type="text"
                           className="bg-none font-bold px-2 w-full outline-0"
-                          value={duty.employee.name}
+                          value={duty.employee?.name}
                           readOnly
                         />
                       </td>
 
+                      {/* neet fix values in here in propper way */}
                       <td className="p-2 border border-gray-300">
                         <input
                           className="px-2 w-full outline-0"
@@ -237,6 +238,7 @@ const Schedule = () => {
                         />
                       </td>
 
+                      {/* neet fix values in here in propper way */}
                       <td className="p-2 border border-gray-300">
                         <input
                           className=" px-2 w-full outline-0"

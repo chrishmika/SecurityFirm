@@ -288,7 +288,10 @@ export const viewSheetByDetails = async (req, res) => {
     const { year, month, company } = req.body;
     console.log(year, month, company);
 
-    const sheet = await Duty.find({ year, month, company }).populate("company");
+    const sheet = await Duty.find({ year, month, company }).populate("company").populate({
+      path: "duties.employee", // go inside duties array and populate employee
+      model: "Employee", // name of your Employee model
+    });
     console.log("sheeet", sheet);
     if (sheet.length == 0) {
       return res.status(404).json({ message: "Sheet you look is not found create a new sheet" });

@@ -307,44 +307,49 @@ const Schedule = () => {
                     >
                       <td className="p-2 border border-gray-300">
                         <input
+                          key={duty._id}
                           type="text"
                           name="position"
-                          value={duty.employee.position}
+                          value={duty.employee?.position}
                           readOnly
                         />
                       </td>
 
                       <td className="p-2 border border-gray-300">
                         <input
-                          list="dataScheduleNames"
+                          list={`dataScheduleNames-${dindex}`} // unique per row
                           onChange={formChangeHandler}
-                          className={`bg-blue-100 px-2 w-full no-arrow `}
+                          value={duty?.employee?.name}
+                          className="bg-blue-100 px-2 w-full no-arrow"
                         />
 
-                        <datalist id="dataScheduleNames">
-                          {/* {employeelist.map((employee) => (
-                          <option
-                            key={employee._id}
-                            value={employee.name}
-                            className={`${
-                              employee.position == duty.employee.position ? "block" : "hidden"
-                            }`}
-                          />
-                          // need to check issues in data list
-                        ))} */}
+                        <datalist id={`dataScheduleNames-${dindex}`}>
                           {employeelist
-                            .filter((employee) => employee.position === duty.employee.position) // replace requiredPosition accordingly
+                            .filter((employee) => employee?.position === duty.employee?.position)
                             .map((employee) => (
                               <option key={employee._id} value={employee.name} />
                             ))}
-                          {/* this above conditions duty.employee.position need to change as the position that ask by company */}
                         </datalist>
                       </td>
-
+                      {/* neet fix values in here in propper way */}
                       <td className="p-2 border border-gray-300">
                         <select
                           className="bg-blue-100 px-2 w-full"
                           type="text"
+                          value={duty?.shift}
+                          onChange={formChangeHandler}>
+                          <option>Select</option>
+                          <option value={12}>8am</option>
+                          <option value={24}>6pm</option>
+                        </select>
+                      </td>
+
+                      {/* neet fix values in here in propper way */}
+                      <td className="p-2 border border-gray-300">
+                        <select
+                          className="bg-blue-100 px-2 w-full"
+                          type="text"
+                          value={`${duty?.start} hours`} //previous value
                           onChange={formChangeHandler}>
                           <option>Select</option>
                           <option value={12}>{"12"}</option>
@@ -353,21 +358,10 @@ const Schedule = () => {
                       </td>
 
                       <td className="p-2 border border-gray-300">
-                        <select
-                          className="bg-blue-100 px-2 w-full"
-                          type="text"
-                          onChange={formChangeHandler}>
-                          <option>Select</option>
-                          <option value={12}>8am</option>
-                          <option value={24}>6pm</option>
-                        </select>
-                      </td>
-
-                      <td className="p-2 border border-gray-300">
                         <input
                           className="bg-blue-100 px-2 w-full"
                           type="text"
-                          // value={duty.remark}
+                          value={duty?.remark}
                           onChange={formChangeHandler}
                         />
                       </td>
