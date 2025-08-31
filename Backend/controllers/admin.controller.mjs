@@ -18,27 +18,25 @@ export const createEmployee = async (req, res) => {
     const existingEmployee = await Employee.findOne({ NIC });
     if (existingEmployee) return res.status(400).json({ error: `Employee already exist` });
 
-    // if (newData.img) {
-    //   const uploadedDocument = await cloudinary.uploader.upload(newData.img);
-    //   newData.img = uploadedDocument.secure_url;
-    // }
+    if (newData.img) {
+      const uploadedDocument = await cloudinary.uploader.upload(newData.img);
+      newData.img = uploadedDocument.secure_url;
+    }
 
-    // if (newData.cv) {
-    //   const uploadedDocument = await cloudinary.uploader.upload(newData.cv);
-    //   newData.cv = uploadedDocument.secure_url;
-    // }
+    if (newData.cv) {
+      const uploadedDocument = await cloudinary.uploader.upload(newData.cv);
+      newData.cv = uploadedDocument.secure_url;
+    }
 
-    // if (newData.gsCertificate) {
-    //   const uploadedDocument = await cloudinary.uploader.upload(newData.gsCertificate);
-    //   newData.gsCertificate = uploadedDocument.secure_url;
-    // }
+    if (newData.gsCertificate) {
+      const uploadedDocument = await cloudinary.uploader.upload(newData.gsCertificate);
+      newData.gsCertificate = uploadedDocument.secure_url;
+    }
 
-    // if (newData.NICCopy) {
-    //   const uploadedDocument = await cloudinary.uploader.upload(newData.NICCopy);
-    //   newData.NICCopy = uploadedDocument.secure_url;
-    // }
-
-    console.log("came1");
+    if (newData.NICCopy) {
+      const uploadedDocument = await cloudinary.uploader.upload(newData.NICCopy);
+      newData.NICCopy = uploadedDocument.secure_url;
+    }
 
     //password is hashed
     const salt = await bcrypt.genSalt(10);
@@ -52,12 +50,8 @@ export const createEmployee = async (req, res) => {
       role: "employee",
     });
 
-    console.log("came2");
-
     //new user added to database
     const newlyAdded = await newRequest.save();
-
-    console.log(newlyAdded);
 
     //add that id to user
     newUser.empId = newlyAdded.empId;
