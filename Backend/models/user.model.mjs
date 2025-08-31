@@ -5,6 +5,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  empId: {
+    type: String,
+    required: false,
+  }, //newly added
   NIC: {
     type: String,
     required: true,
