@@ -43,8 +43,8 @@ const NotificationCard = ({ notification }) => {
   return (
     <div className="flex justify-center items-center  ">
       <div
-        className={`flex shadow-2xl border-b-0 pb-3 justify-between sm:w-4xl w-screen m-1 px-5 cursor-pointer ${
-          !isRead ? "border-l-6  border-l-lime-200" : "border-l-0"
+        className={`flex shadow-2xl backdrop-blur-2xl border-b-0 pb-3 justify-between sm:w-4xl w-screen m-1 px-5 cursor-pointer ${
+          !isRead ? "border-l-6  border-l-lime-300" : "border-l-0"
         }`}
         key={_id}>
         <div className="flex flex-col" onClick={viewNotificationhandler}>
