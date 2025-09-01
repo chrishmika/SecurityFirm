@@ -6,23 +6,6 @@ import Employee from "../models/employee.model.mjs";
 import moment from "moment";
 // import moment from "moment-timezone";
 
-export const createDutySheet = async (req, res) => {
-  try {
-    const { company, year, month } = req.body;
-
-    const existingDutySheet = await Duty.findOne({ company, year, month });
-    if (existingDutySheet) return res.status(400).json({ error: `Duty sheet already created` });
-
-    const newSheet = new Duty({ company, year, month });
-    await newSheet.save();
-
-    return res.status(200).json(newSheet);
-  } catch (error) {
-    console.log(`error in createDutySheet ${error.message}`);
-    return res.status(500).json({ error: `internal server error on duty controller` });
-  }
-};
-
 //add dutyies
 //take company id, latest year and month to find the sheet
 //duties are send as a array of objects and then they are added to the database
@@ -288,14 +271,38 @@ export const viewSheetByDetails = async (req, res) => {
     const { year, month, company } = req.body;
     console.log(year, month, company);
 
-    const sheet = await Duty.find({ year, month, company }).populate("company").populate({
+    let sheet = await Duty.find({ year, month, company });
+    console.log("sheeet", sheet);
+
+    //if no sheet create a new one
+    if (sheet.length == 0 || !sheet) {
+      //checking for company
+      const companyDetails = await Company.findById(company).select("count");
+      if (!companyDetails || companyDetails?.count?.length == 0) {
+        return res.status(404).json({ message: "company requirement details not found" });
+      }
+
+      // creating new duties only with positions
+      let duties = [];
+
+      for (let i = 0; i < companyDetails?.count?.length; i++) {
+        for (let j = 0; j < companyDetails?.count[i].amount; j++) {
+          duties.push({ position: companyDetails?.count[i].position });
+        }
+      }
+
+      //creating new sheet
+      const newsheet = new Duty({ company, year, month, duties });
+      await newsheet.save();
+      console.log("new sheet is created");
+      console.log("new sheet", newsheet);
+    }
+
+    sheet = await Duty.find({ year, month, company }).populate("company").populate({
       path: "duties.employee", // go inside duties array and populate employee
       model: "Employee", // name of your Employee model
     });
-    console.log("sheeet", sheet);
-    if (sheet.length == 0) {
-      return res.status(404).json({ message: "Sheet you look is not found create a new sheet" });
-    }
+
     res.status(200).json(sheet);
   } catch (error) {
     console.log(`error in viewSheetByDetails ${error.message}`);
@@ -380,3 +387,23 @@ export const findDutyForEmployee = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
+//unwanted controllers <------------
+export const createDutySheet = async (req, res) => {
+  try {
+    const { company, year, month } = req.body;
+
+    //check if the sheet is exists
+    const existingDutySheet = await Duty.findOne({ company, year, month });
+    if (existingDutySheet) return res.status(400).json({ error: `Duty sheet already created` });
+
+    //create new sheet and save it
+    const newSheet = new Duty({ company, year, month });
+    await newSheet.save();
+
+    return res.status(200).json(newSheet);
+  } catch (error) {
+    console.log(`error in createDutySheet ${error.message}`);
+    return res.status(500).json({ error: `internal server error on duty controller` });
+  }
+}; //this looks not needed can be removed
