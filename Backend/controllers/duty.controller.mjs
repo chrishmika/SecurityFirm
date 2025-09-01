@@ -51,7 +51,7 @@ export const addDuties = async (req, res) => {
       return res.status(400).json({ error: "Duties must be an array" });
     }
 
-    const position = await Employee.findOne({ name: duty.employee }).select("position");
+    const position = await Employee.findOne({ name: duties.employee }).select("position");
     // Append each duty
     ///========position need to be updated as employees position
     for (let duty of duties) {

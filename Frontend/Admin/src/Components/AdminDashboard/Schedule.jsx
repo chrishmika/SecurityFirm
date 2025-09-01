@@ -69,6 +69,35 @@ const Schedule = () => {
     }
   };
 
+  const monthInName = (selectedMonth) => {
+    switch (selectedMonth) {
+      case "01":
+        return "January";
+      case "02":
+        return "February";
+      case "03":
+        return "March";
+      case "04":
+        return "April";
+      case "05":
+        return "May";
+      case "06":
+        return "June";
+      case "07":
+        return "July";
+      case "08":
+        return "August";
+      case "09":
+        return "September";
+      case "10":
+        return "Octomber";
+      case "11":
+        return "November";
+      case "12":
+        return "December";
+    }
+  };
+
   //for table data gathering from
   const formChangeHandler = () => {};
 
@@ -80,46 +109,7 @@ const Schedule = () => {
       toast.error("Company Name is Required");
     } else {
       SetIsLoading(true);
-
-      let month;
-      switch (selectedMonth) {
-        case "01":
-          month = "January";
-          break;
-        case "02":
-          month = "February";
-          break;
-        case "03":
-          month = "March";
-          break;
-        case "04":
-          month = "April";
-          break;
-        case "05":
-          month = "May";
-          break;
-        case "06":
-          month = "June";
-          break;
-        case "07":
-          month = "July";
-          break;
-        case "08":
-          month = "August";
-          break;
-        case "09":
-          month = "September";
-          break;
-        case "10":
-          month = "Octomber";
-          break;
-        case "11":
-          month = "November";
-          break;
-        case "12":
-          month = "December";
-          break;
-      }
+      const month = monthInName(selectedMonth);
 
       try {
         const response = await axios.post(
@@ -146,46 +136,7 @@ const Schedule = () => {
     } else {
       SetIsLoading(true);
       setSelectedCompanyNameForCreateSheet(selectedCompanyName);
-
-      let month;
-      switch (selectedMonth) {
-        case "01":
-          month = "January";
-          break;
-        case "02":
-          month = "February";
-          break;
-        case "03":
-          month = "March";
-          break;
-        case "04":
-          month = "April";
-          break;
-        case "05":
-          month = "May";
-          break;
-        case "06":
-          month = "June";
-          break;
-        case "07":
-          month = "July";
-          break;
-        case "08":
-          month = "August";
-          break;
-        case "09":
-          month = "September";
-          break;
-        case "10":
-          month = "Octomber";
-          break;
-        case "11":
-          month = "November";
-          break;
-        case "12":
-          month = "December";
-          break;
-      }
+      const month = monthInName(selectedMonth);
 
       //in here i need to neet to create an new sheet change the axios endpoint
       try {
@@ -203,7 +154,6 @@ const Schedule = () => {
       }
     }
     console.log(selectedMonth);
-    console.log("2nd is pressed ");
   };
   console.log("duty set", dutySet);
 
@@ -225,10 +175,10 @@ const Schedule = () => {
           <div>
             <h2 className="font-bold">Find a Duty sheet</h2>
             <DutySearchForm
-              submitHandler={submitHandler}
               changeHandler={changeHandler}
               selectedCompanyName={selectedCompanyName}
               companylist={companylist}
+              submitHandler={submitHandler}
             />
           </div>
 
@@ -254,7 +204,6 @@ const Schedule = () => {
       <div className={`col-span-2 bg-red-100 ${showData && !isloading ? "block" : "hidden"} `}>
         <div>
           {/* back button */}
-
           <button
             onClick={() => {
               setShowData(!showData);
@@ -265,6 +214,7 @@ const Schedule = () => {
             <FaArrowLeft /> {" Back"}
           </button>
 
+          {/* schedule title */}
           <h2 className="text-lg font-bold mb-5">
             {selectedCompanyName} Schedule . {` ${selectedMonth} - ${selectedYear} `}
           </h2>
@@ -316,6 +266,8 @@ const Schedule = () => {
                       </td>
 
                       <td className="p-2 border border-gray-300">
+                        {console.log("i log duty here", sheet.company.count)}
+
                         <input
                           list={`dataScheduleNames-${dindex}`} // unique per row
                           onChange={formChangeHandler}

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { FaArrowLeft } from "react-icons/fa6";
 
@@ -46,6 +46,17 @@ const Schedule = () => {
     };
     getData();
   }, []);
+
+  //<-----to print data
+  // const numberRef = useRef(12345); // your number to print
+
+  // const handlePrint = () => {
+  //   const printWindow = window.open("", "_blank"); // open a new window
+  //   printWindow.document.write(`<h1>${numberRef.current}</h1>`); // write the number
+  //   printWindow.document.close();
+  //   printWindow.print(); // trigger print
+  // };
+  //<-----to print data
 
   const changeHandler = (e) => {
     e.preventDefault();
