@@ -269,10 +269,10 @@ export const viewDutySheet = async (req, res) => {
 export const viewSheetByDetails = async (req, res) => {
   try {
     const { year, month, company } = req.body;
-    console.log(year, month, company);
+    // console.log(year, month, company);
 
     let sheet = await Duty.find({ year, month, company });
-    console.log("sheeet", sheet);
+    // console.log("sheeet", sheet);
 
     //if no sheet create a new one
     if (sheet.length == 0 || !sheet) {
@@ -284,9 +284,7 @@ export const viewSheetByDetails = async (req, res) => {
 
       // creating new duties only with positions
       let duties = [];
-
       const monthIndex = new Date(`${month} 1, ${year}`).getMonth();
-      // Get the number of days in the given month/year
       const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
 
       for (let i = 0; i < companyDetails?.count?.length; i++) {
@@ -297,13 +295,13 @@ export const viewSheetByDetails = async (req, res) => {
         }
       }
 
-      console.log("duties file", duties);
+      // console.log("duties file", duties);
 
       //creating new sheet
       const newsheet = new Duty({ company, year, month, duties });
       await newsheet.save();
       console.log("new sheet is created");
-      console.log("new sheet", newsheet);
+      // console.log("new sheet", newsheet);
     }
 
     sheet = await Duty.find({ year, month, company }).populate("company").populate({

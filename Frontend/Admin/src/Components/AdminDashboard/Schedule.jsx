@@ -127,34 +127,34 @@ const Schedule = () => {
     }
   };
 
-  const submitHandler2 = async (e) => {
-    console.log("2nd is clicked");
+  // const submitHandler2 = async (e) => {
+  //   console.log("2nd is clicked");
 
-    e.preventDefault();
-    if (!selectedCompanyName) {
-      toast.error("Company Name is Required");
-    } else {
-      SetIsLoading(true);
-      setSelectedCompanyNameForCreateSheet(selectedCompanyName);
-      const month = monthInName(selectedMonth);
+  //   e.preventDefault();
+  //   if (!selectedCompanyName) {
+  //     toast.error("Company Name is Required");
+  //   } else {
+  //     SetIsLoading(true);
+  //     setSelectedCompanyNameForCreateSheet(selectedCompanyName);
+  //     const month = monthInName(selectedMonth);
 
-      //in here i need to neet to create an new sheet change the axios endpoint
-      try {
-        const response = await axios.post(
-          "http://localhost:5000/api/duty/viewSheetByDetails/",
-          { year: selectedYear, month: month, company: companyId },
-          { withCredentials: true }
-        );
-        setDutySet(response.data);
-        SetIsLoading(false);
-        setShowData(true);
-      } catch (error) {
-        SetIsLoading(false);
-        toast.error(error.response.data.message);
-      }
-    }
-    console.log(selectedMonth);
-  };
+  //     //in here i need to neet to create an new sheet change the axios endpoint
+  //     try {
+  //       const response = await axios.post(
+  //         "http://localhost:5000/api/duty/viewSheetByDetails/",
+  //         { year: selectedYear, month: month, company: companyId },
+  //         { withCredentials: true }
+  //       );
+  //       setDutySet(response.data);
+  //       SetIsLoading(false);
+  //       setShowData(true);
+  //     } catch (error) {
+  //       SetIsLoading(false);
+  //       toast.error(error.response.data.message);
+  //     }
+  //   }
+  //   console.log(selectedMonth);
+  // };
   console.log("duty set", dutySet);
 
   const dataCollectionArray = [];
@@ -173,23 +173,12 @@ const Schedule = () => {
           {/* while these2 are same can reduce them by making it as a function */}
           {/* Find Duty sheet */}
           <div>
-            <h2 className="font-bold">Find a Duty sheet</h2>
+            <h2 className="font-bold">Create Assign Duties to sheets</h2>
             <DutySearchForm
               changeHandler={changeHandler}
               selectedCompanyName={selectedCompanyName}
               companylist={companylist}
               submitHandler={submitHandler}
-            />
-          </div>
-
-          {/* create sheets */}
-          <div>
-            <h2 className="font-bold">Create a Duty sheet</h2>
-            <DutySearchForm
-              changeHandler={changeHandler}
-              selectedCompanyName={selectedCompanyName}
-              companylist={companylist}
-              submitHandler2={submitHandler2}
             />
           </div>
         </div>
@@ -252,7 +241,7 @@ const Schedule = () => {
                   {sheet.duties.map((duty, dindex) => (
                     <tr
                       key={dindex}
-                      className={`${duty.day == (selectedDay || 1) ? "box" : "hidden"}
+                      className={`${duty?.day == (selectedDay || 1) ? "box" : "hidden"}
                     `} //this is for attendance viewing area
                     >
                       <td className="p-2 border border-gray-300">
@@ -260,7 +249,7 @@ const Schedule = () => {
                           key={duty._id}
                           type="text"
                           name="position"
-                          value={duty.employee?.position}
+                          value={duty?.position}
                           readOnly
                         />
                       </td>
