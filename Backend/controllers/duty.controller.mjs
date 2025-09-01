@@ -285,11 +285,19 @@ export const viewSheetByDetails = async (req, res) => {
       // creating new duties only with positions
       let duties = [];
 
+      const monthIndex = new Date(`${month} 1, ${year}`).getMonth();
+      // Get the number of days in the given month/year
+      const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+
       for (let i = 0; i < companyDetails?.count?.length; i++) {
         for (let j = 0; j < companyDetails?.count[i].amount; j++) {
-          duties.push({ position: companyDetails?.count[i].position });
+          for (let day = 1; day <= daysInMonth; day++) {
+            duties.push({ position: companyDetails?.count[i].position, day });
+          }
         }
       }
+
+      console.log("duties file", duties);
 
       //creating new sheet
       const newsheet = new Duty({ company, year, month, duties });
