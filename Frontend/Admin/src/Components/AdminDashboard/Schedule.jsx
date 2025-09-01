@@ -209,6 +209,7 @@ const Schedule = () => {
           </h2>
 
           <NumberLine
+            year={selectedYear}
             month={selectedMonth}
             onSelectDay={(day) => {
               setSelectedDay(day);
@@ -255,8 +256,6 @@ const Schedule = () => {
                       </td>
 
                       <td className="p-2 border border-gray-300">
-                        {console.log("i log duty here", sheet.company.count)}
-
                         <input
                           list={`dataScheduleNames-${dindex}`} // unique per row
                           onChange={formChangeHandler}
