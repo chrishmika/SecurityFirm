@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import axios from "axios";
-
+import { toast } from "react-toastify";
 import { FaArrowLeft } from "react-icons/fa6";
 
-import NumberLine from "./subComponents/NumberLine";
-import { toast } from "react-toastify";
-import DutySearchForm from "./subComponents/DutySearchForm";
 import SideCalandeBar from "./subComponents/SideCalandeBar";
+import NumberLine from "./subComponents/NumberLine";
+import DutySearchForm from "./subComponents/DutySearchForm";
+
+import axios from "axios";
 
 const Schedule = () => {
   //for calender
@@ -56,9 +56,9 @@ const Schedule = () => {
       setSelectedYear(year_month[0]);
       setSelectedMonth(year_month[1]);
     }
+
     if (e.target.name == "companyName") {
       const company = e.target.value;
-
       setCompanyId(companylist.find((company) => company.name == e.target.value)._id);
       setSelectedCompanyName(company);
     }
@@ -212,21 +212,23 @@ const Schedule = () => {
                         <input
                           type="text"
                           name="position"
-                          value={duty.employee.position}
+                          value={duty.employee?.position}
                           className="outline-0"
                           readOnly
                         />
+                        {console.log("duty,", duty)}
                       </td>
 
                       <td className="p-2 border border-gray-300">
                         <input
                           type="text"
                           className="bg-none font-bold px-2 w-full outline-0"
-                          value={duty.employee.name}
+                          value={duty.employee?.name}
                           readOnly
                         />
                       </td>
 
+                      {/* neet fix values in here in propper way */}
                       <td className="p-2 border border-gray-300">
                         <input
                           className="px-2 w-full outline-0"
@@ -236,6 +238,7 @@ const Schedule = () => {
                         />
                       </td>
 
+                      {/* neet fix values in here in propper way */}
                       <td className="p-2 border border-gray-300">
                         <input
                           className=" px-2 w-full outline-0"

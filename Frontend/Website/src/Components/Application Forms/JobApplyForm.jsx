@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 import uploadImage from "../../Services/AuthServices";
 
 const JobApplyForm = () => {
@@ -86,7 +86,7 @@ const JobApplyForm = () => {
     // }
     try {
       // console.log(formData);
-      const response = await axios.post("http://localhost:4000/api/v1/web/employeeform", formData, {
+      const response = await axios.post("http://localhost:5000/api/v1/web/employeeform", formData, {
         headers: {
           "Content-Type": "application/json",
         },

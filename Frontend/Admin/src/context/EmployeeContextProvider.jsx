@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import { EmployeeContext } from "./EmployeeContext";
 
 export const EmployeeProvider = ({ children }) => {
-  const [employee, setEmployee] = useState({
-    empId: "",
+  let initialState = {
     name: "",
     initials: "",
     NIC: "",
@@ -31,8 +30,14 @@ export const EmployeeProvider = ({ children }) => {
     NICCopy: null,
     cv: null,
     gsCertificate: null,
-  });
-  return <EmployeeContext.Provider value={{ employee, setEmployee }}>{children}</EmployeeContext.Provider>;
+  };
+
+  const [employee, setEmployee] = useState(initialState);
+  return (
+    <EmployeeContext.Provider value={{ employee, setEmployee, initialState }}>
+      {children}
+    </EmployeeContext.Provider>
+  );
 };
 
 EmployeeProvider.propTypes = {
