@@ -1,10 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { createBrowserRouter, RouterProvider, Route, createRoutesFromElements, Navigate } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  createRoutesFromElements,
+  Navigate,
+} from "react-router-dom";
 import { useAuthContext } from "./hooks/useAuthContext";
 import { PuffLoader } from "react-spinners";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 
 //admin import
 import LayoutAdmin from "./Layout/LayoutAdmin";
@@ -52,8 +58,7 @@ const webRouter = createBrowserRouter(
           <NotSignInRedirect>
             <LayoutAdmin />
           </NotSignInRedirect>
-        }
-      >
+        }>
         <Route path="admin" element={<Admin />}>
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="attendance" element={<AttendanceView />} />
@@ -65,7 +70,8 @@ const webRouter = createBrowserRouter(
           <Route path="web" element={<Web />} />
         </Route>
       </Route>
-      <Route path="/user" element={<User />} /> {/* user Routes irusha is creating on mobile app sides*/}
+      <Route path="/user" element={<User />} />{" "}
+      {/* user Routes irusha is creating on mobile app sides*/}
       <Route path="*" element={<NotFound />} />
     </React.Fragment>
   )
@@ -76,7 +82,7 @@ const App = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center h-screen ">
         <PuffLoader />
       </div>
     );

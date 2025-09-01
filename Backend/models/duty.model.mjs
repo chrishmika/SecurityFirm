@@ -47,6 +47,10 @@ const dutySchema = new mongoose.Schema(
           max: 31,
           // required: true,
         },
+        position: {
+          type: String,
+          // required: true,
+        },
         time: {
           type: String,
           // required: true,

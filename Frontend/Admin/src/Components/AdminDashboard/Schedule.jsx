@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { FaArrowLeft } from "react-icons/fa6";
 
-import { sampleDuties } from "../samples/dutySample"; //sample data
 //import { companylist } from "../samples/companylist";
+import { sampleDuties } from "../samples/dutySample"; //sample data
 import { employeelist } from "../samples/employeelist";
 
 import NumberLine from "./subComponents/NumberLine";
 import DutySearchForm from "./subComponents/DutySearchForm";
 import SideCalandeBar from "./subComponents/SideCalandeBar";
+
 import axios from "axios";
 
 // console.log(sampleDuties);
@@ -33,10 +34,13 @@ const Schedule = () => {
 
   //for gather data from table
   const [companylist, setCompanylist] = useState([]);
+  const [dutySet, setDutySet] = useState([]);
 
   //feels like dosent need this, for select relevent sheet file . ?_?
   const [isReady, setIsReady] = useState(false);
 
+  //take a name list of companies
+  //need to take the names of employees and positions with this
   useEffect(() => {
     const getData = async () => {
       const response = await axios("http://localhost:5000/api/company/getCompanyList", {
@@ -53,9 +57,11 @@ const Schedule = () => {
     e.preventDefault();
     if (e.target.name == "yearMonth") {
       const year_month = e.target.value.split("-");
+
       setSelectedYear(year_month[0]);
       setSelectedMonth(year_month[1]);
     }
+
     if (e.target.name == "companyName") {
       //currently this take the id change as needed
       setCompanyId(companylist.find((company) => company.name == e.target.value)._id);
@@ -67,24 +73,143 @@ const Schedule = () => {
   const formChangeHandler = () => {};
 
   const submitHandler = async (e) => {
+    console.log("1st is clicked");
+
     e.preventDefault();
-    !selectedCompanyName ? toast.error("Company Name is Required") : SetIsLoading(!isloading); //take data from backend from tables
-    console.log(selectedCompanyName);
-    console.log(selectedYear);
-    console.log(selectedMonth);
-    console.log("1nd is pressed ");
+    if (!selectedCompanyName) {
+      toast.error("Company Name is Required");
+    } else {
+      SetIsLoading(true);
+
+      let month;
+      switch (selectedMonth) {
+        case "01":
+          month = "January";
+          break;
+        case "02":
+          month = "February";
+          break;
+        case "03":
+          month = "March";
+          break;
+        case "04":
+          month = "April";
+          break;
+        case "05":
+          month = "May";
+          break;
+        case "06":
+          month = "June";
+          break;
+        case "07":
+          month = "July";
+          break;
+        case "08":
+          month = "August";
+          break;
+        case "09":
+          month = "September";
+          break;
+        case "10":
+          month = "Octomber";
+          break;
+        case "11":
+          month = "November";
+          break;
+        case "12":
+          month = "December";
+          break;
+      }
+
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/api/duty/viewSheetByDetails/",
+          { year: selectedYear, month: month, company: companyId },
+          { withCredentials: true }
+        );
+        setDutySet(response.data);
+        SetIsLoading(false);
+        setShowData(true);
+      } catch (error) {
+        SetIsLoading(false);
+        toast.error(error.response.data.message);
+      }
+    }
   };
 
   const submitHandler2 = async (e) => {
+    console.log("2nd is clicked");
+
     e.preventDefault();
-    !selectedCompanyName ? toast.error("Company Name is Required") : SetIsLoading(!isloading); //take data from backend from tables
-    console.log(selectedCompanyName);
-    console.log(selectedYear);
+    if (!selectedCompanyName) {
+      toast.error("Company Name is Required");
+    } else {
+      SetIsLoading(true);
+      setSelectedCompanyNameForCreateSheet(selectedCompanyName);
+
+      let month;
+      switch (selectedMonth) {
+        case "01":
+          month = "January";
+          break;
+        case "02":
+          month = "February";
+          break;
+        case "03":
+          month = "March";
+          break;
+        case "04":
+          month = "April";
+          break;
+        case "05":
+          month = "May";
+          break;
+        case "06":
+          month = "June";
+          break;
+        case "07":
+          month = "July";
+          break;
+        case "08":
+          month = "August";
+          break;
+        case "09":
+          month = "September";
+          break;
+        case "10":
+          month = "Octomber";
+          break;
+        case "11":
+          month = "November";
+          break;
+        case "12":
+          month = "December";
+          break;
+      }
+
+      //in here i need to neet to create an new sheet change the axios endpoint
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/api/duty/viewSheetByDetails/",
+          { year: selectedYear, month: month, company: companyId },
+          { withCredentials: true }
+        );
+        setDutySet(response.data);
+        SetIsLoading(false);
+        setShowData(true);
+      } catch (error) {
+        SetIsLoading(false);
+        toast.error(error.response.data.message);
+      }
+    }
     console.log(selectedMonth);
     console.log("2nd is pressed ");
   };
+  console.log("duty set", dutySet);
 
   const dataCollectionArray = [];
+
+  //method to update data is need to be implimented here
 
   const dataCollection = ({ day, employee, start, shift, remark }) => {
     const data = { day, employee, start, shift, remark };
@@ -121,24 +246,15 @@ const Schedule = () => {
       </div>
 
       {/* loading screen */}
-      <div className={`col-span-2 bg-red-100 ${isloading ? "box" : "hidden"}`}>
-        {/* toggle button */}
+      <div className={`col-span-2 bg-red-100 ${isloading ? "block" : "hidden"}`}>
         {`Loading....`}
-        <button
-          onClick={() => {
-            SetIsLoading(!isloading);
-            setShowData(!showData);
-            setIsReady(!isReady);
-          }}>
-          Click me 2
-        </button>
       </div>
 
-      {/* //////////////////////////////////////// */}
       {/* data is shown here after user enter the company name and submit*/}
-      <div className={`col-span-2 bg-red-100 ${showData && !isloading ? "box" : "hidden"} `}>
+      <div className={`col-span-2 bg-red-100 ${showData && !isloading ? "block" : "hidden"} `}>
         <div>
           {/* back button */}
+
           <button
             onClick={() => {
               setShowData(!showData);
@@ -159,103 +275,105 @@ const Schedule = () => {
               setSelectedDay(day);
             }}
           />
-
-          {/* toggle button */}
         </div>
-        <div>{selectedDay}</div> {/* this line is need to be removed later */}
+
+        {/* from here data need to be in input form an data is need to be filtered and on-arrow neet to be used for datalist */}
+        {/* toggle button */}
         <div className="my-10 overflow-x-auto">
-          {sampleDuties.map((sheet) => (
-            <table
-              className="table-auto w-full border-collapse border border-gray-400"
-              key={selectedDay}>
-              <thead className="bg-gray-200">
-                <tr>
-                  <th className="p-2 border border-gray-300">Position</th>
-                  <th className="p-2 border border-gray-300">Employee</th>
-                  <th className="p-2 border border-gray-300">Start</th>
-                  <th className="p-2 border border-gray-300">Shift</th>
-                  <th className="p-2 border border-gray-300">Remark</th>
-                  <th className="p-2 border border-gray-300"></th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {sheet.duties.map((duty, dindex) => (
-                  <tr
-                    key={dindex}
-                    className={`${duty.day == (selectedDay || 1) ? "box" : "hidden"}
-                    `} //this is for attendance viewing area
-                  >
-                    <td className="p-2 border border-gray-300">
-                      <input type="text" name="position" value={duty.employee.position} readOnly />
-                    </td>
-
-                    <td className="p-2 border border-gray-300">
-                      <input
-                        list="dataScheduleNames"
-                        onChange={formChangeHandler}
-                        className={`bg-blue-100 px-2 w-full no-arrow `}
-                      />
-
-                      <datalist id="dataScheduleNames">
-                        {/* {employeelist.map((employee) => (
-                          <option
-                            key={employee._id}
-                            value={employee.name}
-                            className={`${
-                              employee.position == duty.employee.position ? "block" : "hidden"
-                            }`}
-                          />
-                          // need to check issues in data list
-                        ))} */}
-                        {employeelist
-                          .filter((employee) => employee.position === duty.employee.position) // replace requiredPosition accordingly
-                          .map((employee) => (
-                            <option key={employee._id} value={employee.name} />
-                          ))}
-                        {/* this above conditions duty.employee.position need to change as the position that ask by company */}
-                      </datalist>
-                    </td>
-
-                    <td className="p-2 border border-gray-300">
-                      <select
-                        className="bg-blue-100 px-2 w-full"
-                        type="text"
-                        onChange={formChangeHandler}>
-                        <option>Select</option>
-                        <option value={12}>{"12"}</option>
-                        <option value={24}>{"24"}</option>
-                      </select>
-                    </td>
-
-                    <td className="p-2 border border-gray-300">
-                      <select
-                        className="bg-blue-100 px-2 w-full"
-                        type="text"
-                        onChange={formChangeHandler}>
-                        <option>Select</option>
-                        <option value={12}>8am</option>
-                        <option value={24}>6pm</option>
-                      </select>
-                    </td>
-
-                    <td className="p-2 border border-gray-300">
-                      <input
-                        className="bg-blue-100 px-2 w-full"
-                        type="text"
-                        value={duty.remark}
-                        onChange={formChangeHandler}
-                      />
-                    </td>
-
-                    <td className="p-2 border border-gray-300">
-                      <button className="bg-green-300 p-1 w-full cursor-pointer">Add</button>
-                    </td>
+          {Array.isArray(dutySet) &&
+            dutySet.map((sheet) => (
+              <table
+                className="table-auto w-full border-collapse border border-gray-400"
+                key={selectedDay}>
+                <thead className="bg-gray-200">
+                  <tr>
+                    <th className="p-2 border border-gray-300">Position</th>
+                    <th className="p-2 border border-gray-300">Employee</th>
+                    <th className="p-2 border border-gray-300">Start</th>
+                    <th className="p-2 border border-gray-300">Shift</th>
+                    <th className="p-2 border border-gray-300">Remark</th>
+                    <th className="p-2 border border-gray-300"></th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          ))}
+                </thead>
+
+                {/* from here data need to be in input form an data is need to be filtered and on-arrow neet to be used for datalist */}
+                <tbody>
+                  {/* this pard works after fetching the relevant sheet */}
+                  {sheet.duties.map((duty, dindex) => (
+                    <tr
+                      key={dindex}
+                      className={`${duty.day == (selectedDay || 1) ? "box" : "hidden"}
+                    `} //this is for attendance viewing area
+                    >
+                      <td className="p-2 border border-gray-300">
+                        <input
+                          key={duty._id}
+                          type="text"
+                          name="position"
+                          value={duty.employee?.position}
+                          readOnly
+                        />
+                      </td>
+
+                      <td className="p-2 border border-gray-300">
+                        <input
+                          list={`dataScheduleNames-${dindex}`} // unique per row
+                          onChange={formChangeHandler}
+                          value={duty?.employee?.name}
+                          className="bg-blue-100 px-2 w-full no-arrow"
+                        />
+
+                        <datalist id={`dataScheduleNames-${dindex}`}>
+                          {employeelist
+                            .filter((employee) => employee?.position === duty.employee?.position)
+                            .map((employee) => (
+                              <option key={employee._id} value={employee.name} />
+                            ))}
+                        </datalist>
+                      </td>
+                      {/* neet fix values in here in propper way */}
+                      <td className="p-2 border border-gray-300">
+                        <select
+                          className="bg-blue-100 px-2 w-full"
+                          type="text"
+                          value={duty?.shift}
+                          onChange={formChangeHandler}>
+                          <option>Select</option>
+                          <option value={12}>8am</option>
+                          <option value={24}>6pm</option>
+                        </select>
+                      </td>
+
+                      {/* neet fix values in here in propper way */}
+                      <td className="p-2 border border-gray-300">
+                        <select
+                          className="bg-blue-100 px-2 w-full"
+                          type="text"
+                          value={`${duty?.start} hours`} //previous value
+                          onChange={formChangeHandler}>
+                          <option>Select</option>
+                          <option value={12}>{"12"}</option>
+                          <option value={24}>{"24"}</option>
+                        </select>
+                      </td>
+
+                      <td className="p-2 border border-gray-300">
+                        <input
+                          className="bg-blue-100 px-2 w-full"
+                          type="text"
+                          value={duty?.remark}
+                          onChange={formChangeHandler}
+                        />
+                      </td>
+
+                      <td className="p-2 border border-gray-300">
+                        <button className="bg-green-300 p-1 w-full cursor-pointer">Add</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ))}
         </div>
       </div>
 

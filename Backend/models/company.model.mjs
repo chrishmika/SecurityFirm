@@ -6,6 +6,10 @@ const companySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    CompanyId: {
+      type: String,
+      required: false,
+    },
     address: {
       type: String,
       required: true,

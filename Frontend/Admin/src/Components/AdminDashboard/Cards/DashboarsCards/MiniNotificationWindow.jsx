@@ -51,7 +51,7 @@ const MiniNotificationWindow = () => {
   };
 
   return (
-    <div className=" h-full rounded-2xl pl-2 pr-2 overflow-y-scroll overflow-x-hidden flex-wrap scroll-m-0">
+    <div className=" h-full rounded-2xl pl-2 pr-2 overflow-y-scroll overflow-x-hidden flex-wrap scroll-m-0 container">
       <div className="">
         <div className="py-2">
           <span className="font-bold text-2xl px-2 flex justify-center">Notifications</span>
@@ -61,7 +61,11 @@ const MiniNotificationWindow = () => {
 
         <div className="">
           {notificationsset.map((notification, key) => (
-            <div key={key} className={`flex justify-between mb-0.75 px-5 py-2 shadow-2xs rounded-2xl  hover:cursor-pointer ${notification.read ? "bg-white" : "bg-green-200"}`}>
+            <div
+              key={key}
+              className={`flex justify-between mb-0.75 px-5 py-2 shadow-2xs rounded-2xl  hover:cursor-pointer ${
+                notification.read ? "bg-white" : "bg-green-200"
+              }`}>
               <div>
                 <strong>From: </strong>
                 {notification.from?.name || "No name"}
@@ -77,8 +81,7 @@ const MiniNotificationWindow = () => {
                 <span
                   onClick={() => {
                     deleteNotificationHandler(notification._id);
-                  }}
-                >
+                  }}>
                   Delete
                 </span>
               </div>

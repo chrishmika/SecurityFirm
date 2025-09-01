@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 
 import User from "../models/user.model.mjs";
 import createNotification from "../lib/utils/createNotification.mjs";
+import Employee from "../models/employee.model.mjs";
 
 export const getme = async (req, res) => {
   try {
@@ -23,7 +24,8 @@ export const signup = async (req, res) => {
     const existingUser = await User.findOne({ NIC });
     if (existingUser) return res.status(400).json({ error: "User already exists" });
 
-    if (password.length < 4) return res.status(400).json({ error: `password must be atleast 5 characters long` });
+    if (password.length < 4)
+      return res.status(400).json({ error: `password must be atleast 5 characters long` });
 
     //hashing passwod
     const salt = await bcrypt.genSalt(10);
@@ -50,6 +52,22 @@ export const signup = async (req, res) => {
   }
 };
 
+// export const loginEmployee = async (req, res) => {
+//   try {
+//     let { NIC, password } = req.body;
+//     const employee = await Employee.findOne({ NIC }).select("password", "_id");
+//     console.log(employee);
+
+//     generateTokenAndSetCookie(employee._id, res);
+//     employee.password = "";
+
+//     res.status(200).json(employee);
+//   } catch (error) {
+//     console.log(`error in login controller ${error.message}`);
+//     res.status(500).json({ error: "internal server error on loginEmployee" });
+//   }
+// };
+
 export const login = async (req, res) => {
   try {
     let { NIC, password } = req.body;
@@ -60,7 +78,20 @@ export const login = async (req, res) => {
     const validated = await bcrypt.compare(password, user.password);
     if (!validated) return res.status(404).json({ error: `Invalid Password` });
 
+    const employee = await Employee.findOne({ NIC });
+
+    // let empId;
+    // if (!employee.empId || !employee) {
+    //   empId = "00000";
+    // } else {
+    // empId = employee.empId;
+    // }
+    // user.empId = empId;
+
     generateTokenAndSetCookie(user._id, res);
+
+    console.log(user);
+    console.log(employee);
 
     user.password = "";
 
@@ -89,7 +120,12 @@ export const forgetPassword = async (req, res) => {
 
   //create new Notification
   const admin = await User.findOne({ role: "admin" });
-  createNotification(admin._id, req.user._id, "password", "Password was Changed By Admin under user forget password");
+  createNotification(
+    admin._id,
+    req.user._id,
+    "password",
+    "Password was Changed By Admin under user forget password"
+  );
 
   res.status(200).json({ message: `password updated sucessfull`, user });
 };
@@ -103,7 +139,8 @@ export const changePassword = async (req, res) => {
   if (!user) return res.status(404).json({ error: `invalid user` });
 
   const validateLength = newPassword.length > 4;
-  if (!validateLength) return res.status(404).json({ error: `password must have atleast 4 charactors` });
+  if (!validateLength)
+    return res.status(404).json({ error: `password must have atleast 4 charactors` });
 
   const validate = await bcrypt.compare(oldPassword, user.password);
   if (!validate) return res.status(404).json({ error: `Password not matched` });

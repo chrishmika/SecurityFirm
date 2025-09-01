@@ -5,9 +5,10 @@ import { IoCloseSharp } from "react-icons/io5";
 import { CiFileOn } from "react-icons/ci";
 import { useEmployeeContext } from "../../../hooks/useEmployeeContext";
 import { toast } from "react-toastify";
+import { forwardRef } from "react";
 
 const EmployeeForm = () => {
-  const { employee, setEmployee } = useEmployeeContext();
+  const { employee, setEmployee, initialState } = useEmployeeContext();
 
   const imageRef = useRef(null);
   const cvRef = useRef(null);
@@ -48,7 +49,11 @@ const EmployeeForm = () => {
       const response = await axios.post("/api/admin/createEmployee", employee, {
         withCredentials: true,
       });
-      if (response.status === 200) toast.success("Employee added successfully");
+      if (response.status === 200) {
+        toast.success("Employee added successfully");
+        setStep(1);
+        setEmployee(initialState);
+      }
     } catch (error) {
       toast.error(error.response?.data?.error || "Something went wrong");
     }
@@ -58,7 +63,7 @@ const EmployeeForm = () => {
   const prevStep = () => setStep((prev) => prev - 1);
 
   const inputFields = [
-    { label: "Employee ID", name: "empId", placeholder: "EMP123456" },
+    // { label: "Employee ID", name: "empId", placeholder: "EMP123456" },
     { label: "Full Name", name: "name", placeholder: "Ushan Kavindu Sumanasekara" },
     { label: "Name With Initials", name: "initials", placeholder: "U. K. Sumanasekara" },
     { label: "Date of Birth", name: "birthday", type: "date" },
@@ -92,6 +97,7 @@ const EmployeeForm = () => {
                 required
               />
             ))}
+
             <Select
               label="Nationality"
               name="nationality"
@@ -205,10 +211,11 @@ const EmployeeForm = () => {
               onChange={handleChange}
             />
             <RadioGroup
-              label="Can Handle Guns?"
+              label="Handling Guns?"
               name="gunHandling"
               options={["Yes", "No"]}
               onChange={handleChange}
+              inputProps={{ "data-gramm": "false" }}
             />
             <Textarea
               label="Disabilities"
@@ -302,7 +309,7 @@ const RadioGroup = ({ label, name, options, onChange }) => (
   </fieldset>
 );
 
-const FileUpload = ({ label, file, name, onChange, clear, onDownload, ref = null }) => (
+const FileUpload = forwardRef(({ label, file, name, onChange, clear, onDownload }, ref) => (
   <div className="flex flex-col items-center w-[120px]">
     {file ? (
       <div className="relative w-full">
@@ -320,7 +327,9 @@ const FileUpload = ({ label, file, name, onChange, clear, onDownload, ref = null
       </label>
     )}
   </div>
-);
+));
+
+FileUpload.displayName = "FileUpload";
 
 const StepButtons = ({ next, back, isFinal = false }) => (
   <div className="flex justify-between gap-4 pt-6">
