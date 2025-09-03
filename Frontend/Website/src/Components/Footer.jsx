@@ -16,18 +16,6 @@ const Footer = () => {
 
       <div className="container mx-auto relative z-10">
         {/* Main Footer Content */}
-        <div className="flex justify-center p-8">
-          <a
-            href="#top"
-            className="inline-flex items-center space-x-2 text-gray-400 hover:text-blue-400 transition-all duration-300 group">
-            <span className="text-sm">Back to Top</span>
-            <div className="w-6 h-6 bg-gradient-to-r from-gray-600 to-gray-500 rounded-full flex items-center justify-center group-hover:from-blue-500 group-hover:to-blue-600 transition-all duration-300 group-hover:scale-110">
-              <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2l8 8h-5v8h-6v-8H4l8-8z" />
-              </svg>
-            </div>
-          </a>
-        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* Company Info */}
           <div className="space-y-4">
@@ -240,7 +228,16 @@ const Footer = () => {
           <p className="text-gray-500 text-sm">
             Website by <span className="text-blue-400 font-semibold">SecurityWeb Solutions®</span>
           </p>
-          
+          <a
+            href="#top"
+            className="inline-flex items-center space-x-2 text-gray-400 hover:text-blue-400 transition-all duration-300 group">
+            <span className="text-sm">Back to Top</span>
+            <div className="w-6 h-6 bg-gradient-to-r from-gray-600 to-gray-500 rounded-full flex items-center justify-center group-hover:from-blue-500 group-hover:to-blue-600 transition-all duration-300 group-hover:scale-110">
+              <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2l8 8h-5v8h-6v-8H4l8-8z" />
+              </svg>
+            </div>
+          </a>
         </div>
       </div>
     </footer>

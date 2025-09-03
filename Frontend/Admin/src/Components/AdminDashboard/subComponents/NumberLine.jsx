@@ -1,9 +1,9 @@
-/* eslint-disable react/prop-types */
 import { useState } from "react";
 
-const NumberLine = ({ year, month, onSelectDay }) => {
+const NumberLine = ({ month, onSelectDay }) => {
   const [clicked, setClicked] = useState(1);
 
+ 
   const monthIndex = new Date(`${month} 1, ${year}`).getMonth();
   const days = new Date(year, monthIndex + 1, 0).getDate();
 

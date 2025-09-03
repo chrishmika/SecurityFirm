@@ -4,19 +4,7 @@ import bcrypt from "bcryptjs";
 import User from "../models/user.model.mjs";
 import createNotification from "../lib/utils/createNotification.mjs";
 import Employee from "../models/employee.model.mjs";
-
-export const getme = async (req, res) => {
-  try {
-    const user = await User.findById(req.user._id).select("-password");
-    console.log(user);
-
-    return res.status(200).json(user);
-  } catch (error) {
-    console.log(`error in getme controller ${error.message}`);
-    res.status(500).json({ error: "internal server error on getme" });
-  }
-};
-
+//singup 
 export const signup = async (req, res) => {
   try {
     const { name, NIC, password, role } = req.body;
@@ -52,50 +40,59 @@ export const signup = async (req, res) => {
   }
 };
 
-// export const loginEmployee = async (req, res) => {
-//   try {
-//     let { NIC, password } = req.body;
-//     const employee = await Employee.findOne({ NIC }).select("password", "_id");
-//     console.log(employee);
-
-//     generateTokenAndSetCookie(employee._id, res);
-//     employee.password = "";
-
-//     res.status(200).json(employee);
-//   } catch (error) {
-//     console.log(`error in login controller ${error.message}`);
-//     res.status(500).json({ error: "internal server error on loginEmployee" });
-//   }
-// };
+export const getme = async (req, res) => { 
+  try {
+    const user = await User.findById(req.user._id).select("-password");
+    console.log(user);
+    return res.status(200).json(user);
+  } catch (error) {
+    console.log(`error in getme controller ${error.message}`);
+    res.status(500).json({ error: "internal server error on getme" });
+  }
+};
 
 export const login = async (req, res) => {
   try {
-    let { NIC, password } = req.body;
+    let { NIC, nic, password } = req.body;
+    
+    // Handle both NIC and nic field names for compatibility
+    const nicValue = NIC || nic;
+    
+    if (!nicValue || !password) {
+      return res.status(400).json({ error: "NIC and password are required" });
+    }
 
-    const user = await User.findOne({ NIC });
+    const user = await User.findOne({ NIC: nicValue });
     if (!user) return res.status(404).json({ error: `Invalid User` });
-
+    
     const validated = await bcrypt.compare(password, user.password);
     if (!validated) return res.status(404).json({ error: `Invalid Password` });
-
-    const employee = await Employee.findOne({ NIC });
-
-    // let empId;
-    // if (!employee.empId || !employee) {
-    //   empId = "00000";
-    // } else {
-    // empId = employee.empId;
-    // }
-    // user.empId = empId;
-
-    generateTokenAndSetCookie(user._id, res);
-
+    
+    const employee = await Employee.findOne({ NIC: nicValue });
+    
+    // Generate token - for React Native, return it in response body instead of cookie
+    const token = generateTokenAndSetCookie(user._id, res);
+    
     console.log(user);
     console.log(employee);
-
-    user.password = "";
-
-    res.status(200).json(user);
+    
+    // Prepare user response
+    const userResponse = {
+      _id: user._id,
+      name: user.name,
+      nic: user.NIC, // Map NIC to nic for frontend consistency
+      role: user.role,
+      empId: employee?.empId || "00000",
+      employeID : employee?._id //new code added here <---------------------------
+    };
+    
+    // Return both token and user data for React Native
+    res.status(200).json({
+      success: true,
+      token: token, // Include token in response body
+      user: userResponse,
+      message: "Login successful"
+    });
   } catch (error) {
     console.log(`error in login controller ${error.message}`);
     res.status(500).json({ error: "internal server error on login" });
