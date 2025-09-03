@@ -10,12 +10,17 @@ import { CiFileOn } from "react-icons/ci";
 import { useCompanyContext } from "../../../hooks/useCompanyContext";
 
 import { toast } from "react-toastify";
+import LoadingScreen from "../subComponents/LoadingScreen";
+
+const availablePositions = ["LSO", "SO", "JSO", "OIC"];
 
 const CompanyForm = () => {
-  const { company, setCompany } = useCompanyContext();
+  const [loading, SetLoading] = useState(false);
 
-  const [currentInputs, setCurrentInputs] = useState({ position: "", count: "" });
-  const [companyRequirement, setCompanyRequirement] = useState([]);
+  const { company, setCompany, initialCompany } = useCompanyContext();
+
+  const [currentInputs, setCurrentInputs] = useState({ position: "", amount: "" });
+  // const [companyRequirement, setCompanyRequirement] = useState([]);
 
   const proposalRef = useRef(null);
 
@@ -38,7 +43,18 @@ const CompanyForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setCompany((prev) => ({ ...prev, [name]: value }));
+    if ((name == "contractTo") | (name == "contractFrom")) {
+      setCompany((prev) => {
+        const updatedContract = {
+          from: name === "contractFrom" ? value : prev?.contractPeriod[0]?.from || "",
+          to: name === "contractTo" ? value : prev?.contractPeriod[0]?.to || "",
+        };
+
+        return { ...prev, contractPeriod: [updatedContract] };
+      });
+    } else {
+      setCompany((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleFileChange = (e) => {
@@ -47,14 +63,26 @@ const CompanyForm = () => {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setCompany((prev) => ({ ...prev, [name]: reader.result }));
+        setCompany((prev) => ({ ...prev, [name]: { file, src: reader.result } }));
       };
       reader.readAsDataURL(file);
     }
   };
 
+  const downloadFile = (file) => {
+    const url = URL.createObjectURL(file);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = file.name || "document";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   const handleRequirementInputChange = (e) => {
     const { name, value } = e.target;
+    console.log(name, value);
     setCurrentInputs((prev) => ({
       ...prev,
       [name]: name === "count" ? (value === "" ? "" : Number(value)) : value,
@@ -63,7 +91,10 @@ const CompanyForm = () => {
 
   const addRequirement = (e) => {
     e.preventDefault();
-    if (currentInputs.position.trim() === "" || currentInputs.position === "Select Position") {
+    console.log(e.target.value);
+
+    // validations
+    if (!currentInputs.position || currentInputs.position === "Select Position") {
       toast.error("Please select a position");
       return;
     }
@@ -71,76 +102,111 @@ const CompanyForm = () => {
       toast.error("Please enter a valid count");
       return;
     }
-    setCompanyRequirement((prev) => [...prev, currentInputs]);
+
+    // push into company.count
+    setCompany((prev) => ({
+      ...prev,
+      count: [...prev.count, { position: currentInputs.position, amount: currentInputs.count }],
+    }));
+
+    // reset local inputs
     setCurrentInputs({ position: "", count: "" });
   };
 
+  console.log("currentInputs", currentInputs);
+
   const removeRequirement = (index, e) => {
     e.preventDefault();
-    setCompanyRequirement((prev) => prev.filter((_, i) => i !== index));
+    setCompany((prev) => ({
+      ...prev,
+      count: prev.count.filter((_, i) => i !== index),
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("company,", company);
+
     try {
+      SetLoading(true);
       const response = await axios.post("/api/admin/createCompany", company, {
         withCredentials: true,
       });
       if (response.status === 200) {
         toast.success("Company created successfully");
       }
+      setCompany(initialCompany);
+      SetLoading(false);
     } catch (error) {
       toast.error(error.response?.data?.error || "Something went wrong");
+      SetLoading(false);
     }
   };
 
-  const downloadFile = (file) => {
-    const url = URL.createObjectURL(file);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = file.name;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-
   return (
-    <div className="max-w-7xl mx-auto p-4 space-y-6">
-      <form onSubmit={handleSubmit} className="space-y-6">
+    <div className="flex justify-center p-6 bg-gray-100 min-h-screen">
+      <div className={`col-span-full ${loading ? "block" : "hidden"}`}>
+        <LoadingScreen />
+      </div>
+
+      <form
+        onSubmit={handleSubmit}
+        className={`${
+          !loading ? "block" : "hidden"
+        } w-full max-w-5xl bg-white p-6 rounded-lg shadow space-y-6 }`}>
         {/* Company Details */}
         <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
           <h2 className="text-xl font-semibold">Company Details</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label>Company Name</label>
+            <div className="flex gap-2 items-center">
+              <label>Company Name :</label>
               <input
                 name="name"
+                value={company.name}
                 onChange={handleChange}
                 placeholder="DVision Security"
                 className="input"
+                required
               />
             </div>
-            <div>
-              <label>Address</label>
+
+            <div className="flex gap-2 items-center">
+              <label>Address :</label>
               <input
                 name="address"
                 value={company?.address}
                 onChange={handleChange}
                 placeholder="Main street, Colombo"
                 className="input"
+                required
               />
-              <button type="button" onClick={handleGetLocation} className="btn mt-2">
-                Get Location
+
+              <button
+                type="button"
+                onClick={handleGetLocation}
+                className="btn mt-2 bg-green-600 px-1.5 py-1 rounded-md text-white  cursor-pointer hover:bg-green-800">
+                Fetch Location
               </button>
             </div>
-            <div>
-              <label>Latitude</label>
-              <input value={company?.latitude || ""} readOnly className="input" />
+
+            <div className="flex gap-2 items-center">
+              <label>Latitude :</label>
+              <input
+                value={company?.latitude || ""}
+                className="input border-b-2 border-green-600"
+                readOnly
+                required
+              />
             </div>
-            <div>
-              <label>Longitude</label>
-              <input value={company?.longitude || ""} readOnly className="input" />
+
+            <div className="flex gap-2 items-center">
+              <label>Longitude :</label>
+              <input
+                value={company?.longitude || ""}
+                className="input border-b-2 border-green-600"
+                readOnly
+                required
+              />
             </div>
           </div>
         </div>
@@ -151,11 +217,23 @@ const CompanyForm = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label>From</label>
-              <input type="date" name="contractFrom" onChange={handleChange} className="input" />
+              <input
+                type="date"
+                name="contractFrom"
+                onChange={handleChange}
+                className="input"
+                required
+              />
             </div>
             <div>
               <label>To</label>
-              <input type="date" name="contractTo" onChange={handleChange} className="input" />
+              <input
+                type="date"
+                name="contractTo"
+                onChange={handleChange}
+                className="input"
+                required
+              />
             </div>
           </div>
         </div>
@@ -164,41 +242,70 @@ const CompanyForm = () => {
         <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
           <h2 className="text-xl font-semibold">Agent Details</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input
-              name="agent"
-              value={company.agent}
-              placeholder="Agent Name"
-              onChange={handleChange}
-              className="input"
-            />
-            <input
-              name="agentNIC"
-              value={company.agentNIC}
-              placeholder="NIC Number"
-              onChange={handleChange}
-              className="input"
-            />
-            <input
-              name="agentEmail"
-              value={company.agentEmail}
-              placeholder="Agent Email"
-              onChange={handleChange}
-              className="input"
-            />
-            <input
-              name="agentContact1"
-              value={company.agentContact1}
-              placeholder="Contact 1"
-              onChange={handleChange}
-              className="input"
-            />
-            <input
-              name="agentContact2"
-              value={company.agentContact2}
-              placeholder="Contact 2"
-              onChange={handleChange}
-              className="input"
-            />
+            <div className="flex gap-2 items-center">
+              <label>Agent Name :</label>
+              <input
+                name="agent"
+                value={company.agent}
+                placeholder="Agent Name"
+                onChange={handleChange}
+                className="input"
+                required
+              />
+            </div>
+
+            <div className="flex gap-2 items-center">
+              <label>Agent NIC :</label>
+
+              <input
+                name="agentNIC"
+                value={company.agentNIC}
+                maxLength={12}
+                placeholder="NIC Number"
+                onChange={handleChange}
+                className="input"
+                required
+              />
+            </div>
+
+            <div className="flex gap-2 items-center">
+              <label>Agent Email :</label>
+              <input
+                name="agentEmail"
+                value={company.agentEmail}
+                placeholder="Agent Email"
+                onChange={handleChange}
+                className="input"
+                required
+              />
+            </div>
+
+            <div className="flex gap-2 items-center">
+              <label>Agent Contact 1 :</label>
+              <input
+                name="agentContact1"
+                value={company.agentContact1}
+                maxLength={10}
+                pattern="0\d{9}"
+                placeholder="e.g. 0712345678"
+                onChange={handleChange}
+                className="input"
+                required
+              />
+            </div>
+
+            <div className="flex gap-2 items-center">
+              <label>Agent Contact2 :</label>
+              <input
+                name="agentContact2"
+                value={company.agentContact2}
+                maxLength={10}
+                pattern="0\d{9}"
+                placeholder="e.g. 0712345678"
+                onChange={handleChange}
+                className="input"
+              />
+            </div>
           </div>
         </div>
 
@@ -210,12 +317,18 @@ const CompanyForm = () => {
               name="position"
               value={currentInputs.position}
               onChange={handleRequirementInputChange}
-              className="input">
+              className="input"
+              required>
               <option>Select Position</option>
-              <option>LSO</option>
-              <option>JSO</option>
-              <option>MSO</option>
+              {availablePositions
+                .filter((position) => !company?.count?.some((req) => req.position === position))
+                .map((position) => (
+                  <option key={position} value={position}>
+                    {position}
+                  </option>
+                ))}
             </select>
+
             <input
               name="count"
               type="number"
@@ -225,22 +338,32 @@ const CompanyForm = () => {
               className="input"
               placeholder="Count"
             />
+
             <button onClick={addRequirement} className="text-green-600 text-3xl">
               <IoMdAddCircle />
             </button>
           </div>
+
           <div className="space-y-2 max-h-40 overflow-y-auto">
-            {companyRequirement.map((item, index) => (
-              <div key={index} className="flex gap-4 items-center">
-                <input readOnly value={item.position} className="input w-full" />
-                <input readOnly value={item.count} className="input w-full" />
-                <button
-                  onClick={(e) => removeRequirement(index, e)}
-                  className="text-red-600 text-2xl">
-                  <FaCircleMinus />
-                </button>
-              </div>
-            ))}
+            <ul className="mt-4 space-y-2">
+              {company?.count?.map((req, index) => (
+                <li key={index} className="flex gap-4 items-center">
+                  <input
+                    readOnly
+                    value={req.position}
+                    className="input w-full outline-0 "
+                    required
+                  />
+                  <input readOnly value={req.amount} className="input w-full outline-0 " required />
+
+                  <button
+                    onClick={(e) => removeRequirement(index, e)}
+                    className="text-red-600 text-2xl">
+                    <FaCircleMinus />
+                  </button>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
@@ -248,20 +371,30 @@ const CompanyForm = () => {
         <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
           <h2 className="text-xl font-semibold">Company Contact</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input
-              name="companyEmail"
-              value={company.companyEmail}
-              onChange={handleChange}
-              placeholder="Company Email"
-              className="input"
-            />
-            <input
-              name="companyMobile"
-              value={company.companyMobile}
-              onChange={handleChange}
-              placeholder="Company Contact"
-              className="input"
-            />
+            <div className="flex gap-2">
+              <label>Company Email :</label>
+              <input
+                name="companyEmail"
+                value={company.companyEmail}
+                onChange={handleChange}
+                placeholder="Company Email"
+                className="input"
+              />
+            </div>
+
+            <div className="flex gap-2 items-center">
+              <label>Company Contact :</label>
+              <input
+                name="companyMobile"
+                value={company.companyMobile}
+                maxLength={10}
+                pattern="0\d{9}"
+                placeholder="e.g. 0712345678"
+                onChange={handleChange}
+                className="input"
+                required
+              />
+            </div>
           </div>
         </div>
 
@@ -276,23 +409,33 @@ const CompanyForm = () => {
                     onClick={() => setCompany((prev) => ({ ...prev, proposal: null }))}
                     className="absolute right-1 top-1 cursor-pointer text-red-500"
                   />
-                  <img
-                    src={company.proposal}
-                    alt="Proposal"
-                    className="w-24 h-auto rounded"
-                    onClick={() => downloadFile(company.proposal)}
-                  />
+                  {company?.proposal?.file.type.startsWith("image/") ? (
+                    <img
+                      src={company?.proposal?.src}
+                      alt={"proposal"}
+                      className="rounded-md cursor-pointer w-32 h-32"
+                    />
+                  ) : company?.proposal?.file.type === "application/pdf" ? (
+                    <object
+                      data={company?.proposal?.src}
+                      type="application/pdf"
+                      className="w-40 h-32 rounded-md overflow-hidden border-0"
+                    />
+                  ) : (
+                    <span>Unsupported file</span>
+                  )}
                 </div>
               ) : (
                 <label className="cursor-pointer">
                   <CiFileOn className="text-5xl" />
                   <input
                     type="file"
-                    accept="image/*"
-                    hidden
+                    accept="image/*,application/pdf"
                     name="proposal"
                     ref={proposalRef}
                     onChange={handleFileChange}
+                    hidden
+                    required
                   />
                   <span>Proposal</span>
                 </label>
@@ -303,10 +446,15 @@ const CompanyForm = () => {
 
         {/* Buttons */}
         <div className="flex gap-4">
-          <button type="submit" className="btn">
+          <button
+            type="submit"
+            className="bg-[#2c2c2c] hover:bg-[#716acd] text-white px-4 py-2 rounded w-full">
             Submit
           </button>
-          <button type="reset" className="btn bg-gray-300 text-black hover:bg-gray-400">
+
+          <button
+            type="reset"
+            className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded w-full">
             Cancel
           </button>
         </div>

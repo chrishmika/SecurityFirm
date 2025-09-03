@@ -6,9 +6,11 @@ import { CiFileOn } from "react-icons/ci";
 import { useEmployeeContext } from "../../../hooks/useEmployeeContext";
 import { toast } from "react-toastify";
 import { forwardRef } from "react";
+import LoadingScreen from "../subComponents/LoadingScreen";
 
 const EmployeeForm = () => {
   const { employee, setEmployee, initialState } = useEmployeeContext();
+  const [loading, SetLoading] = useState(false);
 
   const imageRef = useRef(null);
   const cvRef = useRef(null);
@@ -27,16 +29,28 @@ const EmployeeForm = () => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = () => setEmployee((prev) => ({ ...prev, [name]: reader.result }));
+      reader.onload = () =>
+        setEmployee((prev) => ({ ...prev, [name]: { file, src: reader.result } }));
       reader.readAsDataURL(file);
     }
   };
 
   const downloadFile = (file) => {
-    const url = URL.createObjectURL(file);
+    if (!file?.src) return;
+
+    // Convert Base64 to Blob
+    const arr = file.src.split(",");
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) u8arr[n] = bstr.charCodeAt(n);
+    const blob = new Blob([u8arr], { type: mime });
+
+    const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = file.name || "document";
+    a.download = file.file?.name || "document";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -45,6 +59,7 @@ const EmployeeForm = () => {
 
   const submitHandle = async (e) => {
     e.preventDefault();
+    SetLoading(true);
     try {
       const response = await axios.post("/api/admin/createEmployee", employee, {
         withCredentials: true,
@@ -54,8 +69,10 @@ const EmployeeForm = () => {
         setStep(1);
         setEmployee(initialState);
       }
+      SetLoading(false);
     } catch (error) {
       toast.error(error.response?.data?.error || "Something went wrong");
+      SetLoading(false);
     }
   };
 
@@ -79,9 +96,15 @@ const EmployeeForm = () => {
 
   return (
     <div className="flex justify-center p-6 bg-gray-100 min-h-screen">
+      <div className={`col-span-full ${loading ? "block" : "hidden"}`}>
+        <LoadingScreen />
+      </div>
+
       <form
         onSubmit={submitHandle}
-        className="w-full max-w-5xl bg-white p-6 rounded-lg shadow space-y-6">
+        className={`${
+          !loading ? "block" : "hidden"
+        } w-full max-w-5xl bg-white p-6 rounded-lg shadow space-y-6 }`}>
         {/* Step 1: Personal Details */}
         {step === 1 && (
           <StepSection title="Personal Details">
@@ -105,18 +128,21 @@ const EmployeeForm = () => {
               onChange={handleChange}
               options={["Sinhalese", "Tamil", "Burghers"]}
             />
-            <RadioGroup
-              label="Marital Status"
-              name="marital"
-              options={["Yes", "No"]}
-              onChange={handleChange}
-            />
-            <RadioGroup
-              label="Gender"
-              name="sex"
-              options={["Male", "Female"]}
-              onChange={handleChange}
-            />
+            <div className="flex gap-10">
+              <RadioGroup
+                label="Marital Status"
+                name="marital"
+                options={["Yes", "No"]}
+                onChange={handleChange}
+              />
+
+              <RadioGroup
+                label="Gender"
+                name="sex"
+                options={["Male", "Female"]}
+                onChange={handleChange}
+              />
+            </div>
             <Select
               label="Citizenship"
               name="citizenship"
@@ -168,7 +194,7 @@ const EmployeeForm = () => {
                 name="position"
                 value={employee.position}
                 onChange={handleChange}
-                options={["LSO", "JSO", "MMO"]}
+                options={["LSO", "JSO", "OIC", "SO"]}
               />
             </div>
             <StepButtons next={nextStep} back={prevStep} />
@@ -267,7 +293,7 @@ const StepSection = ({ title, children }) => (
 const Input = ({ label, ...props }) => (
   <div className="flex flex-col">
     <label className="font-medium text-sm">{label}</label>
-    <input className="border p-2 rounded w-full" {...props} />
+    <input className="border-b-2 p-2 rounded w-full" {...props} />
   </div>
 );
 
@@ -317,13 +343,32 @@ const FileUpload = forwardRef(({ label, file, name, onChange, clear, onDownload 
           onClick={clear}
           className="absolute -top-2 -right-2 text-white bg-red-500 rounded-full cursor-pointer w-5 h-5"
         />
-        <img src={file} alt={label} className="rounded-md cursor-pointer" onClick={onDownload} />
+        {file.file.type.startsWith("image/") ? (
+          <img
+            src={file.src}
+            alt={label}
+            className="rounded-md cursor-pointer w-32 h-32"
+            onClick={onDownload}
+          />
+        ) : file.file.type === "application/pdf" ? (
+          <object data={file.src} type="application/pdf" className="w-40 h-32 rounded-md" />
+        ) : (
+          <span>Unsupported file</span>
+        )}
+        {/* <img src={file} alt={label} className="rounded-md cursor-pointer" onClick={onDownload} /> */}
       </div>
     ) : (
       <label className="flex flex-col items-center cursor-pointer">
         <CiFileOn className="text-5xl text-gray-400" />
         <span className="text-sm mt-2">{label}</span>
-        <input type="file" accept="image/*" name={name} onChange={onChange} hidden ref={ref} />
+        <input
+          type="file"
+          accept="image/*,application/pdf"
+          name={name}
+          onChange={onChange}
+          hidden
+          ref={ref}
+        />
       </label>
     )}
   </div>

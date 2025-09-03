@@ -203,7 +203,7 @@ const Schedule = () => {
                           key={duty._id}
                           type="text"
                           name="position"
-                          value={duty?.position}
+                          value={duty?.position || "-"}
                           readOnly
                         />
                       </td>
@@ -213,7 +213,7 @@ const Schedule = () => {
                         <input
                           list={`dataScheduleNames-${dindex}`} // unique per row
                           onChange={formChangeHandler}
-                          value={duty?.employee?.name}
+                          value={duty?.employee?.name || ""}
                           className="bg-blue-100 px-2 w-full no-arrow"
                         />
 
@@ -261,7 +261,7 @@ const Schedule = () => {
                         <input
                           className="bg-blue-100 px-2 w-full"
                           type="text"
-                          value={duty?.remark}
+                          value={duty?.remark || ""}
                           onChange={formChangeHandler}
                         />
                       </td>
