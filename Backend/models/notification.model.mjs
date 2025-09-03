@@ -13,11 +13,18 @@ const notificationSchema = new mongoose.Schema(
     fromModel: {
       type: String,
       requires: true,
-      enum: ["Application", "User", "CompanyRequest", "Employee"], //change this as required notification types if there is only one type of notification delere the lines 11-18
+      enum: ["Application", "User", "Company", "CompanyRequest", "Employee"], //change this as required notification types if there is only one type of notification delere the lines 11-18
     },
     type: {
       type: String,
-      enum: ["application", "employee", "administration", "password", "companyRequest"], //new application ,new administration,new Employee or employee related,password change
+      enum: [
+        "application",
+        "New Company Joined",
+        "employee",
+        "administration",
+        "password",
+        "companyRequest",
+      ], //new application ,new administration,new Employee or employee related,password change
     },
     description: {
       type: String,
