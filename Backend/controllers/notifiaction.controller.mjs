@@ -3,10 +3,12 @@ import Notification from "../models/notification.model.mjs";
 export const getNotifications = async (req, res) => {
   try {
     const userId = req.user._id;
-    const notifications = await Notification.find({ to: userId }).sort({ createdAt: -1 }).populate({
-      path: "from",
-      select: "name NIC",
-    });
+    const notifications = await Notification.find({ to: userId })
+      .sort({ favourite: -1, createdAt: -1 })
+      .populate({
+        path: "from",
+        select: "name NIC",
+      });
 
     if (notifications.length === 0) {
       return res.status(404).json({ message: `No notifications available` });
@@ -74,10 +76,12 @@ export const deleteNotification = async (req, res) => {
 export const FavouriteNotifications = async (req, res) => {
   try {
     const userId = req.user._id;
-    const notifications = await Notification.find({ to: userId, favourite: true }).sort({ createdAt: -1 }).populate({
-      path: "from",
-      select: "name NIC",
-    });
+    const notifications = await Notification.find({ to: userId, favourite: true })
+      .sort({ createdAt: -1 })
+      .populate({
+        path: "from",
+        select: "name NIC",
+      });
 
     if (notifications.length === 0) {
       return res.status(404).json({ message: `No notifications available` });
