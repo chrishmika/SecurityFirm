@@ -168,6 +168,7 @@ const Schedule = () => {
           </h2>
 
           <NumberLine
+            year={selectedYear}
             month={selectedMonth}
             onSelectDay={(day) => {
               setSelectedDay(day);
@@ -181,7 +182,7 @@ const Schedule = () => {
               <table
                 className="table-auto w-full border-collapse border border-gray-400"
                 key={selectedDay}>
-                <thead className="bg-gray-200">
+                <thead className="bg-gray-200 cursor-default">
                   <tr>
                     <th className="p-2 border border-gray-300">Position</th>
                     <th className="p-2 border border-gray-300">Employee</th>
@@ -196,7 +197,7 @@ const Schedule = () => {
                   {sheet.duties.map((duty, dindex) => (
                     <tr
                       key={dindex}
-                      className={`${
+                      className={` ${
                         duty.status === "absent"
                           ? "bg-red-400"
                           : duty.status === "present"
@@ -208,12 +209,12 @@ const Schedule = () => {
                     ${duty.day == (selectedDay || 1) ? "box" : "hidden"}
                     `} //this is for attendance viewing area
                     >
-                      <td className="p-2 border border-gray-300">
+                      <td className="p-2 border border-gray-300 ">
                         <input
                           type="text"
                           name="position"
                           value={duty.employee?.position}
-                          className="outline-0"
+                          className="outline-0 cursor-default"
                           readOnly
                         />
                         {console.log("duty,", duty)}
@@ -222,8 +223,8 @@ const Schedule = () => {
                       <td className="p-2 border border-gray-300">
                         <input
                           type="text"
-                          className="bg-none font-bold px-2 w-full outline-0"
-                          value={duty.employee?.name}
+                          className="bg-none font-bold px-2 w-full outline-0 cursor-default"
+                          value={duty.employee?.name || "Not Assinged"}
                           readOnly
                         />
                       </td>
@@ -231,9 +232,9 @@ const Schedule = () => {
                       {/* neet fix values in here in propper way */}
                       <td className="p-2 border border-gray-300">
                         <input
-                          className="px-2 w-full outline-0"
+                          className="px-2 w-full outline-0 cursor-default"
                           type="text"
-                          value={duty.time}
+                          value={duty.time || "-"}
                           readOnly
                         />
                       </td>
@@ -241,23 +242,31 @@ const Schedule = () => {
                       {/* neet fix values in here in propper way */}
                       <td className="p-2 border border-gray-300">
                         <input
-                          className=" px-2 w-full outline-0"
+                          className=" px-2 w-full outline-0 cursor-default"
                           type="text"
-                          value={`${duty.shift} hours`}
+                          value={`${duty.shift || "-"} hours`}
                           readOnly
                         />
                       </td>
                       <td className="p-2 border border-gray-300">
                         <input
-                          className="px-2 w-full outline-0"
+                          className="px-2 w-full outline-0 cursor-default"
                           type="text"
-                          value={duty.remark}
+                          value={duty.remark || "-"}
                           readOnly
                         />
                       </td>
 
                       <td className="p-2 border border-gray-300">
-                        <button className="bg-green-500 p-1 w-full cursor-pointer">Change</button>
+                        {duty.status == "present" ? (
+                          <button className={`bg-red-500 p-1 w-full cursor-pointer font-bold`}>
+                            Absent
+                          </button>
+                        ) : (
+                          <button className={`bg-green-500 p-1 w-full cursor-pointer font-bold`}>
+                            Present
+                          </button>
+                        )}
                       </td>
                     </tr>
                   ))}
@@ -274,7 +283,7 @@ const Schedule = () => {
       </div>
 
       {/* right side */}
-      <div className={`bg-gray-200  ${showData ? "block" : "hidden"} `}>
+      <div className={`bg-gray-200  ${showData ? "block" : "hidden"}`}>
         <SideCalandeBar
           showData={showData}
           companylist={companylist}
