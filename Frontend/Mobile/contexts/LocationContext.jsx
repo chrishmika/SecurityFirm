@@ -56,7 +56,7 @@ export const LocationProvider = ({ children }) => {
       const month = today.toLocaleString("en-US", { month: "long" });
       const day = today.getDate();
 
-      const response = await fetch(`${baseUrl}/duty/find`, {
+      const response = await fetch(`${baseUrl}/fetchlocation`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${authToken}`,

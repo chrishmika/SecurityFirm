@@ -5,9 +5,9 @@ import {
   deleteDutySheet,
   editDuty,
   findDutyForEmployee,
-  checkInDuty, 
-  checkOutDuty, 
-  getDutyStatus ,
+  checkInDuty,
+  checkOutDuty,
+  getDutyStatus,
   markAttendance,
   updateSheet,
   viewAllDutySheets,
@@ -32,12 +32,13 @@ router.post("/markAttendance/:sheetId/:dutyEntryId", protectedRoute, markAttenda
 
 router.post("/find", protectedRoute, findDutyForEmployee); //partially tested
 
-router.post('/checkin', protectedRoute, checkInDuty);
+router.post("/checkin", protectedRoute, checkInDuty);
 
 // Check-out endpoint
-router.post('/checkout', protectedRoute, checkOutDuty);
+router.post("/checkout", protectedRoute, checkOutDuty);
 
 // Get duty status endpoint
-router.get('/status/:dutyId', protectedRoute, getDutyStatus);
+router.get("/status/:dutyId", protectedRoute, getDutyStatus);
 
+router.post("/fetchlocation", protectedRoute, findDutyForEmployee);
 export default router;
