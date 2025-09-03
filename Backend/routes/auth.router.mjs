@@ -5,6 +5,7 @@ import { adminAccess } from "../middleware/adminAccess.mjs";
 
 const router = express.Router();
 
+router.get("/profile", protectedRoute, getme);
 router.get("/me", protectedRoute, getme);
 router.post("/signup", signup);
 router.post("/login", login);
