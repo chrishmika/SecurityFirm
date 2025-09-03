@@ -87,6 +87,7 @@ const Home = () => {
   };
 
   const handleCheckOut = async () => {
+
     Alert.alert("Confirm Check-out", "Are you sure you want to check out?", [
       { text: "Cancel", style: "cancel" },
       {
@@ -180,7 +181,7 @@ const Home = () => {
           <View style={styles.dutyCard}>
             <Text style={styles.dutyText}>Duty ID: {dutyInfo.dutyId}</Text>
             <Text style={styles.dutyText}>
-              Location: {assignedLocation ? "Assigned" : "Loading..."}
+              Location: {assignedLocation ? assignedLocation.name : "Loading..."}
             </Text>
           </View>
         </View>
@@ -205,7 +206,7 @@ const Home = () => {
           </TouchableOpacity>
         </View>
 
-        {assignedLocation && dutyInfo && (
+        {/* {assignedLocation && dutyInfo && (
           <View style={{ marginBottom: 15 }}>
             {
               <Text style={{ fontWeight: "bold" }}>
@@ -214,7 +215,14 @@ const Home = () => {
               </Text>
             }
           </View>
-        )}
+        )} */}
+
+        {/* {currentLocation && (
+        <View style={{ marginBottom: 15 }}>
+          <Text style={{ fontWeight: 'bold' }}>Current Location:</Text>
+          <Text>Lat: {currentLocation.latitude}, Lng: {currentLocation.longitude}</Text>
+        </View>
+      )} */}
 
         {locationStatus ? (
           <View
@@ -280,6 +288,9 @@ const Home = () => {
               !canCheckOut() && styles.disabledButton,
             ]}
             onPress={handleCheckOut}
+
+            
+
             disabled={!canCheckOut()}>
             <Text style={[styles.actionButtonText, !canCheckOut() && styles.disabledButtonText]}>
               {t("checkOut")}

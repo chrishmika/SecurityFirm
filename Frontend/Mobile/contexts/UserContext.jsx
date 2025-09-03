@@ -6,7 +6,7 @@ export const UserContext = createContext();
 export function UserProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const baseUrl = "http://10.37.30.220:5000/api/auth";
+  const baseUrl = `${process.env.EXPO_PUBLIC_API_URL}/auth`;
 
   useEffect(() => {
     checkAuthStatus();

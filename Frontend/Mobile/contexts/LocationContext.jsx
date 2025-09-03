@@ -6,7 +6,7 @@ import Geolocation from "react-native-geolocation-service";
 export const LocationContext = createContext();
 
 export const LocationProvider = ({ children }) => {
-  const baseUrl = "http://10.37.30.220:5000/api/duty";
+  const baseUrl = `${process.env.EXPO_PUBLIC_API_URL}/duty`;
 
   const [currentLocation, setCurrentLocation] = useState(null);
   const [assignedLocation, setAssignedLocation] = useState(null);
@@ -84,6 +84,7 @@ export const LocationProvider = ({ children }) => {
       const locationData = {
         latitude: dutyData.latitude,
         longitude: dutyData.longitude,
+        name: dutyData.name,
       };
 
       setAssignedLocation(locationData);
@@ -194,82 +195,95 @@ export const LocationProvider = ({ children }) => {
 
   // New function to handle check-in
   const performCheckIn = async () => {
-    try {
-      setIsLoading(true);
-      setError(null);
+  try {
+    setIsLoading(true);
+    setError(null);
 
-      // First check if user is at correct location
-      const locationCheck = await performLocationCheck();
+    const locationCheck = await performLocationCheck();
 
-      if (!locationCheck.status || !locationCheck.status.isInRange) {
-        throw new Error("You must be at your assigned location to check in");
-      }
-
-      // If location is correct, perform check-in
-      const authToken = await AsyncStorage.getItem("authToken");
-      const response = await fetch(`${baseUrl}/duty/checkin`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          dutyId: dutyInfo.dutyId,
-          location: locationCheck.current,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Check-in failed");
-      }
-
-      const result = await response.json();
-      return result;
-    } catch (error) {
-      setError(error.message);
-      console.error("Check-in error:", error);
-      throw error;
-    } finally {
-      setIsLoading(false);
+    if (!locationCheck.status || !locationCheck.status.isInRange) {
+      throw new Error("You must be at your assigned location to check in");
     }
-  };
+
+    console.log("Sending check-in payload:", {
+      dutyId: dutyInfo.dutyId,
+      location: locationCheck.current,
+    });
+
+    const authToken = await AsyncStorage.getItem("authToken");
+    const response = await fetch(`${baseUrl}/checkin`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        dutyId: dutyInfo.dutyId,
+        location: locationCheck.current,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.log("Server error response:", errorData);
+      throw new Error(errorData.message || "Check-in failed");
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    setError(error.message);
+    console.error("Check-in error:", error);
+    throw error;
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   // New function to handle check-out
   const performCheckOut = async () => {
-    try {
-      setIsLoading(true);
-      setError(null);
+  try {
+    setIsLoading(true);
+    setError(null);
 
-      // Get current location for check-out
-      const current = await getCurrentLocation();
+    // Get current location for check-out
+    const current = await getCurrentLocation();
 
-      const authToken = await AsyncStorage.getItem("authToken");
-      const response = await fetch(`${baseUrl}/duty/checkout`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          dutyId: dutyInfo.dutyId,
-          location: current,
-        }),
-      });
+    console.log("Sending check-out payload:", {
+      dutyId: dutyInfo.dutyId,
+      location: current,
+    });
 
-      if (!response.ok) {
-        throw new Error("Check-out failed");
-      }
+    const authToken = await AsyncStorage.getItem("authToken");
+    const response = await fetch(`${baseUrl}/checkout`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        dutyId: dutyInfo.dutyId,
+        location: current,
+      }),
+    });
 
-      const result = await response.json();
-      return result;
-    } catch (error) {
-      setError(error.message);
-      console.error("Check-out error:", error);
-      throw error;
-    } finally {
-      setIsLoading(false);
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.log("Server error response:", errorData);
+      throw new Error(errorData.message || "Check-out failed");
     }
-  };
+
+    const result = await response.json();
+    console.log("Check-out successful:", result);
+    return result;
+  } catch (error) {
+    setError(error.message);
+    console.error("Check-out error:", error);
+    throw error;
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   const value = {
     currentLocation,

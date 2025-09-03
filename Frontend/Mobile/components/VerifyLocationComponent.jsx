@@ -85,14 +85,14 @@ const VerifyLocationComponent = () => {
         <View style={{ marginBottom: 15 }}>
           <Text style={{ fontWeight: 'bold' }}>Assigned Location:</Text>
           <Text>{assignedLocation.locationAddress}</Text>
-          <Text>Lat: {assignedLocation.latitude.toFixed(6)}, Lng: {assignedLocation.longitude.toFixed(6)}</Text>
+          <Text>Lat: {assignedLocation.latitude}, Lng: {assignedLocation.longitude}</Text>
         </View>
       )}
 
       {currentLocation && (
         <View style={{ marginBottom: 15 }}>
           <Text style={{ fontWeight: 'bold' }}>Current Location:</Text>
-          <Text>Lat: {currentLocation.latitude.toFixed(6)}, Lng: {currentLocation.longitude.toFixed(6)}</Text>
+          <Text>Lat: {currentLocation.latitude}, Lng: {currentLocation.longitude}</Text>
         </View>
       )}
 

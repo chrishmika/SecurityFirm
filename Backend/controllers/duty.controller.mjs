@@ -422,6 +422,7 @@ export const findDutyForEmployee = async (req, res) => {
       dutyId: duty.duties[0]._id,
       longitude: duty.company.longitude,
       latitude: duty.company.latitude,
+      name:duty.company.name,
     });
   } catch (err) {
     console.error(err);
@@ -435,6 +436,9 @@ export const checkInDuty = async (req, res) => {
   try {
     const { dutyId, location } = req.body;
 
+    console.log("REQ BODY:", req.body);
+    console.log("Looking for dutyId:", dutyId);
+
     if (!dutyId || !location) {
       return res.status(400).json({ message: "dutyId and location are required" });
     }
@@ -444,15 +448,27 @@ export const checkInDuty = async (req, res) => {
       "duties._id": dutyId,
     });
 
+    console.log("Found duty document:", duty ? "Yes" : "No");
+    
     if (!duty) {
-      return res.status(404).json({ message: "Duty not found" });
+      console.log("No duty document found with dutyId:", dutyId);
+      return res.status(404).json({ 
+        message: "Duty not found",
+        dutyId: dutyId 
+      });
     }
 
     // Find the specific duty subdocument
     const dutyItem = duty.duties.id(dutyId);
+    console.log("Found duty item:", dutyItem ? "Yes" : "No");
 
     if (!dutyItem) {
-      return res.status(404).json({ message: "Duty item not found" });
+      console.log("Available duty IDs:", duty.duties.map(d => d._id.toString()));
+      return res.status(404).json({ 
+        message: "Duty item not found",
+        dutyId: dutyId,
+        availableDuties: duty.duties.map(d => d._id.toString())
+      });
     }
 
     // Check if already checked in
@@ -476,7 +492,7 @@ export const checkInDuty = async (req, res) => {
       location,
     });
   } catch (err) {
-    console.error(err);
+    console.error("CheckIn Error Details:", err);
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
@@ -485,8 +501,11 @@ export const checkOutDuty = async (req, res) => {
   try {
     const { dutyId, location } = req.body;
 
-    if (!dutyId) {
-      return res.status(400).json({ message: "dutyId is required" });
+    console.log("CHECKOUT REQ BODY:", req.body);
+    console.log("Looking for dutyId:", dutyId);
+
+    if (!dutyId || !location) {
+      return res.status(400).json({ message: "dutyId and location are required" });
     }
 
     // Find the duty document containing the specific duty
@@ -494,15 +513,27 @@ export const checkOutDuty = async (req, res) => {
       "duties._id": dutyId,
     });
 
+    console.log("Found duty document:", duty ? "Yes" : "No");
+
     if (!duty) {
-      return res.status(404).json({ message: "Duty not found" });
+      console.log("No duty document found with dutyId:", dutyId);
+      return res.status(404).json({ 
+        message: "Duty not found",
+        dutyId: dutyId 
+      });
     }
 
     // Find the specific duty subdocument
     const dutyItem = duty.duties.id(dutyId);
+    console.log("Found duty item:", dutyItem ? "Yes" : "No");
 
     if (!dutyItem) {
-      return res.status(404).json({ message: "Duty item not found" });
+      console.log("Available duty IDs:", duty.duties.map(d => d._id.toString()));
+      return res.status(404).json({ 
+        message: "Duty item not found",
+        dutyId: dutyId,
+        availableDuties: duty.duties.map(d => d._id.toString())
+      });
     }
 
     // Check if not checked in yet
@@ -529,11 +560,13 @@ export const checkOutDuty = async (req, res) => {
     const workedHours = (checkOutTime - checkInTime) / (1000 * 60 * 60); // Convert to hours
 
     // If worked more than shift hours, calculate OT
-    if (workedHours > dutyItem.shift) {
+    if (dutyItem.shift && workedHours > dutyItem.shift) {
       dutyItem.ot = Math.round((workedHours - dutyItem.shift) * 100) / 100; // Round to 2 decimal places
     }
 
     await duty.save();
+
+    console.log("Check-out successful for dutyId:", dutyId);
 
     res.json({
       message: "Check-out successful",
@@ -545,7 +578,10 @@ export const checkOutDuty = async (req, res) => {
       location,
     });
   } catch (err) {
-    console.error(err);
+    console.log("=== CHECKOUT ERROR ===");
+    console.error("CheckOut Error Details:", err);
+    console.error("Error message:", err.message);
+    console.error("Error stack:", err.stack);
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
