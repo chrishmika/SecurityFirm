@@ -87,7 +87,6 @@ const Home = () => {
   };
 
   const handleCheckOut = async () => {
-
     Alert.alert("Confirm Check-out", "Are you sure you want to check out?", [
       { text: "Cancel", style: "cancel" },
       {
@@ -288,9 +287,6 @@ const Home = () => {
               !canCheckOut() && styles.disabledButton,
             ]}
             onPress={handleCheckOut}
-
-            
-
             disabled={!canCheckOut()}>
             <Text style={[styles.actionButtonText, !canCheckOut() && styles.disabledButtonText]}>
               {t("checkOut")}
