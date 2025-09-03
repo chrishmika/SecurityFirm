@@ -8,6 +8,8 @@ import NumberLine from "./subComponents/NumberLine";
 import DutySearchForm from "./subComponents/DutySearchForm";
 
 import axios from "axios";
+import LoadingScreen from "./subComponents/LoadingScreen";
+import MonthInName from "./subComponents/MonthInName";
 
 const Schedule = () => {
   //for calender
@@ -18,7 +20,7 @@ const Schedule = () => {
   const [showData, setShowData] = useState(false);
 
   //for loading screen
-  const [isloading, SetIsLoading] = useState(false);
+  const [loading, SetLoading] = useState(false);
 
   //for view the selected company
   const [selectedCompanyName, setSelectedCompanyName] = useState();
@@ -29,8 +31,6 @@ const Schedule = () => {
   //for table data filling
   const [dutySet, setDutySet] = useState([]);
   const [companylist, setCompanylist] = useState([]);
-
-  //const { isLoading,SetLoading } = useAuthContext();  //used in feature at last
 
   //i need to use a useEffect to fetch company data and then need to fetch duty list that aligns with year,company id and month, it will resolve the issue that showing details of every month and year
 
@@ -69,58 +69,19 @@ const Schedule = () => {
     if (!selectedCompanyName) {
       toast.error("Company Name is Required");
     } else {
-      SetIsLoading(true);
+      SetLoading(true);
 
-      let month;
-      switch (selectedMonth) {
-        case "01":
-          month = "January";
-          break;
-        case "02":
-          month = "February";
-          break;
-        case "03":
-          month = "March";
-          break;
-        case "04":
-          month = "April";
-          break;
-        case "05":
-          month = "May";
-          break;
-        case "06":
-          month = "June";
-          break;
-        case "07":
-          month = "July";
-          break;
-        case "08":
-          month = "August";
-          break;
-        case "09":
-          month = "September";
-          break;
-        case "10":
-          month = "Octomber";
-          break;
-        case "11":
-          month = "November";
-          break;
-        case "12":
-          month = "December";
-          break;
-      }
       try {
         const response = await axios.post(
           "http://localhost:5000/api/duty/viewSheetByDetails/",
-          { year: selectedYear, month: month, company: companyId },
+          { year: selectedYear, month: MonthInName(selectedMonth), company: companyId },
           { withCredentials: true }
         );
         setDutySet(response.data);
-        SetIsLoading(false);
+        SetLoading(false);
         setShowData(true);
       } catch (error) {
-        SetIsLoading(false);
+        SetLoading(false);
         toast.error(error.response.data.message);
       }
     }
@@ -128,7 +89,7 @@ const Schedule = () => {
 
   return (
     <div className="grid sm:grid-cols-3 grid-cols-1 h-screen gap-4">
-      <div className={`col-span-2 ${!showData && !isloading ? "block" : "hidden"}`}>
+      <div className={`col-span-2 ${!showData && !loading ? "block" : "hidden"}`}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-center justify-center h-full ">
           <div>
             <h2 className="font-bold">Find By Company Name</h2>
@@ -143,14 +104,13 @@ const Schedule = () => {
       </div>
 
       {/* loading screen */}
-      <div className={`col-span-2 bg-red-100 ${isloading ? "block" : "hidden"}`}>
-        {/* toggle button */}
-        {`Loading....`}
+      <div className={`col-span-full ${loading ? "block" : "hidden"}`}>
+        <LoadingScreen />
       </div>
 
       {/* //////////////////////////////////////// */}
       {/* data is shown here after user enter the company name */}
-      <div className={`col-span-2  ${showData && !isloading ? "block" : "hidden"} `}>
+      <div className={`col-span-2  ${showData && !loading ? "block" : "hidden"} `}>
         <div>
           {/* back button */}
           <button
@@ -188,6 +148,8 @@ const Schedule = () => {
                     <th className="p-2 border border-gray-300">Employee</th>
                     <th className="p-2 border border-gray-300">Start</th>
                     <th className="p-2 border border-gray-300">Shift</th>
+                    <th className="p-2 border border-gray-300">Check In</th>
+                    <th className="p-2 border border-gray-300">Check Out</th>
                     <th className="p-2 border border-gray-300">Remark</th>
                     <th className="p-2 border border-gray-300"></th>
                   </tr>
@@ -245,6 +207,23 @@ const Schedule = () => {
                           className=" px-2 w-full outline-0 cursor-default"
                           type="text"
                           value={`${duty.shift || "-"} hours`}
+                          readOnly
+                        />
+                      </td>
+
+                      <td className="p-2 border border-gray-300">
+                        <input
+                          className="px-2 w-full outline-0 cursor-default"
+                          type="text"
+                          value={duty.checkIn?.split("T")[1]?.substring(0, 5) || "-"}
+                          readOnly
+                        />
+                      </td>
+                      <td className="p-2 border border-gray-300">
+                        <input
+                          className="px-2 w-full outline-0 cursor-default"
+                          type="text"
+                          value={duty.checkOut?.split("T")[1]?.substring(0, 5) || "Not Yet"}
                           readOnly
                         />
                       </td>

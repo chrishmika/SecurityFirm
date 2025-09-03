@@ -1,18 +1,20 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { FaArrowLeft } from "react-icons/fa6";
 
 //import { companylist } from "../samples/companylist";
-import { sampleDuties } from "../samples/dutySample"; //sample data
-import { employeelist } from "../samples/employeelist";
+// import { sampleDuties } from "../samples/dutySample"; //sample data
+// import { employeelist } from "../samples/employeelist";
 
 import NumberLine from "./subComponents/NumberLine";
 import DutySearchForm from "./subComponents/DutySearchForm";
 import SideCalandeBar from "./subComponents/SideCalandeBar";
 
 import axios from "axios";
-
-// console.log(sampleDuties);
+import { AuthContext } from "../../context/AuthContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import LoadingScreen from "./subComponents/LoadingScreen";
+import MonthInName from "./subComponents/MonthInName";
 
 const Schedule = () => {
   //for calender
@@ -21,9 +23,6 @@ const Schedule = () => {
   //from date number line
   const [selectedDay, setSelectedDay] = useState(null);
   const [showData, setShowData] = useState(false);
-
-  //for loading screen
-  const [isloading, SetIsLoading] = useState(false);
 
   //for view the selected company
   const [selectedCompanyName, setSelectedCompanyName] = useState();
@@ -34,20 +33,29 @@ const Schedule = () => {
 
   //for gather data from table
   const [companylist, setCompanylist] = useState([]);
+  const [employeelist, setEmployeelist] = useState([]);
   const [dutySet, setDutySet] = useState([]);
 
   //feels like dosent need this, for select relevent sheet file . ?_?
   const [isReady, setIsReady] = useState(false);
 
+  //for loading screen
+  const [loading, SetLoading] = useState(false);
+
   //take a name list of companies
   //need to take the names of employees and positions with this
   useEffect(() => {
     const getData = async () => {
-      const response = await axios("http://localhost:5000/api/company/getCompanyList", {
+      let response = await axios("http://localhost:5000/api/company/getCompanyList", {
         withCredentials: true,
       });
       console.log(response.data);
       setCompanylist(response.data);
+
+      response = await axios("http://localhost:5000/api/employee/employeeList", {
+        withCredentials: true,
+      });
+      setEmployeelist(response.data);
     };
     getData();
   }, []);
@@ -69,36 +77,8 @@ const Schedule = () => {
     }
   };
 
-  const monthInName = (selectedMonth) => {
-    switch (selectedMonth) {
-      case "01":
-        return "January";
-      case "02":
-        return "February";
-      case "03":
-        return "March";
-      case "04":
-        return "April";
-      case "05":
-        return "May";
-      case "06":
-        return "June";
-      case "07":
-        return "July";
-      case "08":
-        return "August";
-      case "09":
-        return "September";
-      case "10":
-        return "Octomber";
-      case "11":
-        return "November";
-      case "12":
-        return "December";
-    }
-  };
-
   //for table data gathering from
+
   const formChangeHandler = () => {};
 
   const submitHandler = async (e) => {
@@ -108,59 +88,30 @@ const Schedule = () => {
     if (!selectedCompanyName) {
       toast.error("Company Name is Required");
     } else {
-      SetIsLoading(true);
-      const month = monthInName(selectedMonth);
+      SetLoading(true);
 
       try {
         const response = await axios.post(
           "http://localhost:5000/api/duty/viewSheetByDetails/",
-          { year: selectedYear, month: month, company: companyId },
+          { year: selectedYear, month: MonthInName(selectedMonth), company: companyId },
           { withCredentials: true }
         );
         setDutySet(response.data);
-        SetIsLoading(false);
+        SetLoading(false);
         setShowData(true);
       } catch (error) {
-        SetIsLoading(false);
+        SetLoading(false);
         toast.error(error.response.data.message);
       }
     }
   };
 
-  // const submitHandler2 = async (e) => {
-  //   console.log("2nd is clicked");
-
-  //   e.preventDefault();
-  //   if (!selectedCompanyName) {
-  //     toast.error("Company Name is Required");
-  //   } else {
-  //     SetIsLoading(true);
-  //     setSelectedCompanyNameForCreateSheet(selectedCompanyName);
-  //     const month = monthInName(selectedMonth);
-
-  //     //in here i need to neet to create an new sheet change the axios endpoint
-  //     try {
-  //       const response = await axios.post(
-  //         "http://localhost:5000/api/duty/viewSheetByDetails/",
-  //         { year: selectedYear, month: month, company: companyId },
-  //         { withCredentials: true }
-  //       );
-  //       setDutySet(response.data);
-  //       SetIsLoading(false);
-  //       setShowData(true);
-  //     } catch (error) {
-  //       SetIsLoading(false);
-  //       toast.error(error.response.data.message);
-  //     }
-  //   }
-  //   console.log(selectedMonth);
-  // };
   console.log("duty set", dutySet);
 
   const dataCollectionArray = [];
 
   //method to update data is need to be implimented here
-
+  //this to send schedules of employees need to impliment
   const dataCollection = ({ day, employee, start, shift, remark }) => {
     const data = { day, employee, start, shift, remark };
     dataCollectionArray.push(data);
@@ -168,7 +119,7 @@ const Schedule = () => {
 
   return (
     <div className="grid sm:grid-cols-3 grid-cols-1 gap-4 h-screen">
-      <div className={`col-span-2  ${!showData && !isloading ? "box" : "hidden"}`}>
+      <div className={`col-span-2  ${!showData && !loading ? "block" : "hidden"}`}>
         <div className="grid grid-cols-2 gap-5 items-center justify-center h-full ">
           {/* while these2 are same can reduce them by making it as a function */}
           {/* Find Duty sheet */}
@@ -185,18 +136,18 @@ const Schedule = () => {
       </div>
 
       {/* loading screen */}
-      <div className={`col-span-2 bg-red-100 ${isloading ? "block" : "hidden"}`}>
-        {`Loading....`}
+      <div className={`col-span-full ${loading ? "block" : "hidden"}`}>
+        <LoadingScreen />
       </div>
 
       {/* data is shown here after user enter the company name and submit*/}
-      <div className={`col-span-2 bg-red-100 ${showData && !isloading ? "block" : "hidden"} `}>
+      <div className={`col-span-2 bg-red-100 ${showData && !loading ? "block" : "hidden"} `}>
         <div>
           {/* back button */}
           <button
             onClick={() => {
               setShowData(!showData);
-              setSelectedCompanyName("");
+              // setSelectedCompanyName("");
               setSelectedDay(null);
             }}
             className=" flex gap-1 items-center cursor-pointer font-bold mb-2">
@@ -245,32 +196,39 @@ const Schedule = () => {
                       className={`${duty?.day == (selectedDay || 1) ? "box" : "hidden"}
                     `} //this is for attendance viewing area
                     >
+                      {console.log("xxxx", duty.position)}
+
                       <td className="p-2 border border-gray-300">
                         <input
                           key={duty._id}
                           type="text"
                           name="position"
-                          value={duty?.position}
+                          value={duty?.position || "-"}
                           readOnly
                         />
                       </td>
 
+                      {/* employee */}
                       <td className="p-2 border border-gray-300">
                         <input
                           list={`dataScheduleNames-${dindex}`} // unique per row
                           onChange={formChangeHandler}
-                          value={duty?.employee?.name}
+                          value={duty?.employee?.name || ""}
                           className="bg-blue-100 px-2 w-full no-arrow"
                         />
 
+                        {console.log("positions", employeelist, duty?.position)}
                         <datalist id={`dataScheduleNames-${dindex}`}>
                           {employeelist
-                            .filter((employee) => employee?.position === duty.employee?.position)
+                            .filter((employee) => employee?.position == duty?.position)
                             .map((employee) => (
-                              <option key={employee._id} value={employee.name} />
+                              <>
+                                <option key={employee._id} value={employee.name} />
+                              </>
                             ))}
                         </datalist>
                       </td>
+                      {/* start */}
                       {/* neet fix values in here in propper way */}
                       <td className="p-2 border border-gray-300">
                         <select
@@ -284,6 +242,7 @@ const Schedule = () => {
                         </select>
                       </td>
 
+                      {/* shift */}
                       {/* neet fix values in here in propper way */}
                       <td className="p-2 border border-gray-300">
                         <select
@@ -297,11 +256,12 @@ const Schedule = () => {
                         </select>
                       </td>
 
+                      {/* remark */}
                       <td className="p-2 border border-gray-300">
                         <input
                           className="bg-blue-100 px-2 w-full"
                           type="text"
-                          value={duty?.remark}
+                          value={duty?.remark || ""}
                           onChange={formChangeHandler}
                         />
                       </td>

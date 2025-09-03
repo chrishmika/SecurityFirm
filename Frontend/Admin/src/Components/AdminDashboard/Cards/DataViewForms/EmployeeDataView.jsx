@@ -118,8 +118,13 @@ const EmployeeDataView = ({ data }) => {
                           className="h-20 w-20 object-cover rounded mb-2"
                         />
                       ) : isPdf ? (
-                        <div className="h-20 w-20 flex items-center justify-center bg-red-100 text-red-600 font-bold rounded mb-2">
-                          PDF
+                        <div className=" flex items-center justify-center bg-red-100 text-red-600 font-bold rounded mb-2">
+                          <object
+                            data={file.url}
+                            type="application/pdf"
+                            className="h-32 w-32 rounded border-0">
+                            <p>Preview not available Click to download</p>
+                          </object>
                         </div>
                       ) : (
                         <div className="h-20 w-20 flex items-center justify-center bg-gray-200 text-gray-600 font-bold rounded mb-2">

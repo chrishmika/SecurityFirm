@@ -3,10 +3,12 @@ import Notification from "../models/notification.model.mjs";
 export const getNotifications = async (req, res) => {
   try {
     const userId = req.user._id;
-    const notifications = await Notification.find({ to: userId }).sort({ createdAt: -1 }).populate({
-      path: "from",
-      select: "name NIC",
-    });
+    const notifications = await Notification.find({ to: userId })
+      .sort({ favourite: -1, createdAt: -1 })
+      .populate({
+        path: "from",
+        select: "name NIC",
+      });
 
     if (notifications.length === 0) {
       return res.status(404).json({ message: `No notifications available` });
@@ -14,7 +16,7 @@ export const getNotifications = async (req, res) => {
 
     res.status(200).json(notifications);
   } catch (error) {
-    console.log(`error on notification conreoller ${error.message}`);
+    console.log(`error on notification controller ${error.message}`);
     res.status(500).json({ error: `internal server error on getNotification` });
   }
 };
@@ -33,7 +35,7 @@ export const viewNotification = async (req, res) => {
 
     res.status(200).json(notification);
   } catch (error) {
-    console.log(`error on notification conreoller ${error.message}`);
+    console.log(`error on notification controller ${error.message}`);
     res.status(500).json({ error: `internal server error on getNotification` });
   }
 };
@@ -51,7 +53,7 @@ export const markFavourite = async (req, res) => {
 
     res.status(200).json(notification);
   } catch (error) {
-    console.log(`error on notification conreoller ${error.message}`);
+    console.log(`error on notification controller ${error.message}`);
     res.status(500).json({ error: `internal server error on markFavourite` });
   }
 };
@@ -66,7 +68,7 @@ export const deleteNotification = async (req, res) => {
 
     res.status(200).json({ message: `notification delete sucessfull` });
   } catch (error) {
-    console.log(`error on notification conreoller ${error.message}`);
+    console.log(`error on notification controller ${error.message}`);
     res.status(500).json({ error: `internal server error on markFavourite` });
   }
 };
@@ -74,10 +76,12 @@ export const deleteNotification = async (req, res) => {
 export const FavouriteNotifications = async (req, res) => {
   try {
     const userId = req.user._id;
-    const notifications = await Notification.find({ to: userId, favourite: true }).sort({ createdAt: -1 }).populate({
-      path: "from",
-      select: "name NIC",
-    });
+    const notifications = await Notification.find({ to: userId, favourite: true })
+      .sort({ createdAt: -1 })
+      .populate({
+        path: "from",
+        select: "name NIC",
+      });
 
     if (notifications.length === 0) {
       return res.status(404).json({ message: `No notifications available` });
@@ -85,7 +89,7 @@ export const FavouriteNotifications = async (req, res) => {
 
     res.status(200).json(notifications);
   } catch (error) {
-    console.log(`error on notification conreoller ${error.message}`);
+    console.log(`error on notification controller ${error.message}`);
     res.status(500).json({ error: `internal server error on FavouriteNotifications` });
   }
 };

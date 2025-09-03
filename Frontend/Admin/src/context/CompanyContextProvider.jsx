@@ -4,13 +4,13 @@ import { useState } from "react";
 import { CompanyContext } from "./CompanyContext";
 
 export const CompanyProvider = ({ children }) => {
-  const [company, setCompany] = useState({
+  let initialCompany = {
     name: "",
     address: "",
     longitude: "",
     latitude: "",
     proposal: "",
-    contractPeriod: { from: "", to: "" },
+    contractPeriod: [],
     companyMobile: "",
     companyEmail: "",
     agent: "",
@@ -18,10 +18,13 @@ export const CompanyProvider = ({ children }) => {
     agentContact2: "",
     agentNIC: "",
     agentEmail: "",
-    count: null,
-  });
+    count: [],
+  };
+  const [company, setCompany] = useState(initialCompany);
   return (
-    <CompanyContext.Provider value={{ company, setCompany }}>{children}</CompanyContext.Provider>
+    <CompanyContext.Provider value={{ company, setCompany, initialCompany }}>
+      {children}
+    </CompanyContext.Provider>
   );
 };
 

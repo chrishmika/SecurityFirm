@@ -18,23 +18,23 @@ export const createEmployee = async (req, res) => {
     const existingEmployee = await Employee.findOne({ NIC });
     if (existingEmployee) return res.status(400).json({ error: `Employee already exist` });
 
-    if (newData.img) {
-      const uploadedDocument = await cloudinary.uploader.upload(newData.img);
+    if (newData.img.src) {
+      const uploadedDocument = await cloudinary.uploader.upload(newData.img.src);
       newData.img = uploadedDocument.secure_url;
     }
 
-    if (newData.cv) {
-      const uploadedDocument = await cloudinary.uploader.upload(newData.cv);
+    if (newData.cv.src) {
+      const uploadedDocument = await cloudinary.uploader.upload(newData.cv.src);
       newData.cv = uploadedDocument.secure_url;
     }
 
-    if (newData.gsCertificate) {
-      const uploadedDocument = await cloudinary.uploader.upload(newData.gsCertificate);
+    if (newData.gsCertificate.src) {
+      const uploadedDocument = await cloudinary.uploader.upload(newData.gsCertificate.src);
       newData.gsCertificate = uploadedDocument.secure_url;
     }
 
-    if (newData.NICCopy) {
-      const uploadedDocument = await cloudinary.uploader.upload(newData.NICCopy);
+    if (newData.NICCopy.src) {
+      const uploadedDocument = await cloudinary.uploader.upload(newData.NICCopy.src);
       newData.NICCopy = uploadedDocument.secure_url;
     }
 
@@ -47,6 +47,7 @@ export const createEmployee = async (req, res) => {
     const hashedPassword = await bcrypt.hash(newData.password, salt); //given password or 123456
 
     const newRequest = new Employee(newData);
+
     const newUser = new User({
       name: newData.name,
       NIC: newData.NIC,
@@ -90,12 +91,13 @@ export const createCompany = async (req, res) => {
     const existingCompany = await Company.findOne({ name }); //need an effectie way to check this
     if (existingCompany) return res.status(400).json({ error: `Company already exist` });
 
-    console.log(newData);
     //cloudinary function used
-    if (newData.proposal) {
-      newData.proposal = await uploadCloudinary(newData.proposal);
+    if (newData.proposal.src) {
+      const uploadedDocument = await cloudinary.uploader.upload(newData.proposal.src);
+      newData.proposal = uploadedDocument.secure_url;
     }
 
+    console.log(newData);
     const newRequest = new Company(newData);
     console.log(newRequest);
 
@@ -103,12 +105,13 @@ export const createCompany = async (req, res) => {
 
     //create new Notification
     const admin = await User.findOne({ role: "admin" });
+
     createNotification(
       admin._id,
       newRequest._id,
       "Company",
-      "company",
-      "New Company joined with Us"
+      "New Company Joined",
+      `new company ${newRequest.name} joined`
     );
 
     res.status(200).json({ message: `added successfull`, newRequest });
