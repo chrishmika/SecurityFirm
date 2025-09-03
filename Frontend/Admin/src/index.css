@@ -1,0 +1,34 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import "tailwindcss";
+
+.inter {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+/* to remove the downheaded arrow in input datalists */
+/* Only affect inputs with .no-arrow */
+
+/* Chrome, Edge, Safari */
+.no-arrow::-webkit-calendar-picker-indicator {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
+/* firefox */
+.no-arrow::-moz-list-dropdown {
+  display: none !important;
+}
+
+/* hide scroll bars------------> */
+.container {
+  scrollbar-width: none; /* hides scrollbar */
+  -ms-overflow-style: none; /* for IE and Edge */
+  overflow: auto; /* make sure scrolling still works */
+}
+
+/* For Chrome, Safari, and Edge */
+.container::-webkit-scrollbar {
+  display: none;
+}
