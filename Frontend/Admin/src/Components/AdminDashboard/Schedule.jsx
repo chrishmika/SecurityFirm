@@ -69,6 +69,35 @@ const Schedule = () => {
     }
   };
 
+  const monthInName = (selectedMonth) => {
+    switch (selectedMonth) {
+      case "01":
+        return "January";
+      case "02":
+        return "February";
+      case "03":
+        return "March";
+      case "04":
+        return "April";
+      case "05":
+        return "May";
+      case "06":
+        return "June";
+      case "07":
+        return "July";
+      case "08":
+        return "August";
+      case "09":
+        return "September";
+      case "10":
+        return "Octomber";
+      case "11":
+        return "November";
+      case "12":
+        return "December";
+    }
+  };
+
   //for table data gathering from
   const formChangeHandler = () => {};
 
@@ -80,46 +109,7 @@ const Schedule = () => {
       toast.error("Company Name is Required");
     } else {
       SetIsLoading(true);
-
-      let month;
-      switch (selectedMonth) {
-        case "01":
-          month = "January";
-          break;
-        case "02":
-          month = "February";
-          break;
-        case "03":
-          month = "March";
-          break;
-        case "04":
-          month = "April";
-          break;
-        case "05":
-          month = "May";
-          break;
-        case "06":
-          month = "June";
-          break;
-        case "07":
-          month = "July";
-          break;
-        case "08":
-          month = "August";
-          break;
-        case "09":
-          month = "September";
-          break;
-        case "10":
-          month = "Octomber";
-          break;
-        case "11":
-          month = "November";
-          break;
-        case "12":
-          month = "December";
-          break;
-      }
+      const month = monthInName(selectedMonth);
 
       try {
         const response = await axios.post(
@@ -137,74 +127,34 @@ const Schedule = () => {
     }
   };
 
-  const submitHandler2 = async (e) => {
-    console.log("2nd is clicked");
+  // const submitHandler2 = async (e) => {
+  //   console.log("2nd is clicked");
 
-    e.preventDefault();
-    if (!selectedCompanyName) {
-      toast.error("Company Name is Required");
-    } else {
-      SetIsLoading(true);
-      setSelectedCompanyNameForCreateSheet(selectedCompanyName);
+  //   e.preventDefault();
+  //   if (!selectedCompanyName) {
+  //     toast.error("Company Name is Required");
+  //   } else {
+  //     SetIsLoading(true);
+  //     setSelectedCompanyNameForCreateSheet(selectedCompanyName);
+  //     const month = monthInName(selectedMonth);
 
-      let month;
-      switch (selectedMonth) {
-        case "01":
-          month = "January";
-          break;
-        case "02":
-          month = "February";
-          break;
-        case "03":
-          month = "March";
-          break;
-        case "04":
-          month = "April";
-          break;
-        case "05":
-          month = "May";
-          break;
-        case "06":
-          month = "June";
-          break;
-        case "07":
-          month = "July";
-          break;
-        case "08":
-          month = "August";
-          break;
-        case "09":
-          month = "September";
-          break;
-        case "10":
-          month = "Octomber";
-          break;
-        case "11":
-          month = "November";
-          break;
-        case "12":
-          month = "December";
-          break;
-      }
-
-      //in here i need to neet to create an new sheet change the axios endpoint
-      try {
-        const response = await axios.post(
-          "http://localhost:5000/api/duty/viewSheetByDetails/",
-          { year: selectedYear, month: month, company: companyId },
-          { withCredentials: true }
-        );
-        setDutySet(response.data);
-        SetIsLoading(false);
-        setShowData(true);
-      } catch (error) {
-        SetIsLoading(false);
-        toast.error(error.response.data.message);
-      }
-    }
-    console.log(selectedMonth);
-    console.log("2nd is pressed ");
-  };
+  //     //in here i need to neet to create an new sheet change the axios endpoint
+  //     try {
+  //       const response = await axios.post(
+  //         "http://localhost:5000/api/duty/viewSheetByDetails/",
+  //         { year: selectedYear, month: month, company: companyId },
+  //         { withCredentials: true }
+  //       );
+  //       setDutySet(response.data);
+  //       SetIsLoading(false);
+  //       setShowData(true);
+  //     } catch (error) {
+  //       SetIsLoading(false);
+  //       toast.error(error.response.data.message);
+  //     }
+  //   }
+  //   console.log(selectedMonth);
+  // };
   console.log("duty set", dutySet);
 
   const dataCollectionArray = [];
@@ -223,23 +173,12 @@ const Schedule = () => {
           {/* while these2 are same can reduce them by making it as a function */}
           {/* Find Duty sheet */}
           <div>
-            <h2 className="font-bold">Find a Duty sheet</h2>
+            <h2 className="font-bold">Create Assign Duties to sheets</h2>
             <DutySearchForm
+              changeHandler={changeHandler}
+              selectedCompanyName={selectedCompanyName}
+              companylist={companylist}
               submitHandler={submitHandler}
-              changeHandler={changeHandler}
-              selectedCompanyName={selectedCompanyName}
-              companylist={companylist}
-            />
-          </div>
-
-          {/* create sheets */}
-          <div>
-            <h2 className="font-bold">Create a Duty sheet</h2>
-            <DutySearchForm
-              changeHandler={changeHandler}
-              selectedCompanyName={selectedCompanyName}
-              companylist={companylist}
-              submitHandler2={submitHandler2}
             />
           </div>
         </div>
@@ -254,7 +193,6 @@ const Schedule = () => {
       <div className={`col-span-2 bg-red-100 ${showData && !isloading ? "block" : "hidden"} `}>
         <div>
           {/* back button */}
-
           <button
             onClick={() => {
               setShowData(!showData);
@@ -265,11 +203,13 @@ const Schedule = () => {
             <FaArrowLeft /> {" Back"}
           </button>
 
+          {/* schedule title */}
           <h2 className="text-lg font-bold mb-5">
             {selectedCompanyName} Schedule . {` ${selectedMonth} - ${selectedYear} `}
           </h2>
 
           <NumberLine
+            year={selectedYear}
             month={selectedMonth}
             onSelectDay={(day) => {
               setSelectedDay(day);
@@ -302,7 +242,7 @@ const Schedule = () => {
                   {sheet.duties.map((duty, dindex) => (
                     <tr
                       key={dindex}
-                      className={`${duty.day == (selectedDay || 1) ? "box" : "hidden"}
+                      className={`${duty?.day == (selectedDay || 1) ? "box" : "hidden"}
                     `} //this is for attendance viewing area
                     >
                       <td className="p-2 border border-gray-300">
@@ -310,7 +250,7 @@ const Schedule = () => {
                           key={duty._id}
                           type="text"
                           name="position"
-                          value={duty.employee?.position}
+                          value={duty?.position}
                           readOnly
                         />
                       </td>

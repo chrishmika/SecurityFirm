@@ -286,21 +286,69 @@ export const viewDutySheet = async (req, res) => {
 export const viewSheetByDetails = async (req, res) => {
   try {
     const { year, month, company } = req.body;
-    console.log(year, month, company);
+    // console.log(year, month, company);
 
-    const sheet = await Duty.find({ year, month, company }).populate("company").populate({
+    let sheet = await Duty.find({ year, month, company });
+    // console.log("sheeet", sheet);
+
+    //if no sheet create a new one
+    if (sheet.length == 0 || !sheet) {
+      //checking for company
+      const companyDetails = await Company.findById(company).select("count");
+      if (!companyDetails || companyDetails?.count?.length == 0) {
+        return res.status(404).json({ message: "company requirement details not found" });
+      }
+
+      // creating new duties only with positions
+      let duties = [];
+      const monthIndex = new Date(`${month} 1, ${year}`).getMonth();
+      const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+
+      for (let i = 0; i < companyDetails?.count?.length; i++) {
+        for (let j = 0; j < companyDetails?.count[i].amount; j++) {
+          for (let day = 1; day <= daysInMonth; day++) {
+            duties.push({ position: companyDetails?.count[i].position, day });
+          }
+        }
+      }
+
+      // console.log("duties file", duties);
+
+      //creating new sheet
+      const newsheet = new Duty({ company, year, month, duties });
+      await newsheet.save();
+      console.log("new sheet is created");
+      // console.log("new sheet", newsheet);
+    }
+
+    sheet = await Duty.find({ year, month, company }).populate("company").populate({
       path: "duties.employee", // go inside duties array and populate employee
       model: "Employee", // name of your Employee model
     });
-    console.log("sheeet", sheet);
-    if (sheet.length == 0) {
-      return res.status(404).json({ message: "Sheet you look is not found create a new sheet" });
-    }
+
     res.status(200).json(sheet);
   } catch (error) {
     console.log(`error in viewSheetByDetails ${error.message}`);
     return res.status(500).json({ error: `internal server error on duty controller` });
   }
+
+  // try {
+  //   const { year, month, company } = req.body;
+  //   //console.log(year, month, company);
+
+  //   const sheet = await Duty.find({ year, month, company }).populate("company").populate({
+  //     path: "duties.employee", // go inside duties array and populate employee
+  //     model: "Employee", // name of your Employee model
+  //   });
+  //   console.log("sheeet", sheet);
+  //   if (sheet.length == 0) {
+  //     return res.status(404).json({ message: "Sheet you look is not found create a new sheet" });
+  //   }
+  //   res.status(200).json(sheet);
+  // } catch (error) {
+  //   console.log(`error in viewSheetByDetails ${error.message}`);
+  //   return res.status(500).json({ error: `internal server error on duty controller` });
+  // }
 };
 
 // delete duty sheet
@@ -402,16 +450,16 @@ export const checkInDuty = async (req, res) => {
 
     // Find the specific duty subdocument
     const dutyItem = duty.duties.id(dutyId);
-    
+
     if (!dutyItem) {
       return res.status(404).json({ message: "Duty item not found" });
     }
 
     // Check if already checked in
     if (dutyItem.checkIn) {
-      return res.status(400).json({ 
-        message: "Already checked in", 
-        checkInTime: dutyItem.checkIn 
+      return res.status(400).json({
+        message: "Already checked in",
+        checkInTime: dutyItem.checkIn,
       });
     }
 
@@ -452,23 +500,23 @@ export const checkOutDuty = async (req, res) => {
 
     // Find the specific duty subdocument
     const dutyItem = duty.duties.id(dutyId);
-    
+
     if (!dutyItem) {
       return res.status(404).json({ message: "Duty item not found" });
     }
 
     // Check if not checked in yet
     if (!dutyItem.checkIn) {
-      return res.status(400).json({ 
-        message: "Cannot check out without checking in first" 
+      return res.status(400).json({
+        message: "Cannot check out without checking in first",
       });
     }
 
     // Check if already checked out
     if (dutyItem.checkOut) {
-      return res.status(400).json({ 
-        message: "Already checked out", 
-        checkOutTime: dutyItem.checkOut 
+      return res.status(400).json({
+        message: "Already checked out",
+        checkOutTime: dutyItem.checkOut,
       });
     }
 
@@ -479,7 +527,7 @@ export const checkOutDuty = async (req, res) => {
     const checkInTime = new Date(dutyItem.checkIn);
     const checkOutTime = new Date(dutyItem.checkOut);
     const workedHours = (checkOutTime - checkInTime) / (1000 * 60 * 60); // Convert to hours
-    
+
     // If worked more than shift hours, calculate OT
     if (workedHours > dutyItem.shift) {
       dutyItem.ot = Math.round((workedHours - dutyItem.shift) * 100) / 100; // Round to 2 decimal places
@@ -515,7 +563,7 @@ export const getDutyStatus = async (req, res) => {
     }
 
     const dutyItem = duty.duties.id(dutyId);
-    
+
     if (!dutyItem) {
       return res.status(404).json({ message: "Duty item not found" });
     }
