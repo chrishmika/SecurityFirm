@@ -1,13 +1,12 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getDistance } from 'geolib';
-import React, { createContext, useState } from 'react';
-import Geolocation from 'react-native-geolocation-service';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getDistance } from "geolib";
+import React, { createContext, useState } from "react";
+import Geolocation from "react-native-geolocation-service";
 
 export const LocationContext = createContext();
 
 export const LocationProvider = ({ children }) => {
-
-  const baseUrl = 'http://192.168.8.156:5000/api/duty';
+  const baseUrl = "http://10.37.30.220:5000/api/duty";
 
   const [currentLocation, setCurrentLocation] = useState(null);
   const [assignedLocation, setAssignedLocation] = useState(null);
@@ -42,26 +41,26 @@ export const LocationProvider = ({ children }) => {
     try {
       setIsLoading(true);
       setError(null);
-      
-      const employeeId = await AsyncStorage.getItem('employee_id');
-      const authToken = await AsyncStorage.getItem('authToken');
-      
+
+      const employeeId = await AsyncStorage.getItem("employee_id");
+      const authToken = await AsyncStorage.getItem("authToken");
+
       if (!employeeId || !authToken) {
-        console.warn('User not authenticated - skipping duty location fetch');
+        console.warn("User not authenticated - skipping duty location fetch");
         return null;
       }
 
       // Get current date
       const today = new Date();
       const year = today.getFullYear();
-      const month = today.toLocaleString('en-US', { month: 'long' });
+      const month = today.toLocaleString("en-US", { month: "long" });
       const day = today.getDate();
 
       const response = await fetch(`${baseUrl}/duty/find`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Authorization': `Bearer ${authToken}`,
-          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           year,
@@ -73,30 +72,30 @@ export const LocationProvider = ({ children }) => {
 
       if (!response.ok) {
         if (response.status === 404) {
-          console.warn('No duty assigned for today');
+          console.warn("No duty assigned for today");
           return null;
         }
-        throw new Error('Failed to fetch duty location');
+        throw new Error("Failed to fetch duty location");
       }
 
       const dutyData = await response.json();
-      
+
       // Set both assigned location and duty info
       const locationData = {
         latitude: dutyData.latitude,
         longitude: dutyData.longitude,
       };
-      
+
       setAssignedLocation(locationData);
       setDutyInfo({
         dutyId: dutyData.dutyId,
         ...dutyData,
       });
-      
+
       return dutyData;
     } catch (error) {
       setError(error.message);
-      console.error('Duty location fetch error:', error);
+      console.error("Duty location fetch error:", error);
       return null;
     } finally {
       setIsLoading(false);
@@ -108,24 +107,24 @@ export const LocationProvider = ({ children }) => {
     try {
       setIsLoading(true);
       setError(null);
-      
-      const nic = await AsyncStorage.getItem('employee_id');
-      const authToken = await AsyncStorage.getItem('authToken');
-      
+
+      const nic = await AsyncStorage.getItem("employee_id");
+      const authToken = await AsyncStorage.getItem("authToken");
+
       if (!nic || !authToken) {
-        console.warn('User not authenticated - skipping location fetch');
+        console.warn("User not authenticated - skipping location fetch");
         return null;
       }
 
       const response = await fetch(`${baseUrl}/location/${employee_id}`, {
         headers: {
-          'Authorization': `Bearer ${authToken}`,
-          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
+          "Content-Type": "application/json",
         },
       });
 
       if (!response.ok) {
-        throw new Error('Failed to fetch assigned location');
+        throw new Error("Failed to fetch assigned location");
       }
 
       const locationData = await response.json();
@@ -133,7 +132,7 @@ export const LocationProvider = ({ children }) => {
       return locationData;
     } catch (error) {
       setError(error.message);
-      console.error('Location fetch error:', error);
+      console.error("Location fetch error:", error);
       return null;
     } finally {
       setIsLoading(false);
@@ -149,14 +148,14 @@ export const LocationProvider = ({ children }) => {
     );
 
     const isInRange = distance <= threshold;
-    
+
     const status = {
       distance,
       isInRange,
       threshold,
-      message: isInRange 
+      message: isInRange
         ? `You are at your assigned location (${distance}m away)`
-        : `You are ${distance}m away from your assigned location`
+        : `You are ${distance}m away from your assigned location`,
     };
 
     setLocationStatus(status);
@@ -170,23 +169,23 @@ export const LocationProvider = ({ children }) => {
 
       // Get current location
       const current = await getCurrentLocation();
-      
+
       // Fetch duty location if not already loaded
-      const assigned = assignedLocation || await fetchTodaysDutyLocation();
-      
+      const assigned = assignedLocation || (await fetchTodaysDutyLocation());
+
       // If no assigned location (no duty for today), return early
       if (!assigned) {
-        console.warn('Cannot perform location check - no duty assigned for today');
+        console.warn("Cannot perform location check - no duty assigned for today");
         return { current, assigned: null, status: null };
       }
-      
+
       // Check if locations match
       const status = checkLocationMatch(current, assigned);
-      
+
       return { current, assigned, status };
     } catch (error) {
       setError(error.message);
-      console.error('Location check error:', error);
+      console.error("Location check error:", error);
       throw error;
     } finally {
       setIsLoading(false);
@@ -201,18 +200,18 @@ export const LocationProvider = ({ children }) => {
 
       // First check if user is at correct location
       const locationCheck = await performLocationCheck();
-      
+
       if (!locationCheck.status || !locationCheck.status.isInRange) {
-        throw new Error('You must be at your assigned location to check in');
+        throw new Error("You must be at your assigned location to check in");
       }
 
       // If location is correct, perform check-in
-      const authToken = await AsyncStorage.getItem('authToken');
+      const authToken = await AsyncStorage.getItem("authToken");
       const response = await fetch(`${baseUrl}/duty/checkin`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Authorization': `Bearer ${authToken}`,
-          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           dutyId: dutyInfo.dutyId,
@@ -221,14 +220,14 @@ export const LocationProvider = ({ children }) => {
       });
 
       if (!response.ok) {
-        throw new Error('Check-in failed');
+        throw new Error("Check-in failed");
       }
 
       const result = await response.json();
       return result;
     } catch (error) {
       setError(error.message);
-      console.error('Check-in error:', error);
+      console.error("Check-in error:", error);
       throw error;
     } finally {
       setIsLoading(false);
@@ -244,12 +243,12 @@ export const LocationProvider = ({ children }) => {
       // Get current location for check-out
       const current = await getCurrentLocation();
 
-      const authToken = await AsyncStorage.getItem('authToken');
+      const authToken = await AsyncStorage.getItem("authToken");
       const response = await fetch(`${baseUrl}/duty/checkout`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Authorization': `Bearer ${authToken}`,
-          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           dutyId: dutyInfo.dutyId,
@@ -258,14 +257,14 @@ export const LocationProvider = ({ children }) => {
       });
 
       if (!response.ok) {
-        throw new Error('Check-out failed');
+        throw new Error("Check-out failed");
       }
 
       const result = await response.json();
       return result;
     } catch (error) {
       setError(error.message);
-      console.error('Check-out error:', error);
+      console.error("Check-out error:", error);
       throw error;
     } finally {
       setIsLoading(false);
@@ -289,9 +288,5 @@ export const LocationProvider = ({ children }) => {
     setError,
   };
 
-  return (
-    <LocationContext.Provider value={value}>
-      {children}
-    </LocationContext.Provider>
-  );
+  return <LocationContext.Provider value={value}>{children}</LocationContext.Provider>;
 };
