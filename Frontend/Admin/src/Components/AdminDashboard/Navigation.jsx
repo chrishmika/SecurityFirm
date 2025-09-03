@@ -23,6 +23,25 @@ const Navigation = () => {
   const toggleNavigationMenu = () => setIsMenuOpen(!isMenuOpen);
   const handelClick = () => logout();
 
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     // 768px is the 'md' breakpoint in Tailwind
+  //     if (window.innerWidth < 768) {
+  //       setIsMenuOpen(false);
+  //     } else {
+  //       setIsMenuOpen(true);
+  //     }
+  //   };
+
+  // handleResize();
+
+  // Add event listener for window resize
+  // window.addEventListener("resize", handleResize);
+
+  // Clean up the event listener on unmount
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, []);
+
   ////////add "are you sure you wanna logout" confirmation window
 
   const Confirmation = () => {
@@ -132,7 +151,7 @@ const Navigation = () => {
 
                 {/* expanded view on logout button */}
                 <span
-                  className={`font-semibold text-white flex items-center gap-3 ${
+                  className={`font-semibold text-white flex items-center  gap-3 ${
                     isMenuOpen ? "block" : "hidden"
                   } `}>
                   {/* {`${user?.name}`} */}

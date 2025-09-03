@@ -1,9 +1,17 @@
 /* eslint-disable react/prop-types */
 
-const DutySearchForm = ({ submitHandler, changeHandler, selectedCompanyName, companylist }) => {
+const DutySearchForm = ({
+  submitHandler,
+  changeHandler,
+  selectedCompanyName,
+  companylist,
+  submitHandler2,
+}) => {
   return (
     <div>
-      <form onSubmit={submitHandler} className="flex flex-col gap-2 border-3 p-4 rounded-2xl">
+      <form
+        onSubmit={submitHandler || submitHandler2}
+        className="flex flex-col gap-2 border-3 p-4 rounded-2xl">
         <div className="flex flex-col gap-1">
           <label>Year and Month</label>
           <input
@@ -25,7 +33,7 @@ const DutySearchForm = ({ submitHandler, changeHandler, selectedCompanyName, com
             className="outline-1 w-fill rounded-md px-4 h-10 no-arrow"
             placeholder="Enter Data"
             onChange={changeHandler}
-            // value={selectedCompanyName}
+            value={selectedCompanyName}
           />
 
           <datalist id="searchCompany">
