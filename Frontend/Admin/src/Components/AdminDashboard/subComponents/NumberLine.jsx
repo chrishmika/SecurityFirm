@@ -3,16 +3,9 @@ import { useState } from "react";
 
 const NumberLine = ({ year, month, onSelectDay }) => {
   const [clicked, setClicked] = useState(1);
-  const [select, setSelect] = useState([]); //no idea why i put this
 
   const monthIndex = new Date(`${month} 1, ${year}`).getMonth();
   const days = new Date(year, monthIndex + 1, 0).getDate();
-  // let days =
-  //   month === "February"
-  //     ? 28
-  //     : ["January", "March", "May", "July", "August", "October", "December"].includes(month)
-  //     ? 31
-  // : 30;
 
   let boxes = [];
 
