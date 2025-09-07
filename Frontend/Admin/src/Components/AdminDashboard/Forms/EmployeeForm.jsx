@@ -84,7 +84,9 @@ const EmployeeForm = () => {
     { label: "Full Name", name: "name", placeholder: "Ushan Kavindu Sumanasekara" },
     { label: "Name With Initials", name: "initials", placeholder: "U. K. Sumanasekara" },
     { label: "Date of Birth", name: "birthday", type: "date" },
-    { label: "Address", name: "address", placeholder: "No 0000/ X, Street, City, Postal Code" },
+    { label: "Address No:", name: "number", placeholder: "00/X" },
+    { label: "Street", name: "street", placeholder: "Street, City" },
+    { label: "City", name: "city", placeholder: "City" },
   ];
 
   const documents = [

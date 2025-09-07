@@ -12,20 +12,17 @@ const JoinUs = () => {
 
       {/* Sub Header */}
       <div className="text-center mb-6">
-        <p className="text-3xl text-gray-800 font-medium">
-          Secure Your Future with Us!
-        </p>
+        <p className="text-3xl text-gray-800 font-medium">Secure Your Future with Us!</p>
       </div>
 
       {/* Image + Paragraph Section */}
       <div className="flex flex-col lg:flex-row mb-8 items-center gap-6">
         <div className="flex-1 p-4 text-left">
           <p className="text-gray-700 leading-relaxed mb-5">
-            At <span className="text-blue-600 font-semibold">D-vision</span>, we
-            are always looking for dedicated security professionals to join our
-            team. We offer competitive wages, benefits, and flexible hours. If
-            you are passionate about safety and protection, apply now to start
-            your career in security with us.
+            At <span className="text-blue-600 font-semibold">D-vision</span>, we are always looking
+            for dedicated security professionals to join our team. We offer competitive wages,
+            benefits, and flexible hours. If you are passionate about safety and protection, apply
+            now to start your career in security with us.
           </p>
 
           <h2 className="text-2xl text-blue-900 font-semibold mb-3">
@@ -48,8 +45,7 @@ const JoinUs = () => {
                 ? "bg-red-400 hover:bg-red-500 px-5 py-3 rounded-lg font-medium text-white"
                 : "bg-blue-500 hover:bg-blue-600 px-5 py-3 rounded-lg font-medium text-white"
             }
-            to="jobapply"
-          >
+            to="jobapply">
             Apply for Job
           </NavLink>
         </div>

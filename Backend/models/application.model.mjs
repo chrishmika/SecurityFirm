@@ -11,12 +11,12 @@ const applicationSchema = new mongoose.Schema({
   },
   sex: {
     type: String,
-    enum: ["male", "female"],
+    enum: ["male", "female", "other", "Prefer not to say"],
     required: true,
   },
   military: {
     type: Boolean,
-    required: true,
+    required: false,
   },
   NICCopy: {
     type: String,
