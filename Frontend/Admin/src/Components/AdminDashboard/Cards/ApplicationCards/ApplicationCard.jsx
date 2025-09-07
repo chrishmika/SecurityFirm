@@ -18,12 +18,24 @@ const ApplicationCard = ({ data, choice }) => {
 
       <div
         className={`${
-          isSelected ? "box" : "hidden"
-        } absolute inset-0 backdrop-blur-sm p-10 z-100 `}>
-        <div>
-          <div className=" flex absolute md:inset-20 sm:inset-y-50 inset-y-20 inset-x-10 inset bg-red-400 ml-15 sm:mx-50">
-            <span onClick={() => setIsSelected(false)}>{"close"}</span>
-            {/*view employee aplication details in propper manner */}
+          isSelected ? "block" : "hidden"
+        } fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center p-4`}>
+        <div className="relative w-full max-w-3xl bg-red-400 rounded-lg p-6 md:p-10">
+          {/* Close Button */}
+          <span
+            className="absolute top-2 right-2 text-white font-bold cursor-pointer"
+            onClick={() => setIsSelected(false)}>
+            ✕
+          </span>
+
+          {/* Content: view employee application details */}
+          <div className="overflow-auto max-h-[80vh] flex flex-col">
+            <span>{data?.name}</span>
+            <span>{data?.address}</span>
+            <span>{data?.contact}</span>
+            <span>{data?.sex}</span>
+            <span>{data?.cv}</span>
+            <span>{data?.NICCopy}</span>
           </div>
         </div>
       </div>
