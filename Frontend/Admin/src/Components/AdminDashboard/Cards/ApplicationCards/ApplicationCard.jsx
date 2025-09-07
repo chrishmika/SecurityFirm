@@ -9,12 +9,17 @@ const ApplicationCard = ({ data, choice }) => {
 
   return (
     <div>
-      <div className="m-2 flex flex-col justify-center items-center" onClick={() => setIsSelected(true)}>
+      <div
+        className="m-2 flex flex-col justify-center items-center"
+        onClick={() => setIsSelected(true)}>
         <CiFileOn className="text-7xl cursor-pointer" />
-        <span className=" cursor-pointer">{data.name}</span>
+        <span className=" cursor-pointer">{data.name.split(" ", 1)}</span>
       </div>
 
-      <div className={`${isSelected ? "box" : "hidden"} absolute inset-0 backdrop-blur-sm p-10 z-100 `}>
+      <div
+        className={`${
+          isSelected ? "box" : "hidden"
+        } absolute inset-0 backdrop-blur-sm p-10 z-100 `}>
         <div>
           <div className=" flex absolute md:inset-20 sm:inset-y-50 inset-y-20 inset-x-10 inset bg-red-400 ml-15 sm:mx-50">
             <span onClick={() => setIsSelected(false)}>{"close"}</span>

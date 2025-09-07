@@ -12,7 +12,7 @@ const ApplicationsView = () => {
   useEffect(() => {
     const fetchData = async () => {
       setIsloading(true);
-      const Url = choice ? "/api/web/application" : "/api/web/CompanyApplications";
+      const Url = !choice ? "/api/web/application" : "/api/web/CompanyApplications";
       const response = await axios.post(Url, {}, { withCredentials: true });
       console.log(response);
       setIsloading(false);
@@ -28,13 +28,16 @@ const ApplicationsView = () => {
         <span className="text-4xl" onClick={() => setChoice(!choice)}>
           {choice ? <FaToggleOn /> : <FaToggleOff />}
         </span>
-        {choice ? `Company` : `Employee`}
+        {!choice ? `Employee` : `Company`}
       </div>
 
-      <div className={`flex flex-col md:justify-between border-1 border-[#D9D9D9] rounded-2xl w-full h-screen justify- my-1.5  md:flex-row cursor-pointer p-2 overflow-hidden`}>
+      <div
+        className={`flex flex-col md:justify-between border-1 border-[#D9D9D9] rounded-2xl w-full h-screen justify- my-1.5  md:flex-row cursor-pointer p-2 overflow-hidden`}>
         {!isLoading ? (
           <div className=" border-[#D9D9D9] w-screen m-2">
-            <h1 className="font-bold">{!choice ? "Employee Applications" : "Company Applications"}</h1>
+            <h1 className="font-bold">
+              {!choice ? "Employee Applications" : "Company Applications"}
+            </h1>
             <div className="mx-2 flex flex-wrap gap-5">
               {allData.map((data) => {
                 return <ApplicationCard data={data} key={data._id} choice={choice} />;
