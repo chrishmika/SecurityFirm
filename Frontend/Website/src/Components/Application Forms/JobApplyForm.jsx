@@ -1,9 +1,8 @@
-import React from "react";
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
-import uploadImage from "../../Services/AuthServices";
+// import uploadImage from "../../Services/AuthServices";
 
 const JobApplyForm = () => {
   //file handle karanna use state
@@ -92,7 +91,7 @@ const JobApplyForm = () => {
     // }
     try {
       await axios.post("http://localhost:5000/api/web/employeeRequest", formData, {
-        headers: { "Content-Type": "multipart/form-data" }, // axios handles boundary
+        headers: { "Content-Type": "multipart/form-data" },
       });
 
       setName("");

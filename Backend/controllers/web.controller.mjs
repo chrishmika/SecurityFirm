@@ -34,8 +34,8 @@ export const companyRequest = async (req, res) => {
       admin._id,
       newRequest._id,
       "CompanyRequest",
-      "companyRequest",
-      "Company ask for join"
+      "company",
+      "company request is send for services"
     );
 
     res.status(200).json({ message: `Request Sent`, newRequest });
