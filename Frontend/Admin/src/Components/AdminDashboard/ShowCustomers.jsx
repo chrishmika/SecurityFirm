@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+import icon from "../../assets/boy1.png";
+
 import { FaToggleOff, FaToggleOn } from "react-icons/fa6";
 import { RiCloseFill } from "react-icons/ri";
 
@@ -103,7 +105,7 @@ const AddCompany = () => {
         </div>
 
         <div className="pr-4 ">
-          <form className="flex gap-2 flex-wrap  " onSubmit={submitHandeler}>
+          <form className="flex gap-2 flex-wrap" onSubmit={submitHandeler}>
             <div className="relative w-64">
               {/* Search Input */}
               <input
@@ -157,7 +159,26 @@ const AddCompany = () => {
           className={`flex justify-center items-center h-[70vh] w-full overflow-hidden ${
             !isDataFetched ? "" : "hidden"
           }`}>
-          <span className=""> Search For details</span>
+          {/* <div className="outline-1 w-20 h-20 rounded-full cursor-pointer relative -left-4 overflow-hidden flex justify-center items-center">
+            <img
+              src={namesData[0]?.img || icon}
+              onClick={() => {
+                handelSelectedId(namesData[0]?.name);
+                submitHandeler();
+              }}
+            />
+          </div>
+          <div className="outline-1 w-20 h-20 rounded-full cursor-pointer relative -left-1 overflow-hidden flex justify-center items-center">
+            <img src={namesData[1]?.img || icon} />
+          </div>
+          <div className="outline-1 w-20 h-20 rounded-full cursor-pointer relative left-1 overflow-hidden flex justify-center items-center">
+            <img src={namesData[2]?.img || icon} />
+          </div>
+          <div className="outline-1 w-20 h-20 rounded-full cursor-pointer relative left-4 overflow-hidden flex justify-center items-center">
+            <img src={namesData[3]?.img || icon} />
+          </div> */}
+
+          {/* <span className=""> Search For details</span> */}
         </div>
       </div>
     </div>
