@@ -3,7 +3,7 @@ import { clients } from '../../AdditionalData.json'
 const InfiniteLogoScrall = () => {
     return (
         <div>
-            <div>companies</div>
+            {/* <div>companies</div> */}
 
             <div className=" flex w-full overflow-hidden bg-white py-8">
             <div className="relative">
