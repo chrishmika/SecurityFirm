@@ -94,7 +94,7 @@ export function UserProvider({ children }) {
       }
     } catch (error) {
       console.error("Login failed:", error);
-      await AsyncStorage.multiRemove(["authToken", "nic"]);
+      await AsyncStorage.multiRemove(["authToken", "nic", "employee_id"]);
       setUser(null);
       throw error;
     } finally {
@@ -106,12 +106,12 @@ export function UserProvider({ children }) {
   async function logout() {
     try {
       setLoading(true);
-      await AsyncStorage.multiRemove(["authToken", "nic"]);
+      await AsyncStorage.multiRemove(["authToken", "nic", "employee_id"]);
       setUser(null);
       return { success: true };
     } catch (error) {
       console.error("Logout failed:", error);
-      await AsyncStorage.multiRemove(["authToken", "nic"]);
+      await AsyncStorage.multiRemove(["authToken", "nic", "employee_id"]);
       setUser(null);
       throw error;
     } finally {

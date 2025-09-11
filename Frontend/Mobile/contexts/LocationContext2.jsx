@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getDistance } from "geolib";
 import React, { createContext, useState } from "react";
-import Geolocation from "react-native-geolocation-service";
+import * as Location from 'expo-location'; // Replace react-native-geolocation-service
 import { useEffect } from "react";
 
 export const LocationContext = createContext();
@@ -24,25 +24,26 @@ export const LocationProvider = ({ children }) => {
   });
 
   
-  const getCurrentLocation = () => {
-    return new Promise((resolve, reject) => {
-      Geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setCurrentLocation({ latitude, longitude });
-          resolve({ latitude, longitude });
-        },
-        (error) => {
-          setError(`Location error: ${error.message}`);
-          reject(error);
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 15000,
-          maximumAge: 10000,
-        }
-      );
-    });
+  const getCurrentLocation = async () => {
+    try {
+      // Request permissions
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        throw new Error('Permission to access location was denied');
+      }
+
+      // Get current position
+      let location = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.High,
+      });
+
+      const { latitude, longitude } = location.coords;
+      setCurrentLocation({ latitude, longitude });
+      return { latitude, longitude };
+    } catch (error) {
+      setError(`Location error: ${error.message}`);
+      throw error;
+    }
   };
 
   // New function to fetch duty location for today

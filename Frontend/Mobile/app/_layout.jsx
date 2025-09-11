@@ -1,8 +1,8 @@
-import { Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-import { UserProvider } from "@/contexts/UserContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { LocationProvider } from "@/contexts/LocationContext";
+import { UserProvider } from "@/contexts/UserContext";
+import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 
 export default function RootLayout() {
   return (
@@ -23,7 +23,7 @@ export default function RootLayout() {
 
             <Stack.Screen
               name="index"
-              options={{ title: "Home" }}
+              options={{ title: "" }}
             />
           </Stack>
         </LocationProvider>

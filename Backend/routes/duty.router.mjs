@@ -30,7 +30,7 @@ router.put("/editDuty/:sheetId/:dutyEntryId", protectedRoute, editDuty); //not t
 router.delete("/deleteDuty/:sheetId/:dutyEntryId", protectedRoute, deleteDuty); //not tested
 router.post("/markAttendance/:sheetId/:dutyEntryId", protectedRoute, markAttendance); //partially tested
 
-router.post("/find", protectedRoute, findDutyForEmployee); //partially tested
+// router.post("/find", protectedRoute, findDutyForEmployee); //partially tested
 
 router.post("/checkin", protectedRoute, checkInDuty);
 
@@ -38,7 +38,9 @@ router.post("/checkin", protectedRoute, checkInDuty);
 router.post("/checkout", protectedRoute, checkOutDuty);
 
 // Get duty status endpoint
-router.get("/status/:dutyId", protectedRoute, getDutyStatus);
+router.get("/:dutyId/status", protectedRoute, getDutyStatus);
+
+// router.get("/today-duty", protectedRoute, getTodayDuty);
 
 router.post("/fetchlocation", protectedRoute, findDutyForEmployee);
 export default router;

@@ -1,0 +1,26 @@
+{
+  "cli": {
+    "version": ">= 16.18.1",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "environment": "development"
+    },
+    "preview": {
+      "environment": "preview",
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "production": {
+      "environment": "production"
+    },
+    "my-profile": {
+      "environment": "production"
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

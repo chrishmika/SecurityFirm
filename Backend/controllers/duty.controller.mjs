@@ -497,125 +497,90 @@ export const checkInDuty = async (req, res) => {
   }
 };
 
+// controllers/dutyController.js
+
 export const checkOutDuty = async (req, res) => {
   try {
     const { dutyId, location } = req.body;
-
-    console.log("CHECKOUT REQ BODY:", req.body);
-    console.log("Looking for dutyId:", dutyId);
 
     if (!dutyId || !location) {
       return res.status(400).json({ message: "dutyId and location are required" });
     }
 
-    // Find the duty document containing the specific duty
-    const duty = await Duty.findOne({
-      "duties._id": dutyId,
-    });
-
-    console.log("Found duty document:", duty ? "Yes" : "No");
-
-    if (!duty) {
-      console.log("No duty document found with dutyId:", dutyId);
-      return res.status(404).json({ 
-        message: "Duty not found",
-        dutyId: dutyId 
-      });
+    // Find parent document
+    const dutyDoc = await Duty.findOne({ "duties._id": dutyId });
+    if (!dutyDoc) {
+      return res.status(404).json({ message: "Duty not found", dutyId });
     }
 
-    // Find the specific duty subdocument
-    const dutyItem = duty.duties.id(dutyId);
-    console.log("Found duty item:", dutyItem ? "Yes" : "No");
-
+    // Grab the subdocument
+    const dutyItem = dutyDoc.duties.id(dutyId);
     if (!dutyItem) {
-      console.log("Available duty IDs:", duty.duties.map(d => d._id.toString()));
-      return res.status(404).json({ 
+      return res.status(404).json({
         message: "Duty item not found",
-        dutyId: dutyId,
-        availableDuties: duty.duties.map(d => d._id.toString())
+        availableDuties: dutyDoc.duties.map(d => d._id.toString())
       });
     }
 
-    // Check if not checked in yet
+    // Must have already checked in
     if (!dutyItem.checkIn) {
-      return res.status(400).json({
-        message: "Cannot check out without checking in first",
-      });
+      return res.status(400).json({ message: "Cannot check out before check in" });
     }
 
-    // Check if already checked out
+    // Prevent multiple check-outs
     if (dutyItem.checkOut) {
       return res.status(400).json({
         message: "Already checked out",
-        checkOutTime: dutyItem.checkOut,
+        checkOutTime: dutyItem.checkOut
       });
     }
 
-    // Update check-out time
+    // Record checkout and calculate overtime
     dutyItem.checkOut = new Date();
 
-    // Calculate overtime if applicable
-    const checkInTime = new Date(dutyItem.checkIn);
-    const checkOutTime = new Date(dutyItem.checkOut);
-    const workedHours = (checkOutTime - checkInTime) / (1000 * 60 * 60); // Convert to hours
+    // Calculate OT (difference in hours minus scheduled shift)
+    const workedMs = dutyItem.checkOut - dutyItem.checkIn;
+    const workedHrs = workedMs / (1000 * 60 * 60);
+    dutyItem.ot = Math.max(0, workedHrs - dutyItem.shift);
 
-    // If worked more than shift hours, calculate OT
-    if (dutyItem.shift && workedHours > dutyItem.shift) {
-      dutyItem.ot = Math.round((workedHours - dutyItem.shift) * 100) / 100; // Round to 2 decimal places
-    }
+    await dutyDoc.save();
 
-    await duty.save();
-
-    console.log("Check-out successful for dutyId:", dutyId);
-
-    res.json({
+    return res.json({
       message: "Check-out successful",
       checkOutTime: dutyItem.checkOut,
-      checkInTime: dutyItem.checkIn,
-      workedHours: Math.round(workedHours * 100) / 100,
-      overtime: dutyItem.ot || 0,
-      dutyId: dutyItem._id,
-      location,
+      ot: dutyItem.ot,
+      dutyId,
+      location
     });
   } catch (err) {
-    console.log("=== CHECKOUT ERROR ===");
     console.error("CheckOut Error Details:", err);
-    console.error("Error message:", err.message);
-    console.error("Error stack:", err.stack);
-    res.status(500).json({ message: "Server error", error: err.message });
+    return res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
+// controllers/dutyController.js
 
 export const getDutyStatus = async (req, res) => {
   try {
     const { dutyId } = req.params;
-
-    const duty = await Duty.findOne({
-      "duties._id": dutyId,
-    });
-
-    if (!duty) {
+    const dutyDoc = await Duty.findOne({ "duties._id": dutyId });
+    if (!dutyDoc) {
       return res.status(404).json({ message: "Duty not found" });
     }
-
-    const dutyItem = duty.duties.id(dutyId);
-
+    const dutyItem = dutyDoc.duties.id(dutyId);
     if (!dutyItem) {
       return res.status(404).json({ message: "Duty item not found" });
     }
 
-    res.json({
-      dutyId: dutyItem._id,
+    return res.json({
+      dutyId,
+      checkInTime: dutyItem.checkIn || null,
+      checkOutTime: dutyItem.checkOut || null,
       status: dutyItem.status,
-      checkIn: dutyItem.checkIn,
-      checkOut: dutyItem.checkOut,
-      overtime: dutyItem.ot,
-      shift: dutyItem.shift,
-      position: dutyItem.position,
-      time: dutyItem.time,
+      ot: dutyItem.ot || 0
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error", error: err.message });
+    console.error("GetDutyStatus Error:", err);
+    return res.status(500).json({ message: "Server error", error: err.message });
   }
 };

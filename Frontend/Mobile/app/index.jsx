@@ -1,524 +1,470 @@
-import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
 import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Button,
-  ActivityIndicator,
-  Alert,
-} from "react-native";
+    ActivityIndicator,
+    Alert,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+    SafeAreaView,
+    ScrollView,
+    Dimensions,
+} from 'react-native';
 
-import { useUser } from "../hooks/useUser";
-import { useLocation } from "../hooks/useLocation";
-import { useLanguage } from "../contexts/LanguageContext";
-import LanguageToggle from "../components/LanguageToggle";
-import { initializeLocation } from "../utils/permissions";
+import LanguageToggle from '../components/LanguageToggle';
+import { useLanguage } from '../contexts/LanguageContext';
+import { useLocation } from '../hooks/useLocation';
+import { useUser } from '../hooks/useUser';
+import { initializeLocation } from '../utils/permissions';
 
 const Home = () => {
-  const router = useRouter();
-  const [error, setError] = useState(null);
-  const { user, logout, loading, isAuthenticated } = useUser();
+    const router = useRouter();
+    const [error, setError] = useState(null);
 
-  const {
-    currentLocation,
-    assignedLocation,
-    dutyInfo,
-    locationStatus,
-    isLoading,
-    error: locationError,
-    performLocationCheck,
-    fetchTodaysDutyLocation,
-    performCheckIn,
-    performCheckOut,
-  } = useLocation();
-  const { t } = useLanguage();
+    const { user, logout, loading, isAuthenticated } = useUser();
+    const {
+        currentLocation,
+        assignedLocation,
+        dutyInfo,
+        locationStatus,
+        isLoading,
+        error: locationError,
+        performLocationCheck,
+        fetchTodaysDutyLocation,
+        performCheckIn,
+        performCheckOut,
+        fetchDutyStatus,
+        statusInfo,//for already checked in/out checking
+    } = useLocation();
 
-  // Initialize location services on mount
-  useEffect(() => {
-    const setupLocation = async () => {
-      const isLocationReady = await initializeLocation();
-      if (!isLocationReady) {
-        console.log("Location initialization failed");
-      }
-    };
-    setupLocation();
-  }, []);
+    const { t } = useLanguage();
 
-  // Handle authentication redirects
-  useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      router.replace("/login");
-    }
-  }, [loading, isAuthenticated]);
+    // Fetch duty status when dutyId is available
+    useEffect(() => {
+        if (dutyInfo?.dutyId) fetchDutyStatus();
+    }, [dutyInfo]);
 
-  // Fetch today's duty location when authenticated
-  useEffect(() => {
-    if (isAuthenticated && !loading) {
-      fetchTodaysDutyLocation().catch(console.error);
-    }
-  }, [isAuthenticated, loading]);
+    // Initialize location services on mount
+    useEffect(() => {
+        (async () => {
+            const isLocationReady = await initializeLocation();
+            if (!isLocationReady) console.log('Location initialization failed');
+        })();
+    }, []);
 
-  const handleCheckLocation = async () => {
-    try {
-      await performLocationCheck();
-      if (locationStatus) {
-        Alert.alert("Location Check", locationStatus.message, [{ text: "OK" }]);
-      }
-    } catch (error) {
-      Alert.alert("Error", error.message);
-    }
-  };
+    // Redirect unauthenticated users
+    useEffect(() => {
+        if (!loading && !isAuthenticated) router.replace('/login');
+    }, [loading, isAuthenticated]);
 
-  const handleCheckIn = async () => {
-    try {
-      const result = await performCheckIn();
-      Alert.alert(
-        "Check-in Successful",
-        `You have successfully checked in at ${new Date().toLocaleTimeString()}`,
-        [{ text: "OK" }]
-      );
-      // Refresh duty location to get updated status
-      await fetchTodaysDutyLocation();
-    } catch (error) {
-      Alert.alert("Check-in Failed", error.message, [{ text: "OK" }]);
-    }
-  };
+    // Fetch today's duty location when authenticated
+    useEffect(() => {
+        if (isAuthenticated && !loading) fetchTodaysDutyLocation().catch(console.error);
+    }, [isAuthenticated, loading]);
 
-  const handleCheckOut = async () => {
-    Alert.alert("Confirm Check-out", "Are you sure you want to check out?", [
-      { text: "Cancel", style: "cancel" },
-      {
-        text: "Check Out",
-        onPress: async () => {
-          try {
-            const result = await performCheckOut();
-            Alert.alert(
-              "Check-out Successful",
-              `You have successfully checked out at ${new Date().toLocaleTimeString()}`,
-              [{ text: "OK" }]
-            );
-            // Refresh duty location to get updated status
-            await fetchTodaysDutyLocation();
-          } catch (error) {
-            Alert.alert("Check-out Failed", error.message, [{ text: "OK" }]);
-          }
-        },
-      },
-    ]);
-  };
-
-  const handleLogout = async () => {
-    setError(null);
-    try {
-      await logout();
-      router.replace("/login");
-    } catch (error) {
-      setError(error.message || "Logout failed. Please try again.");
-    }
-  };
-
-  const getStatusColor = () => {
-    if (!locationStatus) return "#6B7280";
-    return locationStatus.isInRange ? "#10B981" : "#EF4444";
-  };
-
-  const canCheckIn = () => {
-    return dutyInfo && locationStatus && locationStatus.isInRange && !isLoading;
-  };
-
-  const canCheckOut = () => {
-    return dutyInfo && !isLoading;
-  };
-
-  // Loading states
-  if (loading) {
-    return (
-      <View style={[styles.container, styles.centered]}>
-        <ActivityIndicator size="large" color="#4F46E5" />
-        <Text style={styles.loadingText}>Loading...</Text>
-      </View>
-    );
-  }
-
-  if (isLoading && !currentLocation) {
-    return (
-      <View style={[styles.container, styles.centered]}>
-        <ActivityIndicator size="large" color="#4F46E5" />
-        <Text style={styles.loadingText}>Loading location data...</Text>
-      </View>
-    );
-  }
-
-  if (!isAuthenticated) {
-    return null; // Prevent flash before redirect
-  }
-
-  return (
-    <View style={styles.container}>
-      {/* Header Section */}
-      <View style={styles.header}>
-        <View style={styles.welcomeCard}>
-          <Text style={styles.greeting}>{t("greeting")}</Text>
-          <Text style={styles.userName}>{user?.name || "Guest user"}</Text>
-        </View>
-
-        <LanguageToggle />
-
-        {(error || locationError) && (
-          <View style={styles.errorContainer}>
-            <Text style={styles.errorText}>{error || locationError}</Text>
-          </View>
-        )}
-      </View>
-
-      {/* Duty Information Section */}
-      {dutyInfo ? (
-        <View style={styles.dutySection}>
-          <Text style={styles.sectionTitle}>Today's Duty</Text>
-          <View style={styles.dutyCard}>
-            <Text style={styles.dutyText}>Duty ID: {dutyInfo.dutyId}</Text>
-            <Text style={styles.dutyText}>
-              Location: {assignedLocation ? assignedLocation.name : "Loading..."}
-            </Text>
-          </View>
-        </View>
-      ) : (
-        <View style={styles.dutySection}>
-          <Text style={styles.sectionTitle}>Today's Duty</Text>
-          <View style={styles.noDutyCard}>
-            <Text style={styles.noDutyText}>No duty assigned for today</Text>
-          </View>
-        </View>
-      )}
-
-      {/* Location Status Section */}
-      <View style={styles.locationSection}>
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Location Status</Text>
-          <TouchableOpacity
-            style={styles.refreshButton}
-            onPress={handleCheckLocation}
-            disabled={isLoading || !dutyInfo}>
-            <Text style={styles.refreshButtonText}>{isLoading ? "Checking..." : "Check Now"}</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* {assignedLocation && dutyInfo && (
-          <View style={{ marginBottom: 15 }}>
-            {
-              <Text style={{ fontWeight: "bold" }}>
-                Assigned Location: Duty Location (Lat: {assignedLocation.latitude}, Lng:{" "}
-                {assignedLocation.longitude})
-              </Text>
+    const handleCheckLocation = async () => {
+        try {
+            await performLocationCheck();
+            if (locationStatus) {
+                Alert.alert('Location Check', locationStatus.message, [{ text: 'OK' }]);
             }
-          </View>
-        )} */}
+        } catch (err) {
+            Alert.alert('Error', err.message);
+        }
+    };
 
-        {/* {currentLocation && (
-        <View style={{ marginBottom: 15 }}>
-          <Text style={{ fontWeight: 'bold' }}>Current Location:</Text>
-          <Text>Lat: {currentLocation.latitude}, Lng: {currentLocation.longitude}</Text>
-        </View>
-      )} */}
+    // Refresh app state after check-in/check-out
+    const handleCheckIn = async () => {
+        try {
+            await performCheckIn();
+            await fetchDutyStatus();
+            await performLocationCheck();
+        } catch (err) {
+            Alert.alert('Error', err.message || 'Check In failed');
+        }
+    };
 
-        {locationStatus ? (
-          <View
-            style={[
-              styles.statusCard,
-              {
-                backgroundColor: locationStatus.isInRange ? "#ECFDF5" : "#FEF2F2",
-                borderLeftColor: getStatusColor(),
-              },
-            ]}>
-            <View style={styles.statusHeader}>
-              <View style={[styles.statusDot, { backgroundColor: getStatusColor() }]} />
-              <Text style={[styles.statusTitle, { color: getStatusColor() }]}>
-                {locationStatus.isInRange ? "IN RANGE" : "OUT OF RANGE"}
-              </Text>
+    const handleCheckOut = async () => {
+        try {
+            await performCheckOut();
+            await fetchDutyStatus();
+            await performLocationCheck();
+        } catch (err) {
+            Alert.alert('Error', err.message || 'Check Out failed');
+        }
+    };
+
+    const handleLogout = async () => {
+        setError(null);
+        try {
+            await logout();
+            router.replace('/login');
+        } catch (err) {
+            setError(err.message || 'Logout failed. Please try again.');
+        }
+    };
+
+    const getStatusColor = () => {
+        if (!locationStatus) return '#6B7280';
+        return locationStatus.isInRange ? '#10B981' : '#EF4444';
+    };
+
+    // Loading states
+    if (loading) {
+        return (
+            <View style={[styles.container, styles.centered]}>
+                <ActivityIndicator size="large" color="#4F46E5" />
+                <Text style={styles.loadingText}>Loading...</Text>
             </View>
-            <Text style={styles.statusMessage}>{locationStatus.message}</Text>
-          </View>
-        ) : (
-          <View style={styles.noStatusCard}>
-            <Text style={styles.noStatusText}>
-              {dutyInfo
-                ? "No location check performed yet"
-                : "No duty assigned - location check unavailable"}
-            </Text>
-          </View>
-        )}
+        );
+    }
 
-        {isLoading && (
-          <View style={styles.loadingIndicator}>
-            <ActivityIndicator color="#4F46E5" />
-            <Text style={styles.loadingSubtext}>Checking location...</Text>
-          </View>
-        )}
-      </View>
+    if (isLoading && !currentLocation) {
+        return (
+            <View style={[styles.container, styles.centered]}>
+                <ActivityIndicator size="large" color="#4F46E5" />
+                <Text style={styles.loadingText}>Loading location data...</Text>
+            </View>
+        );
+    }
 
-      {/* Action Buttons Section */}
-      <View style={styles.actionsSection}>
-        <Text style={styles.sectionTitle}>Quick Actions</Text>
+    if (!isAuthenticated) return null; // Prevent flash before redirect
 
-        <View style={styles.buttonGroup}>
-          <TouchableOpacity
-            style={[
-              styles.actionButton,
-              styles.checkInButton,
-              !canCheckIn() && styles.disabledButton,
-            ]}
-            onPress={handleCheckIn}
-            disabled={!canCheckIn()}>
-            <Text style={[styles.actionButtonText, !canCheckIn() && styles.disabledButtonText]}>
-              {t("checkIn")}
-            </Text>
-            {!dutyInfo && <Text style={styles.comingSoonText}>No Duty Today</Text>}
-            {dutyInfo && (!locationStatus || !locationStatus.isInRange) && (
-              <Text style={styles.comingSoonText}>Must be in range</Text>
-            )}
-          </TouchableOpacity>
+    return (
+        <SafeAreaView>
+            <ScrollView>
+                <View style={styles.container}>
 
-          <TouchableOpacity
-            style={[
-              styles.actionButton,
-              styles.checkOutButton,
-              !canCheckOut() && styles.disabledButton,
-            ]}
-            onPress={handleCheckOut}
-            disabled={!canCheckOut()}>
-            <Text style={[styles.actionButtonText, !canCheckOut() && styles.disabledButtonText]}>
-              {t("checkOut")}
-            </Text>
-            {!dutyInfo && <Text style={styles.comingSoonText}>No Duty Today</Text>}
-          </TouchableOpacity>
-        </View>
-      </View>
 
-      {/* Footer */}
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-          <Text style={styles.logoutButtonText}>{t("logout")}</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
+                    {/* Header */}
+                    <View style={styles.header}>
+                        <View style={styles.welcomeCard}>
+                            <Text style={styles.greeting}>{t('greeting')}</Text>
+                            <Text style={styles.userName}> {user?.name || 'Guest user'}</Text>
+                        </View>
+
+                        <LanguageToggle />
+
+                        {(error || locationError) && (
+                            <View style={styles.errorContainer}>
+                                <Text style={styles.errorText}>{error || locationError}</Text>
+                            </View>
+                        )}
+                    </View>
+
+                    {/* Duty Info */}
+                    <View style={styles.dutySection}>
+                        <Text style={styles.sectionTitle}>Today's Duty</Text>
+                        {dutyInfo ? (
+                            <View style={styles.dutyCard}>
+                                <Text style={styles.dutyText}>
+                                    Location: {assignedLocation ? `${assignedLocation.name}` : 'Loading...'}
+                                </Text>
+                            </View>
+                        ) : (
+                            <View style={styles.noDutyCard}>
+                                <Text style={styles.noDutyText}>No duty assigned for today</Text>
+                            </View>
+                        )}
+                    </View>
+
+                    {/* Location Status */}
+                    <View style={styles.locationSection}>
+                        <View style={styles.sectionHeader}>
+                            <Text style={styles.sectionTitle}>Location Status</Text>
+                            <TouchableOpacity
+                                style={styles.refreshButton}
+                                onPress={handleCheckLocation}
+                                disabled={isLoading || !dutyInfo}
+                            >
+                                <Text style={styles.refreshButtonText}>
+                                    {isLoading ? 'Checking...' : 'Check Now'}
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        {/* {currentLocation && (
+                            <View style={{ marginBottom: 15 }}>
+                                <Text style={{ fontWeight: 'bold' }}>Current Location:</Text>
+                                <Text>
+                                    Lat: {currentLocation.latitude}, Lng: {currentLocation.longitude}
+                                </Text>
+                            </View>
+                        )} */}
+
+                        {locationStatus ? (
+                            <View
+                                style={[
+                                    styles.statusCard,
+                                    {
+                                        backgroundColor: locationStatus.isInRange ? '#ECFDF5' : '#FEF2F2',
+                                        borderLeftColor: getStatusColor(),
+                                    },
+                                ]}
+                            >
+                                <View style={styles.statusHeader}>
+                                    <View style={[styles.statusDot, { backgroundColor: getStatusColor() }]} />
+                                    <Text style={[styles.statusTitle, { color: getStatusColor() }]}>
+                                        {locationStatus.isInRange ? 'IN RANGE' : 'OUT OF RANGE'}
+                                    </Text>
+                                </View>
+                                <Text style={styles.statusMessage}>{locationStatus.message}</Text>
+                            </View>
+                        ) : (
+                            <View style={styles.noStatusCard}>
+                                <Text style={styles.noStatusText}>
+                                    {dutyInfo
+                                        ? 'No location check performed yet'
+                                        : 'No duty assigned - location check unavailable'}
+                                </Text>
+                            </View>
+                        )}
+
+                        {isLoading && (
+                            <View style={styles.loadingIndicator}>
+                                <ActivityIndicator color="#4F46E5" />
+                                <Text style={styles.loadingSubtext}>Checking location...</Text>
+                            </View>
+                        )}
+                    </View>
+
+                    {/* Quick Actions */}
+                    <View style={styles.actionsSection}>
+                        <Text style={styles.sectionTitle}>Quick Actions</Text>
+
+                        <View style={styles.buttonGroup}>
+                            {/* Check In Button */}
+                            <TouchableOpacity
+                                onPress={handleCheckIn}
+                                disabled={
+                                    !locationStatus?.isInRange ||
+                                    statusInfo?.isCheckedIn ||
+                                    statusInfo?.isCheckedOut
+                                }
+                                style={[
+                                    styles.actionButton,
+                                    (!locationStatus?.isInRange || statusInfo?.isCheckedIn || statusInfo?.isCheckedOut) && styles.disabledButton,
+                                ]}
+                            >
+                                <Text style={styles.buttonText}>
+                                    {statusInfo?.isCheckedIn
+                                        ? "Already Checked In"
+                                        : statusInfo?.isCheckedOut
+                                            ? "Already Checked Out"
+                                            : "Check In"}
+                                </Text>
+                            </TouchableOpacity>
+
+                            {/* Check Out Button */}
+                            <TouchableOpacity
+                                onPress={handleCheckOut}
+                                disabled={
+                                    !locationStatus?.isInRange ||
+                                    !statusInfo?.isCheckedIn ||
+                                    statusInfo?.isCheckedOut
+                                }
+                                style={[
+                                    styles.actionButton,
+                                    (!locationStatus?.isInRange || !statusInfo?.isCheckedIn || statusInfo?.isCheckedOut) && styles.disabledButton,
+                                ]}
+                            >
+                                <Text style={styles.buttonText}>
+                                    {statusInfo?.isCheckedOut
+                                        ? "Already Checked Out"
+                                        : !statusInfo?.isCheckedIn
+                                            ? "Check In First"
+                                            : "Check Out"}
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
+                    {/* Footer */}
+                    <View style={styles.footer}>
+                        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+                            <Text style={styles.logoutButtonText}>{t('logout')}</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </ScrollView>
+        </SafeAreaView>
+    );
 };
 
 export default Home;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#F8FAFC",
-    paddingHorizontal: 20,
-    paddingTop: 50,
-    paddingBottom: 20,
-  },
-  centered: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
+const { width } = Dimensions.get("window");
 
-  // Header Styles
-  header: {
-    marginBottom: 30,
-  },
-  welcomeCard: {
-    backgroundColor: "#FFFFFF",
-    padding: 24,
-    borderRadius: 16,
-    marginBottom: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 3,
-    alignItems: "center",
-  },
-  greeting: {
-    fontSize: 18,
-    fontWeight: "400",
-    color: "#6B7280",
-    marginBottom: 8,
-  },
-  userName: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: "#1F2937",
-    textAlign: "center",
-  },
-  errorContainer: {
-    backgroundColor: "#FEE2E2",
-    padding: 12,
-    borderRadius: 8,
-    borderLeftWidth: 4,
-    borderLeftColor: "#EF4444",
-  },
-  errorText: {
-    color: "#DC2626",
-    fontSize: 14,
-    fontWeight: "500",
-  },
+export const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#F9FAFB",
+        paddingHorizontal: 20,
+        paddingTop: 16,
+        paddingBottom: 30,
+    },
+    centered: {
+        justifyContent: "center",
+        alignItems: "center",
+    },
 
-  // Location Section Styles
-  locationSection: {
-    marginBottom: 30,
-  },
-  sectionHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 12,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: "600",
-    color: "#1F2937",
-  },
-  refreshButton: {
-    backgroundColor: "#4F46E5",
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-  },
-  refreshButtonText: {
-    color: "#FFFFFF",
-    fontSize: 14,
-    fontWeight: "500",
-  },
-  statusCard: {
-    padding: 16,
-    borderRadius: 12,
-    borderLeftWidth: 4,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 3,
-    elevation: 2,
-  },
-  statusHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 8,
-  },
-  statusDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    marginRight: 8,
-  },
-  statusTitle: {
-    fontSize: 16,
-    fontWeight: "600",
-  },
-  statusMessage: {
-    fontSize: 14,
-    color: "#6B7280",
-    lineHeight: 20,
-  },
-  noStatusCard: {
-    backgroundColor: "#F9FAFB",
-    padding: 16,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "#E5E7EB",
-    alignItems: "center",
-  },
-  noStatusText: {
-    color: "#6B7280",
-    fontSize: 14,
-    fontStyle: "italic",
-  },
+    /* ---------- Header ---------- */
+    header: { marginBottom: 24 },
+    welcomeCard: {
+        backgroundColor: "#FFFFFF",
+        padding: 22,
+        borderRadius: 22,
+        marginBottom: 18,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.08,
+        shadowRadius: 8,
+        elevation: 4,
+        alignItems: "center",
+        width: "100%",
+    },
+    greeting: { fontSize: 18, fontWeight: "400", color: "#64748B", marginBottom: 8 },
+    userName: { fontSize: 28, fontWeight: "800", color: "#111827", textAlign: "center" },
 
-  // Actions Section Styles
-  actionsSection: {
-    flex: 1,
-    marginBottom: 20,
-  },
-  buttonGroup: {
-    gap: 12,
-    marginTop: 16,
-  },
-  actionButton: {
-    paddingVertical: 20,
-    paddingHorizontal: 24,
-    borderRadius: 12,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  checkInButton: {
-    backgroundColor: "#4F46E5",
-  },
-  checkOutButton: {
-    backgroundColor: "#10B981",
-  },
-  actionButtonText: {
-    color: "#FFFFFF",
-    fontSize: 18,
-    fontWeight: "600",
-    marginBottom: 4,
-  },
-  comingSoonText: {
-    color: "#FFFFFF",
-    fontSize: 12,
-    opacity: 0.8,
-    fontStyle: "italic",
-  },
-  disabledButton: {
-    opacity: 0.6,
-  },
+    errorContainer: {
+        backgroundColor: "#FEE2E2",
+        padding: 16,
+        borderRadius: 14,
+        borderLeftWidth: 6,
+        borderLeftColor: "#DC2626",
+        marginTop: 10,
+    },
+    errorText: { color: "#B91C1C", fontSize: 15, fontWeight: "600" },
 
-  // Footer Styles
-  footer: {
-    paddingTop: 20,
-    borderTopWidth: 1,
-    borderTopColor: "#E5E7EB",
-  },
-  logoutButton: {
-    backgroundColor: "#FFFFFF",
-    paddingVertical: 16,
-    paddingHorizontal: 24,
-    borderRadius: 12,
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#D1D5DB",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 3,
-    elevation: 1,
-  },
-  logoutButtonText: {
-    color: "#6B7280",
-    fontSize: 16,
-    fontWeight: "500",
-  },
+    /* ---------- Sections ---------- */
+    sectionTitle: { fontSize: 22, fontWeight: "700", color: "#111827", marginBottom: 10 },
 
-  // Loading Styles
-  loadingText: {
-    fontSize: 16,
-    color: "#6B7280",
-    fontWeight: "500",
-    marginTop: 12,
-  },
-  loadingSubtext: {
-    fontSize: 14,
-    color: "#6B7280",
-    marginLeft: 8,
-  },
-  loadingIndicator: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 12,
-    padding: 12,
-    backgroundColor: "#F9FAFB",
-    borderRadius: 8,
-  },
+    dutySection: { marginBottom: 28 },
+    dutyCard: {
+        backgroundColor: "#FFFFFF",
+        padding: 18,
+        borderRadius: 18,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.07,
+        shadowRadius: 6,
+        elevation: 3,
+    },
+    dutyText: { fontSize: 17, color: "#1F2937", fontWeight: "500" },
+    noDutyCard: {
+        backgroundColor: "#F3F4F6",
+        padding: 18,
+        borderRadius: 18,
+        alignItems: "center",
+    },
+    noDutyText: { color: "#6B7280", fontSize: 16, fontStyle: "italic" },
+
+    /* ---------- Location Status ---------- */
+    locationSection: { marginBottom: 32 },
+    sectionHeader: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: 14,
+    },
+    refreshButton: {
+        backgroundColor: "#6366F1",
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        borderRadius: 24,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.07,
+        shadowRadius: 4,
+        elevation: 2,
+    },
+    refreshButtonText: { color: "#FFFFFF", fontSize: 15, fontWeight: "600" },
+
+    statusCard: {
+        padding: 18,
+        borderRadius: 18,
+        borderLeftWidth: 6,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.06,
+        shadowRadius: 6,
+        elevation: 2,
+    },
+    statusHeader: { flexDirection: "row", alignItems: "center", marginBottom: 8 },
+    statusDot: { width: 14, height: 14, borderRadius: 7, marginRight: 10 },
+    statusTitle: { fontSize: 17, fontWeight: "700" },
+    statusMessage: { fontSize: 15, color: "#475569", lineHeight: 22 },
+
+    noStatusCard: {
+        backgroundColor: "#F8FAFC",
+        padding: 18,
+        borderRadius: 18,
+        borderWidth: 1,
+        borderColor: "#E2E8F0",
+        alignItems: "center",
+    },
+    noStatusText: { color: "#64748B", fontSize: 15, fontStyle: "italic" },
+
+    loadingIndicator: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: 16,
+        padding: 14,
+        backgroundColor: "#F9FAFB",
+        borderRadius: 12,
+    },
+    loadingText: {
+        fontSize: 17,
+        color: "#475569",
+        fontWeight: "600",
+        marginTop: 12,
+    },
+    loadingSubtext: { fontSize: 15, color: "#6B7280", marginLeft: 8 },
+
+    /* ---------- Quick Actions ---------- */
+    actionsSection: { flex: 1, marginBottom: 28 },
+    buttonGroup: { flexDirection: "row", gap: 16, marginTop: 18 },
+    actionButton: {
+        flex: 1,
+        paddingVertical: 16,
+        backgroundColor: "#6366F1",
+        borderRadius: 14,
+        alignItems: "center",
+        justifyContent: "center",
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.08,
+        shadowRadius: 5,
+        elevation: 3,
+        minWidth: width * 0.35, // responsive for smaller screens
+    },
+    buttonText: { color: "#FFFFFF", fontSize: 17, fontWeight: "700" },
+    disabledButton: {
+        backgroundColor: "#A5B4FC",
+        opacity: 0.7,
+    },
+
+    /* ---------- Footer ---------- */
+    footer: {
+        paddingTop: 24,
+        borderTopWidth: 1,
+        borderTopColor: "#E5E7EB",
+    },
+    logoutButton: {
+        backgroundColor: "#FFFFFF",
+        paddingVertical: 18,
+        borderRadius: 14,
+        alignItems: "center",
+        borderWidth: 1,
+        borderColor: "#CBD5E1",
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.06,
+        shadowRadius: 4,
+        elevation: 2,
+    },
+    logoutButtonText: { color: "#374151", fontSize: 16, fontWeight: "700" },
 });
+

@@ -2,7 +2,7 @@ import { useUser } from "@/hooks/useUser";
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { Image, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import { Image, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View, KeyboardAvoidingView ,Platform} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useLanguage } from "../../contexts/LanguageContext";
 
@@ -15,7 +15,7 @@ const AuthScreen = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
 
-    const { login,loading,isAuthenticated } = useUser()
+    const { login, loading, isAuthenticated } = useUser()
 
     const { t } = useLanguage();
 
@@ -46,7 +46,7 @@ const AuthScreen = () => {
 
     async function handleLogin() {
         // Handle login logic here
-        setError(null); 
+        setError(null);
 
         try {
             await login(nic, password);
@@ -55,13 +55,13 @@ const AuthScreen = () => {
         } catch (error) {
             // console.error("Login failed:", error);
             setError(error.message || 'Login failed. Please try again.');
-            
+
         }
     }
 
 
     return (
-        
+
         <LinearGradient
             colors={['#f8f9fa', '#e9ecef']}
             style={styles.container}
@@ -85,34 +85,39 @@ const AuthScreen = () => {
                     {error && <Text style={styles.errors}>{error}</Text>}
 
 
+                    <KeyboardAvoidingView
+                        behavior={Platform.OS === "ios" ? "padding" : "height"}
+                        keyboardVerticalOffset={100}
 
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.label}>{t('nicNumber')}</Text>
-                        <TextInput
-                            style={styles.input}
-                            placeholder={t('enterNic')}
-                            placeholderTextColor='#adb5bd'
-                            autoCapitalize="none"
-                            autoCorrect={false}
-                            onChangeText={setNic}
-                            value={nic}
-                        />
-                    </View>
+                    >
+                        <View style={styles.inputContainer}>
+                            <Text style={styles.label}>{t('nicNumber')}</Text>
+                            <TextInput
+                                style={styles.input}
+                                placeholder={t('enterNic')}
+                                placeholderTextColor='#adb5bd'
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                onChangeText={setNic}
+                                value={nic}
+                            />
+                        </View>
 
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.label}>{t('password')}</Text>
-                        <TextInput
-                            style={styles.input}
-                            placeholderTextColor='#adb5bd'
-                            secureTextEntry
-                            placeholder={t('enterPassword')}
-                            textContentType="none"
-                            autoCapitalize="none"
-                            autoCorrect={false}
-                            onChangeText={setPassword}
-                            value={password}
-                        />
-                    </View>
+                        <View style={styles.inputContainer}>
+                            <Text style={styles.label}>{t('password')}</Text>
+                            <TextInput
+                                style={styles.input}
+                                placeholderTextColor='#adb5bd'
+                                secureTextEntry
+                                placeholder={t('enterPassword')}
+                                textContentType="none"
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                onChangeText={setPassword}
+                                value={password}
+                            />
+                        </View>
+                    </KeyboardAvoidingView>
 
                     <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={loading}>
                         <LinearGradient
@@ -136,7 +141,7 @@ const AuthScreen = () => {
 
 
         </LinearGradient>
-        
+
     );
 };
 
@@ -223,7 +228,7 @@ const styles = StyleSheet.create({
         color: '#4e54c8',
         fontSize: 14,
         fontWeight: '500',
-    },errors: {
+    }, errors: {
         color: 'red',
         fontSize: 16,
         marginBottom: 12,
