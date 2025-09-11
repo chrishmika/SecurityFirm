@@ -1,4 +1,5 @@
 import React from "react";
+import InfiniteScrollAnimationPage from "../Components/HomeCards/InfiniteScrollLogo";
 import GetHireForm from "../Components/Application Forms/GetHireForm";
 
 const GetHired = () => {
@@ -107,6 +108,7 @@ const GetHired = () => {
           </div>
         </div>
       </div>
+      <InfiniteScrollAnimationPage />
     </div>
   );
 };

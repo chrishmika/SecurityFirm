@@ -2,51 +2,63 @@
   "services": [
     {
       "title": "Unarmed Security Guards",
-      "description": "Trained personnel who provide surveillance, access control, and patrolling to prevent theft, vandalism, and unauthorized entry"
+      "description": "Trained personnel who provide surveillance, access control, and patrolling to prevent theft, vandalism, and unauthorized entry",
+      "moreDescription": "more .............."
     },
     {
       "title": "Armed Security Guards",
-      "description": "Licensed professionals equipped with firearms for high-risk environments like banks, jewelry stores, and VIP protection"
+      "description": "Licensed professionals equipped with firearms for high-risk environments like banks, jewelry stores, and VIP protection",
+      "moreDescription": "more .............."
     },
     {
       "title": "Event Security Services",
-      "description": "Specialized security for events, including crowd management, access control, and emergency response to ensure safety and order"
+      "description": "Specialized security for events, including crowd management, access control, and emergency response to ensure safety and order",
+      "moreDescription": "more .............."
     },
     {
       "title": "Corporate Security Services",
-      "description": "Comprehensive security solutions for businesses, including risk assessment, surveillance systems, and employee safety protocols"
+      "description": "Comprehensive security solutions for businesses, including risk assessment, surveillance systems, and employee safety protocols",
+      "moreDescription": "more .............."
     },
     {
       "title": "Industrial & Warehouse Security",
-      "description": "Security services tailored for industrial sites and warehouses, focusing on asset protection, inventory control, and safety compliance"
+      "description": "Security services tailored for industrial sites and warehouses, focusing on asset protection, inventory control, and safety compliance",
+      "moreDescription": "more .............."
     },
     {
       "title": "Residential Security Services",
-      "description": "Security solutions for residential areas, including neighborhood watch programs, patrols, and alarm systems to enhance community safety"
+      "description": "Security solutions for residential areas, including neighborhood watch programs, patrols, and alarm systems to enhance community safety",
+      "moreDescription": "more .............."
     },
     {
       "title": "VIP & Executive Protection",
-      "description": "Personalized security for high-profile individuals, including bodyguards, secure transportation, and risk management to ensure personal safety"
+      "description": "Personalized security for high-profile individuals, including bodyguards, secure transportation, and risk management to ensure personal safety",
+      "moreDescription": "more .............."
     },
     {
       "title": "Bank & Financial Institution Security",
-      "description": "Specialized security for banks and financial institutions, focusing on cash handling, fraud prevention, and emergency response protocols"
+      "description": "Specialized security for banks and financial institutions, focusing on cash handling, fraud prevention, and emergency response protocols",
+      "moreDescription": "more .............."
     },
     {
       "title": "CCTV & Surveillance Monitoring",
-      "description": "Installation and monitoring of CCTV systems to enhance security, deter crime, and provide real-time surveillance for various environments"
+      "description": "Installation and monitoring of CCTV systems to enhance security, deter crime, and provide real-time surveillance for various environments",
+      "moreDescription": "more .............."
     },
     {
       "title": "Mobile Patrol Services",
-      "description": "Regular patrols by security personnel in marked vehicles to deter crime, provide a visible security presence, and respond to incidents"
+      "description": "Regular patrols by security personnel in marked vehicles to deter crime, provide a visible security presence, and respond to incidents",
+      "moreDescription": "more .............."
     },
     {
       "title": "Industrial & Construction Site Security",
-      "description": "Security services for industrial and construction sites, focusing on asset protection, site access control, and safety compliance"
+      "description": "Security services for industrial and construction sites, focusing on asset protection, site access control, and safety compliance",
+      "moreDescription": "more .............."
     },
     {
       "title": "Cash-in-Transit (CIT) Services",
-      "description": "Secure transportation of cash and valuables, including armored vehicles and trained personnel to ensure safe delivery"
+      "description": "Secure transportation of cash and valuables, including armored vehicles and trained personnel to ensure safe delivery",
+      "moreDescription": "more .............."
     }
   ],
   "clients": [
