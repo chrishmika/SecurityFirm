@@ -1,21 +1,15 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 import { toast } from "react-toastify";
 import { FaArrowLeft } from "react-icons/fa6";
-
-//import { companylist } from "../samples/companylist";
-// import { sampleDuties } from "../samples/dutySample"; //sample data
-// import { employeelist } from "../samples/employeelist";
+import { FaSearch } from "react-icons/fa";
 
 import NumberLine from "./subComponents/NumberLine";
 import DutySearchForm from "./subComponents/DutySearchForm";
 import SideCalandeBar from "./subComponents/SideCalandeBar";
-
-import axios from "axios";
-import { AuthContext } from "../../context/AuthContext";
-import { useAuthContext } from "../../hooks/useAuthContext";
 import LoadingScreen from "./subComponents/LoadingScreen";
 import MonthInName from "./subComponents/MonthInName";
-import { FaSearch } from "react-icons/fa";
 
 const Schedule = () => {
   //for calender
@@ -50,7 +44,7 @@ const Schedule = () => {
       let response = await axios("http://localhost:5000/api/company/getCompanyList", {
         withCredentials: true,
       });
-      console.log(response.data);
+      // console.log(response.data);
       setCompanylist(response.data);
 
       response = await axios("http://localhost:5000/api/employee/employeeList", {
@@ -83,7 +77,7 @@ const Schedule = () => {
   const formChangeHandler = () => {};
 
   const submitHandler = async (e) => {
-    console.log("1st is clicked");
+    // console.log("1st is clicked");
 
     e.preventDefault();
     if (!selectedCompanyName) {
@@ -107,7 +101,7 @@ const Schedule = () => {
     }
   };
 
-  console.log("duty set", dutySet);
+  // console.log("duty set", dutySet);
 
   const dataCollectionArray = [];
 
@@ -193,6 +187,8 @@ const Schedule = () => {
                   </tr>
                 </thead>
 
+                {/* {console.log(sheet.duties)} */}
+
                 {/* from here data need to be in input form an data is need to be filtered and on-arrow neet to be used for datalist */}
                 <tbody>
                   {/* this pard works after fetching the relevant sheet */}
@@ -202,8 +198,6 @@ const Schedule = () => {
                       className={`${duty?.day == (selectedDay || 1) ? "box" : "hidden"}
                     `} //this is for attendance viewing area
                     >
-                      {console.log("xxxx", duty.position)}
-
                       <td className="p-2 border border-gray-300">
                         <input
                           key={duty._id}
@@ -219,11 +213,9 @@ const Schedule = () => {
                         <input
                           list={`dataScheduleNames-${dindex}`} // unique per row
                           onChange={formChangeHandler}
-                          value={duty?.employee?.name || ""}
+                          value={duty?.employee?.name}
                           className="bg-blue-100 px-2 w-full no-arrow"
                         />
-
-                        {console.log("positions", employeelist, duty?.position)}
                         <datalist id={`dataScheduleNames-${dindex}`}>
                           {employeelist
                             .filter((employee) => employee?.position == duty?.position)
@@ -234,6 +226,7 @@ const Schedule = () => {
                             ))}
                         </datalist>
                       </td>
+
                       {/* start */}
                       {/* neet fix values in here in propper way */}
                       <td className="p-2 border border-gray-300">
@@ -254,7 +247,7 @@ const Schedule = () => {
                         <select
                           className="bg-blue-100 px-2 w-full"
                           type="text"
-                          value={`${duty?.start} hours`} //previous value
+                          value={duty?.start} //previous value
                           onChange={formChangeHandler}>
                           <option>Select</option>
                           <option value={12}>{"12"}</option>
@@ -267,7 +260,8 @@ const Schedule = () => {
                         <input
                           className="bg-blue-100 px-2 w-full"
                           type="text"
-                          value={duty?.remark || ""}
+                          name="remark"
+                          value={duty?.remark}
                           onChange={formChangeHandler}
                         />
                       </td>
