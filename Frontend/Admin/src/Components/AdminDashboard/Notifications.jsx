@@ -26,7 +26,7 @@ const Notifications = () => {
 
   return (
     <div className="my-10 overflow-y-scroll overflow-x-hidden container">
-      <div className="flex h-10 justify-center items-center ali font-bold mb-10 gap-3">
+      <div className="border-b-2 border-gray-400 pb-5 flex h-10 justify-center items-center ali font-bold mb-10 gap-3">
         <div
           className="bg-amber-400 w-1/3 cursor-pointer hover:bg-amber-500 flex justify-center"
           onClick={() => {

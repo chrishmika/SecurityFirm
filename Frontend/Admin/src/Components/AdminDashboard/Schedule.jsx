@@ -15,6 +15,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import LoadingScreen from "./subComponents/LoadingScreen";
 import MonthInName from "./subComponents/MonthInName";
+import { FaSearch } from "react-icons/fa";
 
 const Schedule = () => {
   //for calender
@@ -118,20 +119,25 @@ const Schedule = () => {
   };
 
   return (
-    <div className="grid sm:grid-cols-3 grid-cols-1 gap-4 h-screen">
-      <div className={`col-span-2  ${!showData && !loading ? "block" : "hidden"}`}>
-        <div className="grid grid-cols-2 gap-5 items-center justify-center h-full ">
-          {/* while these2 are same can reduce them by making it as a function */}
-          {/* Find Duty sheet */}
-          <div>
-            <h2 className="font-bold">Create Assign Duties to sheets</h2>
-            <DutySearchForm
-              changeHandler={changeHandler}
-              selectedCompanyName={selectedCompanyName}
-              companylist={companylist}
-              submitHandler={submitHandler}
-            />
-          </div>
+    <div className=" flex justify-center items-center gap-4 h-screen">
+      <div
+        className={`flex gap-5 items-center justify-center h-full ${
+          !showData && !loading ? "block" : "hidden"
+        }`}>
+        {/* Find Duty sheet */}
+        <div className="w-2/3 ">
+          <h2 className="p-4 border-b-0 bg-gray-500  rounded-t-2xl">
+            <span className="text-white items-center font-bold flex gap-3">
+              <FaSearch />
+              Create Sheets For Duties
+            </span>
+          </h2>
+          <DutySearchForm
+            changeHandler={changeHandler}
+            selectedCompanyName={selectedCompanyName}
+            companylist={companylist}
+            submitHandler={submitHandler}
+          />
         </div>
       </div>
 

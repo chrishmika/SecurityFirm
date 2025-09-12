@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { FaArrowLeft } from "react-icons/fa6";
+import { FaSearch } from "react-icons/fa";
 
 import SideCalandeBar from "./subComponents/SideCalandeBar";
 import NumberLine from "./subComponents/NumberLine";
@@ -88,18 +89,25 @@ const Schedule = () => {
   };
 
   return (
-    <div className="grid sm:grid-cols-3 grid-cols-1 h-screen gap-4">
-      <div className={`col-span-2 ${!showData && !loading ? "block" : "hidden"}`}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-center justify-center h-full ">
-          <div>
-            <h2 className="font-bold">Find By Company Name</h2>
-            <DutySearchForm
-              submitHandler={submitHandler}
-              changeHandler={changeHandler}
-              selectedCompanyName={selectedCompanyName}
-              companylist={companylist}
-            />
-          </div>
+    <div className=" flex justify-center items-center gap-4 h-screen">
+      <div
+        className={`flex gap-5 items-center justify-center h-full ${
+          !showData && !loading ? "block" : "hidden"
+        }`}>
+        {/* Find Duty sheet */}
+        <div className="w-2/3 ">
+          <h2 className="p-4 border-b-0 bg-gray-500  rounded-t-2xl">
+            <span className="text-white items-center font-bold flex gap-3">
+              <FaSearch />
+              Find By Company Name
+            </span>
+          </h2>
+          <DutySearchForm
+            submitHandler={submitHandler}
+            changeHandler={changeHandler}
+            selectedCompanyName={selectedCompanyName}
+            companylist={companylist}
+          />
         </div>
       </div>
 
