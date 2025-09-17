@@ -18,20 +18,19 @@ const Schedule = () => {
   const [dateValue, setDateValue] = useState(new Date());
 
   //from date number line
-  const [selectedDay, setSelectedDay] = useState(null);
   const [showData, setShowData] = useState(false);
+  const [selectedDay, setSelectedDay] = useState(null);
 
   //for view the selected company
-  const [selectedCompanyName, setSelectedCompanyName] = useState();
-  const [selectedCompanyNameForCreateSheet, setSelectedCompanyNameForCreateSheet] = useState();
   const [companyId, setCompanyId] = useState("");
   const [selectedYear, setSelectedYear] = useState();
   const [selectedMonth, setSelectedMonth] = useState();
+  const [selectedCompanyName, setSelectedCompanyName] = useState();
 
   //for gather data from table
+  const [dutySet, setDutySet] = useState([]);
   const [companylist, setCompanylist] = useState([]);
   const [employeelist, setEmployeelist] = useState([]);
-  const [dutySet, setDutySet] = useState([]);
 
   //for loading screen
   const [loading, SetLoading] = useState(false);
@@ -39,19 +38,17 @@ const Schedule = () => {
   //take a name list of companies
   //need to take the names of employees and positions with this
   useEffect(() => {
-    const getData = async () => {
+    (async () => {
       let response = await axios("http://localhost:5000/api/company/getCompanyList", {
         withCredentials: true,
       });
-      // console.log(response.data);
       setCompanylist(response.data);
 
       response = await axios("http://localhost:5000/api/employee/employeeList", {
         withCredentials: true,
       });
       setEmployeelist(response.data);
-    };
-    getData();
+    })();
   }, []);
 
   //for 1st searching from

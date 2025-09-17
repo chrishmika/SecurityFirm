@@ -36,7 +36,7 @@ const Schedule = () => {
   //i need to use a useEffect to fetch company data and then need to fetch duty list that aligns with year,company id and month, it will resolve the issue that showing details of every month and year
 
   useEffect(() => {
-    const getData = async () => {
+    (async () => {
       const response = await axios("http://localhost:5000/api/company/getCompanyList", {
         withCredentials: true,
       });
@@ -44,8 +44,7 @@ const Schedule = () => {
         return toast.error("Error on server");
       }
       setCompanylist(response.data);
-    };
-    getData();
+    })();
   }, []);
 
   const changeHandler = (e) => {

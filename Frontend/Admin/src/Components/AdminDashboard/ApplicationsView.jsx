@@ -10,15 +10,14 @@ const ApplicationsView = () => {
   const [allData, setData] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       setIsloading(true);
       const Url = !choice ? "/api/web/application" : "/api/web/CompanyApplications";
       const response = await axios.post(Url, {}, { withCredentials: true });
       console.log(response);
       setIsloading(false);
       setData(response.data);
-    };
-    fetchData();
+    })();
   }, [choice]);
 
   return (

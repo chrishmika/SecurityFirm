@@ -9,7 +9,7 @@ const Notifications = () => {
   const [filter, setFilter] = useState("");
 
   useEffect(() => {
-    const getNotification = async () => {
+    (async () => {
       try {
         setIsLoading(true);
         const response = await axios.get("/api/notification/", { withCredentials: true });
@@ -20,8 +20,7 @@ const Notifications = () => {
       } catch (error) {
         throw new Error(error);
       }
-    };
-    getNotification();
+    })();
   }, []);
 
   return (

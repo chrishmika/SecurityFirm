@@ -22,7 +22,7 @@ const AddCompany = () => {
 
   // at start it takes data about employees
   useEffect(() => {
-    const getNames = async () => {
+    (async () => {
       try {
         const response = await axios(
           `http://localhost:5000/api/${
@@ -41,9 +41,7 @@ const AddCompany = () => {
       } catch (error) {
         console.log("error", error);
       }
-    };
-
-    getNames();
+    })();
   }, [choice]);
 
   console.log("list of name list", namesData);
