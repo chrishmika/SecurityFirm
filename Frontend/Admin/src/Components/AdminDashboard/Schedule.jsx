@@ -58,6 +58,7 @@ const Schedule = () => {
   //selection form data submit handler
   const selectionSubmitHandler = async (e) => {
     e.preventDefault();
+
     if (!selectedCompanyName) {
       toast.error("Company Name is Required");
     } else {

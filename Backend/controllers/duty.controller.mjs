@@ -41,7 +41,7 @@ export const addDuties = async (req, res) => {
     }
 
     console.log(duties);
-    console.log(sheetId);
+    console.log("sheet id:", sheetId);
 
     //add duties to the sheet'
     // sheet.duty.push({ employee, day, time, shift });
@@ -51,17 +51,18 @@ export const addDuties = async (req, res) => {
       return res.status(400).json({ error: "Duties must be an array" });
     }
 
-    const position = await Employee.findOne({ name: duties.employee }).select("position");
+    // const position = await Employee.findOne({ _id: duties.employee }).select("position");
+
     // Append each duty
     ///========position need to be updated as employees position
     for (let duty of duties) {
       sheet.duties.push({
         employee: duty.employee,
         day: duty.day,
-        time: duty.time,
+        time: duty.start,
         shift: duty.shift,
         remark: duty.remark,
-        position,
+        position: duty.position,
       });
     }
 
@@ -286,10 +287,8 @@ export const viewDutySheet = async (req, res) => {
 export const viewSheetByDetails = async (req, res) => {
   try {
     const { year, month, company } = req.body;
-    // console.log(year, month, company);
 
     let sheet = await Duty.find({ year, month, company });
-    // console.log("sheeet", sheet);
 
     //if no sheet create a new one
     if (sheet.length == 0 || !sheet) {
@@ -326,29 +325,31 @@ export const viewSheetByDetails = async (req, res) => {
       model: "Employee", // name of your Employee model
     });
 
+    // console.log("sheets are :", JSON.stringify(sheet, null, 2));
+
     res.status(200).json(sheet);
   } catch (error) {
     console.log(`error in viewSheetByDetails ${error.message}`);
     return res.status(500).json({ error: `internal server error on duty controller` });
   }
 
-  // try {
-  //   const { year, month, company } = req.body;
-  //   //console.log(year, month, company);
+  try {
+    const { year, month, company } = req.body;
+    //console.log(year, month, company);
 
-  //   const sheet = await Duty.find({ year, month, company }).populate("company").populate({
-  //     path: "duties.employee", // go inside duties array and populate employee
-  //     model: "Employee", // name of your Employee model
-  //   });
-  //   console.log("sheeet", sheet);
-  //   if (sheet.length == 0) {
-  //     return res.status(404).json({ message: "Sheet you look is not found create a new sheet" });
-  //   }
-  //   res.status(200).json(sheet);
-  // } catch (error) {
-  //   console.log(`error in viewSheetByDetails ${error.message}`);
-  //   return res.status(500).json({ error: `internal server error on duty controller` });
-  // }
+    const sheet = await Duty.find({ year, month, company }).populate("company").populate({
+      path: "duties.employee", // go inside duties array and populate employee
+      model: "Employee", // name of your Employee model
+    });
+    console.log("sheeet", sheet);
+    if (sheet.length == 0) {
+      return res.status(404).json({ message: "Sheet you look is not found create a new sheet" });
+    }
+    res.status(200).json(sheet);
+  } catch (error) {
+    console.log(`error in viewSheetByDetails ${error.message}`);
+    return res.status(500).json({ error: `internal server error on duty controller` });
+  }
 };
 
 // delete duty sheet
@@ -422,7 +423,7 @@ export const findDutyForEmployee = async (req, res) => {
       dutyId: duty.duties[0]._id,
       longitude: duty.company.longitude,
       latitude: duty.company.latitude,
-      name:duty.company.name,
+      name: duty.company.name,
     });
   } catch (err) {
     console.error(err);
@@ -449,12 +450,12 @@ export const checkInDuty = async (req, res) => {
     });
 
     console.log("Found duty document:", duty ? "Yes" : "No");
-    
+
     if (!duty) {
       console.log("No duty document found with dutyId:", dutyId);
-      return res.status(404).json({ 
+      return res.status(404).json({
         message: "Duty not found",
-        dutyId: dutyId 
+        dutyId: dutyId,
       });
     }
 
@@ -463,11 +464,14 @@ export const checkInDuty = async (req, res) => {
     console.log("Found duty item:", dutyItem ? "Yes" : "No");
 
     if (!dutyItem) {
-      console.log("Available duty IDs:", duty.duties.map(d => d._id.toString()));
-      return res.status(404).json({ 
+      console.log(
+        "Available duty IDs:",
+        duty.duties.map((d) => d._id.toString())
+      );
+      return res.status(404).json({
         message: "Duty item not found",
         dutyId: dutyId,
-        availableDuties: duty.duties.map(d => d._id.toString())
+        availableDuties: duty.duties.map((d) => d._id.toString()),
       });
     }
 
@@ -517,9 +521,9 @@ export const checkOutDuty = async (req, res) => {
 
     if (!duty) {
       console.log("No duty document found with dutyId:", dutyId);
-      return res.status(404).json({ 
+      return res.status(404).json({
         message: "Duty not found",
-        dutyId: dutyId 
+        dutyId: dutyId,
       });
     }
 
@@ -528,11 +532,14 @@ export const checkOutDuty = async (req, res) => {
     console.log("Found duty item:", dutyItem ? "Yes" : "No");
 
     if (!dutyItem) {
-      console.log("Available duty IDs:", duty.duties.map(d => d._id.toString()));
-      return res.status(404).json({ 
+      console.log(
+        "Available duty IDs:",
+        duty.duties.map((d) => d._id.toString())
+      );
+      return res.status(404).json({
         message: "Duty item not found",
         dutyId: dutyId,
-        availableDuties: duty.duties.map(d => d._id.toString())
+        availableDuties: duty.duties.map((d) => d._id.toString()),
       });
     }
 
