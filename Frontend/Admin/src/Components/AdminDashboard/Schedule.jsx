@@ -12,6 +12,8 @@ import LoadingScreen from "./subComponents/LoadingScreen";
 import MonthInName from "./subComponents/MonthInName";
 
 const Schedule = () => {
+  const [dataCollection, setDataCollection] = useState([]);
+
   //for calender
   const [dateValue, setDateValue] = useState(new Date());
 
@@ -30,9 +32,6 @@ const Schedule = () => {
   const [companylist, setCompanylist] = useState([]);
   const [employeelist, setEmployeelist] = useState([]);
   const [dutySet, setDutySet] = useState([]);
-
-  //feels like dosent need this, for select relevent sheet file . ?_?
-  const [isReady, setIsReady] = useState(false);
 
   //for loading screen
   const [loading, SetLoading] = useState(false);
@@ -72,13 +71,69 @@ const Schedule = () => {
     }
   };
 
-  //for table data gathering from
+  console.log(dataCollection);
 
-  const formChangeHandler = () => {};
+  //for table data gathering from
+  //add data to a object
+  const formChangeHandler = (index, field, value, duty) => {
+    setDataCollection((prev) => {
+      const existing = [...prev];
+      const rowIndex = existing.findIndex((r) => r._id === duty._id);
+
+      let updatedField = { [field]: value };
+      if (field === "employeeName") {
+        const selectedEmp = employeelist.find((emp) => emp.name === value);
+
+        updatedField = {
+          employeeName: value,
+          employeeId: selectedEmp?._id || null,
+        };
+      }
+
+      if (rowIndex !== -1) {
+        // update existing row
+        existing[rowIndex] = { ...existing[rowIndex], [field]: value };
+      } else {
+        // add new row with default values from duty
+        existing.push({
+          _id: duty._id,
+          day: duty.day,
+          employeeName: value,
+          employee: employeelist.find((emp) => emp.name === value)?._id || null,
+          position: duty.position || "",
+          start: duty.start || "",
+          shift: duty.shift || "",
+          remark: duty.remark || "",
+          [field]: value,
+        });
+      }
+      return existing;
+    });
+  };
+
+  const handleAdd = (duty) => {
+    setDataCollection((prev) => {
+      const existing = [...prev];
+      const rowIndex = existing.findIndex((r) => r._id === duty._id);
+
+      if (rowIndex === -1) {
+        existing.push({
+          _id: duty._id,
+          day: duty.day,
+          employee: duty.employee?.name || "",
+          position: duty.position || "",
+          start: duty.start || "",
+          shift: duty.shift || "",
+          remark: duty.remark || "",
+        });
+      }
+      return existing;
+    });
+
+    toast.success("Row added/updated successfully!");
+  };
 
   const submitHandler = async (e) => {
-    // console.log("1st is clicked");
-
     e.preventDefault();
     if (!selectedCompanyName) {
       toast.error("Company Name is Required");
@@ -99,17 +154,6 @@ const Schedule = () => {
         toast.error(error.response.data.message);
       }
     }
-  };
-
-  // console.log("duty set", dutySet);
-
-  const dataCollectionArray = [];
-
-  //method to update data is need to be implimented here
-  //this to send schedules of employees need to impliment
-  const dataCollection = ({ day, employee, start, shift, remark }) => {
-    const data = { day, employee, start, shift, remark };
-    dataCollectionArray.push(data);
   };
 
   return (
@@ -192,85 +236,88 @@ const Schedule = () => {
                 {/* from here data need to be in input form an data is need to be filtered and on-arrow neet to be used for datalist */}
                 <tbody>
                   {/* this pard works after fetching the relevant sheet */}
-                  {sheet.duties.map((duty, dindex) => (
-                    <tr
-                      key={dindex}
-                      className={`${duty?.day == (selectedDay || 1) ? "box" : "hidden"}
-                    `} //this is for attendance viewing area
-                    >
-                      <td className="p-2 border border-gray-300">
-                        <input
-                          key={duty._id}
-                          type="text"
-                          name="position"
-                          value={duty?.position || "-"}
-                          readOnly
-                        />
-                      </td>
+                  {sheet.duties.map((duty, dindex) => {
+                    const currentRow = dataCollection.find((r) => r._id === duty._id) || duty;
 
-                      {/* employee */}
-                      <td className="p-2 border border-gray-300">
-                        <input
-                          list={`dataScheduleNames-${dindex}`} // unique per row
-                          onChange={formChangeHandler}
-                          value={duty?.employee?.name}
-                          className="bg-blue-100 px-2 w-full no-arrow"
-                        />
-                        <datalist id={`dataScheduleNames-${dindex}`}>
-                          {employeelist
-                            .filter((employee) => employee?.position == duty?.position)
-                            .map((employee) => (
-                              <>
+                    return (
+                      <tr
+                        key={duty._id}
+                        className={`${duty?.day == (selectedDay || 1) ? "box" : "hidden"}`}>
+                        {/* Position */}
+                        <td className="p-2 border border-gray-300">
+                          <input type="text" value={currentRow.position || "-"} readOnly />
+                        </td>
+
+                        {/* Employee */}
+                        <td className="p-2 border border-gray-300">
+                          <input
+                            list={`dataScheduleNames-${dindex}`}
+                            value={currentRow.employeeName || ""}
+                            onChange={(e) =>
+                              formChangeHandler(dindex, "employeeName", e.target.value, duty)
+                            }
+                            className="bg-blue-100 px-2 w-full no-arrow"
+                          />
+                          <datalist id={`dataScheduleNames-${dindex}`}>
+                            {employeelist
+                              .filter((employee) => employee?.position == duty?.position)
+                              .map((employee) => (
                                 <option key={employee._id} value={employee.name} />
-                              </>
-                            ))}
-                        </datalist>
-                      </td>
+                              ))}
+                          </datalist>
+                        </td>
 
-                      {/* start */}
-                      {/* neet fix values in here in propper way */}
-                      <td className="p-2 border border-gray-300">
-                        <select
-                          className="bg-blue-100 px-2 w-full"
-                          type="text"
-                          value={duty?.shift}
-                          onChange={formChangeHandler}>
-                          <option>Select</option>
-                          <option value={12}>8am</option>
-                          <option value={24}>6pm</option>
-                        </select>
-                      </td>
+                        {/* Start */}
+                        <td className="p-2 border border-gray-300">
+                          <select
+                            value={currentRow.start || ""}
+                            onChange={(e) =>
+                              formChangeHandler(dindex, "start", e.target.value, duty)
+                            }
+                            className="bg-blue-100 px-2 w-full">
+                            <option>Select</option>
+                            <option value="8am">8am</option>
+                            <option value="6pm">6pm</option>
+                          </select>
+                        </td>
 
-                      {/* shift */}
-                      {/* neet fix values in here in propper way */}
-                      <td className="p-2 border border-gray-300">
-                        <select
-                          className="bg-blue-100 px-2 w-full"
-                          type="text"
-                          value={duty?.start} //previous value
-                          onChange={formChangeHandler}>
-                          <option>Select</option>
-                          <option value={12}>{"12"}</option>
-                          <option value={24}>{"24"}</option>
-                        </select>
-                      </td>
+                        {/* Shift */}
+                        <td className="p-2 border border-gray-300">
+                          <select
+                            value={currentRow.shift || ""}
+                            onChange={(e) =>
+                              formChangeHandler(dindex, "shift", e.target.value, duty)
+                            }
+                            className="bg-blue-100 px-2 w-full">
+                            <option>Select</option>
+                            <option value="12">12</option>
+                            <option value="24">24</option>
+                          </select>
+                        </td>
 
-                      {/* remark */}
-                      <td className="p-2 border border-gray-300">
-                        <input
-                          className="bg-blue-100 px-2 w-full"
-                          type="text"
-                          name="remark"
-                          value={duty?.remark}
-                          onChange={formChangeHandler}
-                        />
-                      </td>
+                        {/* Remark */}
+                        <td className="p-2 border border-gray-300">
+                          <input
+                            type="text"
+                            value={currentRow.remark || ""}
+                            onChange={(e) =>
+                              formChangeHandler(dindex, "remark", e.target.value, duty)
+                            }
+                            className="bg-blue-100 px-2 w-full"
+                          />
+                        </td>
 
-                      <td className="p-2 border border-gray-300">
-                        <button className="bg-green-300 p-1 w-full cursor-pointer">Add</button>
-                      </td>
-                    </tr>
-                  ))}
+                        {/* Add Button */}
+                        <td className="p-2 border border-gray-300">
+                          <button
+                            className="bg-green-300 p-1 w-full cursor-pointer"
+                            onClick={() => handleAdd(duty)}>
+                            Add
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             ))}

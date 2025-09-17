@@ -19,4 +19,4 @@ const Admin = () => {
 
 export default Admin;
 
-// http://localhost:2000/dashboard/admin
+// http://localhost:2000/dashboard
