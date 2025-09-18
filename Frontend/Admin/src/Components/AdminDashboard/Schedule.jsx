@@ -266,6 +266,7 @@ const Schedule = () => {
                     {/* this pard works after fetching the relevant sheet */}
                     {sheet.duties.map((duty, dindex) => {
                       const currentRow = dataCollection.find((r) => r._id === duty._id) || duty;
+                      // const currentRow = duty;
 
                       return (
                         <tr
@@ -280,7 +281,9 @@ const Schedule = () => {
                           <td className="p-2 border border-gray-300">
                             <input
                               list={`dataScheduleNames-${dindex}`}
-                              value={currentRow.employeeName || ""}
+                              value={
+                                currentRow?.employeeName || duty.employee?.name || "Not Assinged"
+                              }
                               onChange={(e) =>
                                 formChangeHandler(dindex, "employeeName", e.target.value, duty)
                               }
@@ -298,7 +301,7 @@ const Schedule = () => {
                           {/* Start */}
                           <td className="p-2 border border-gray-300">
                             <select
-                              value={currentRow.start || ""}
+                              value={currentRow.start || duty.time}
                               onChange={(e) =>
                                 formChangeHandler(dindex, "start", e.target.value, duty)
                               }
