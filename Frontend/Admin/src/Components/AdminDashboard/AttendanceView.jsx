@@ -89,9 +89,9 @@ const Schedule = () => {
   };
 
   return (
-    <div className=" flex justify-center items-center gap-4 h-screen">
+    <div className=" flex justify-center  gap-4 ">
       <div
-        className={`flex gap-5 items-center justify-center h-full ${
+        className={`flex gap-5 items-center justify-center h-screen ${
           !showData && !loading ? "block" : "hidden"
         }`}>
         {/* Find Duty sheet */}
@@ -147,7 +147,7 @@ const Schedule = () => {
           {Array.isArray(dutySet) &&
             dutySet.map((sheet) => (
               <table
-                className="table-auto w-full border-collapse border border-gray-400"
+                className="table-auto w-full border-collapse border border-gray-400 rounded-3xl"
                 key={selectedDay}>
                 <thead className="bg-gray-200 cursor-default">
                   <tr>
@@ -274,7 +274,7 @@ const Schedule = () => {
       </div>
 
       {/* right side */}
-      <div className={`bg-gray-200  ${showData ? "block" : "hidden"}`}>
+      <div className={`  ${showData ? "block" : "hidden"}`}>
         <SideCalandeBar
           showData={showData}
           companylist={companylist}

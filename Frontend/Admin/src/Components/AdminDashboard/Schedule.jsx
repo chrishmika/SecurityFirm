@@ -166,9 +166,9 @@ const Schedule = () => {
   };
 
   return (
-    <div className=" flex justify-center items-center gap-4 h-screen">
+    <div className=" flex justify-center  gap-4 ">
       <div
-        className={`flex gap-5 items-center justify-center h-full ${
+        className={`flex gap-5 items-center justify-center h-screen ${
           !showData && !loading ? "block" : "hidden"
         }`}>
         {/* Find Duty sheet */}
@@ -194,7 +194,7 @@ const Schedule = () => {
       </div>
 
       {/* data is shown here after user enter the company name and submit*/}
-      <div className={`col-span-2 bg-red-100 ${showData && !loading ? "block" : "hidden"} `}>
+      <div className={`col-span-2  ${showData && !loading ? "block" : "hidden"} `}>
         <div>
           {/* back button */}
           <button
@@ -222,12 +222,12 @@ const Schedule = () => {
 
         {/* from here data need to be in input form an data is need to be filtered and on-arrow neet to be used for datalist */}
         {/* toggle button */}
-        <div className="my-10 overflow-x-auto">
+        <div className="my-15 overflow-x-auto">
           <form onSubmit={formDataSubmitHandle}>
             {Array.isArray(dutySet) &&
               dutySet.map((sheet) => (
                 <table
-                  className="table-auto w-full border-collapse border border-gray-400"
+                  className="table-auto w-full border-collapse border border-gray-400 rounded-3xl"
                   key={selectedDay}>
                   <thead className="bg-gray-200">
                     <tr>
@@ -236,7 +236,7 @@ const Schedule = () => {
                       <th className="p-2 border border-gray-300">Start/time</th>
                       <th className="p-2 border border-gray-300">Shift</th>
                       <th className="p-2 border border-gray-300">Remark</th>
-                      <th className="p-2 border border-gray-300"></th>
+                      {/* <th className="p-2 border border-gray-300"></th> */}
                     </tr>
                   </thead>
 
@@ -255,7 +255,12 @@ const Schedule = () => {
                           className={`${duty?.day == (selectedDay || 1) ? "box" : "hidden"}`}>
                           {/* Position */}
                           <td className="p-2 border border-gray-300">
-                            <input type="text" value={currentRow.position || "-"} readOnly />
+                            <input
+                              type="text"
+                              value={currentRow.position || "-"}
+                              className="outline-0"
+                              readOnly
+                            />
                           </td>
 
                           {/* Employee */}
@@ -316,28 +321,24 @@ const Schedule = () => {
                               className="bg-blue-100 px-2 w-full"
                             />
                           </td>
-
-                          {/* Add Button  remove this button and use it for another work  like delete row data*/}
-                          {/* <td className="p-2 border border-gray-300">
-                          <button
-                            className="bg-green-300 p-1 w-full cursor-pointer"
-                            onClick={() => handleAdd(duty)}>
-                            Add
-                          </button>
-                        </td> */}
                         </tr>
                       );
                     })}
                   </tbody>
                 </table>
               ))}
-            <button>Submit button</button>
+
+            <div className="flex w-full justify-end">
+              <button className="p-3.5 bg-green-400 hover:bg-green-500 cursor-pointer mt-4 rounded-3xl  text-white">
+                Add Schedule
+              </button>
+            </div>
           </form>
         </div>
       </div>
 
       {/* right side */}
-      <div className={`bg-gray-100 ${showData ? "block" : "hidden"} `}>
+      <div className={` ${showData ? "block" : "hidden"} `}>
         <SideCalandeBar
           showData={showData}
           companylist={companylist}

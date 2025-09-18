@@ -35,9 +35,14 @@ const SideCalandeBar = ({
         </div>
       </div>
 
-      <div className="text-2xl  w-sm ">
-        {/* <Calendar onChange={setDateValue} value={dateValue} /> */}
-        <div className="w-full h-[600px] pt-10">
+      {/* <div className="text-2xl  w-sm  "> */}
+      <div className="text-2xl  w-sm  scale-[0.7] lg:scale-[0.9] md:scale-[0.7] s pt-10 ">
+        <Calendar
+          onChange={setDateValue}
+          value={dateValue}
+          className="rounded-xl border border-gray-300 shadow-md"
+        />
+        {/* <div className="w-full h-[600px] pt-10">
           <iframe
             src="https://calendar.google.com/calendar/embed?src=your_calendar_id&ctz=Asia/Colombo"
             style={{ border: 0 }}
@@ -45,7 +50,7 @@ const SideCalandeBar = ({
             height="70%"
             title="Calendar"
             loading="lazy"></iframe>
-        </div>
+        </div> */}
       </div>
     </div>
   );
