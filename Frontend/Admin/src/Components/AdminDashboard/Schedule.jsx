@@ -106,46 +106,35 @@ const Schedule = () => {
       const existing = [...prev];
       const rowIndex = existing.findIndex((r) => r._id === duty._id);
 
-      // let updatedField = { [field]: value };
-      // if (field === "employeeName") {
-      //   const selectedEmp = employeelist.find((emp) => emp.name === value);
+      let updatedRow = rowIndex !== -1 ? { ...existing[rowIndex] } : { ...duty };
 
-      //   updatedField = {
-      //     employeeName: value,
-      //     employeeId: selectedEmp?._id || null,
-      //   };
-      // }
+      // special case for employee
+      if (field === "employeeName") {
+        const selectedEmp = employeelist.find((emp) => emp.name === value);
+        updatedRow.employeeName = value;
+        updatedRow.employee = selectedEmp?._id || null;
+      } else {
+        updatedRow[field] = value;
+      }
 
       if (rowIndex !== -1) {
-        // update existing row
-        existing[rowIndex] = { ...existing[rowIndex], [field]: value };
-        if (existing[rowIndex].employeeName === "") {
-          existing.splice(rowIndex, 1); //remove the row it it has no name
-        }
+        existing[rowIndex] = updatedRow; // update existing row
       } else {
-        // add new row with default values from duty
-        existing.push({
-          _id: duty._id,
-          day: duty.day,
-          employeeName: value,
-          employee: employeelist.find((emp) => emp.name === value)?._id || null,
-          position: duty.position || "",
-          start: duty.start || "",
-          shift: duty.shift || "",
-          remark: duty.remark || "",
-          [field]: value,
-        });
+        existing.push(updatedRow); // add new row
       }
+
       return existing;
     });
   };
 
   const formDataSubmitHandle = async (e) => {
     e.preventDefault();
-    if (dataCollection.length == 0) {
-      toast.error("no data added");
+
+    if (dataCollection.length === 0) {
+      toast.error("No changes to submit");
       return;
     }
+
     try {
       const response = await axios.post(
         `http://localhost:5000/api/duty/addDuty/${dutySet[0]._id}`,
@@ -154,12 +143,81 @@ const Schedule = () => {
       );
 
       if (response.status === 200) {
-        toast.success("data added to database");
+        toast.success("Duty data saved successfully!");
+        // refresh the dutySet with latest from backend
+        const updated = await axios.post(
+          "http://localhost:5000/api/duty/viewSheetByDetails/",
+          { year: selectedYear, month: MonthInName(selectedMonth), company: companyId },
+          { withCredentials: true }
+        );
+        setDutySet(updated.data);
+        setDataCollection([]); // reset local edits
       }
     } catch (error) {
-      toast.error("duty addition fails"), console.log(error.message);
+      toast.error(error.response?.data?.message || "Duty update failed");
+      console.log(error.message);
     }
   };
+
+  // const formChangeHandler = (index, field, value, duty) => {
+  //   setDataCollection((prev) => {
+  //     const existing = [...prev];
+  //     const rowIndex = existing.findIndex((r) => r._id === duty._id);
+
+  //     // let updatedField = { [field]: value };
+  //     // if (field === "employeeName") {
+  //     //   const selectedEmp = employeelist.find((emp) => emp.name === value);
+
+  //     //   updatedField = {
+  //     //     employeeName: value,
+  //     //     employeeId: selectedEmp?._id || null,
+  //     //   };
+  //     // }
+
+  //     if (rowIndex !== -1) {
+  //       // update existing row
+  //       existing[rowIndex] = { ...existing[rowIndex], [field]: value };
+  //       if (existing[rowIndex].employeeName === "") {
+  //         existing.splice(rowIndex, 1); //remove the row it it has no name
+  //       }
+  //     } else {
+  //       // add new row with default values from duty
+  //       existing.push({
+  //         _id: duty._id,
+  //         day: duty.day,
+  //         employeeName: value,
+  //         employee: employeelist.find((emp) => emp.name === value)?._id || null,
+  //         position: duty.position || "",
+  //         start: duty.start || "",
+  //         shift: duty.shift || "",
+  //         remark: duty.remark || "",
+  //         [field]: value,
+  //       });
+  //     }
+  //     return existing;
+  //   });
+  // };
+
+  // const formDataSubmitHandle = async (e) => {
+  //   e.preventDefault();
+  //   if (dataCollection.length == 0) {
+  //     toast.error("no data added");
+  //     return;
+  //   }
+  //   try {
+  //     const response = await axios.post(
+  //       `http://localhost:5000/api/duty/addDuty/${dutySet[0]._id}`,
+  //       dataCollection,
+  //       { withCredentials: true }
+  //     );
+
+  //     if (response.status === 200) {
+  //       toast.success("data added to database");
+  //     }
+  //   } catch (error) {
+  //     toast.error("duty addition fails"), console.log(error.message);
+  //   }
+  // };
 
   // const handleAdd = (duty) => {
   //   setDataCollection((prev) => {
@@ -281,9 +339,7 @@ const Schedule = () => {
                           <td className="p-2 border border-gray-300">
                             <input
                               list={`dataScheduleNames-${dindex}`}
-                              value={
-                                currentRow?.employeeName || duty.employee?.name || "Not Assinged"
-                              }
+                              value={currentRow?.employeeName || duty.employee?.name}
                               onChange={(e) =>
                                 formChangeHandler(dindex, "employeeName", e.target.value, duty)
                               }

@@ -26,52 +26,102 @@ export const createDutySheet = async (req, res) => {
 //add dutyies
 //take company id, latest year and month to find the sheet
 //duties are send as a array of objects and then they are added to the database
+// export const addDuties = async (req, res) => {
+//   try {
+//     console.log("REQ.BODY TYPE:", typeof req.body);
+//     console.log("REQ.BODY:", req.body);
+
+//     const sheetId = req.params.id; //duty id
+//     const duties = req.body;
+//     // const { employee, day, time, shift, remark } = req.body;
+//     let sheet = await Duty.findById(sheetId);
+
+//     if (!sheet) {
+//       return res.status(404).json({ error: "Duty sheet not found" });
+//     }
+
+//     console.log(duties);
+//     console.log("sheet id:", sheetId);
+
+//     //add duties to the sheet'
+//     // sheet.duty.push({ employee, day, time, shift });
+
+//     // Validate that duties is an array
+//     if (!Array.isArray(duties)) {
+//       return res.status(400).json({ error: "Duties must be an array" });
+//     }
+
+//     // const position = await Employee.findOne({ _id: duties.employee }).select("position");
+
+//     // Append each duty
+//     ///========position need to be updated as employees position
+//     for (let duty of duties) {
+//       sheet.duties.push({
+//         employee: duty.employee,
+//         day: duty.day,
+//         time: duty.start,
+//         shift: duty.shift,
+//         remark: duty.remark,
+//         position: duty.position,
+//       });
+//     }
+
+//     await sheet.save();
+
+//     return res.status(200).json({ message: "Duty added successfully", sheet });
+//   } catch (error) {
+//     console.log(`error in addDuties ${error.message}`);
+//     return res.status(500).json({ error: `internal server error on duty controller` });
+//   }
+// };
+
 export const addDuties = async (req, res) => {
   try {
-    console.log("REQ.BODY TYPE:", typeof req.body);
-    console.log("REQ.BODY:", req.body);
-
-    const sheetId = req.params.id; //duty id
+    const sheetId = req.params.id;
     const duties = req.body;
-    // const { employee, day, time, shift, remark } = req.body;
-    let sheet = await Duty.findById(sheetId);
 
+    let sheet = await Duty.findById(sheetId);
     if (!sheet) {
       return res.status(404).json({ error: "Duty sheet not found" });
     }
 
-    console.log(duties);
-    console.log("sheet id:", sheetId);
-
-    //add duties to the sheet'
-    // sheet.duty.push({ employee, day, time, shift });
-
-    // Validate that duties is an array
     if (!Array.isArray(duties)) {
       return res.status(400).json({ error: "Duties must be an array" });
     }
 
-    // const position = await Employee.findOne({ _id: duties.employee }).select("position");
-
-    // Append each duty
-    ///========position need to be updated as employees position
     for (let duty of duties) {
-      sheet.duties.push({
-        employee: duty.employee,
-        day: duty.day,
-        time: duty.start,
-        shift: duty.shift,
-        remark: duty.remark,
-        position: duty.position,
-      });
+      // Check if duty already exists in sheet by _id
+      let existingDutyIndex = sheet.duties.findIndex(
+        (d) => d._id.toString() === duty._id?.toString()
+      );
+
+      if (existingDutyIndex !== -1) {
+        // ✅ Update existing duty
+        sheet.duties[existingDutyIndex].employee = duty.employee;
+        sheet.duties[existingDutyIndex].day = duty.day;
+        sheet.duties[existingDutyIndex].time = duty.start;
+        sheet.duties[existingDutyIndex].shift = duty.shift;
+        sheet.duties[existingDutyIndex].remark = duty.remark;
+        sheet.duties[existingDutyIndex].position = duty.position;
+      } else {
+        // ✅ Add new duty
+        sheet.duties.push({
+          employee: duty.employee,
+          day: duty.day,
+          time: duty.start,
+          shift: duty.shift,
+          remark: duty.remark,
+          position: duty.position,
+        });
+      }
     }
 
     await sheet.save();
 
-    return res.status(200).json({ message: "Duty added successfully", sheet });
+    return res.status(200).json({ message: "Duties updated successfully", sheet });
   } catch (error) {
-    console.log(`error in addDuties ${error.message}`);
-    return res.status(500).json({ error: `internal server error on duty controller` });
+    console.error(`Error in addDuties: ${error.message}`);
+    return res.status(500).json({ error: "Internal server error on duty controller" });
   }
 };
 
@@ -298,7 +348,7 @@ export const viewSheetByDetails = async (req, res) => {
         return res.status(404).json({ message: "company requirement details not found" });
       }
 
-      // creating new duties only with positions
+      //creating new duties only with positions
       let duties = [];
       const monthIndex = new Date(`${month} 1, ${year}`).getMonth();
       const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
