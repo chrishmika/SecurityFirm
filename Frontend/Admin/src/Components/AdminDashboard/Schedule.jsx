@@ -200,7 +200,6 @@ const Schedule = () => {
           <button
             onClick={() => {
               setShowData(!showData);
-              // setSelectedCompanyName("");
               setSelectedDay(null);
             }}
             className=" flex gap-1 items-center cursor-pointer font-bold mb-2">

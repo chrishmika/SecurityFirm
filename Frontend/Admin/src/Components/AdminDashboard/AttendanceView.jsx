@@ -124,7 +124,6 @@ const Schedule = () => {
           <button
             onClick={() => {
               setShowData(!showData);
-              // setSelectedCompanyName("");
               setSelectedDay(null);
             }}
             className=" flex gap-1 items-center cursor-pointer font-bold mb-2">
@@ -184,7 +183,7 @@ const Schedule = () => {
                         <input
                           type="text"
                           name="position"
-                          value={duty.employee?.position}
+                          value={duty.position}
                           className="outline-0 cursor-default"
                           readOnly
                         />
