@@ -94,21 +94,26 @@ export const addDuties = async (req, res) => {
       let existingDutyIndex = sheet.duties.findIndex(
         (d) => d._id.toString() === duty._id?.toString()
       );
+      console.log("duty time", duty.time);
 
       if (existingDutyIndex !== -1) {
-        // ✅ Update existing duty
+        // Update existing duty
         sheet.duties[existingDutyIndex].employee = duty.employee;
         sheet.duties[existingDutyIndex].day = duty.day;
-        sheet.duties[existingDutyIndex].time = duty.start;
+        sheet.duties[existingDutyIndex].time = duty.time;
         sheet.duties[existingDutyIndex].shift = duty.shift;
         sheet.duties[existingDutyIndex].remark = duty.remark;
         sheet.duties[existingDutyIndex].position = duty.position;
+
+        console.log("duty.time update:", duty.time);
       } else {
-        // ✅ Add new duty
+        console.log("duty.timenew:", duty.time);
+
+        // Add new duty
         sheet.duties.push({
           employee: duty.employee,
           day: duty.day,
-          time: duty.start,
+          time: duty.time,
           shift: duty.shift,
           remark: duty.remark,
           position: duty.position,
@@ -344,6 +349,7 @@ export const viewSheetByDetails = async (req, res) => {
     if (sheet.length == 0 || !sheet) {
       //checking for company
       const companyDetails = await Company.findById(company).select("count");
+
       if (!companyDetails || companyDetails?.count?.length == 0) {
         return res.status(404).json({ message: "company requirement details not found" });
       }
@@ -361,8 +367,6 @@ export const viewSheetByDetails = async (req, res) => {
         }
       }
 
-      // console.log("duties file", duties);
-
       //creating new sheet
       const newsheet = new Duty({ company, year, month, duties });
       await newsheet.save();
@@ -375,31 +379,28 @@ export const viewSheetByDetails = async (req, res) => {
       model: "Employee", // name of your Employee model
     });
 
-    // console.log("sheets are :", JSON.stringify(sheet, null, 2));
-
     res.status(200).json(sheet);
   } catch (error) {
     console.log(`error in viewSheetByDetails ${error.message}`);
     return res.status(500).json({ error: `internal server error on duty controller` });
   }
 
-  try {
-    const { year, month, company } = req.body;
-    //console.log(year, month, company);
+  // try {
+  //   const { year, month, company } = req.body;
 
-    const sheet = await Duty.find({ year, month, company }).populate("company").populate({
-      path: "duties.employee", // go inside duties array and populate employee
-      model: "Employee", // name of your Employee model
-    });
-    console.log("sheeet", sheet);
-    if (sheet.length == 0) {
-      return res.status(404).json({ message: "Sheet you look is not found create a new sheet" });
-    }
-    res.status(200).json(sheet);
-  } catch (error) {
-    console.log(`error in viewSheetByDetails ${error.message}`);
-    return res.status(500).json({ error: `internal server error on duty controller` });
-  }
+  //   const sheet = await Duty.find({ year, month, company }).populate("company").populate({
+  //     path: "duties.employee", // go inside duties array and populate employee
+  //     model: "Employee", // name of your Employee model
+  //   });
+
+  //   if (sheet.length == 0) {
+  //     return res.status(404).json({ message: "Sheet you look is not found create a new sheet" });
+  //   }
+  //   res.status(200).json(sheet);
+  // } catch (error) {
+  //   console.log(`error in viewSheetByDetails ${error.message}`);
+  //   return res.status(500).json({ error: `internal server error on duty controller` });
+  // }
 };
 
 // delete duty sheet

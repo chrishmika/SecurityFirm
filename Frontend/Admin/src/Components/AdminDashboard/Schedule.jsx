@@ -97,16 +97,19 @@ const Schedule = () => {
     }
   };
 
-  console.log("data - Collection of table values(newly added: )", dataCollection);
+  // console.log("data - Collection of table values(newly added: )", dataCollection);
 
   //for table data gathering from
   //add data to a object
   const formChangeHandler = (index, field, value, duty) => {
     setDataCollection((prev) => {
       const existing = [...prev];
+
       const rowIndex = existing.findIndex((r) => r._id === duty._id);
+      console.log("existing", existing);
 
       let updatedRow = rowIndex !== -1 ? { ...existing[rowIndex] } : { ...duty };
+      console.log("updatedRow", updatedRow);
 
       // special case for employee
       if (field === "employeeName") {
@@ -130,6 +133,7 @@ const Schedule = () => {
   const formDataSubmitHandle = async (e) => {
     e.preventDefault();
 
+    // if the fields have no edits
     if (dataCollection.length === 0) {
       toast.error("No changes to submit");
       return;
@@ -144,12 +148,14 @@ const Schedule = () => {
 
       if (response.status === 200) {
         toast.success("Duty data saved successfully!");
+
         // refresh the dutySet with latest from backend
         const updated = await axios.post(
           "http://localhost:5000/api/duty/viewSheetByDetails/",
           { year: selectedYear, month: MonthInName(selectedMonth), company: companyId },
           { withCredentials: true }
         );
+
         setDutySet(updated.data);
         setDataCollection([]); // reset local edits
       }
@@ -310,7 +316,7 @@ const Schedule = () => {
                     <tr>
                       <th className="p-2 border border-gray-300">Position</th>
                       <th className="p-2 border border-gray-300">Employee</th>
-                      <th className="p-2 border border-gray-300">Start</th>
+                      <th className="p-2 border border-gray-300">Start/time</th>
                       <th className="p-2 border border-gray-300">Shift</th>
                       <th className="p-2 border border-gray-300">Remark</th>
                       <th className="p-2 border border-gray-300"></th>
@@ -354,12 +360,12 @@ const Schedule = () => {
                             </datalist>
                           </td>
 
-                          {/* Start */}
+                          {/* Start /known as time */}
                           <td className="p-2 border border-gray-300">
                             <select
-                              value={currentRow.start || duty.time}
+                              value={currentRow.start || duty.start}
                               onChange={(e) =>
-                                formChangeHandler(dindex, "start", e.target.value, duty)
+                                formChangeHandler(dindex, "time", e.target.value, duty)
                               }
                               className="bg-blue-100 px-2 w-full">
                               <option>Select</option>

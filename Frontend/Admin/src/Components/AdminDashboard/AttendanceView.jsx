@@ -77,6 +77,7 @@ const Schedule = () => {
           { year: selectedYear, month: MonthInName(selectedMonth), company: companyId },
           { withCredentials: true }
         );
+
         setDutySet(response.data);
         SetLoading(false);
         setShowData(true);
@@ -178,6 +179,7 @@ const Schedule = () => {
                     ${duty.day == (selectedDay || 1) ? "box" : "hidden"}
                     `} //this is for attendance viewing area
                     >
+                      {/* position */}
                       <td className="p-2 border border-gray-300 ">
                         <input
                           type="text"
@@ -186,9 +188,10 @@ const Schedule = () => {
                           className="outline-0 cursor-default"
                           readOnly
                         />
-                        {console.log("duty,", duty)}
+                        {/* {console.log("duty,", duty)} */}
                       </td>
 
+                      {/* employee */}
                       <td className="p-2 border border-gray-300">
                         <input
                           type="text"
@@ -198,12 +201,13 @@ const Schedule = () => {
                         />
                       </td>
 
+                      {/* start */}
                       {/* neet fix values in here in propper way */}
                       <td className="p-2 border border-gray-300">
                         <input
                           className="px-2 w-full outline-0 cursor-default"
                           type="text"
-                          value={duty.time || "-"}
+                          value={duty.time || ""}
                           readOnly
                         />
                       </td>
@@ -213,7 +217,7 @@ const Schedule = () => {
                         <input
                           className=" px-2 w-full outline-0 cursor-default"
                           type="text"
-                          value={`${duty.shift || "-"} hours`}
+                          value={`${duty.shift || "0"} hours`}
                           readOnly
                         />
                       </td>
@@ -222,23 +226,25 @@ const Schedule = () => {
                         <input
                           className="px-2 w-full outline-0 cursor-default"
                           type="text"
-                          value={duty.checkIn?.split("T")[1]?.substring(0, 5) || "-"}
+                          value={duty.checkIn?.split("T")[1]?.substring(0, 5) || ""}
                           readOnly
                         />
                       </td>
+
                       <td className="p-2 border border-gray-300">
                         <input
                           className="px-2 w-full outline-0 cursor-default"
                           type="text"
-                          value={duty.checkOut?.split("T")[1]?.substring(0, 5) || "Not Yet"}
+                          value={duty.checkOut?.split("T")[1]?.substring(0, 5) || ""}
                           readOnly
                         />
                       </td>
+
                       <td className="p-2 border border-gray-300">
                         <input
                           className="px-2 w-full outline-0 cursor-default"
                           type="text"
-                          value={duty.remark || "-"}
+                          value={duty.remark || ""}
                           readOnly
                         />
                       </td>
