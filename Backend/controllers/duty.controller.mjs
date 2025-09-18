@@ -1,7 +1,6 @@
 import isWithin2Km from "../lib/utils/locationCheck.mjs";
 import Company from "../models/company.model.mjs";
 import Duty from "../models/duty.model.mjs";
-import Employee from "../models/employee.model.mjs";
 
 import moment from "moment";
 // import moment from "moment-timezone";
@@ -22,58 +21,6 @@ export const createDutySheet = async (req, res) => {
     return res.status(500).json({ error: `internal server error on duty controller` });
   }
 };
-
-//add dutyies
-//take company id, latest year and month to find the sheet
-//duties are send as a array of objects and then they are added to the database
-// export const addDuties = async (req, res) => {
-//   try {
-//     console.log("REQ.BODY TYPE:", typeof req.body);
-//     console.log("REQ.BODY:", req.body);
-
-//     const sheetId = req.params.id; //duty id
-//     const duties = req.body;
-//     // const { employee, day, time, shift, remark } = req.body;
-//     let sheet = await Duty.findById(sheetId);
-
-//     if (!sheet) {
-//       return res.status(404).json({ error: "Duty sheet not found" });
-//     }
-
-//     console.log(duties);
-//     console.log("sheet id:", sheetId);
-
-//     //add duties to the sheet'
-//     // sheet.duty.push({ employee, day, time, shift });
-
-//     // Validate that duties is an array
-//     if (!Array.isArray(duties)) {
-//       return res.status(400).json({ error: "Duties must be an array" });
-//     }
-
-//     // const position = await Employee.findOne({ _id: duties.employee }).select("position");
-
-//     // Append each duty
-//     ///========position need to be updated as employees position
-//     for (let duty of duties) {
-//       sheet.duties.push({
-//         employee: duty.employee,
-//         day: duty.day,
-//         time: duty.start,
-//         shift: duty.shift,
-//         remark: duty.remark,
-//         position: duty.position,
-//       });
-//     }
-
-//     await sheet.save();
-
-//     return res.status(200).json({ message: "Duty added successfully", sheet });
-//   } catch (error) {
-//     console.log(`error in addDuties ${error.message}`);
-//     return res.status(500).json({ error: `internal server error on duty controller` });
-//   }
-// };
 
 export const addDuties = async (req, res) => {
   try {

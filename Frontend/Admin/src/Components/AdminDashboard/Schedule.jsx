@@ -263,7 +263,7 @@ const Schedule = () => {
                           <td className="p-2 border border-gray-300">
                             <input
                               list={`dataScheduleNames-${dindex}`}
-                              value={currentRow?.employeeName || duty.employee?.name}
+                              value={currentRow?.employeeName || duty.employee?.name || ""}
                               onChange={(e) =>
                                 formChangeHandler(dindex, "employeeName", e.target.value, duty)
                               }
