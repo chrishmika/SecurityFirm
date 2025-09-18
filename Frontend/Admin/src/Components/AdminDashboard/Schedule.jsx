@@ -165,88 +165,6 @@ const Schedule = () => {
     }
   };
 
-  // const formChangeHandler = (index, field, value, duty) => {
-  //   setDataCollection((prev) => {
-  //     const existing = [...prev];
-  //     const rowIndex = existing.findIndex((r) => r._id === duty._id);
-
-  //     // let updatedField = { [field]: value };
-  //     // if (field === "employeeName") {
-  //     //   const selectedEmp = employeelist.find((emp) => emp.name === value);
-
-  //     //   updatedField = {
-  //     //     employeeName: value,
-  //     //     employeeId: selectedEmp?._id || null,
-  //     //   };
-  //     // }
-
-  //     if (rowIndex !== -1) {
-  //       // update existing row
-  //       existing[rowIndex] = { ...existing[rowIndex], [field]: value };
-  //       if (existing[rowIndex].employeeName === "") {
-  //         existing.splice(rowIndex, 1); //remove the row it it has no name
-  //       }
-  //     } else {
-  //       // add new row with default values from duty
-  //       existing.push({
-  //         _id: duty._id,
-  //         day: duty.day,
-  //         employeeName: value,
-  //         employee: employeelist.find((emp) => emp.name === value)?._id || null,
-  //         position: duty.position || "",
-  //         start: duty.start || "",
-  //         shift: duty.shift || "",
-  //         remark: duty.remark || "",
-  //         [field]: value,
-  //       });
-  //     }
-  //     return existing;
-  //   });
-  // };
-
-  // const formDataSubmitHandle = async (e) => {
-  //   e.preventDefault();
-  //   if (dataCollection.length == 0) {
-  //     toast.error("no data added");
-  //     return;
-  //   }
-  //   try {
-  //     const response = await axios.post(
-  //       `http://localhost:5000/api/duty/addDuty/${dutySet[0]._id}`,
-  //       dataCollection,
-  //       { withCredentials: true }
-  //     );
-
-  //     if (response.status === 200) {
-  //       toast.success("data added to database");
-  //     }
-  //   } catch (error) {
-  //     toast.error("duty addition fails"), console.log(error.message);
-  //   }
-  // };
-
-  // const handleAdd = (duty) => {
-  //   setDataCollection((prev) => {
-  //     const existing = [...prev];
-  //     const rowIndex = existing.findIndex((r) => r._id === duty._id);
-
-  //     if (rowIndex === -1) {
-  //       existing.push({
-  //         _id: duty._id,
-  //         day: duty.day,
-  //         employee: duty.employee?.name || "",
-  //         position: duty.position || "",
-  //         start: duty.start || "",
-  //         shift: duty.shift || "",
-  //         remark: duty.remark || "",
-  //       });
-  //     }
-  //     return existing;
-  //   });
-
-  //   toast.success("Row added/updated successfully!");
-  // };
-
   return (
     <div className=" flex justify-center items-center gap-4 h-screen">
       <div
@@ -363,7 +281,7 @@ const Schedule = () => {
                           {/* Start /known as time */}
                           <td className="p-2 border border-gray-300">
                             <select
-                              value={currentRow.start || duty.start}
+                              value={currentRow?.time}
                               onChange={(e) =>
                                 formChangeHandler(dindex, "time", e.target.value, duty)
                               }
@@ -377,7 +295,7 @@ const Schedule = () => {
                           {/* Shift */}
                           <td className="p-2 border border-gray-300">
                             <select
-                              value={currentRow.shift || ""}
+                              value={currentRow?.shift || ""}
                               onChange={(e) =>
                                 formChangeHandler(dindex, "shift", e.target.value, duty)
                               }
@@ -392,7 +310,7 @@ const Schedule = () => {
                           <td className="p-2 border border-gray-300">
                             <input
                               type="text"
-                              value={currentRow.remark || ""}
+                              value={currentRow?.remark || ""}
                               onChange={(e) =>
                                 formChangeHandler(dindex, "remark", e.target.value, duty)
                               }
