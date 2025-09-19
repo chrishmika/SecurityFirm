@@ -4,8 +4,7 @@ import getCoordinates from "../../../utils/getCoordinates";
 
 import { IoMdAddCircle } from "react-icons/io";
 import { FaCircleMinus } from "react-icons/fa6";
-import { IoCloseSharp } from "react-icons/io5";
-import { CiFileOn } from "react-icons/ci";
+import { IoCloseSharp, IoDocumentAttachSharp } from "react-icons/io5";
 
 import { useCompanyContext } from "../../../hooks/useCompanyContext";
 
@@ -427,7 +426,7 @@ const CompanyForm = () => {
                 </div>
               ) : (
                 <label className="cursor-pointer">
-                  <CiFileOn className="text-5xl" />
+                  <IoDocumentAttachSharp className="text-5xl text-gray-400 hover:text-black" />
                   <input
                     type="file"
                     accept="image/*,application/pdf"

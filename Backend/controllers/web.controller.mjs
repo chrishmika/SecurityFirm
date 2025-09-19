@@ -54,7 +54,7 @@ export const companyRequest = async (req, res) => {
 
 export const employeeRequest = async (req, res) => {
   try {
-    const { name, contact, sex, military, email, dob, disabilities } = req.body;
+    const { name, contact, sex, military, email, dob, disabilities, address } = req.body;
     let { NICCopy, cv } = req.files;
 
     console.log(req.files, "application form data");
@@ -80,6 +80,7 @@ export const employeeRequest = async (req, res) => {
       military,
       NICCopy,
       cv,
+      address,
       email,
       dob,
       disabilities,

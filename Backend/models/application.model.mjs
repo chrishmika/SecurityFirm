@@ -10,8 +10,12 @@ const applicationSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    address: {
+      type: String,
+      required: true,
+    },
     disabilities: {
-      type: Number,
+      type: String,
       required: true,
     },
     dob: {
@@ -22,7 +26,7 @@ const applicationSchema = new mongoose.Schema(
     },
     sex: {
       type: String,
-      enum: ["male", "female", "other", "Prefer not to say"],
+      enum: ["Male", "Female", "Other", "Prefer not to say"],
       required: true,
     },
     military: {
