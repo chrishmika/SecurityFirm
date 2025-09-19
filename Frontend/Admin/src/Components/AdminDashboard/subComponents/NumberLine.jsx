@@ -1,13 +1,11 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 
-const NumberLine = ({ year, month, onSelectDay, selectedNum = 1 }) => {
-  const [clicked, setClicked] = useState(selectedNum);
+const NumberLine = ({ year, month, onSelectDay, today = 1 }) => {
+  const [clicked, setClicked] = useState(today);
 
   const monthIndex = new Date(`${month} 1, ${year}`).getMonth();
   const days = new Date(year, monthIndex + 1, 0).getDate();
-
-  // const dayName = new Date(year, month - 1, day).toLocaleDateString("en-US", { weekday: "long" });
 
   let boxes = [];
 

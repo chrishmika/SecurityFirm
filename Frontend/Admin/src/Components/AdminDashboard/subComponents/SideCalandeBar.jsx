@@ -12,7 +12,7 @@ const SideCalandeBar = ({
   return (
     <div>
       <div className={`${showData ? "block" : "hidden"} font-bold ml-5`}>
-        <span>Requirement</span>
+        <span>● Requirement</span>
         <div className="flex flex-col mx-10 pt-4">
           <table className="">
             <tr>
@@ -40,7 +40,7 @@ const SideCalandeBar = ({
         <Calendar
           onChange={setDateValue}
           value={dateValue}
-          className="rounded-xl border border-gray-300 shadow-md"
+          className="rounded-xl  border-gray-300 "
         />
         {/* <div className="w-full h-[600px] pt-10">
           <iframe

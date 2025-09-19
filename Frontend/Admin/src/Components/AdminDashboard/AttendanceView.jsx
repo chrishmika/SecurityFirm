@@ -91,11 +91,11 @@ const Schedule = () => {
   return (
     <div className=" flex justify-center  gap-4 ">
       <div
-        className={`flex gap-5 items-center justify-center h-screen ${
+        className={`w-screen flex gap-5 items-center justify-center h-screen ${
           !showData && !loading ? "block" : "hidden"
         }`}>
         {/* Find Duty sheet */}
-        <div className="w-2/3 ">
+        <div className="md:w-1/3 w-70 ">
           <h2 className="p-4 border-b-0 bg-gray-500  rounded-t-2xl">
             <span className="text-white items-center font-bold flex gap-3">
               <FaSearch />
@@ -140,25 +140,26 @@ const Schedule = () => {
             onSelectDay={(day) => {
               setSelectedDay(day);
             }}
+            today={Date().split(" ")[2]}
           />
         </div>
 
-        <div className="my-10 overflow-x-auto">
+        <div className="my-10 overflow-x-auto ">
           {Array.isArray(dutySet) &&
             dutySet.map((sheet) => (
               <table
-                className="table-auto w-full border-collapse border border-gray-400 rounded-3xl"
+                className="table-auto w-full border-collapse border border-l-5 border-gray-400 rounded-3xl"
                 key={selectedDay}>
                 <thead className="bg-gray-200 cursor-default">
                   <tr>
-                    <th className="p-2 border border-gray-300">Position</th>
-                    <th className="p-2 border border-gray-300">Employee</th>
-                    <th className="p-2 border border-gray-300">Start</th>
-                    <th className="p-2 border border-gray-300">Shift</th>
-                    <th className="p-2 border border-gray-300">Check In</th>
-                    <th className="p-2 border border-gray-300">Check Out</th>
-                    <th className="p-2 border border-gray-300">Remark</th>
-                    <th className="p-2 border border-gray-300"></th>
+                    <th className="p-1 border border-gray-300">Position</th>
+                    <th className="p-1 border border-gray-300">Employee</th>
+                    <th className="p-1 border border-gray-300">Start</th>
+                    <th className="p-1 border border-gray-300">Shift</th>
+                    <th className="p-1 border border-gray-300">Check In</th>
+                    <th className="p-1 border border-gray-300">Check Out</th>
+                    <th className="p-1 border border-gray-300">Remark</th>
+                    <th className="p-1 border border-gray-300"></th>
                   </tr>
                 </thead>
 
@@ -166,20 +167,20 @@ const Schedule = () => {
                   {sheet.duties.map((duty, dindex) => (
                     <tr
                       key={dindex}
-                      className={` ${
+                      className={`border-l-5 ${
                         duty.status === "absent"
-                          ? "bg-red-400"
+                          ? "  border-l-red-400"
                           : duty.status === "present"
-                          ? "bg-green-400"
+                          ? "border-l-green-300"
                           : duty.status === "late"
-                          ? "bg-yellow-400"
+                          ? "border-l-yellow-300"
                           : "bg-white"
                       }
                     ${duty.day == (selectedDay || 1) ? "box" : "hidden"}
                     `} //this is for attendance viewing area
                     >
                       {/* position */}
-                      <td className="p-2 border border-gray-300 ">
+                      <td className="p-1 border border-gray-300">
                         <input
                           type="text"
                           name="position"
@@ -191,7 +192,7 @@ const Schedule = () => {
                       </td>
 
                       {/* employee */}
-                      <td className="p-2 border border-gray-300">
+                      <td className="p-1 border border-gray-300">
                         <input
                           type="text"
                           className="bg-none font-bold px-2 w-full outline-0 cursor-default"
@@ -202,7 +203,7 @@ const Schedule = () => {
 
                       {/* start */}
                       {/* neet fix values in here in propper way */}
-                      <td className="p-2 border border-gray-300">
+                      <td className="p-1 border border-gray-300">
                         <input
                           className="px-2 w-full outline-0 cursor-default"
                           type="text"
@@ -212,7 +213,7 @@ const Schedule = () => {
                       </td>
 
                       {/* neet fix values in here in propper way */}
-                      <td className="p-2 border border-gray-300">
+                      <td className="p-1 border border-gray-300">
                         <input
                           className=" px-2 w-full outline-0 cursor-default"
                           type="text"
@@ -221,7 +222,7 @@ const Schedule = () => {
                         />
                       </td>
 
-                      <td className="p-2 border border-gray-300">
+                      <td className="p-1 border border-gray-300">
                         <input
                           className="px-2 w-full outline-0 cursor-default"
                           type="text"
@@ -230,7 +231,7 @@ const Schedule = () => {
                         />
                       </td>
 
-                      <td className="p-2 border border-gray-300">
+                      <td className="p-1 border border-gray-300">
                         <input
                           className="px-2 w-full outline-0 cursor-default"
                           type="text"
@@ -239,7 +240,7 @@ const Schedule = () => {
                         />
                       </td>
 
-                      <td className="p-2 border border-gray-300">
+                      <td className="p-1 border border-gray-300">
                         <input
                           className="px-2 w-full outline-0 cursor-default"
                           type="text"
@@ -248,13 +249,15 @@ const Schedule = () => {
                         />
                       </td>
 
-                      <td className="p-2 border border-gray-300">
+                      <td className="p-1 border border-gray-300">
                         {duty.status == "present" ? (
-                          <button className={`bg-red-500 p-1 w-full cursor-pointer font-bold`}>
+                          <button
+                            className={`bg-red-300 p-1 w-full cursor-pointer font-extralight hover:bg-red-400`}>
                             Absent
                           </button>
                         ) : (
-                          <button className={`bg-green-500 p-1 w-full cursor-pointer font-bold`}>
+                          <button
+                            className={`bg-green-300 p-1 w-full cursor-pointer font-extralight  hover:bg-green-400`}>
                             Present
                           </button>
                         )}

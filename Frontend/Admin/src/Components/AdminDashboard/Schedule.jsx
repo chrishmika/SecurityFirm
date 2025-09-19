@@ -168,17 +168,18 @@ const Schedule = () => {
   return (
     <div className=" flex justify-center  gap-4 ">
       <div
-        className={`flex gap-5 items-center justify-center h-screen ${
+        className={`w-screen flex gap-5 items-center justify-center h-screen ${
           !showData && !loading ? "block" : "hidden"
         }`}>
         {/* Find Duty sheet */}
-        <div className="w-2/3 ">
+        <div className="md:w-1/3 w-70">
           <h2 className="p-4 border-b-0 bg-gray-500  rounded-t-2xl">
             <span className="text-white items-center font-bold flex gap-3">
               <FaSearch />
               Create Sheets For Duties
             </span>
           </h2>
+
           <DutySearchForm
             changeHandler={changeHandler}
             selectedCompanyName={selectedCompanyName}
