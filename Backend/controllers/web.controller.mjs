@@ -11,21 +11,28 @@ import { uploadCloudinary } from "../middleware/uploadCloudinary.mjs";
 
 export const companyRequest = async (req, res) => {
   try {
-    const { name, address, email, contact, description, count, proposal } = req.body;
+    // const { name, address, email, contact, description, count, proposal, date, period, type } =
+    //   req.body;
+    const dataItems = req.body;
 
-    if (proposal) {
-      proposal = uploadCloudinary(proposal);
+    if (dataItems?.proposal) {
+      dataItems.proposal = uploadCloudinary(dataItems?.proposal);
     }
+    console.log("dataItems", dataItems);
 
-    const newRequest = new CompanyRequest({
-      name,
-      address,
-      email,
-      contact,
-      description,
-      count,
-      proposal,
-    });
+    // const newRequest = new CompanyRequest({
+    //   name,
+    //   address,
+    //   email,
+    //   contact,
+    //   description,
+    //   period,
+    //   count, //in model , not in web
+    //   type,
+    //   proposal, //in model , not in web
+    //   date,
+    // });
+    const newRequest = new CompanyRequest(dataItems);
     await newRequest.save();
 
     //create new Notification
@@ -47,9 +54,8 @@ export const companyRequest = async (req, res) => {
 
 export const employeeRequest = async (req, res) => {
   try {
-    const { name, contact, sex, military } = req.body;
+    const { name, contact, sex, military, email, dob, disabilities } = req.body;
     let { NICCopy, cv } = req.files;
-    console.log("nic1");
 
     console.log(req.files, "application form data");
 
@@ -58,7 +64,6 @@ export const employeeRequest = async (req, res) => {
       const dataUri = `data:${cv.mimetype};base64,${base64Data}`;
       const uploadedResponse = await cloudinary.uploader.upload(dataUri);
       cv = uploadedResponse.secure_url;
-      console.log("nic2");
     }
 
     if (NICCopy) {
@@ -66,13 +71,19 @@ export const employeeRequest = async (req, res) => {
       const dataUri = `data:${NICCopy.mimetype};base64,${base64Data}`;
       const uploadedResponse = await cloudinary.uploader.upload(dataUri);
       NICCopy = uploadedResponse.secure_url;
-      console.log("nic3");
     }
 
-    console.log("nic4");
-    console.log(NICCopy, "nic5");
-
-    const newRequest = new Application({ name, contact, sex, military, NICCopy, cv });
+    const newRequest = new Application({
+      name,
+      contact,
+      sex,
+      military,
+      NICCopy,
+      cv,
+      email,
+      dob,
+      disabilities,
+    });
 
     await newRequest.save();
 

@@ -10,15 +10,14 @@ const ApplicationsView = () => {
   const [allData, setData] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       setIsloading(true);
       const Url = !choice ? "/api/web/application" : "/api/web/CompanyApplications";
       const response = await axios.post(Url, {}, { withCredentials: true });
       console.log(response);
       setIsloading(false);
       setData(response.data);
-    };
-    fetchData();
+    })();
   }, [choice]);
 
   return (
@@ -35,9 +34,10 @@ const ApplicationsView = () => {
         className={`flex flex-col md:justify-between border-1 border-[#D9D9D9] rounded-2xl w-full h-screen justify- my-1.5  md:flex-row cursor-pointer p-2 overflow-hidden`}>
         {!isLoading ? (
           <div className=" border-[#D9D9D9] w-screen m-2">
-            <h1 className="font-bold">
+            <h1 className="font-bold ">
               {!choice ? "Employee Applications" : "Company Applications"}
             </h1>
+            <hr className="my-2.5" />
             <div className="mx-2 flex flex-wrap gap-5">
               {allData.map((data) => {
                 return <ApplicationCard data={data} key={data._id} choice={choice} />;
