@@ -15,7 +15,13 @@ import {
   FaUser,
 } from "react-icons/fa";
 import { BiMaleFemale } from "react-icons/bi";
-import { MdDateRange, MdDescription, MdEmail, MdOutlineDataset } from "react-icons/md";
+import {
+  MdDateRange,
+  MdDescription,
+  MdEmail,
+  MdOutlineDataset,
+  MdOutlineDateRange,
+} from "react-icons/md";
 import { RiProgress8Line } from "react-icons/ri";
 import { FaRegFileLines } from "react-icons/fa6";
 
@@ -126,7 +132,32 @@ const ApplicationCard = ({ data, choice }) => {
                 {data?.sex}
               </span>
 
-              <div className={`flex gap-5 ${choice ? "hidden" : ""}`}>
+              {/* conpany only data is need to be added */}
+              {choice && (
+                <div>
+                  <span className={`flex items-center gap-4 ${choice ? "" : "hidden"}`}>
+                    <MdDescription />
+                    {data?.description}
+                  </span>
+
+                  <span className={`flex items-center gap-4 ${choice ? "" : "hidden"}`}>
+                    <MdOutlineDateRange />
+                    {data?.date}
+                  </span>
+
+                  <span className={`flex items-center gap-4 ${choice ? "" : "hidden"}`}>
+                    <MdDateRange />
+                    {`${data?.period || "Contract "} days`}
+                  </span>
+
+                  <span className={`flex items-center gap-4 ${choice ? "" : "hidden"}`}>
+                    <MdOutlineDataset />
+                    {data?.type}
+                  </span>
+                </div>
+              )}
+
+              <div className={`flex my-8 gap-5 ${choice ? "hidden" : ""}`}>
                 <a
                   href={data?.cv ? data?.cv.replace("/upload/", "/upload/fl_attachment/") : "#"}
                   download={"cv"}
@@ -144,7 +175,7 @@ const ApplicationCard = ({ data, choice }) => {
                       FILE
                     </div>
                   )}
-                  {"cv"}
+                  {"CV"}
                 </a>
 
                 <a
@@ -153,7 +184,7 @@ const ApplicationCard = ({ data, choice }) => {
                       ? data?.NICCopy.replace("/upload/", "/upload/fl_attachment/")
                       : "#"
                   }
-                  download={"cv"}
+                  download={"NIC"}
                   className="flex flex-col items-center text-blue-600 hover:underline"
                   target="_blank"
                   rel="noopener noreferrer">
@@ -165,7 +196,7 @@ const ApplicationCard = ({ data, choice }) => {
                     />
                   ) : isPdfi ? (
                     <div className="h-20 w-20 flex items-center justify-center bg-red-100 text-red-600 font-bold rounded mb-2">
-                      PDF
+                      File
                     </div>
                   ) : (
                     <div className="h-20 w-20 flex items-center justify-center bg-gray-200 text-gray-600 font-bold rounded mb-2">
@@ -175,31 +206,6 @@ const ApplicationCard = ({ data, choice }) => {
                   {"NICCopy"}
                 </a>
               </div>
-
-              {/* conpany only data is need to be added */}
-              {choice && (
-                <div>
-                  <span className={`flex items-center gap-4 ${choice ? "" : "hidden"}`}>
-                    <MdDescription />
-                    {data?.description}
-                  </span>
-
-                  <span className={`flex items-center gap-4 ${choice ? "" : "hidden"}`}>
-                    <MdDescription />
-                    {data?.date}
-                  </span>
-
-                  <span className={`flex items-center gap-4 ${choice ? "" : "hidden"}`}>
-                    <MdDateRange />
-                    {`${data?.period || "Contract "} days`}
-                  </span>
-
-                  <span className={`flex items-center gap-4 ${choice ? "" : "hidden"}`}>
-                    <MdOutlineDataset />
-                    {data?.type}
-                  </span>
-                </div>
-              )}
             </div>
           </div>
         </div>
