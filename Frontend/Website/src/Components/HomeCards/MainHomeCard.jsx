@@ -23,9 +23,11 @@ const MainHomeCard = () => {
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 mt-4 w-full sm:w-auto">
+            <a href="gethired">
           <button className="bg-gradient-to-r from-amber-400 to-orange-500 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg shadow-amber-500/25 hover:shadow-xl hover:shadow-amber-500/40 hover:scale-105 transition-all duration-300 hover:from-amber-500 hover:to-orange-600 ring-2 ring-amber-300/50">
             Get a Free Quote
           </button>
+            </a>
           <button className="bg-gradient-to-r from-indigo-600 to-blue-700 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg shadow-indigo-500/25 hover:shadow-xl hover:shadow-indigo-500/40 hover:scale-105 transition-all duration-300 hover:from-indigo-700 hover:to-blue-800 ring-2 ring-indigo-300/50">
             Contact Us
           </button>
