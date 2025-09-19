@@ -1,5 +1,5 @@
 //import img1 from "../assets/joinus.jpeg"; // make sure you have an image
-
+import JobApplyForm from "../Components/Application Forms/JobApplyForm";
 import { NavLink, Outlet } from "react-router-dom";
 
 const JoinUs = () => {
@@ -38,17 +38,8 @@ const JoinUs = () => {
             Click the button below to start the application process on Indeed.
           </p>
 
-          {/* Apply Button */}
-          <NavLink
-            className={({ isActive }) =>
-              isActive
-                ? "bg-red-400 hover:bg-red-500 px-5 py-3 rounded-lg font-medium text-white"
-                : "bg-blue-500 hover:bg-blue-600 px-5 py-3 rounded-lg font-medium text-white"
-            }
-            to="jobapply">
-            Apply for Job
-          </NavLink>
         </div>
+        
 
         {/* Image Section */}
         <div className="flex-1">
@@ -59,8 +50,7 @@ const JoinUs = () => {
           />
         </div>
       </div>
-
-      <Outlet />
+      <JobApplyForm />
     </div>
   );
 };
