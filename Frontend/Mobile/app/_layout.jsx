@@ -1,8 +1,9 @@
+import { LanguageProvider } from "@/contexts/LanguageContext";
+import { LocationProvider } from "@/contexts/LocationContext2";
+import { UserProvider } from "@/contexts/UserContext";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { UserProvider } from "@/contexts/UserContext";
-import { LanguageProvider } from "@/contexts/LanguageContext";
-import { LocationProvider } from "@/contexts/LocationContext";
+import { Image } from "react-native";
 
 export default function RootLayout() {
   return (
@@ -23,7 +24,15 @@ export default function RootLayout() {
 
             <Stack.Screen
               name="index"
-              options={{ title: "Home" }}
+              options={{
+                headerTitle: () => (
+                  <Image
+                    source={require('@/assets/logo/logo-02.png')}
+                    alt="Logo"
+                    style={{ width: 100, height: 40, objectFit: 'contain' }}
+                  />
+                ),
+              }}
             />
           </Stack>
         </LocationProvider>
