@@ -38,7 +38,7 @@ const JoinOurTeam = () => {
 
         <div className="mt-10">
           <a
-            href="/careers"
+            href="gethired"
             className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300"
           >
             Apply Now
