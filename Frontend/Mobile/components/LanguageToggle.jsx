@@ -16,12 +16,12 @@ const LanguageToggle = () => {
 
 const styles = StyleSheet.create({
   toggle: {
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#cce2f8ff',
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: '#e9ecef',
+    borderColor: '#191919ff',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   toggleText: {
-    fontSize: 14,
+    fontSize: 20,
     fontWeight: '600',
     color: '#495057',
   },

@@ -3,14 +3,15 @@ import { useEffect, useState } from 'react';
 import {
     ActivityIndicator,
     Alert,
+    Dimensions,
+    SafeAreaView,
+    ScrollView,
     StyleSheet,
     Text,
     TouchableOpacity,
     View,
-    SafeAreaView,
-    ScrollView,
-    Dimensions,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import LanguageToggle from '../components/LanguageToggle';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -19,6 +20,7 @@ import { useUser } from '../hooks/useUser';
 import { initializeLocation } from '../utils/permissions';
 
 const Home = () => {
+    const insets = useSafeAreaInsets();
     const router = useRouter();
     const [error, setError] = useState(null);
 
@@ -76,33 +78,81 @@ const Home = () => {
 
     // Refresh app state after check-in/check-out
     const handleCheckIn = async () => {
-        try {
-            await performCheckIn();
-            await fetchDutyStatus();
-            await performLocationCheck();
-        } catch (err) {
-            Alert.alert('Error', err.message || 'Check In failed');
-        }
+        Alert.alert(
+            t('checkIn'),
+            t('areYouSureCheckIn') || 'Are you sure you want to check in?',
+            [
+                {
+                    text: 'Cancel',
+                    style: 'cancel',
+                },
+                {
+                    text: 'OK',
+                    style: 'default',
+                    onPress: async () => {
+                        try {
+                            await performCheckIn();
+                            await fetchDutyStatus();
+                            await performLocationCheck();
+                        } catch (err) {
+                            Alert.alert('Error', err.message || 'Check In failed');
+                        }
+                    },
+                },
+            ]
+        );
     };
 
     const handleCheckOut = async () => {
-        try {
-            await performCheckOut();
-            await fetchDutyStatus();
-            await performLocationCheck();
-        } catch (err) {
-            Alert.alert('Error', err.message || 'Check Out failed');
-        }
+        Alert.alert(
+            t('checkOut'),
+            t('areYouSureCheckOut') || 'Are you sure you want to check out?',
+            [
+                {
+                    text: 'Cancel',
+                    style: 'cancel',
+                },
+                {
+                    text: 'OK',
+                    style: 'default',
+                    onPress: async () => {
+                        try {
+                            await performCheckOut();
+                            await fetchDutyStatus();
+                            await performLocationCheck();
+                        } catch (err) {
+                            Alert.alert('Error', err.message || 'Check Out failed');
+                        }
+                    },
+                },
+            ]
+        );
     };
 
     const handleLogout = async () => {
-        setError(null);
-        try {
-            await logout();
-            router.replace('/login');
-        } catch (err) {
-            setError(err.message || 'Logout failed. Please try again.');
-        }
+        Alert.alert(
+            t('logout'),
+            t('areYouSureLogout') || 'Are you sure you want to logout?',
+            [
+                {
+                    text: 'Cancel',
+                    style: 'cancel',
+                },
+                {
+                    text: 'OK',
+                    style: 'destructive',
+                    onPress: async () => {
+                        setError(null);
+                        try {
+                            await logout();
+                            router.replace('/login');
+                        } catch (err) {
+                            setError(err.message || 'Logout failed. Please try again.');
+                        }
+                    },
+                },
+            ]
+        );
     };
 
     const getStatusColor = () => {
@@ -140,8 +190,10 @@ const Home = () => {
                     {/* Header */}
                     <View style={styles.header}>
                         <View style={styles.welcomeCard}>
-                            <Text style={styles.greeting}>{t('greeting')}</Text>
-                            <Text style={styles.userName}> {user?.name || 'Guest user'}</Text>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                <Text style={[styles.greeting, { marginBottom: 0 }]}>{t('greeting')}</Text>
+                                <Text style={[styles.userName, { marginLeft: 6 }]}>{user?.name || t('guest')}</Text>
+                            </View>
                         </View>
 
                         <LanguageToggle />
@@ -155,16 +207,16 @@ const Home = () => {
 
                     {/* Duty Info */}
                     <View style={styles.dutySection}>
-                        <Text style={styles.sectionTitle}>Today's Duty</Text>
+                        <Text style={styles.sectionTitle}>{t('todaysDuty')}</Text>
                         {dutyInfo ? (
                             <View style={styles.dutyCard}>
                                 <Text style={styles.dutyText}>
-                                    Location: {assignedLocation ? `${assignedLocation.name}` : 'Loading...'}
+                                    {t('location')}: {assignedLocation ? `${assignedLocation.name}` : 'Loading...'}
                                 </Text>
                             </View>
                         ) : (
                             <View style={styles.noDutyCard}>
-                                <Text style={styles.noDutyText}>No duty assigned for today</Text>
+                                <Text style={styles.noDutyText}>{t('noDuty')}</Text>
                             </View>
                         )}
                     </View>
@@ -172,14 +224,14 @@ const Home = () => {
                     {/* Location Status */}
                     <View style={styles.locationSection}>
                         <View style={styles.sectionHeader}>
-                            <Text style={styles.sectionTitle}>Location Status</Text>
+                            <Text style={styles.sectionTitle}>{t('locationStatus')}</Text>
                             <TouchableOpacity
                                 style={styles.refreshButton}
                                 onPress={handleCheckLocation}
                                 disabled={isLoading || !dutyInfo}
                             >
                                 <Text style={styles.refreshButtonText}>
-                                    {isLoading ? 'Checking...' : 'Check Now'}
+                                    {isLoading ? t('checking') : t('checkNow')}
                                 </Text>
                             </TouchableOpacity>
                         </View>
@@ -206,7 +258,7 @@ const Home = () => {
                                 <View style={styles.statusHeader}>
                                     <View style={[styles.statusDot, { backgroundColor: getStatusColor() }]} />
                                     <Text style={[styles.statusTitle, { color: getStatusColor() }]}>
-                                        {locationStatus.isInRange ? 'IN RANGE' : 'OUT OF RANGE'}
+                                        {locationStatus.isInRange ? t('inRange') : t('outOfRange')}
                                     </Text>
                                 </View>
                                 <Text style={styles.statusMessage}>{locationStatus.message}</Text>
@@ -215,8 +267,8 @@ const Home = () => {
                             <View style={styles.noStatusCard}>
                                 <Text style={styles.noStatusText}>
                                     {dutyInfo
-                                        ? 'No location check performed yet'
-                                        : 'No duty assigned - location check unavailable'}
+                                        ? t('noLocationCheck')
+                                        : t('noLocationDuty')}
                                 </Text>
                             </View>
                         )}
@@ -224,14 +276,14 @@ const Home = () => {
                         {isLoading && (
                             <View style={styles.loadingIndicator}>
                                 <ActivityIndicator color="#4F46E5" />
-                                <Text style={styles.loadingSubtext}>Checking location...</Text>
+                                <Text style={styles.loadingSubtext}>{t('checkingLocation')}</Text>
                             </View>
                         )}
                     </View>
 
                     {/* Quick Actions */}
                     <View style={styles.actionsSection}>
-                        <Text style={styles.sectionTitle}>Quick Actions</Text>
+                        <Text style={styles.sectionTitle}>{t('quickActions')}</Text>
 
                         <View style={styles.buttonGroup}>
                             {/* Check In Button */}
@@ -249,10 +301,10 @@ const Home = () => {
                             >
                                 <Text style={styles.buttonText}>
                                     {statusInfo?.isCheckedIn
-                                        ? "Already Checked In"
+                                        ? t('alreadyCheckedIn')
                                         : statusInfo?.isCheckedOut
-                                            ? "Already Checked Out"
-                                            : "Check In"}
+                                            ? t('alreadyCheckedOut')
+                                            : t('checkIn')}
                                 </Text>
                             </TouchableOpacity>
 
@@ -271,17 +323,15 @@ const Home = () => {
                             >
                                 <Text style={styles.buttonText}>
                                     {statusInfo?.isCheckedOut
-                                        ? "Already Checked Out"
-                                        : !statusInfo?.isCheckedIn
-                                            ? "Check In First"
-                                            : "Check Out"}
+                                        ? t('alreadyCheckedOut')
+                                        : t('checkOut')}
                                 </Text>
                             </TouchableOpacity>
                         </View>
                     </View>
 
                     {/* Footer */}
-                    <View style={styles.footer}>
+                    <View style={[styles.footer, { paddingBottom: 24 + (insets.bottom || 0) }]}> 
                         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
                             <Text style={styles.logoutButtonText}>{t('logout')}</Text>
                         </TouchableOpacity>
@@ -313,7 +363,7 @@ export const styles = StyleSheet.create({
     header: { marginBottom: 24 },
     welcomeCard: {
         backgroundColor: "#FFFFFF",
-        padding: 22,
+        padding: 17,
         borderRadius: 22,
         marginBottom: 18,
         shadowColor: "#000",
@@ -351,7 +401,7 @@ export const styles = StyleSheet.create({
         shadowRadius: 6,
         elevation: 3,
     },
-    dutyText: { fontSize: 17, color: "#1F2937", fontWeight: "500" },
+    dutyText: { fontSize: 20, color: "#1F2937", fontWeight: "500" },
     noDutyCard: {
         backgroundColor: "#F3F4F6",
         padding: 18,
@@ -448,7 +498,7 @@ export const styles = StyleSheet.create({
 
     /* ---------- Footer ---------- */
     footer: {
-        paddingTop: 24,
+        paddingTop: 10,
         borderTopWidth: 1,
         borderTopColor: "#E5E7EB",
     },

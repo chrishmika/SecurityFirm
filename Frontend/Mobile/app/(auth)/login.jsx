@@ -1,8 +1,9 @@
 import { useUser } from "@/hooks/useUser";
+import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { Image, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View, KeyboardAvoidingView ,Platform} from "react-native";
+import { Image, Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useLanguage } from "../../contexts/LanguageContext";
 
@@ -13,6 +14,7 @@ const AuthScreen = () => {
 
     const [nic, setNic] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState(null);
 
     const { login, loading, isAuthenticated } = useUser()
@@ -87,7 +89,7 @@ const AuthScreen = () => {
 
                     <KeyboardAvoidingView
                         behavior={Platform.OS === "ios" ? "padding" : "height"}
-                        keyboardVerticalOffset={100}
+                        keyboardVerticalOffset={10}
 
                     >
                         <View style={styles.inputContainer}>
@@ -98,24 +100,42 @@ const AuthScreen = () => {
                                 placeholderTextColor='#adb5bd'
                                 autoCapitalize="none"
                                 autoCorrect={false}
-                                onChangeText={setNic}
+                                maxLength={12}
+                                onChangeText={text => {
+                                    // Only allow numbers and V/v, up to 12 chars
+                                    const filtered = text.replace(/[^0-9Vv]/g, '');
+                                    setNic(filtered);
+                                }}
                                 value={nic}
                             />
                         </View>
 
                         <View style={styles.inputContainer}>
                             <Text style={styles.label}>{t('password')}</Text>
-                            <TextInput
-                                style={styles.input}
-                                placeholderTextColor='#adb5bd'
-                                secureTextEntry
-                                placeholder={t('enterPassword')}
-                                textContentType="none"
-                                autoCapitalize="none"
-                                autoCorrect={false}
-                                onChangeText={setPassword}
-                                value={password}
-                            />
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <TextInput
+                                    style={[styles.input, { flex: 1 }]}
+                                    placeholderTextColor='#adb5bd'
+                                    secureTextEntry={!showPassword}
+                                    placeholder={t('enterPassword')}
+                                    textContentType="none"
+                                    autoCapitalize="none"
+                                    autoCorrect={false}
+                                    onChangeText={setPassword}
+                                    value={password}
+                                />
+                                <TouchableOpacity
+                                    onPress={() => setShowPassword((prev) => !prev)}
+                                    style={{ position: 'absolute', right: 10 }}
+                                    accessibilityLabel={showPassword ? t('hidePassword') : t('showPassword')}
+                                >
+                                    <Ionicons
+                                        name={showPassword ? 'eye-off' : 'eye'}
+                                        size={22}
+                                        color="#adb5bd"
+                                    />
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </KeyboardAvoidingView>
 
@@ -132,9 +152,9 @@ const AuthScreen = () => {
                         </LinearGradient>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.forgotButton}>
+                    {/* <TouchableOpacity style={styles.forgotButton}>
                         <Text style={styles.forgotText}>Forgot Password?</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </SafeAreaView>
 
             </TouchableWithoutFeedback>
@@ -146,11 +166,13 @@ const AuthScreen = () => {
 };
 
 const styles = StyleSheet.create({
+    
     container: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
         padding: 20,
+        marginTop: -90,
     },
     card: {
         width: '100%',

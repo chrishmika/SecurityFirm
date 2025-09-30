@@ -164,8 +164,8 @@ export const LocationProvider = ({ children }) => {
       isInRange,
       threshold,
       message: isInRange
-        ? `You are at your assigned location (${distance}m away)`
-        : `You are ${distance}m away from your assigned location`,
+        ? `${distance}m away`
+        : `${distance}m away`,
     };
 
     setLocationStatus(status);

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { LocationContext } from '../contexts/LocationContext';
+import { LocationContext } from '../contexts/LocationContext2';
 
 export const useLocation = () => {
   const context = useContext(LocationContext);
