@@ -5,6 +5,7 @@ import {
   Route,
   createRoutesFromElements,
 } from "react-router-dom";
+
 //website imports
 import Layout from "./Layout/LayoutWeb";
 import AboutUs from "./Pages/AboutUs";
@@ -14,8 +15,6 @@ import JoinUs from "./Pages/JoinUs";
 import Home from "./Pages/Home";
 import GetHired from "./Pages/GetHired";
 import JobApplyForm from "./Components/Application Forms/JobApplyForm";
-//admin imports
-import LayoutAdmin from "./Layout/LayoutAdmin";
 import NotFound from "./Pages/notFound/NotFound";
 
 // Using the createRoutesFromElements approach from the main branch

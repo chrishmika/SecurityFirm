@@ -2,99 +2,95 @@
   "services": [
     {
       "title": "Unarmed Security Guards",
-      "description": "Trained personnel who provide surveillance, access control, and patrolling to prevent theft, vandalism, and unauthorized entry"
+      "description": "Our unarmed security guards provide a strong visible presence to deter crime, monitor activities, and ensure the safety of your premises without the need for firearms. Trained in conflict resolution, access control, and emergency response, they deliver professional protection with a customer-friendly approach.",
+      "icon": "faUserShield"
     },
     {
       "title": "Armed Security Guards",
-      "description": "Licensed professionals equipped with firearms for high-risk environments like banks, jewelry stores, and VIP protection"
+      "description": "For high-risk environments requiring maximum security, our licensed armed guards are fully trained to handle firearms responsibly and effectively. They ensure the protection of people, assets, and property with precision, discipline, and quick decision-making in critical situations.",
+      "icon": "faShieldHalved"
     },
     {
       "title": "Event Security Services",
-      "description": "Specialized security for events, including crowd management, access control, and emergency response to ensure safety and order"
+      "description": "We provide comprehensive event security solutions to ensure smooth operations and guest safety. From access control and crowd management to VIP protection, our team handles security for concerts, exhibitions, weddings, and corporate events of all sizes.",
+      "icon": "faPeopleGroup"
     },
     {
       "title": "Corporate Security Services",
-      "description": "Comprehensive security solutions for businesses, including risk assessment, surveillance systems, and employee safety protocols"
+      "description": "Protect your business, employees, and assets with our tailored corporate security services. Our guards manage access control, visitor screening, reception security, and emergency preparedness to create a safe and professional workplace environment.",
+      "icon": "faBuildingShield"
     },
     {
       "title": "Industrial & Warehouse Security",
-      "description": "Security services tailored for industrial sites and warehouses, focusing on asset protection, inventory control, and safety compliance"
+      "description": "Our industrial and warehouse security solutions safeguard your facilities, equipment, and inventory against theft, vandalism, and unauthorized access. We offer perimeter monitoring, access control, and 24/7 guard services to keep your operations running smoothly.",
+      "icon": "faWarehouse"
     },
     {
       "title": "Residential Security Services",
-      "description": "Security solutions for residential areas, including neighborhood watch programs, patrols, and alarm systems to enhance community safety"
+      "description": "We provide residential security to protect families, homes, and communities. From gated community access control to patrolling and CCTV monitoring, our guards ensure a safe living environment with a strong focus on trust and reliability.",
+      "icon": "faHouse"
     },
     {
       "title": "VIP & Executive Protection",
-      "description": "Personalized security for high-profile individuals, including bodyguards, secure transportation, and risk management to ensure personal safety"
+      "description": "Our discreet and highly trained close protection officers (CPOs) ensure the safety of high-profile individuals, executives, and dignitaries. We specialize in risk assessment, secure transportation, and personal protection while maintaining complete confidentiality.",
+      "icon": "faUserTie"
     },
     {
       "title": "Bank & Financial Institution Security",
-      "description": "Specialized security for banks and financial institutions, focusing on cash handling, fraud prevention, and emergency response protocols"
+      "description": "We offer specialized security for banks and financial institutions, ensuring maximum protection of assets, staff, and customers. Our guards are trained in cash handling, ATM protection, and high-risk incident response to maintain a secure banking environment.",
+      "icon": "faLandmark"
     },
     {
       "title": "CCTV & Surveillance Monitoring",
-      "description": "Installation and monitoring of CCTV systems to enhance security, deter crime, and provide real-time surveillance for various environments"
+      "description": "Our 24/7 CCTV and remote monitoring services provide continuous oversight of your premises. With advanced surveillance systems and trained operators, we detect and respond quickly to suspicious activities before they escalate.",
+      "icon": "faVideo"
     },
     {
       "title": "Mobile Patrol Services",
-      "description": "Regular patrols by security personnel in marked vehicles to deter crime, provide a visible security presence, and respond to incidents"
+      "description": "Our mobile patrol teams conduct scheduled and random checks on your premises to deter crime and provide rapid response to emergencies. Equipped with marked vehicles, our patrols are an effective way to secure multiple or large properties.",
+      "icon": "faCarOn"
     },
     {
       "title": "Industrial & Construction Site Security",
-      "description": "Security services for industrial and construction sites, focusing on asset protection, site access control, and safety compliance"
+      "description": "We protect construction sites and industrial projects from theft, vandalism, and unauthorized entry. Our guards monitor materials, equipment, and workforce safety, ensuring smooth operations and reducing costly disruptions.",
+      "icon": "faHelmetSafety"
     },
     {
       "title": "Cash-in-Transit (CIT) Services",
-      "description": "Secure transportation of cash and valuables, including armored vehicles and trained personnel to ensure safe delivery"
+      "description": "Our professional cash-in-transit services ensure the secure transportation of cash, valuables, and sensitive documents. With armored vehicles, trained armed guards, and strict protocols, we guarantee safe and reliable transfers every time.",
+      "icon": "faTruckRampBox"
     }
   ],
   "clients": [
     {
       "name": "Client 1",
       "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
-      "logo":"https://th.bing.com/th/id/R.35720bbf29a0f0f1d48195bafdbedf7a?rik=1ArMFF%2fGA8AK1g&riu=http%3a%2f%2fshmector.com%2f_ph%2f13%2f188552034.png&ehk=4W3VAJ3Rgszg4unVrkViPToNE%2b15%2bt3SxRm%2b2VYCdIk%3d&risl=&pid=ImgRaw&r=0",
-      "alt":"Client 1 Logo"
-    },{
+      "logo": "/companylogo/c1.png",
+      "alt": "Client 1 Logo"
+    },
+    {
       "name": "Client 2",
       "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
-      "logo":"https://th.bing.com/th/id/R.35720bbf29a0f0f1d48195bafdbedf7a?rik=1ArMFF%2fGA8AK1g&riu=http%3a%2f%2fshmector.com%2f_ph%2f13%2f188552034.png&ehk=4W3VAJ3Rgszg4unVrkViPToNE%2b15%2bt3SxRm%2b2VYCdIk%3d&risl=&pid=ImgRaw&r=0",
-      "alt":"Client 1 Logo"
-    },{
+      "logo": "/companylogo/c2.png",
+      "alt": "Client 2 Logo"
+    },
+    {
       "name": "Client 3",
       "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
-      "logo":"https://th.bing.com/th/id/R.35720bbf29a0f0f1d48195bafdbedf7a?rik=1ArMFF%2fGA8AK1g&riu=http%3a%2f%2fshmector.com%2f_ph%2f13%2f188552034.png&ehk=4W3VAJ3Rgszg4unVrkViPToNE%2b15%2bt3SxRm%2b2VYCdIk%3d&risl=&pid=ImgRaw&r=0",
-      "alt":"Client 1 Logo"
-    },{
+      "logo": "/companylogo/c3.png",
+      "alt": "Client 3 Logo"
+    },
+    {
       "name": "Client 4",
       "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
-      "logo":"https://th.bing.com/th/id/R.35720bbf29a0f0f1d48195bafdbedf7a?rik=1ArMFF%2fGA8AK1g&riu=http%3a%2f%2fshmector.com%2f_ph%2f13%2f188552034.png&ehk=4W3VAJ3Rgszg4unVrkViPToNE%2b15%2bt3SxRm%2b2VYCdIk%3d&risl=&pid=ImgRaw&r=0",
-      "alt":"Client 1 Logo"
-    },{
+      "logo": "/companylogo/c4.png",
+      "alt": "Client 4 Logo"
+    },
+    {
       "name": "Client 5",
       "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
-      "logo":"https://th.bing.com/th/id/R.35720bbf29a0f0f1d48195bafdbedf7a?rik=1ArMFF%2fGA8AK1g&riu=http%3a%2f%2fshmector.com%2f_ph%2f13%2f188552034.png&ehk=4W3VAJ3Rgszg4unVrkViPToNE%2b15%2bt3SxRm%2b2VYCdIk%3d&risl=&pid=ImgRaw&r=0",
-      "alt":"Client 1 Logo"
-    },{
-      "name": "Client 6",
-      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
-      "logo":"https://th.bing.com/th/id/R.35720bbf29a0f0f1d48195bafdbedf7a?rik=1ArMFF%2fGA8AK1g&riu=http%3a%2f%2fshmector.com%2f_ph%2f13%2f188552034.png&ehk=4W3VAJ3Rgszg4unVrkViPToNE%2b15%2bt3SxRm%2b2VYCdIk%3d&risl=&pid=ImgRaw&r=0",
-      "alt":"Client 1 Logo"
-    },{
-      "name": "Client 8",
-      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
-      "logo":"https://th.bing.com/th/id/R.35720bbf29a0f0f1d48195bafdbedf7a?rik=1ArMFF%2fGA8AK1g&riu=http%3a%2f%2fshmector.com%2f_ph%2f13%2f188552034.png&ehk=4W3VAJ3Rgszg4unVrkViPToNE%2b15%2bt3SxRm%2b2VYCdIk%3d&risl=&pid=ImgRaw&r=0",
-      "alt":"Client 1 Logo"
-    },{
-      "name": "Client 9",
-      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
-      "logo":"https://th.bing.com/th/id/R.35720bbf29a0f0f1d48195bafdbedf7a?rik=1ArMFF%2fGA8AK1g&riu=http%3a%2f%2fshmector.com%2f_ph%2f13%2f188552034.png&ehk=4W3VAJ3Rgszg4unVrkViPToNE%2b15%2bt3SxRm%2b2VYCdIk%3d&risl=&pid=ImgRaw&r=0",
-      "alt":"Client 1 Logo"
-    },{
-      "name": "Client 10",
-      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
-      "logo":"https://th.bing.com/th/id/R.35720bbf29a0f0f1d48195bafdbedf7a?rik=1ArMFF%2fGA8AK1g&riu=http%3a%2f%2fshmector.com%2f_ph%2f13%2f188552034.png&ehk=4W3VAJ3Rgszg4unVrkViPToNE%2b15%2bt3SxRm%2b2VYCdIk%3d&risl=&pid=ImgRaw&r=0",
-      "alt":"Client 1 Logo"
+      "logo": "/companylogo/c5.png",
+      "alt": "Client 5 Logo"
     }
   ]
 }

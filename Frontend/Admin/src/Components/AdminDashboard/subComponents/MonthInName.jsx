@@ -19,7 +19,7 @@ const MonthInName = (selectedMonth) => {
     case "09":
       return "September";
     case "10":
-      return "Octomber";
+      return "October";
     case "11":
       return "November";
     case "12":

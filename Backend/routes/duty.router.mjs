@@ -15,6 +15,7 @@ import {
 } from "../controllers/duty.controller.mjs";
 import { protectedRoute } from "../middleware/protectedRoute.mjs";
 import { createDutySheet } from "../controllers/duty.controller.mjs";
+
 const router = express.Router();
 
 router.post("/newSheet", protectedRoute, createDutySheet);
@@ -25,6 +26,7 @@ router.delete("/:id", protectedRoute, deleteDutySheet);
 router.put("/:id", protectedRoute, updateSheet); //not tested
 
 router.post("/addDuty/:id", protectedRoute, addDuties);
+
 router.put("/editDuty/:sheetId/:dutyEntryId", protectedRoute, editDuty); //not tested
 router.delete("/deleteDuty/:sheetId/:dutyEntryId", protectedRoute, deleteDuty); //not tested
 
