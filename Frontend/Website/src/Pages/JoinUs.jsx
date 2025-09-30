@@ -42,7 +42,7 @@ const JoinUs = () => {
         {/* Image Section */}
         <div className="flex-1">
           <img
-            //src={img1}
+            src="/team.png"
             alt="Join Security Team"
             className="w-full h-auto rounded-lg shadow-md"
           />
