@@ -1,7 +1,6 @@
 import isWithin2Km from "../lib/utils/locationCheck.mjs";
 import Company from "../models/company.model.mjs";
 import Duty from "../models/duty.model.mjs";
-import Employee from "../models/employee.model.mjs";
 
 import moment from "moment";
 // import moment from "moment-timezone";
@@ -23,54 +22,58 @@ export const createDutySheet = async (req, res) => {
   }
 };
 
-//add dutyies
-//take company id, latest year and month to find the sheet
-//duties are send as a array of objects and then they are added to the database
 export const addDuties = async (req, res) => {
   try {
-    console.log("REQ.BODY TYPE:", typeof req.body);
-    console.log("REQ.BODY:", req.body);
-
-    const sheetId = req.params.id; //duty id
+    const sheetId = req.params.id;
     const duties = req.body;
-    // const { employee, day, time, shift, remark } = req.body;
-    let sheet = await Duty.findById(sheetId);
 
+    let sheet = await Duty.findById(sheetId);
     if (!sheet) {
       return res.status(404).json({ error: "Duty sheet not found" });
     }
 
-    console.log(duties);
-    console.log(sheetId);
-
-    //add duties to the sheet'
-    // sheet.duty.push({ employee, day, time, shift });
-
-    // Validate that duties is an array
     if (!Array.isArray(duties)) {
       return res.status(400).json({ error: "Duties must be an array" });
     }
 
-    const position = await Employee.findOne({ name: duties.employee }).select("position");
-    // Append each duty
-    ///========position need to be updated as employees position
     for (let duty of duties) {
-      sheet.duties.push({
-        employee: duty.employee,
-        day: duty.day,
-        time: duty.time,
-        shift: duty.shift,
-        remark: duty.remark,
-        position,
-      });
+      // Check if duty already exists in sheet by _id
+      let existingDutyIndex = sheet.duties.findIndex(
+        (d) => d._id.toString() === duty._id?.toString()
+      );
+      console.log("duty time", duty.time);
+
+      if (existingDutyIndex !== -1) {
+        // Update existing duty
+        sheet.duties[existingDutyIndex].employee = duty.employee;
+        sheet.duties[existingDutyIndex].day = duty.day;
+        sheet.duties[existingDutyIndex].time = duty.time;
+        sheet.duties[existingDutyIndex].shift = duty.shift;
+        sheet.duties[existingDutyIndex].remark = duty.remark;
+        sheet.duties[existingDutyIndex].position = duty.position;
+
+        console.log("duty.time update:", duty.time);
+      } else {
+        console.log("duty.timenew:", duty.time);
+
+        // Add new duty
+        sheet.duties.push({
+          employee: duty.employee,
+          day: duty.day,
+          time: duty.time,
+          shift: duty.shift,
+          remark: duty.remark,
+          position: duty.position,
+        });
+      }
     }
 
     await sheet.save();
 
-    return res.status(200).json({ message: "Duty added successfully", sheet });
+    return res.status(200).json({ message: "Duties updated successfully", sheet });
   } catch (error) {
-    console.log(`error in addDuties ${error.message}`);
-    return res.status(500).json({ error: `internal server error on duty controller` });
+    console.error(`Error in addDuties: ${error.message}`);
+    return res.status(500).json({ error: "Internal server error on duty controller" });
   }
 };
 
@@ -286,20 +289,19 @@ export const viewDutySheet = async (req, res) => {
 export const viewSheetByDetails = async (req, res) => {
   try {
     const { year, month, company } = req.body;
-    // console.log(year, month, company);
 
     let sheet = await Duty.find({ year, month, company });
-    // console.log("sheeet", sheet);
 
     //if no sheet create a new one
     if (sheet.length == 0 || !sheet) {
       //checking for company
       const companyDetails = await Company.findById(company).select("count");
+
       if (!companyDetails || companyDetails?.count?.length == 0) {
         return res.status(404).json({ message: "company requirement details not found" });
       }
 
-      // creating new duties only with positions
+      //creating new duties only with positions
       let duties = [];
       const monthIndex = new Date(`${month} 1, ${year}`).getMonth();
       const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
@@ -311,8 +313,6 @@ export const viewSheetByDetails = async (req, res) => {
           }
         }
       }
-
-      // console.log("duties file", duties);
 
       //creating new sheet
       const newsheet = new Duty({ company, year, month, duties });
@@ -334,13 +334,12 @@ export const viewSheetByDetails = async (req, res) => {
 
   // try {
   //   const { year, month, company } = req.body;
-  //   //console.log(year, month, company);
 
   //   const sheet = await Duty.find({ year, month, company }).populate("company").populate({
   //     path: "duties.employee", // go inside duties array and populate employee
   //     model: "Employee", // name of your Employee model
   //   });
-  //   console.log("sheeet", sheet);
+
   //   if (sheet.length == 0) {
   //     return res.status(404).json({ message: "Sheet you look is not found create a new sheet" });
   //   }
@@ -422,6 +421,7 @@ export const findDutyForEmployee = async (req, res) => {
       dutyId: duty.duties[0]._id,
       longitude: duty.company.longitude,
       latitude: duty.company.latitude,
+      name: duty.company.name,
     });
   } catch (err) {
     console.error(err);
@@ -435,6 +435,9 @@ export const checkInDuty = async (req, res) => {
   try {
     const { dutyId, location } = req.body;
 
+    console.log("REQ BODY:", req.body);
+    console.log("Looking for dutyId:", dutyId);
+
     if (!dutyId || !location) {
       return res.status(400).json({ message: "dutyId and location are required" });
     }
@@ -444,15 +447,30 @@ export const checkInDuty = async (req, res) => {
       "duties._id": dutyId,
     });
 
+    console.log("Found duty document:", duty ? "Yes" : "No");
+
     if (!duty) {
-      return res.status(404).json({ message: "Duty not found" });
+      console.log("No duty document found with dutyId:", dutyId);
+      return res.status(404).json({
+        message: "Duty not found",
+        dutyId: dutyId,
+      });
     }
 
     // Find the specific duty subdocument
     const dutyItem = duty.duties.id(dutyId);
+    console.log("Found duty item:", dutyItem ? "Yes" : "No");
 
     if (!dutyItem) {
-      return res.status(404).json({ message: "Duty item not found" });
+      console.log(
+        "Available duty IDs:",
+        duty.duties.map((d) => d._id.toString())
+      );
+      return res.status(404).json({
+        message: "Duty item not found",
+        dutyId: dutyId,
+        availableDuties: duty.duties.map((d) => d._id.toString()),
+      });
     }
 
     // Check if already checked in
@@ -476,7 +494,7 @@ export const checkInDuty = async (req, res) => {
       location,
     });
   } catch (err) {
-    console.error(err);
+    console.error("CheckIn Error Details:", err);
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
@@ -485,8 +503,11 @@ export const checkOutDuty = async (req, res) => {
   try {
     const { dutyId, location } = req.body;
 
-    if (!dutyId) {
-      return res.status(400).json({ message: "dutyId is required" });
+    console.log("CHECKOUT REQ BODY:", req.body);
+    console.log("Looking for dutyId:", dutyId);
+
+    if (!dutyId || !location) {
+      return res.status(400).json({ message: "dutyId and location are required" });
     }
 
     // Find the duty document containing the specific duty
@@ -494,15 +515,30 @@ export const checkOutDuty = async (req, res) => {
       "duties._id": dutyId,
     });
 
+    console.log("Found duty document:", duty ? "Yes" : "No");
+
     if (!duty) {
-      return res.status(404).json({ message: "Duty not found" });
+      console.log("No duty document found with dutyId:", dutyId);
+      return res.status(404).json({
+        message: "Duty not found",
+        dutyId: dutyId,
+      });
     }
 
     // Find the specific duty subdocument
     const dutyItem = duty.duties.id(dutyId);
+    console.log("Found duty item:", dutyItem ? "Yes" : "No");
 
     if (!dutyItem) {
-      return res.status(404).json({ message: "Duty item not found" });
+      console.log(
+        "Available duty IDs:",
+        duty.duties.map((d) => d._id.toString())
+      );
+      return res.status(404).json({
+        message: "Duty item not found",
+        dutyId: dutyId,
+        availableDuties: duty.duties.map((d) => d._id.toString()),
+      });
     }
 
     // Check if not checked in yet
@@ -529,11 +565,13 @@ export const checkOutDuty = async (req, res) => {
     const workedHours = (checkOutTime - checkInTime) / (1000 * 60 * 60); // Convert to hours
 
     // If worked more than shift hours, calculate OT
-    if (workedHours > dutyItem.shift) {
+    if (dutyItem.shift && workedHours > dutyItem.shift) {
       dutyItem.ot = Math.round((workedHours - dutyItem.shift) * 100) / 100; // Round to 2 decimal places
     }
 
     await duty.save();
+
+    console.log("Check-out successful for dutyId:", dutyId);
 
     res.json({
       message: "Check-out successful",
@@ -545,7 +583,10 @@ export const checkOutDuty = async (req, res) => {
       location,
     });
   } catch (err) {
-    console.error(err);
+    console.log("=== CHECKOUT ERROR ===");
+    console.error("CheckOut Error Details:", err);
+    console.error("Error message:", err.message);
+    console.error("Error stack:", err.stack);
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };

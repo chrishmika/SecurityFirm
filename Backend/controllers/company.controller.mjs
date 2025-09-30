@@ -74,7 +74,7 @@ export const updateCompany = async (req, res) => {
 
 export const getCompanyList = async (req, res) => {
   try {
-    const companies = await Company.find({}, "name count");
+    const companies = await Company.find({}, "name count img");
     res.status(200).json(companies);
   } catch (error) {
     console.log(`error in getCompanyList ${error.message}`);

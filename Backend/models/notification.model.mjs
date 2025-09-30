@@ -18,12 +18,13 @@ const notificationSchema = new mongoose.Schema(
     type: {
       type: String,
       enum: [
-        "application",
-        "New Company Joined",
+        // "application",
+        // "New Company Joined",
         "employee",
-        "administration",
-        "password",
-        "companyRequest",
+        "company",
+        // "administration",
+        // "password",
+        // "companyRequest",
       ], //new application ,new administration,new Employee or employee related,password change
     },
     description: {

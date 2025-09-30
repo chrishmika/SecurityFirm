@@ -26,7 +26,7 @@ const dutySchema = new mongoose.Schema(
         "July",
         "August",
         "September",
-        "Octomber",
+        "October",
         "November",
         "December",
       ],

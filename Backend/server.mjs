@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { v2 as cloudinary } from "cloudinary";
+import fileUpload from "express-fileupload";
 
 import connectMongoDB from "./db/connectMondoDB.mjs";
 
@@ -38,6 +39,7 @@ app.use(express.json({ limit: "50mb" })); //this can cause DOS atatacks bit need
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use("/uploadDocument", express.static("/uploads")); //need to understand and not tested
+app.use(fileUpload());
 
 //base path router module
 app.use("/api/auth", authRouter);

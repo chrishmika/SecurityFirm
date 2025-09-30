@@ -7,7 +7,7 @@ const MiniNotificationWindow = () => {
   const [fetching, setFetching] = useState(true);
 
   useEffect(() => {
-    const getAllNotifications = async () => {
+    (async () => {
       try {
         const response = await axios.get("/api/notification", { withCredentials: true });
         setNotifications(
@@ -21,8 +21,7 @@ const MiniNotificationWindow = () => {
         setFetching(false);
         console.error("Failed to fetch notifications:", error);
       }
-    };
-    getAllNotifications();
+    })();
   }, []);
 
   const notificationsset = notifications?.slice(0, 7);

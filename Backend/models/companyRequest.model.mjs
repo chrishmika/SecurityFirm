@@ -18,24 +18,33 @@ const requestSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    type: {
+      type: String,
+    },
     description: {
       type: String,
       required: true,
     },
+    date: {
+      type: String,
+    },
+    period: {
+      type: String,
+    },
     proposal: {
       type: String,
     },
-    count: [
-      {
-        position: {
-          type: String,
-          enum: ["SO", "OIC", "LSO", "JSO"],
-        },
-        amount: {
-          type: Number,
-        },
-      },
-    ],
+    // count: [
+    //   {
+    //     position: {
+    //       type: String,
+    //       enum: ["SO", "OIC", "LSO", "JSO"],
+    //     },
+    //     amount: {
+    //       type: Number,
+    //     },
+    //   },
+    // ],
     favourite: {
       type: Boolean,
       default: false,

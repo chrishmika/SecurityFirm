@@ -79,7 +79,9 @@ export const deleteCompanyRequest = async (req, res) => {
 export const favouriteCompanyRequests = async (req, res) => {
   try {
     const requestId = req.user._id;
-    const request = await CompanyRequest.find({ to: requestId, favourite: true }).sort({ createdAt: -1 });
+    const request = await CompanyRequest.find({ to: requestId, favourite: true }).sort({
+      createdAt: -1,
+    });
 
     if (request.length === 0) {
       return res.status(404).json({ message: `No favourite request available` });
@@ -166,8 +168,8 @@ export const deleteEmployeeRequest = async (req, res) => {
     if (!request) return res.status(404).json({ error: `request not found` });
 
     const publicIds = [];
-    if (employee.img) publicIds.push(employee.img.split("/").pop().split(".")[0]);
-    if (employee.NICCopy) publicIds.push(employee.NICCopy.split("/").pop().split(".")[0]);
+    if (request.img) publicIds.push(request.img.split("/").pop().split(".")[0]);
+    if (request.NICCopy) publicIds.push(request.NICCopy.split("/").pop().split(".")[0]);
 
     if (publicIds.length > 0) {
       await cloudinary.api.delete_resources(publicIds);
@@ -177,7 +179,7 @@ export const deleteEmployeeRequest = async (req, res) => {
 
     res.status(200).json({ message: `Employee Request delete sucessfull` });
   } catch (error) {
-    console.log(`error on web controller ${error.message}`);
+    console.log(`error on request controller ${error.message}`);
     res.status(500).json({ error: `internal server error on deleteEmployeeRequest` });
   }
 };
@@ -185,7 +187,9 @@ export const deleteEmployeeRequest = async (req, res) => {
 export const favouriteEmployeeRequests = async (req, res) => {
   try {
     const requestId = req.user._id;
-    const request = await Application.find({ to: requestId, favourite: true }).sort({ createdAt: -1 });
+    const request = await Application.find({ to: requestId, favourite: true }).sort({
+      createdAt: -1,
+    });
 
     if (request.length === 0) {
       return res.status(404).json({ message: `No favourite Employee request available` });

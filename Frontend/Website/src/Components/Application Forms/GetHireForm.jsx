@@ -106,24 +106,16 @@ const GetHireForm = () => {
     const getHireData = {
       name,
       email,
-      mobile,
-      serviceLocation,
-      district,
-      nearestCity,
-      startDate,
-      daysNeed,
-      serviceType,
-      additionalDetails,
+      contact: mobile,
+      address: `${serviceLocation}, ${district}, ${nearestCity}`,
+      date: startDate,
+      period: daysNeed,
+      type: serviceType,
+      description: additionalDetails,
     };
 
     try {
-      const apiUrl = "http://localhost:5000/api/v1/web/hire";
-
-      const response = await axios.post(apiUrl, getHireData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      await axios.post("http://localhost:5000/api/web/companyRequest", getHireData);
 
       setName("");
       setEmail("");

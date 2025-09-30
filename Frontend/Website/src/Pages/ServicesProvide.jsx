@@ -9,10 +9,8 @@ const Services = () => {
       <div className="text-center mb-5 bg-blue-600 text-white p-4 rounded-lg shadow-lg">
         <h1 className="text-5xl font-semibold">Our Services</h1>
       </div>
-      
 
       <div className="flex flex-row mb-8">
-        
         <div className="flex-1 p-4">
           <div className=" mb-6">
             <p className="text-3xl font-bold">
@@ -20,8 +18,8 @@ const Services = () => {
             </p>
           </div>
           <p className="text-gray-800 font-semibold">
-            At [Your Company Name], we specialize in providing top-tier security manpower to protect
-            what matters most. From static guarding and mobile patrols to VIP protection and event
+            At D-vision, we specialize in providing top-tier security manpower to protect what
+            matters most. From static guarding and mobile patrols to VIP protection and event
             security, our trained professionals ensure safety, order, and peace of mind—24/7.
           </p>
         </div>

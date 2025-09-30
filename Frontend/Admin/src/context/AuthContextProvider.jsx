@@ -10,7 +10,7 @@ export const AuthContexProvider = ({ children }) => {
   const [authError, setAuthError] = useState(true);
 
   useEffect(() => {
-    const fetchUser = async () => {
+    (async () => {
       try {
         const res = await axios.get("/api/auth/me", { withCredentials: true });
         console.log(res.data);
@@ -21,12 +21,15 @@ export const AuthContexProvider = ({ children }) => {
       } finally {
         SetLoading(false);
       }
-    };
-
-    fetchUser();
+    })();
   }, []);
 
-  return <AuthContext.Provider value={{ status, setStatus, user, setUser, isLoading, SetLoading, setAuthError, authError }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider
+      value={{ status, setStatus, user, setUser, isLoading, SetLoading, setAuthError, authError }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 AuthContexProvider.propTypes = {

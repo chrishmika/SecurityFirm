@@ -109,7 +109,7 @@ export const updateEmoloyee = async (req, res) => {
 
 export const getEmployeeList = async (req, res) => {
   try {
-    const employees = await Employee.find({}, "empId name position");
+    const employees = await Employee.find({}, "empId name position img");
     res.status(200).json(employees);
   } catch (error) {
     console.error("Error fetching employees on getEmployeeList:", error);

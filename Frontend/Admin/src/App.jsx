@@ -33,7 +33,7 @@ import Notifications from "./Components/AdminDashboard/Notifications";
 //conditional routings
 const SignInRedirect = () => {
   const { user } = useAuthContext();
-  return user ? <Navigate to="/dashboard/admin/dashboard" /> : <Login />;
+  return user ? <Navigate to="/dashboard" /> : <Login />;
 };
 
 //conditional routings
@@ -53,14 +53,14 @@ const webRouter = createBrowserRouter(
     <React.Fragment>
       <Route path="/login" element={<SignInRedirect />} />
       <Route
-        path="/dashboard"
+        path="/"
         element={
           <NotSignInRedirect>
             <LayoutAdmin />
           </NotSignInRedirect>
         }>
-        <Route path="admin" element={<Admin />}>
-          <Route path="dashboard" element={<AdminDashboard />} />
+        <Route path="/" element={<Admin />}>
+          <Route path="/" element={<AdminDashboard />} />
           <Route path="attendance" element={<AttendanceView />} />
           <Route path="customers" element={<ShowCustomers />} />
           <Route path="addUsers" element={<AddUsers />} />

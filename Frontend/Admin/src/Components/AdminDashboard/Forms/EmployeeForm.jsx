@@ -1,12 +1,16 @@
 /* eslint-disable react/prop-types */
 import { useRef, useState } from "react";
 import axios from "axios";
-import { IoCloseSharp } from "react-icons/io5";
-import { CiFileOn } from "react-icons/ci";
-import { useEmployeeContext } from "../../../hooks/useEmployeeContext";
 import { toast } from "react-toastify";
 import { forwardRef } from "react";
+
+import { useEmployeeContext } from "../../../hooks/useEmployeeContext";
 import LoadingScreen from "../subComponents/LoadingScreen";
+
+import { CiFileOn } from "react-icons/ci";
+import { IoCloseSharp } from "react-icons/io5";
+import { FaFileImage, FaIdCard } from "react-icons/fa";
+import { GrCertificate, GrDocumentUser } from "react-icons/gr";
 
 const EmployeeForm = () => {
   const { employee, setEmployee, initialState } = useEmployeeContext();
@@ -84,7 +88,9 @@ const EmployeeForm = () => {
     { label: "Full Name", name: "name", placeholder: "Ushan Kavindu Sumanasekara" },
     { label: "Name With Initials", name: "initials", placeholder: "U. K. Sumanasekara" },
     { label: "Date of Birth", name: "birthday", type: "date" },
-    { label: "Address", name: "address", placeholder: "No 0000/ X, Street, City, Postal Code" },
+    { label: "Address No:", name: "number", placeholder: "00/X" },
+    { label: "Street", name: "street", placeholder: "Street, City" },
+    { label: "City", name: "city", placeholder: "City" },
   ];
 
   const documents = [
@@ -359,8 +365,20 @@ const FileUpload = forwardRef(({ label, file, name, onChange, clear, onDownload 
       </div>
     ) : (
       <label className="flex flex-col items-center cursor-pointer">
-        <CiFileOn className="text-5xl text-gray-400" />
+        {name == "img" ? (
+          <FaFileImage className="text-5xl text-gray-400 hover:text-black" />
+        ) : name == "cv" ? (
+          <GrDocumentUser className="text-5xl text-gray-400 hover:text-black" />
+        ) : name == "NICCopy" ? (
+          <FaIdCard className="text-5xl text-gray-400 hover:text-black" />
+        ) : name == "gsCertificate" ? (
+          <GrCertificate className="text-5xl text-gray-400 hover:text-black" />
+        ) : (
+          <CiFileOn className="text-5xl text-gray-400 hover:text-black" />
+        )}
+
         <span className="text-sm mt-2">{label}</span>
+
         <input
           type="file"
           accept="image/*,application/pdf"

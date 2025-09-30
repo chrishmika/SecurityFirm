@@ -240,7 +240,6 @@ const Footer = () => {
           <p className="text-gray-500 text-sm">
             Website by <span className="text-blue-400 font-semibold">SecurityWeb Solutions®</span>
           </p>
-          
         </div>
       </div>
     </footer>

@@ -37,7 +37,7 @@ const Navigation = () => {
     {
       title: "Dashboard",
       icon: <FaAtom className="text-xl" />,
-      path: "dashboard",
+      path: "",
       link: "Dashboard",
     },
     {

@@ -1,9 +1,8 @@
-import React from "react";
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
-import uploadImage from "../../Services/AuthServices";
+// import uploadImage from "../../Services/AuthServices";
 
 const JobApplyForm = () => {
   //file handle karanna use state
@@ -60,54 +59,58 @@ const JobApplyForm = () => {
     const formData = new FormData();
     formData.append("name", name);
     formData.append("dob", dob);
-    formData.append("address", address);
-    formData.append("gender", gender);
-    // formData.append("nationality", nationality);
-    // formData.append("citizenship", citizenship);
-    // formData.append("maritalStatus", maritalStatus);
-    formData.append("disabilities", disabilities);
-    // formData.append("hasExperience", hasExperience);
-    // formData.append("experience", experience);
-    // formData.append("handlingGuns", handlingGuns);
     formData.append("email", email);
-    formData.append("mobile", mobile);
+    formData.append("contact", mobile);
+    formData.append("address", address);
+    formData.append("sex", gender);
+    formData.append("disabilities", disabilities);
+    // formData.append("NICCopy", idCard); // file
+    // formData.append("cv", cv); // file
+
+    // const data = {
+    //   name,
+    //   dob,
+    //   address,
+    //   sex: gender,
+    //   disabilities,
+    //   email,
+    //   mobile,
+    //   cv,
+    // };
+
+    // console.log(idCard, "id card");
 
     if (idCard) {
-      const uploadIdCard = await uploadImage(email, "idCard", idCard);
-      formData.append("idCardPath", uploadIdCard);
+      formData.append("NICCopy", idCard);
     }
     if (cv) {
-      const uploadCv = await uploadImage(email, "cv", cv);
-      formData.append("cvPath", uploadCv);
+      formData.append("cv", cv);
     }
     // if (gsCertification) {
     //   const uploadGsCertification = await uploadImage(email, "gsCertification", gsCertification);
     //   formData.append("gsCertificationPath", uploadGsCertification);
     // }
     try {
-      // console.log(formData);
-      const response = await axios.post("http://localhost:5000/api/v1/web/employeeform", formData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
+      await axios.post("http://localhost:5000/api/web/employeeRequest", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
 
       setName("");
       setDob("");
       setAddress("");
       setGender("*");
+      setDisabilities("");
+      setIdCard(null);
+      setCv(null);
+      setEmail("");
+      setMobile("");
       // setNationality("*");
       // setCitizenship("*");
       // setMaritalStatus("*");
-      setDisabilities("");
       // setExperience("");
       // setHasExperience("0");
       // setHandlingGuns("0");
-      setIdCard(null);
-      setCv(null);
       // setGSCertification(null);
-      setEmail("");
-      setMobile("");
 
       toast.success("Application submitted successfully", {
         position: "top-right",
@@ -211,11 +214,11 @@ const JobApplyForm = () => {
                         onChange={(e) => setGender(e.target.value)}
                         value={gender}
                         required>
-                        <option value="*">Please select your gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
-                        <option value="prefer-not-to-say">Prefer not to say</option>
+                        <option>Please select your gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        {/* <option value="Other">Other</option> */}
+                        {/* <option value="prefer-not-to-say">Prefer not to say</option> */}
                       </select>
                     </div>
 
@@ -311,10 +314,12 @@ const JobApplyForm = () => {
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Government-Issued ID <span className="text-red-500">*</span>
                         </label>
+
                         <p className="text-xs text-gray-500 mb-3">
-                          Upload a clear photo of your passport, driver's license, or national ID
-                          (JPG, PNG, PDF)
+                          Upload a clear photo of your passport, driver&apos;s license, or national
+                          ID (JPG, PNG, PDF)
                         </p>
+
                         <div className="relative">
                           <input
                             className="w-full px-4 py-3 border border-dashed border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
