@@ -37,9 +37,7 @@ const JoinUs = () => {
           <p className="text-gray-700 mb-5">
             Click the button below to start the application process on Indeed.
           </p>
-
         </div>
-        
 
         {/* Image Section */}
         <div className="flex-1">
