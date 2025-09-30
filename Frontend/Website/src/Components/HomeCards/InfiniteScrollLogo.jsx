@@ -16,6 +16,7 @@ const InfiniteLogoScrall = () => {
                 <img className="w-52 h-auto " src={`${client.logo}`} alt={client.alt} />
               </div>
             ))}
+
             {/* second */}
             {clients.map((client, index) => (
               <div key={`second-${index}`} className="flex-shrink-0 mx-4 md:mx-8 ">

@@ -10,10 +10,8 @@ const MainHomeCard = () => {
 
   return (
     <div className="flex flex-col lg:flex-row justify-between items-center gap-10 p-8 lg:p-16 bg-gradient-to-br from-gray-50 via-white to-gray-100 min-h-screen">
-      
       {/* Left: Heading + Tagline + Buttons */}
       <div className="flex flex-col justify-center items-start gap-6 lg:w-1/2 max-w-2xl">
-        
         {/* Heading */}
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 bg-clip-text text-transparent">
           Protecting Your Business Starts Here...
@@ -36,8 +34,7 @@ const MainHomeCard = () => {
           </a>
           <button
             onClick={togglePopup}
-            className="bg-gradient-to-r from-indigo-600 to-blue-700 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg shadow-indigo-500/25 hover:shadow-xl hover:shadow-indigo-500/40 hover:scale-105 transition-all duration-300 hover:from-indigo-700 hover:to-blue-800 ring-2 ring-indigo-300/50"
-          >
+            className="bg-gradient-to-r from-indigo-600 to-blue-700 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg shadow-indigo-500/25 hover:shadow-xl hover:shadow-indigo-500/40 hover:scale-105 transition-all duration-300 hover:from-indigo-700 hover:to-blue-800 ring-2 ring-indigo-300/50">
             Contact Us
           </button>
         </div>
@@ -57,7 +54,9 @@ const MainHomeCard = () => {
 
         {/* Paragraph Below Image */}
         <p className="text-lg lg:text-xl text-gray-700 leading-relaxed font-medium text-center lg:text-left max-w-lg">
-          At <span className="text-blue-600 font-semibold">D-vision</span>, we provide highly trained security professionals to safeguard your business from threats — ensuring employee safety, asset protection, and 24/7 monitoring tailored to your industry.
+          At <span className="text-blue-600 font-semibold">D-vision</span>, we provide highly
+          trained security professionals to safeguard your business from threats — ensuring employee
+          safety, asset protection, and 24/7 monitoring tailored to your industry.
         </p>
       </div>
 
@@ -73,13 +72,15 @@ const MainHomeCard = () => {
               📧 <span className="font-semibold">info@dvision.com</span>
             </p>
             <p className="text-gray-700 mb-2">
-              🌎<span className="font-semibold">958/35 kks road <br />
-                jaffna <br /></span>
+              🌎
+              <span className="font-semibold">
+                958/35 kks road <br />
+                jaffna <br />
+              </span>
             </p>
             <button
               onClick={togglePopup}
-              className="bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-2 rounded-lg font-medium shadow hover:scale-105 transition-all duration-300"
-            >
+              className="bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-2 rounded-lg font-medium shadow hover:scale-105 transition-all duration-300">
               Close
             </button>
           </div>
