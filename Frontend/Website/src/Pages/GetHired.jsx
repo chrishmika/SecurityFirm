@@ -14,7 +14,7 @@ const GetHired = () => {
       <div className="text-center mb-6">
         <h2 className="text-2xl text-gray-800 font-medium mb-3">
           “Have questions or need security services? Reach out to us or request a custom quote
-          below.”
+          below.” 👇
         </h2>
         <p className="text-gray-600 max-w-3xl mx-auto leading-relaxed">
           Fill out our Security Services Quote Form and we’ll get back to you immediately with a

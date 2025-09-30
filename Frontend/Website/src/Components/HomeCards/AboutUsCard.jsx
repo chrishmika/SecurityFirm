@@ -1,4 +1,4 @@
-import img from "../../assets/S4.png";
+import img from "../../assets/S5.png";
 
 const AboutUsCard = () => {
   return (
@@ -32,7 +32,7 @@ const AboutUsCard = () => {
                 {/* Professional Badge */}
                 <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-full text-sm font-semibold shadow-lg">
                   <div className="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></div>
-                  Professional Security Services
+                  download company profile
                 </div>
 
                 {/* Main Text */}
@@ -43,10 +43,7 @@ const AboutUsCard = () => {
                       dedicated security manpower provider
                     </span>
                     , offering professional guarding and protective services to businesses,
-                    residential communities, and events across{" "}
-                    <span className="font-medium text-blue-700">
-                      [your coverage area, e.g., the UK]
-                    </span>
+                    residential communities, and events across Sri Lanka
                     , where traditional security solutions may fall short.
                   </p>
 

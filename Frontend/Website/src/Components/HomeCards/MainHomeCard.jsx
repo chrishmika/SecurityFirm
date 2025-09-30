@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import img from "../../assets/S3.webp";
+import img from "../../assets/sec.png";
 
 const MainHomeCard = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -38,12 +38,18 @@ const MainHomeCard = () => {
             Contact Us
           </button>
         </div>
+         {/* Paragraph Below Image */}
+        <p className="text-lg lg:text-xl text-gray-700 leading-relaxed font-medium text-center lg:text-left max-w-lg">
+          At <span className="text-blue-600 font-semibold">D-vision</span>, we provide highly
+          trained security professionals to safeguard your business from threats ensuring employee
+          safety, asset protection, and 24/7 monitoring tailored to your industry.
+        </p>
       </div>
 
       {/* Right: Image + Paragraph */}
       <div className="lg:w-1/2 flex flex-col items-center gap-6">
         {/* Image */}
-        <div className="relative group w-full max-w-lg">
+        <div className="relative group w-full max-w-lg ">
           <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
           <img
             src={img}
@@ -52,12 +58,7 @@ const MainHomeCard = () => {
           />
         </div>
 
-        {/* Paragraph Below Image */}
-        <p className="text-lg lg:text-xl text-gray-700 leading-relaxed font-medium text-center lg:text-left max-w-lg">
-          At <span className="text-blue-600 font-semibold">D-vision</span>, we provide highly
-          trained security professionals to safeguard your business from threats — ensuring employee
-          safety, asset protection, and 24/7 monitoring tailored to your industry.
-        </p>
+       
       </div>
 
       {/* Popup Modal */}
