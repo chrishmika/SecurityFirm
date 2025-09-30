@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useState } from "react";
 import useLogin from "../../hooks/useLogin";
 import { toast } from "react-toastify";
@@ -83,5 +82,3 @@ const Login = () => {
 };
 
 export default Login;
-
-//create account is needed as a function on admin

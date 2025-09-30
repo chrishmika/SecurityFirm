@@ -11,6 +11,9 @@ import SideCalandeBar from "./subComponents/SideCalandeBar";
 import LoadingScreen from "./subComponents/LoadingScreen";
 import MonthInName from "./subComponents/MonthInName";
 
+//styles
+import { adminStyles as styles } from "../styles/adminStyles";
+
 const Schedule = () => {
   const [dataCollection, setDataCollection] = useState([]);
 
@@ -97,8 +100,6 @@ const Schedule = () => {
     }
   };
 
-  // console.log("data - Collection of table values(newly added: )", dataCollection);
-
   //for table data gathering from
   //add data to a object
   const formChangeHandler = (index, field, value, duty) => {
@@ -166,188 +167,189 @@ const Schedule = () => {
   };
 
   return (
-    <div className=" flex justify-center  gap-4 ">
-      <div
-        className={`w-screen flex gap-5 items-center justify-center h-screen ${
-          !showData && !loading ? "block" : "hidden"
-        }`}>
-        {/* Find Duty sheet */}
-        <div className="md:w-1/3 w-70">
-          <h2 className="p-4 border-b-0 bg-gray-500  rounded-t-2xl">
-            <span className="text-white items-center font-bold flex gap-3">
-              <FaSearch />
-              Create Sheets For Duties
-            </span>
-          </h2>
+    <div className={styles.container}>
+      {!showData && !loading && (
+        <div className={styles.searchArea}>
+          {/* Find Duty sheet */}
+          <div className="md:w-1/3 w-70">
+            <h2 className={styles.searchAreaTitle}>
+              <span className={styles.searchAreaTitleText}>
+                <FaSearch />
+                Create Sheets For Duties
+              </span>
+            </h2>
 
-          <DutySearchForm
-            changeHandler={changeHandler}
-            selectedCompanyName={selectedCompanyName}
-            companylist={companylist}
-            submitHandler={selectionSubmitHandler}
-          />
+            <DutySearchForm
+              changeHandler={changeHandler}
+              selectedCompanyName={selectedCompanyName}
+              companylist={companylist}
+              submitHandler={selectionSubmitHandler}
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* loading screen */}
-      <div className={`col-span-full ${loading ? "block" : "hidden"}`}>
-        <LoadingScreen />
-      </div>
+      {loading && (
+        <div className={`col-span-full `}>
+          <LoadingScreen />
+        </div>
+      )}
 
       {/* data is shown here after user enter the company name and submit*/}
-      <div className={`col-span-2  ${showData && !loading ? "block" : "hidden"} `}>
-        <div>
-          {/* back button */}
-          <button
-            onClick={() => {
-              setShowData(!showData);
-              setSelectedDay(null);
-            }}
-            className=" flex gap-1 items-center cursor-pointer font-bold mb-2">
-            <FaArrowLeft /> {" Back"}
-          </button>
+      {showData && !loading && (
+        <div className={`col-span-2`}>
+          <div>
+            {/* back button */}
+            <button
+              onClick={() => {
+                setShowData(!showData);
+                setSelectedDay(null);
+              }}
+              className=" flex gap-1 items-center cursor-pointer font-bold mb-2">
+              <FaArrowLeft /> {" Back"}
+            </button>
 
-          {/* schedule title */}
-          <h2 className="text-lg font-bold mb-5">
-            {selectedCompanyName} Schedule . {` ${selectedMonth} - ${selectedYear} `}
-          </h2>
+            {/* schedule title */}
+            <h2 className="text-lg font-bold mb-5">
+              {selectedCompanyName} Schedule . {` ${selectedMonth} - ${selectedYear} `}
+            </h2>
 
-          <NumberLine
-            year={selectedYear}
-            month={selectedMonth}
-            onSelectDay={(day) => {
-              setSelectedDay(day);
-            }}
-          />
+            <NumberLine
+              year={selectedYear}
+              month={selectedMonth}
+              onSelectDay={(day) => {
+                setSelectedDay(day);
+              }}
+            />
+          </div>
+
+          {/* from here data need to be in input form an data is need to be filtered and on-arrow neet to be used for datalist */}
+          {/* toggle button */}
+          <div className={styles.tablePosition}>
+            <form onSubmit={formDataSubmitHandle}>
+              {Array.isArray(dutySet) &&
+                dutySet.map((sheet) => (
+                  <table className={styles.tableStyles} key={selectedDay}>
+                    <thead className="bg-gray-200">
+                      <tr>
+                        <th className={styles.tableTitle}>Position</th>
+                        <th className={styles.tableTitle}>Employee</th>
+                        <th className={styles.tableTitle}>Start/time</th>
+                        <th className={styles.tableTitle}>Shift</th>
+                        <th className={styles.tableTitle}>Remark</th>
+                        {/* <th className={styles.tableData}></th> */}
+                      </tr>
+                    </thead>
+
+                    {/* {console.log(sheet.duties)} */}
+
+                    {/* from here data need to be in input form an data is need to be filtered and on-arrow neet to be used for datalist */}
+                    <tbody>
+                      {/* this pard works after fetching the relevant sheet */}
+                      {sheet.duties.map((duty, dindex) => {
+                        const currentRow = dataCollection.find((r) => r._id === duty._id) || duty;
+                        // const currentRow = duty;
+
+                        return (
+                          <tr
+                            key={duty._id}
+                            className={`${duty?.day == (selectedDay || 1) ? "box" : "hidden"}`}>
+                            {/* Position */}
+                            <td className={styles.tableData}>
+                              <input
+                                value={currentRow.position || "-"}
+                                className="outline-0"
+                                readOnly
+                              />
+                            </td>
+
+                            {/* Employee */}
+                            <td className={styles.tableData}>
+                              <input
+                                list={`dataScheduleNames-${dindex}`}
+                                value={currentRow?.employeeName || duty.employee?.name || ""}
+                                onChange={(e) =>
+                                  formChangeHandler(dindex, "employeeName", e.target.value, duty)
+                                }
+                                className="bg-blue-100 px-2 w-full no-arrow"
+                              />
+                              <datalist id={`dataScheduleNames-${dindex}`}>
+                                {employeelist
+                                  .filter((employee) => employee?.position == duty?.position)
+                                  .map((employee) => (
+                                    <option key={employee._id} value={employee.name} />
+                                  ))}
+                              </datalist>
+                            </td>
+
+                            {/* Start /known as time */}
+                            <td className={styles.tableData}>
+                              <select
+                                value={currentRow?.time}
+                                onChange={(e) =>
+                                  formChangeHandler(dindex, "time", e.target.value, duty)
+                                }
+                                className="bg-blue-100 px-2 w-full">
+                                <option>Select</option>
+                                <option value="8am">8am</option>
+                                <option value="6pm">6pm</option>
+                              </select>
+                            </td>
+
+                            {/* Shift */}
+                            <td className={styles.tableData}>
+                              <select
+                                value={currentRow?.shift || ""}
+                                onChange={(e) =>
+                                  formChangeHandler(dindex, "shift", e.target.value, duty)
+                                }
+                                className="bg-blue-100 px-2 w-full">
+                                <option>Select</option>
+                                <option value="12">12</option>
+                                <option value="24">24</option>
+                              </select>
+                            </td>
+
+                            {/* Remark */}
+                            <td className={styles.tableData}>
+                              <input
+                                value={currentRow?.remark || ""}
+                                onChange={(e) =>
+                                  formChangeHandler(dindex, "remark", e.target.value, duty)
+                                }
+                                className="bg-blue-100 px-2 w-full"
+                              />
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                ))}
+
+              <div className="flex w-full justify-end">
+                <button className="p-3.5 bg-green-400 hover:bg-green-500 cursor-pointer mt-4 rounded-3xl  text-white">
+                  Add Schedule
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-
-        {/* from here data need to be in input form an data is need to be filtered and on-arrow neet to be used for datalist */}
-        {/* toggle button */}
-        <div className="my-15 overflow-x-auto">
-          <form onSubmit={formDataSubmitHandle}>
-            {Array.isArray(dutySet) &&
-              dutySet.map((sheet) => (
-                <table
-                  className="table-auto w-full border-collapse border border-gray-400 rounded-3xl"
-                  key={selectedDay}>
-                  <thead className="bg-gray-200">
-                    <tr>
-                      <th className="p-2 border border-gray-300">Position</th>
-                      <th className="p-2 border border-gray-300">Employee</th>
-                      <th className="p-2 border border-gray-300">Start/time</th>
-                      <th className="p-2 border border-gray-300">Shift</th>
-                      <th className="p-2 border border-gray-300">Remark</th>
-                      {/* <th className="p-2 border border-gray-300"></th> */}
-                    </tr>
-                  </thead>
-
-                  {/* {console.log(sheet.duties)} */}
-
-                  {/* from here data need to be in input form an data is need to be filtered and on-arrow neet to be used for datalist */}
-                  <tbody>
-                    {/* this pard works after fetching the relevant sheet */}
-                    {sheet.duties.map((duty, dindex) => {
-                      const currentRow = dataCollection.find((r) => r._id === duty._id) || duty;
-                      // const currentRow = duty;
-
-                      return (
-                        <tr
-                          key={duty._id}
-                          className={`${duty?.day == (selectedDay || 1) ? "box" : "hidden"}`}>
-                          {/* Position */}
-                          <td className="p-2 border border-gray-300">
-                            <input
-                              type="text"
-                              value={currentRow.position || "-"}
-                              className="outline-0"
-                              readOnly
-                            />
-                          </td>
-
-                          {/* Employee */}
-                          <td className="p-2 border border-gray-300">
-                            <input
-                              list={`dataScheduleNames-${dindex}`}
-                              value={currentRow?.employeeName || duty.employee?.name || ""}
-                              onChange={(e) =>
-                                formChangeHandler(dindex, "employeeName", e.target.value, duty)
-                              }
-                              className="bg-blue-100 px-2 w-full no-arrow"
-                            />
-                            <datalist id={`dataScheduleNames-${dindex}`}>
-                              {employeelist
-                                .filter((employee) => employee?.position == duty?.position)
-                                .map((employee) => (
-                                  <option key={employee._id} value={employee.name} />
-                                ))}
-                            </datalist>
-                          </td>
-
-                          {/* Start /known as time */}
-                          <td className="p-2 border border-gray-300">
-                            <select
-                              value={currentRow?.time}
-                              onChange={(e) =>
-                                formChangeHandler(dindex, "time", e.target.value, duty)
-                              }
-                              className="bg-blue-100 px-2 w-full">
-                              <option>Select</option>
-                              <option value="8am">8am</option>
-                              <option value="6pm">6pm</option>
-                            </select>
-                          </td>
-
-                          {/* Shift */}
-                          <td className="p-2 border border-gray-300">
-                            <select
-                              value={currentRow?.shift || ""}
-                              onChange={(e) =>
-                                formChangeHandler(dindex, "shift", e.target.value, duty)
-                              }
-                              className="bg-blue-100 px-2 w-full">
-                              <option>Select</option>
-                              <option value="12">12</option>
-                              <option value="24">24</option>
-                            </select>
-                          </td>
-
-                          {/* Remark */}
-                          <td className="p-2 border border-gray-300">
-                            <input
-                              type="text"
-                              value={currentRow?.remark || ""}
-                              onChange={(e) =>
-                                formChangeHandler(dindex, "remark", e.target.value, duty)
-                              }
-                              className="bg-blue-100 px-2 w-full"
-                            />
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              ))}
-
-            <div className="flex w-full justify-end">
-              <button className="p-3.5 bg-green-400 hover:bg-green-500 cursor-pointer mt-4 rounded-3xl  text-white">
-                Add Schedule
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
+      )}
 
       {/* right side */}
-      <div className={` ${showData ? "block" : "hidden"} `}>
-        <SideCalandeBar
-          showData={showData}
-          companylist={companylist}
-          selectedCompanyName={selectedCompanyName}
-          setDateValue={setDateValue}
-          dateValue={dateValue}
-        />
-      </div>
+      {showData && (
+        <div>
+          <SideCalandeBar
+            showData={showData}
+            companylist={companylist}
+            selectedCompanyName={selectedCompanyName}
+            setDateValue={setDateValue}
+            dateValue={dateValue}
+          />
+        </div>
+      )}
     </div>
   );
 };
