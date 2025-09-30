@@ -1,4 +1,4 @@
-import img from "../../assets/S4.png";
+import img from "../../assets/S5.png";
 
 const AboutUsCard = () => {
   return (

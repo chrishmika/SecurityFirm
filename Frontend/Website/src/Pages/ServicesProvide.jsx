@@ -6,7 +6,7 @@ import ServicesListCard from "../Components/HomeCards/ServicesListCard";
 const Services = () => {
   return (
     <div className="container mx-auto p-4">
-      <div className="text-center mb-5 bg-blue-600 text-white p-4 rounded-lg shadow-lg">
+      <div className="text-center mb-5 bg-blue-600 text-white p-6 rounded-lg shadow-lg">
         <h1 className="text-5xl font-semibold">Our Services</h1>
       </div>
 
