@@ -1,4 +1,3 @@
-
 {
   "services": [
     {
@@ -25,7 +24,6 @@
       "title": "Industrial & Warehouse Security",
       "description": "Our industrial and warehouse security solutions safeguard your facilities, equipment, and inventory against theft, vandalism, and unauthorized access. We offer perimeter monitoring, access control, and 24/7 guard services to keep your operations running smoothly.",
       "icon": "faWarehouse"
-      
     },
     {
       "title": "Residential Security Services",
@@ -67,48 +65,32 @@
     {
       "name": "Client 1",
       "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
-      "logo":"/assets/companylogo/c1.jpg",
-      "alt":"Client 1 Logo"
-    },{
+      "logo": "/companylogo/c1.png",
+      "alt": "Client 1 Logo"
+    },
+    {
       "name": "Client 2",
       "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
-      "logo":"https://th.bing.com/th/id/R.35720bbf29a0f0f1d48195bafdbedf7a?rik=1ArMFF%2fGA8AK1g&riu=http%3a%2f%2fshmector.com%2f_ph%2f13%2f188552034.png&ehk=4W3VAJ3Rgszg4unVrkViPToNE%2b15%2bt3SxRm%2b2VYCdIk%3d&risl=&pid=ImgRaw&r=0",
-      "alt":"Client 1 Logo"
-    },{
+      "logo": "/companylogo/c2.png",
+      "alt": "Client 2 Logo"
+    },
+    {
       "name": "Client 3",
       "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
-      "logo":"https://th.bing.com/th/id/R.35720bbf29a0f0f1d48195bafdbedf7a?rik=1ArMFF%2fGA8AK1g&riu=http%3a%2f%2fshmector.com%2f_ph%2f13%2f188552034.png&ehk=4W3VAJ3Rgszg4unVrkViPToNE%2b15%2bt3SxRm%2b2VYCdIk%3d&risl=&pid=ImgRaw&r=0",
-      "alt":"Client 1 Logo"
-    },{
+      "logo": "/companylogo/c3.png",
+      "alt": "Client 3 Logo"
+    },
+    {
       "name": "Client 4",
       "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
-      "logo":"https://th.bing.com/th/id/R.35720bbf29a0f0f1d48195bafdbedf7a?rik=1ArMFF%2fGA8AK1g&riu=http%3a%2f%2fshmector.com%2f_ph%2f13%2f188552034.png&ehk=4W3VAJ3Rgszg4unVrkViPToNE%2b15%2bt3SxRm%2b2VYCdIk%3d&risl=&pid=ImgRaw&r=0",
-      "alt":"Client 1 Logo"
-    },{
+      "logo": "/companylogo/c4.png",
+      "alt": "Client 4 Logo"
+    },
+    {
       "name": "Client 5",
       "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
-      "logo":"https://th.bing.com/th/id/R.35720bbf29a0f0f1d48195bafdbedf7a?rik=1ArMFF%2fGA8AK1g&riu=http%3a%2f%2fshmector.com%2f_ph%2f13%2f188552034.png&ehk=4W3VAJ3Rgszg4unVrkViPToNE%2b15%2bt3SxRm%2b2VYCdIk%3d&risl=&pid=ImgRaw&r=0",
-      "alt":"Client 1 Logo"
-    },{
-      "name": "Client 6",
-      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
-      "logo":"https://th.bing.com/th/id/R.35720bbf29a0f0f1d48195bafdbedf7a?rik=1ArMFF%2fGA8AK1g&riu=http%3a%2f%2fshmector.com%2f_ph%2f13%2f188552034.png&ehk=4W3VAJ3Rgszg4unVrkViPToNE%2b15%2bt3SxRm%2b2VYCdIk%3d&risl=&pid=ImgRaw&r=0",
-      "alt":"Client 1 Logo"
-    },{
-      "name": "Client 8",
-      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
-      "logo":"https://th.bing.com/th/id/R.35720bbf29a0f0f1d48195bafdbedf7a?rik=1ArMFF%2fGA8AK1g&riu=http%3a%2f%2fshmector.com%2f_ph%2f13%2f188552034.png&ehk=4W3VAJ3Rgszg4unVrkViPToNE%2b15%2bt3SxRm%2b2VYCdIk%3d&risl=&pid=ImgRaw&r=0",
-      "alt":"Client 1 Logo"
-    },{
-      "name": "Client 9",
-      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
-      "logo":"https://th.bing.com/th/id/R.35720bbf29a0f0f1d48195bafdbedf7a?rik=1ArMFF%2fGA8AK1g&riu=http%3a%2f%2fshmector.com%2f_ph%2f13%2f188552034.png&ehk=4W3VAJ3Rgszg4unVrkViPToNE%2b15%2bt3SxRm%2b2VYCdIk%3d&risl=&pid=ImgRaw&r=0",
-      "alt":"Client 1 Logo"
-    },{
-      "name": "Client 10",
-      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
-      "logo":"https://th.bing.com/th/id/R.35720bbf29a0f0f1d48195bafdbedf7a?rik=1ArMFF%2fGA8AK1g&riu=http%3a%2f%2fshmector.com%2f_ph%2f13%2f188552034.png&ehk=4W3VAJ3Rgszg4unVrkViPToNE%2b15%2bt3SxRm%2b2VYCdIk%3d&risl=&pid=ImgRaw&r=0",
-      "alt":"Client 1 Logo"
+      "logo": "/companylogo/c5.png",
+      "alt": "Client 5 Logo"
     }
   ]
 }
