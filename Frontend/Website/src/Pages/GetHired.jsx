@@ -23,7 +23,7 @@ const GetHired = () => {
       </div>
 
       {/* Contact Info + Form Section */}
-      <div className="flex flex-col lg:flex-row w-full max-w-7xl mx-auto gap-10 p-6">
+      <div className="flex flex-col lg:flex-row-reverse w-full max-w-7xl mx-auto gap-10 p-6">
         
         {/* Contact Info Section */}
         <div className="flex-1">

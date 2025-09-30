@@ -11,12 +11,13 @@ const ServicesListCard = ({ isHome = false }) => {
 
     <div className='container mx-auto p-4'>
       <div>
-        <h1 className="text-4xl font-semibold text-center mb-5">Services We Provide</h1>
+        <h1 className="text-3xl font-semibold text-center mb-5">Services We Provide</h1>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 ">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
         {servicesToShow.map((service, index) =>
         (
           <ServicesCard service={service} key={index} />
+          
         )
         )}
       </div>

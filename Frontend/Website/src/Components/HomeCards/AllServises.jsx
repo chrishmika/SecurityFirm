@@ -16,7 +16,7 @@ const AllServises = () => {
         onClick={handleClick}
         className="text-blue-500 text-2xl hover:text-blue-700 transition duration-300 text-center block mt-2 mb-4"
       >
-        More Services
+        more services...
       </Link>
     </div>
   )

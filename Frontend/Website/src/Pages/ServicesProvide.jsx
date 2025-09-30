@@ -20,7 +20,7 @@ const Services = () => {
             </p>
           </div>
           <p className="text-gray-800 font-semibold">
-            At [Your Company Name], we specialize in providing top-tier security manpower to protect
+            At D-vision, we specialize in providing top-tier security manpower to protect
             what matters most. From static guarding and mobile patrols to VIP protection and event
             security, our trained professionals ensure safety, order, and peace of mind—24/7.
           </p>
