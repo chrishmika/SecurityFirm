@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-import icon from "../../assets/boy1.png";
-
 import { FaToggleOff, FaToggleOn } from "react-icons/fa6";
 import { RiCloseFill } from "react-icons/ri";
 
@@ -58,7 +56,6 @@ const AddCompany = () => {
     }
   };
 
-  // take data from database --------------
   const submitHandeler = async (e) => {
     e.preventDefault();
     try {

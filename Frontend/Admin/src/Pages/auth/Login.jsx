@@ -1,21 +1,18 @@
-import React, { useState } from "react";
-// import { Info, Notify } from "../../Components/AdminDashboard/Notifications/Notification";
+import { useState } from "react";
 import useLogin from "../../hooks/useLogin";
 import { toast } from "react-toastify";
 
+//css styles
+import { styles1 as styles } from "../../Components/styles/loginStyles";
+
 const Login = () => {
   const [loginData, setLoginData] = useState({ NIC: "", password: "" });
+
   const { Login } = useLogin();
 
-  {
-    /*handlers*/
-  }
   const handleLoginData = (e) => setLoginData({ ...loginData, [e.target.name]: e.target.value });
   const forgetPasswordHandle = () => toast.info("Contact Admin");
 
-  {
-    /**sending data to backend */
-  }
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
@@ -32,41 +29,56 @@ const Login = () => {
     }
   };
 
-  const inputStyle = "border-1 border-[#D9D9D9] rounded-md placeholder:text-[#D9D9D9] pl-3 h-9";
   return (
-    <React.Fragment>
-      <div className="flex gap-20 h-screen w-screen justify-center items-center">
-        <div className="md:flex justify-center items-center hidden">
+    <div className={styles.loginBackgroundContainer}>
+      {/* Crosshatch Art - Light Pattern */}
+      <div className={styles.loginBackgroundStyle} style={styles.loginBackground} />
+
+      <div className={styles.loginContainer}>
+        <div className={styles.loginCompanyLogo}>
           <img src="/logo-01.png" className="h-auto w-60 " />
         </div>
-        <div className="flex flex-col justify-center items-center bg-white overflow-hidden">
-          <div className="">
-            <form className="flex flex-col gap-5 mb-3" onSubmit={handleSubmit}>
+
+        <div className={styles.loginFormContainer}>
+          <div>
+            <form className={styles.loginForm} onSubmit={handleSubmit}>
               <div className="flex flex-col gap-1">
                 <label>NIC</label>
-                <input type="text" name="NIC" value={loginData.NIC} onChange={handleLoginData} placeholder="User Name" className={inputStyle} />
+                <input
+                  type="text"
+                  name="NIC"
+                  value={loginData.NIC}
+                  onChange={handleLoginData}
+                  placeholder="User Name"
+                  className={styles.loginInputArea}
+                />
               </div>
 
               <div className="flex flex-col gap-1">
                 <label>Password</label>
-                <input type="password" name="password" value={loginData.password} onChange={handleLoginData} placeholder="Password" className={inputStyle} />
+                <input
+                  type="password"
+                  name="password"
+                  value={loginData.password}
+                  onChange={handleLoginData}
+                  placeholder="Password"
+                  className={styles.loginInputArea}
+                />
               </div>
 
-              <button type="submit" className="border rounded-md bg-[#2c2c2c] h-9 hover:bg-[#716acd] text-white">
+              <button type="submit" className={styles.loginSubmitBtn}>
                 Sign In
               </button>
             </form>
 
-            <p onClick={forgetPasswordHandle} className="underline cursor-pointer">
+            <p onClick={forgetPasswordHandle} className={styles.loginForgetPassword}>
               Forget password?
             </p>
           </div>
         </div>
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 
 export default Login;
-
-//create account is needed as a function on admin

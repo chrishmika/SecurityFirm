@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 import { FaToggleOff, FaToggleOn } from "react-icons/fa6";
-import EmployeeForm from "./Forms/EmployeeForm";
-import CompanyForm from "./Forms/CompanyForm";
+import EmployeeForm from "./Forum/EmployeeForm";
+import CompanyForm from "./Forum/CompanyForm";
 
 const AddUsers = () => {
   const [choice, setChoice] = useState(false);

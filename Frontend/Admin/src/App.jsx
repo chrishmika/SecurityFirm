@@ -22,18 +22,17 @@ import AdminDashboard from "./Components/AdminDashboard/AdminDashboard";
 import ApplicationsView from "./Components/AdminDashboard/ApplicationsView";
 import Schedule from "./Components/AdminDashboard/Schedule.jsx";
 import Web from "./Components/AdminDashboard/Web";
-import User from "./Pages/user/User";
 
 //login import
 import Login from "./Pages/auth/Login";
 
-import NotFound from "./Pages/notFound/NotFound";
+import NotFound from "./Pages/error/NotFound.jsx";
 import Notifications from "./Components/AdminDashboard/Notifications";
 
 //conditional routings
 const SignInRedirect = () => {
   const { user } = useAuthContext();
-  return user ? <Navigate to="/dashboard" /> : <Login />;
+  return user ? <Navigate to="/" /> : <Login />;
 };
 
 //conditional routings
@@ -70,8 +69,7 @@ const webRouter = createBrowserRouter(
           <Route path="web" element={<Web />} />
         </Route>
       </Route>
-      <Route path="/user" element={<User />} />{" "}
-      {/* user Routes irusha is creating on mobile app sides*/}
+      {/* add user Routes which irusha is creating on mobile app sides on deploying*/}
       <Route path="*" element={<NotFound />} />
     </React.Fragment>
   )
@@ -82,7 +80,7 @@ const App = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen ">
+      <div className={`flex justify-center items-center h-screen`}>
         <PuffLoader />
       </div>
     );
