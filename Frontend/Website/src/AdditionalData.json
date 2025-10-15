@@ -91,6 +91,18 @@
       "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
       "logo": "/companylogo/c5.png",
       "alt": "Client 5 Logo"
+    },
+    {
+      "name": "Client 6",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
+      "logo": "/companylogo/c6.png",
+      "alt": "Client 6 Logo"
+    },
+    {
+      "name": "Client 7",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Client 1",
+      "logo": "/companylogo/c7.webp",
+      "alt": "Client 7 Logo"
     }
   ]
 }
