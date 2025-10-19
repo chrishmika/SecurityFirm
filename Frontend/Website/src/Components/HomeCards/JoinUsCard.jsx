@@ -15,9 +15,9 @@ const JoinOurTeam = () => {
 
         <div className="mt-10 flex flex-col md:flex-row items-center justify-center gap-10">
           <img
-            src="/images/security-team.jpg"
+            src="/team.png"
             alt="Security Guard"
-            className="w-full md:w-1/2 rounded-xl shadow-lg"
+            className="w-1/4 md:w-1/3 rounded-xl shadow-lg"
           />
 
           <ul className="text-left space-y-4 text-gray-700">

@@ -18,6 +18,7 @@ const JobApplyForm = () => {
   // const [citizenship, setCitizenship] = useState("*");
   // const [maritalStatus, setMaritalStatus] = useState("*");
   const [disabilities, setDisabilities] = useState("");
+  const [militaryStatus, setMilitaryStatus] = useState("");
   // const [experience, setExperience] = useState("");
   // const [handlingGuns, setHandlingGuns] = useState("*");
   const [email, setEmail] = useState("");
@@ -64,6 +65,7 @@ const JobApplyForm = () => {
     formData.append("address", address);
     formData.append("sex", gender);
     formData.append("disabilities", disabilities);
+    formData.append("militaryStatus", militaryStatus);
     // formData.append("NICCopy", idCard); // file
     // formData.append("cv", cv); // file
 
@@ -233,6 +235,19 @@ const JobApplyForm = () => {
                         value={disabilities}
                         required
                         placeholder="Please describe any accessibility accommodations you may need, or write 'None' if not applicable"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Military Status <span className="text-red-500">*</span>
+                      </label>
+                      <textarea
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-sm placeholder-gray-400 resize-none"
+                        rows="2"
+                        onChange={(e) => setMilitaryStatus(e.target.value)}
+                        value={militaryStatus}
+                        required
+                        placeholder="Please describe your military status (e.g., How many years of work experience?)"
                       />
                     </div>
                   </div>

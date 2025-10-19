@@ -6,7 +6,7 @@ const JoinUs = () => {
   return (
     <div className="container mx-auto p-4">
       {/* Page Header */}
-      <div className="text-center mb-5 bg-green-600 text-white p-4 rounded-lg shadow-lg">
+      <div className="text-center mb-5 bg-green-600 text-white p-6 rounded-lg shadow-lg">
         <h1 className="text-5xl font-semibold">Join Our Security Team</h1>
       </div>
 
@@ -42,7 +42,7 @@ const JoinUs = () => {
         {/* Image Section */}
         <div className="flex-1">
           <img
-            //src={img1}
+            src="/team.png"
             alt="Join Security Team"
             className="w-full h-auto rounded-lg shadow-md"
           />

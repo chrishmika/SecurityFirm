@@ -1,6 +1,16 @@
-import img from "../../assets/S4.png";
+import img from "../../assets/S5.png";
+//import companyProfile from "../../assets/company-profile.pdf"; // <-- Add your PDF file here
 
 const AboutUsCard = () => {
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    //link.href = companyProfile;
+    link.download = "Company_Profile.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       {/* Header Section */}
@@ -17,23 +27,39 @@ const AboutUsCard = () => {
           <div className="flex flex-col lg:flex-row items-center">
             {/* Image Section */}
             <div className="lg:w-1/2 relative group">
-              <div className="absolute inset-0   to-indigo-600/20 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 to-indigo-600/20 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <img
                 src={img}
                 alt="About Us"
                 className="w-full h-80 lg:h-96 object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              <div className="absolute bottom-0 left-0 right-0 h-32  from-black/50 to-transparent z-20"></div>
+              <div className="absolute bottom-0 left-0 right-0 h-32 from-black/50 to-transparent z-20"></div>
             </div>
 
             {/* Content Section */}
             <div className="lg:w-1/2 p-8 lg:p-12">
               <div className="space-y-6">
-                {/* Professional Badge */}
-                <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-full text-sm font-semibold shadow-lg">
-                  <div className="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></div>
-                  Professional Security Services
-                </div>
+                {/* Download Button */}
+                <button
+                  onClick={handleDownload}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-semibold rounded-full shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 hover:from-blue-700 hover:to-indigo-800"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 animate-bounce"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4"
+                    />
+                  </svg>
+                  Download Company Profile
+                </button>
 
                 {/* Main Text */}
                 <div className="prose prose-lg text-slate-700 leading-relaxed">
@@ -42,73 +68,43 @@ const AboutUsCard = () => {
                     <span className="font-semibold text-slate-900">
                       dedicated security manpower provider
                     </span>
-                    , offering professional guarding and protective services to businesses,
-                    residential communities, and events across{" "}
-                    <span className="font-medium text-blue-700">
-                      [your coverage area, e.g., the UK]
-                    </span>
-                    , where traditional security solutions may fall short.
+                    , offering professional guarding and protective services to
+                    businesses, residential communities, and events across Sri
+                    Lanka, where traditional security solutions may fall short.
                   </p>
 
-                  <p className="mb-6">
+                  {/* <p className="mb-6">
                     Like major utilities, we operate under{" "}
                     <span className="font-semibold text-slate-900">
                       strict industry regulations
                     </span>{" "}
-                    (e.g., [PSA/SIA/ACS] in the UK) and ensure all our personnel are licensed,
-                    vetted, and trained to the highest standards. We specialize in{" "}
+                    (e.g., [PSA/SIA/ACS] in the UK) and ensure all our personnel
+                    are licensed, vetted, and trained to the highest standards.
+                    We specialize in{" "}
                     <span className="font-medium text-indigo-700">
                       New Security Contracts (NSCs)
                     </span>
-                    , stepping in where existing security providers cannot meet demand or require
-                    reinforcement.
-                  </p>
+                    , stepping in where existing security providers cannot meet
+                    demand or require reinforcement.
+                  </p> */}
 
                   <p className="mb-0">
-                    We partner with property developers, facility managers, event organizers, and
-                    private clients to deliver{" "}
+                    We partner with property developers, facility managers,
+                    event organizers, and private clients to deliver{" "}
                     <span className="font-semibold text-slate-900">
                       tailored security solutions
                     </span>
-                    —from static guards and mobile patrols to emergency response teams. Our
-                    end-to-end service includes risk assessments, manpower deployment, and ongoing
-                    quality audits to guarantee compliance and performance.
+                    —from static guards and mobile patrols to emergency response
+                    teams. Our end-to-end service includes risk assessments,
+                    manpower deployment, and ongoing quality audits to guarantee
+                    compliance and performance.
                   </p>
                 </div>
-
-                {/* Features Grid */}
-                {/* <div className="grid grid-cols-2 gap-4 mt-8">
-                                    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-4 rounded-xl border border-blue-100">
-                                        <div className="text-blue-600 font-semibold text-sm">Licensed & Vetted</div>
-                                        <div className="text-slate-600 text-xs mt-1">All personnel certified</div>
-                                    </div>
-                                    <div className="bg-gradient-to-br from-indigo-50 to-purple-50 p-4 rounded-xl border border-indigo-100">
-                                        <div className="text-indigo-600 font-semibold text-sm">24/7 Response</div>
-                                        <div className="text-slate-600 text-xs mt-1">Emergency deployment</div>
-                                    </div>
-                                    <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-4 rounded-xl border border-purple-100">
-                                        <div className="text-purple-600 font-semibold text-sm">Quality Audits</div>
-                                        <div className="text-slate-600 text-xs mt-1">Ongoing compliance</div>
-                                    </div>
-                                    <div className="bg-gradient-to-br from-pink-50 to-rose-50 p-4 rounded-xl border border-pink-100">
-                                        <div className="text-pink-600 font-semibold text-sm">Tailored Solutions</div>
-                                        <div className="text-slate-600 text-xs mt-1">Custom security plans</div>
-                                    </div>
-                                </div> */}
               </div>
             </div>
           </div>
         </div>
-
-        {/* Bottom Accent */}
-        {/* <div className="flex justify-center mt-8">
-                    <div className="flex space-x-2">
-                        <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
-                        <div className="w-3 h-3 bg-indigo-500 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
-                        <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
-                    </div>
-                </div> */}
-      </div>
+      </div> 
     </div>
   );
 };
