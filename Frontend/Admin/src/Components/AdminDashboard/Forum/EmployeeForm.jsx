@@ -85,8 +85,8 @@ const EmployeeForm = () => {
 
   const inputFields = [
     // { label: "Employee ID", name: "empId", placeholder: "EMP123456" },
-    { label: "Full Name", name: "name", placeholder: "Ushan Kavindu Sumanasekara" },
-    { label: "Name With Initials", name: "initials", placeholder: "U. K. Sumanasekara" },
+    { label: "Full Name", name: "name", placeholder: "Name of the Employee" },
+    { label: "Name With Initials", name: "initials", placeholder: "Initials " },
     { label: "Date of Birth", name: "birthday", type: "date" },
     { label: "Address No:", name: "number", placeholder: "00/X" },
     { label: "Street", name: "street", placeholder: "Street, City" },
@@ -101,7 +101,7 @@ const EmployeeForm = () => {
   ];
 
   return (
-    <div className="flex justify-center p-6 bg-gray-100 min-h-screen">
+    <div className={`flex justify-center p-6 bg-gray-100 min-h-screen `}>
       <div className={`col-span-full ${loading ? "block" : "hidden"}`}>
         <LoadingScreen />
       </div>
@@ -299,14 +299,17 @@ const StepSection = ({ title, children }) => (
 const Input = ({ label, ...props }) => (
   <div className="flex flex-col">
     <label className="font-medium text-sm">{label}</label>
-    <input className="border-b-2 p-2 rounded w-full" {...props} />
+    <input className="border-b-2 p-2  w-full input border-green-600" {...props} />
   </div>
 );
 
 const Textarea = ({ label, ...props }) => (
   <div className="flex flex-col">
     <label className="font-medium text-sm">{label}</label>
-    <textarea className="border p-2 rounded w-full" rows="3" {...props}></textarea>
+    <textarea
+      className="border-2 p-2 rounded w-full border-green-600"
+      rows="3"
+      {...props}></textarea>
   </div>
 );
 
@@ -400,21 +403,21 @@ const StepButtons = ({ next, back, isFinal = false }) => (
       <button
         type="button"
         onClick={back}
-        className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded w-full">
+        className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded w-full hover:cursor-pointer">
         Back
       </button>
     )}
     {isFinal ? (
       <button
         type="submit"
-        className="bg-[#2c2c2c] hover:bg-[#716acd] text-white px-4 py-2 rounded w-full">
+        className="bg-[#2c2c2c] hover:bg-[#716acd] text-white px-4 py-2 rounded w-full hover:cursor-pointer">
         Submit
       </button>
     ) : (
       <button
         type="button"
         onClick={next}
-        className="bg-[#2c2c2c] hover:bg-[#716acd] text-white px-4 py-2 rounded w-full">
+        className="bg-[#2c2c2c] hover:bg-[#716acd] text-white px-4 py-2 rounded w-full hover:cursor-pointer">
         Next
       </button>
     )}

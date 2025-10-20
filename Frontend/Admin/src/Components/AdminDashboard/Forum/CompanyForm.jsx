@@ -164,7 +164,7 @@ const CompanyForm = () => {
                 value={company.name}
                 onChange={handleChange}
                 placeholder="DVision Security"
-                className="input"
+                className="input border-b-2 border-green-600"
                 required
               />
             </div>
@@ -176,7 +176,7 @@ const CompanyForm = () => {
                 value={company?.address}
                 onChange={handleChange}
                 placeholder="Main street, Colombo"
-                className="input"
+                className="input border-b-2 border-green-600"
                 required
               />
 
@@ -214,23 +214,23 @@ const CompanyForm = () => {
         <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
           <h2 className="text-xl font-semibold">Contract Period</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label>From</label>
+            <div className="flex gap-1">
+              <label>From :</label>
               <input
                 type="date"
                 name="contractFrom"
                 onChange={handleChange}
-                className="input"
+                className="input border-b-2 border-green-600"
                 required
               />
             </div>
-            <div>
-              <label>To</label>
+            <div className="flex gap-1">
+              <label>To :</label>
               <input
                 type="date"
                 name="contractTo"
                 onChange={handleChange}
-                className="input"
+                className="input border-b-2 border-green-600"
                 required
               />
             </div>
@@ -248,7 +248,7 @@ const CompanyForm = () => {
                 value={company.agent}
                 placeholder="Agent Name"
                 onChange={handleChange}
-                className="input"
+                className="input border-b-2 border-green-600"
                 required
               />
             </div>
@@ -262,7 +262,7 @@ const CompanyForm = () => {
                 maxLength={12}
                 placeholder="NIC Number"
                 onChange={handleChange}
-                className="input"
+                className="input border-b-2 border-green-600"
                 required
               />
             </div>
@@ -274,7 +274,7 @@ const CompanyForm = () => {
                 value={company.agentEmail}
                 placeholder="Agent Email"
                 onChange={handleChange}
-                className="input"
+                className="input border-b-2 border-green-600"
                 required
               />
             </div>
@@ -288,7 +288,7 @@ const CompanyForm = () => {
                 pattern="0\d{9}"
                 placeholder="e.g. 0712345678"
                 onChange={handleChange}
-                className="input"
+                className="input border-b-2 border-green-600"
                 required
               />
             </div>
@@ -302,7 +302,7 @@ const CompanyForm = () => {
                 pattern="0\d{9}"
                 placeholder="e.g. 0712345678"
                 onChange={handleChange}
-                className="input"
+                className="input border-b-2 border-green-600"
               />
             </div>
           </div>
@@ -334,7 +334,7 @@ const CompanyForm = () => {
               min="1"
               value={currentInputs.count}
               onChange={handleRequirementInputChange}
-              className="input"
+              className="input border-b-2 border-green-600"
               placeholder="Count"
             />
 
@@ -377,7 +377,7 @@ const CompanyForm = () => {
                 value={company.companyEmail}
                 onChange={handleChange}
                 placeholder="Company Email"
-                className="input"
+                className="input border-b-2 border-green-600"
               />
             </div>
 
@@ -390,7 +390,7 @@ const CompanyForm = () => {
                 pattern="0\d{9}"
                 placeholder="e.g. 0712345678"
                 onChange={handleChange}
-                className="input"
+                className="input border-b-2 border-green-600"
                 required
               />
             </div>

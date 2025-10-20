@@ -1,9 +1,10 @@
 import { Outlet } from "react-router-dom";
 import Navigation from "../../Components/AdminDashboard/Navigation";
+import { styles1 as styles } from "../../Components/styles/loginStyles";
 
 const Admin = () => {
   return (
-    <div className="grid h-screen grid-cols-[auto_1fr] bg-[#FAFBFF]">
+    <div className="grid h-screen grid-cols-[auto_1fr] bg-[#FAFBFF]" style={styles.loginBackground}>
       {/* Sidebar */}
       <aside className="w-auto grid md:relative absolute">
         <Navigation />

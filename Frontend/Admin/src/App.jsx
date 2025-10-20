@@ -28,6 +28,7 @@ import Login from "./Pages/auth/Login";
 
 import NotFound from "./Pages/error/NotFound.jsx";
 import Notifications from "./Components/AdminDashboard/Notifications";
+import { styles1 as styles } from "./Components/styles/loginStyles.js";
 
 //conditional routings
 const SignInRedirect = () => {
@@ -80,7 +81,7 @@ const App = () => {
 
   if (isLoading) {
     return (
-      <div className={`flex justify-center items-center h-screen`}>
+      <div className={`flex justify-center items-center h-screen`} style={styles.loginBackground}>
         <ClipLoader />
       </div>
     );
