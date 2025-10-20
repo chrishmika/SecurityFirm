@@ -49,7 +49,7 @@ export const deleteEmployee = async (req, res) => {
 
     await Employee.findByIdAndDelete(requestId);
 
-    res.status(200).json({ message: `deleted sucessfull` });
+    res.status(200).json({ message: `Deleted sucessfull` });
   } catch (error) {
     console.log(`error in deleteEmployee ${error.message}`);
     return res.status(500).json({ error: `internal server error on employee controller` });

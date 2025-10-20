@@ -1,10 +1,10 @@
-import { PuffLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 
 const LoadingScreen = () => {
   return (
     <div>
       <div className="flex justify-center items-center h-screen">
-        <PuffLoader />
+        <ClipLoader />
       </div>
     </div>
   );

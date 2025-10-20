@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { PuffLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 
 const Summary = () => {
   const [employeeCount, setEmployeeCount] = useState();

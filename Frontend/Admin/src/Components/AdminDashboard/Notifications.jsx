@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import NotificationCard from "./Cards/NotificationCards/NotificationCard";
 import axios from "axios";
-import { PuffLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
@@ -59,7 +59,7 @@ const Notifications = () => {
         )
       ) : (
         <div className="flex justify-center items-center w-screen h-screen ">
-          <PuffLoader />
+          <ClipLoader />
         </div>
       )}
     </div>

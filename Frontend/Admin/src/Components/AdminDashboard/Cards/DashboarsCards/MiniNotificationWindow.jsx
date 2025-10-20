@@ -1,4 +1,4 @@
-import { PuffLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -56,7 +56,7 @@ const MiniNotificationWindow = () => {
           <span className="font-bold text-2xl px-2 flex justify-center">Notifications</span>
         </div>
 
-        {fetching && <div className="flex justify-center items-center  w">{<PuffLoader />}</div>}
+        {fetching && <div className="flex justify-center items-center  w">{<ClipLoader />}</div>}
 
         <div className="">
           {notificationsset.map((notification, key) => (

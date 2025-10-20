@@ -8,7 +8,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { useAuthContext } from "./hooks/useAuthContext";
-import { PuffLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 import { ToastContainer } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 
@@ -81,7 +81,7 @@ const App = () => {
   if (isLoading) {
     return (
       <div className={`flex justify-center items-center h-screen`}>
-        <PuffLoader />
+        <ClipLoader />
       </div>
     );
   }

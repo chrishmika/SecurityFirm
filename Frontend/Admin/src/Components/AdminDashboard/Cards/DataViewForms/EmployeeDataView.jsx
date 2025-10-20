@@ -1,13 +1,41 @@
 /* eslint-disable react/prop-types */
+import { useState } from "react";
 import profilePic from "../../../../assets/boy1.png";
+import ConfirmationWindow from "../../subComponents/ComfirmationWindowPopUp";
 import { Detail, Info } from "./Components";
+import { AnimatePresence } from "motion/react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { ClipLoader } from "react-spinners";
 
 const EmployeeDataView = ({ data }) => {
+  const [confirmation, setConfirmation] = useState(false);
+  const [loading, setLoading] = useState(false);
   const files = [
     { label: "CV", url: data?.cv },
     { label: "GS", url: data?.gsCertificate },
     { label: "NIC Copy", url: data?.NICCopy },
   ];
+
+  const deleteRecord = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.delete(`/api/employee/${data._id}`, { withCredentials: true });
+      if (response.status == 200) {
+        toast.success(response.message || "Record deleted successfully!");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+      } else {
+        toast.error(response.message || "Failed to remove record!");
+      }
+    } catch (error) {
+      toast.error(`something went wrong!`);
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <main className="flex sm:flex-row flex-col justify-around  h-full bg-white p-4 gap-2 text-sm text-gray-800 font-medium">
@@ -141,11 +169,21 @@ const EmployeeDataView = ({ data }) => {
             </ul>
           </section>
 
-          <div className="flex justify-end mt-10 ">
+          <div className="flex justify-end mt-10 gap-10 ">
+            <button
+              className="rounded-lg text-white hover:cursor-pointer hover:bg-pink-600 py-2 px-4 h-9 bg-pink-400 "
+              onClick={() => setConfirmation(!confirmation)}>
+              {loading ? <ClipLoader size={15} /> : `Delete`}
+            </button>
+
             <button className="rounded-lg text-white hover:cursor-pointer hover:bg-pink-600 py-2 px-4 bg-pink-400 ">
               Print
             </button>
           </div>
+          <AnimatePresence>
+            {confirmation &&
+              ConfirmationWindow(deleteRecord, setConfirmation, "Delete This Record")}
+          </AnimatePresence>
         </section>
       </aside>
     </main>

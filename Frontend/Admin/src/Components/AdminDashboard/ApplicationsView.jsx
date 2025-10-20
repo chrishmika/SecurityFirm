@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ApplicationCard from "./Cards/ApplicationCards/ApplicationCard";
 import { FaToggleOff, FaToggleOn } from "react-icons/fa6";
 import axios from "axios";
-import { PuffLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 
 const ApplicationsView = () => {
   const [choice, setChoice] = useState(false);
@@ -47,7 +47,7 @@ const ApplicationsView = () => {
             </div>
           </div>
         ) : (
-          <div className="flex justify-center items-center w-screen ">{<PuffLoader />}</div>
+          <div className="flex justify-center items-center w-screen ">{<ClipLoader />}</div>
         )}
       </div>
     </React.Fragment>
