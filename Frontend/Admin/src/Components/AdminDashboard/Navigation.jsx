@@ -15,7 +15,7 @@ import { FaCircleUser } from "react-icons/fa6";
 import { IoNotifications } from "react-icons/io5";
 import { GrSchedule } from "react-icons/gr";
 import { motion, AnimatePresence } from "motion/react";
-import ConfirmationWindow from "./subComponents/ComfirmationWindowPopUp";
+import ConfirmationWindow from "../../utils/ComfirmationWindowPopUp";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

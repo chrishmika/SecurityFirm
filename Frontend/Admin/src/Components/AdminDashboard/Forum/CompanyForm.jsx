@@ -9,7 +9,7 @@ import { IoCloseSharp, IoDocumentAttachSharp } from "react-icons/io5";
 import { useCompanyContext } from "../../../hooks/useCompanyContext";
 
 import { toast } from "react-toastify";
-import LoadingScreen from "../subComponents/LoadingScreen";
+import LoadingScreen from "../../../utils/LoadingScreen";
 
 const availablePositions = ["LSO", "SO", "JSO", "OIC"];
 

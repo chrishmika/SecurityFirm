@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { FaRegStar } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
@@ -6,7 +6,7 @@ import { IoCloseSharp } from "react-icons/io5";
 import axios from "axios";
 import { motion, AnimatePresence } from "motion/react";
 import { toast } from "react-toastify";
-import ConfirmationWindow from "../../subComponents/ComfirmationWindowPopUp";
+import ConfirmationWindow from "../../../../utils/ComfirmationWindowPopUp";
 import { ClipLoader } from "react-spinners";
 
 const NotificationCard = ({ notification }) => {

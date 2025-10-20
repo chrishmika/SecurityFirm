@@ -3,13 +3,13 @@ import { toast } from "react-toastify";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
 
-import SideCalandeBar from "./subComponents/SideCalandeBar";
-import NumberLine from "./subComponents/NumberLine";
-import DutySearchForm from "./subComponents/DutySearchForm";
+import SideCalandeBar from "../../utils/SideCalandeBar";
+import NumberLine from "../../utils/NumberLine";
+import DutySearchForm from "./Forum/DutySearchForm";
 
 import axios from "axios";
-import LoadingScreen from "./subComponents/LoadingScreen";
-import MonthInName from "./subComponents/MonthInName";
+import LoadingScreen from "../../utils/LoadingScreen";
+import MonthInName from "../../utils/MonthInName";
 
 import { adminStyles as styles } from "../styles/adminStyles";
 

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import profilePic from "../../../../assets/boy1.png";
-import ConfirmationWindow from "../../subComponents/ComfirmationWindowPopUp";
+import ConfirmationWindow from "../../../../utils/ComfirmationWindowPopUp";
 import { Detail, Info } from "./Components";
 import { AnimatePresence } from "motion/react";
 import axios from "axios";
