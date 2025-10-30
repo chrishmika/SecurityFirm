@@ -25,7 +25,7 @@ const Notifications = () => {
 
   return (
     <div className="my-10 overflow-y-scroll overflow-x-hidden container">
-      <div className="border-b-2 border-gray-400 pb-5 flex h-10 justify-center items-center ali font-bold mb-10 gap-3">
+      <div className="static w-full border-b-2 border-gray-400 pb-5 flex h-10 justify-center items-center font-bold mb-10 gap-3">
         <div
           className="bg-amber-400 w-1/3 cursor-pointer hover:bg-amber-500 flex justify-center"
           onClick={() => {
@@ -49,19 +49,23 @@ const Notifications = () => {
         </div>
       </div>
 
-      {!isLoading ? (
-        notifications.length > 0 ? (
-          notifications
-            .filter((notification) => (filter == "" ? notification : filter == notification.type))
-            .map((notification, key) => <NotificationCard key={key} notification={notification} />)
+      <div className=" overflow-x-hidden container">
+        {!isLoading ? (
+          notifications.length > 0 ? (
+            notifications
+              .filter((notification) => (filter == "" ? notification : filter == notification.type))
+              .map((notification, key) => (
+                <NotificationCard key={key} notification={notification} />
+              ))
+          ) : (
+            <div className="flex items-center justify-center w-screen">{`No Notifications Found at the moment`}</div>
+          )
         ) : (
-          <div className="flex items-center justify-center w-screen">{`No Notifications Found at the moment`}</div>
-        )
-      ) : (
-        <div className="flex justify-center items-center w-screen h-screen ">
-          <ClipLoader />
-        </div>
-      )}
+          <div className="flex justify-center items-center ">
+            <ClipLoader />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

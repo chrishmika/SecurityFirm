@@ -10,7 +10,7 @@ const SideCalandeBar = ({
   dateValue,
 }) => {
   return (
-    <div>
+    <div className="">
       <div className={`${showData ? "block" : "hidden"} font-bold ml-5`}>
         <span>● Requirement</span>
         <div className="flex flex-col mx-10 pt-4">

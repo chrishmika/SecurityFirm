@@ -107,7 +107,7 @@ const AddCompany = () => {
               {/* Search Input */}
               <input
                 onChange={handelSelectedId}
-                className="px-3 pr-10 border-2 rounded-2xl focus:outline-none w-full appearance-none hover:border-gray-900 border-gray-400 no-arrow"
+                className="px-3 pr-10 border-2 bg-white rounded-2xl focus:outline-none w-full appearance-none hover:border-gray-900 no-arrow"
                 list="searchList"
                 placeholder={choice ? " Company Name" : " Employee Name"}
                 name={choice ? "Company" : "Employee"}
@@ -122,7 +122,7 @@ const AddCompany = () => {
                     setNameToFind("");
                     setSelected(null);
                   }}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-red-500 font-bold">
+                  className="absolute right-3 top-1/2 -translate-y-1/2 hover:text-red-500 font-bold">
                   <RiCloseFill />
                 </button>
               )}
@@ -136,7 +136,9 @@ const AddCompany = () => {
             </div>
 
             {/* Search Button */}
-            <button className="cursor-pointer border-2 rounded-2xl w-20 ml-2">Search</button>
+            <button className="cursor-pointer border-2 rounded-2xl w-20 ml-2 bg-whit hover:font-bold">
+              Search
+            </button>
           </form>
         </div>
       </div>

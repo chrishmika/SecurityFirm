@@ -31,7 +31,7 @@ const ApplicationsView = () => {
       </div>
 
       <div
-        className={`flex flex-col flex-wrap md:justify-between border-1 border-[#D9D9D9] rounded-2xl w-full h-screen justify- my-1.5  md:flex-row cursor-pointer p-2 overflow-hidden`}>
+        className={`bg-white flex flex-col flex-wrap md:justify-between border-1 border-[#D9D9D9] rounded-2xl w-full h-screen justify- my-1.5  md:flex-row cursor-pointer p-2 overflow-hidden`}>
         {!isLoading ? (
           <div className=" border-[#D9D9D9] w-screen m-2">
             <h1 className="font-bold ">

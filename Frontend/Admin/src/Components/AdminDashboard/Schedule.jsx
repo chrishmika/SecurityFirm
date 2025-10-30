@@ -230,102 +230,104 @@ const Schedule = () => {
             <form onSubmit={formDataSubmitHandle}>
               {Array.isArray(dutySet) &&
                 dutySet.map((sheet) => (
-                  <table className={styles.tableStyles} key={selectedDay}>
-                    <thead className="bg-gray-200">
-                      <tr>
-                        <th className={styles.tableTitle}>Position</th>
-                        <th className={styles.tableTitle}>Employee</th>
-                        <th className={styles.tableTitle}>Start/time</th>
-                        <th className={styles.tableTitle}>Shift</th>
-                        <th className={styles.tableTitle}>Remark</th>
-                        {/* <th className={styles.tableData}></th> */}
-                      </tr>
-                    </thead>
+                  <div key={selectedDay} className="overflow-y-scroll max-h-screen container">
+                    <table className={styles.tableStyles}>
+                      <thead className="bg-gray-200">
+                        <tr>
+                          <th className={styles.tableTitle}>Position</th>
+                          <th className={styles.tableTitle}>Employee</th>
+                          <th className={styles.tableTitle}>Start/time</th>
+                          <th className={styles.tableTitle}>Shift</th>
+                          <th className={styles.tableTitle}>Remark</th>
+                          {/* <th className={styles.tableData}></th> */}
+                        </tr>
+                      </thead>
 
-                    {/* {console.log(sheet.duties)} */}
+                      {/* {console.log(sheet.duties)} */}
 
-                    {/* from here data need to be in input form an data is need to be filtered and on-arrow neet to be used for datalist */}
-                    <tbody>
-                      {/* this pard works after fetching the relevant sheet */}
-                      {sheet.duties.map((duty, dindex) => {
-                        const currentRow = dataCollection.find((r) => r._id === duty._id) || duty;
-                        // const currentRow = duty;
+                      {/* from here data need to be in input form an data is need to be filtered and on-arrow neet to be used for datalist */}
+                      <tbody>
+                        {/* this pard works after fetching the relevant sheet */}
+                        {sheet.duties.map((duty, dindex) => {
+                          const currentRow = dataCollection.find((r) => r._id === duty._id) || duty;
+                          // const currentRow = duty;
 
-                        return (
-                          <tr
-                            key={duty._id}
-                            className={`${duty?.day == (selectedDay || 1) ? "box" : "hidden"}`}>
-                            {/* Position */}
-                            <td className={styles.tableData}>
-                              <input
-                                value={currentRow.position || "-"}
-                                className="outline-0"
-                                readOnly
-                              />
-                            </td>
+                          return (
+                            <tr
+                              key={duty._id}
+                              className={`${duty?.day == (selectedDay || 1) ? "box" : "hidden"}`}>
+                              {/* Position */}
+                              <td className={styles.tableData}>
+                                <input
+                                  value={currentRow.position || "-"}
+                                  className="outline-0"
+                                  readOnly
+                                />
+                              </td>
 
-                            {/* Employee */}
-                            <td className={styles.tableData}>
-                              <input
-                                list={`dataScheduleNames-${dindex}`}
-                                value={currentRow?.employeeName || duty.employee?.name || ""}
-                                onChange={(e) =>
-                                  formChangeHandler(dindex, "employeeName", e.target.value, duty)
-                                }
-                                className="bg-blue-100 px-2 w-full no-arrow"
-                              />
-                              <datalist id={`dataScheduleNames-${dindex}`}>
-                                {employeelist
-                                  .filter((employee) => employee?.position == duty?.position)
-                                  .map((employee) => (
-                                    <option key={employee._id} value={employee.name} />
-                                  ))}
-                              </datalist>
-                            </td>
+                              {/* Employee */}
+                              <td className={styles.tableData}>
+                                <input
+                                  list={`dataScheduleNames-${dindex}`}
+                                  value={currentRow?.employeeName || duty.employee?.name || ""}
+                                  onChange={(e) =>
+                                    formChangeHandler(dindex, "employeeName", e.target.value, duty)
+                                  }
+                                  className="bg-blue-100 px-2 w-full no-arrow"
+                                />
+                                <datalist id={`dataScheduleNames-${dindex}`}>
+                                  {employeelist
+                                    .filter((employee) => employee?.position == duty?.position)
+                                    .map((employee) => (
+                                      <option key={employee._id} value={employee.name} />
+                                    ))}
+                                </datalist>
+                              </td>
 
-                            {/* Start /known as time */}
-                            <td className={styles.tableData}>
-                              <select
-                                value={currentRow?.time}
-                                onChange={(e) =>
-                                  formChangeHandler(dindex, "time", e.target.value, duty)
-                                }
-                                className="bg-blue-100 px-2 w-full">
-                                <option>Select</option>
-                                <option value="8am">8am</option>
-                                <option value="6pm">6pm</option>
-                              </select>
-                            </td>
+                              {/* Start /known as time */}
+                              <td className={styles.tableData}>
+                                <select
+                                  value={currentRow?.time}
+                                  onChange={(e) =>
+                                    formChangeHandler(dindex, "time", e.target.value, duty)
+                                  }
+                                  className="bg-blue-100 px-2 w-full">
+                                  <option>Select</option>
+                                  <option value="8am">8am</option>
+                                  <option value="6pm">6pm</option>
+                                </select>
+                              </td>
 
-                            {/* Shift */}
-                            <td className={styles.tableData}>
-                              <select
-                                value={currentRow?.shift || ""}
-                                onChange={(e) =>
-                                  formChangeHandler(dindex, "shift", e.target.value, duty)
-                                }
-                                className="bg-blue-100 px-2 w-full">
-                                <option>Select</option>
-                                <option value="12">12</option>
-                                <option value="24">24</option>
-                              </select>
-                            </td>
+                              {/* Shift */}
+                              <td className={styles.tableData}>
+                                <select
+                                  value={currentRow?.shift || ""}
+                                  onChange={(e) =>
+                                    formChangeHandler(dindex, "shift", e.target.value, duty)
+                                  }
+                                  className="bg-blue-100 px-2 w-full">
+                                  <option>Select</option>
+                                  <option value="12">12</option>
+                                  <option value="24">24</option>
+                                </select>
+                              </td>
 
-                            {/* Remark */}
-                            <td className={styles.tableData}>
-                              <input
-                                value={currentRow?.remark || ""}
-                                onChange={(e) =>
-                                  formChangeHandler(dindex, "remark", e.target.value, duty)
-                                }
-                                className="bg-blue-100 px-2 w-full"
-                              />
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                              {/* Remark */}
+                              <td className={styles.tableData}>
+                                <input
+                                  value={currentRow?.remark || ""}
+                                  onChange={(e) =>
+                                    formChangeHandler(dindex, "remark", e.target.value, duty)
+                                  }
+                                  className="bg-blue-100 px-2 w-full"
+                                />
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
                 ))}
 
               <div className="flex w-full justify-end">

@@ -71,7 +71,7 @@ const Navigation = () => {
       path: "schedule",
       link: "Schedule",
     },
-    { title: "Web", icon: <FaEarthAmericas className="text-xl" />, path: "web", link: "Web" },
+    // { title: "Web", icon: <FaEarthAmericas className="text-xl" />, path: "web", link: "Web" },
   ];
 
   return (
