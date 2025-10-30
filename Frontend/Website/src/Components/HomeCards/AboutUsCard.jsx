@@ -4,7 +4,7 @@ import img from "../../assets/S5.png";
 const AboutUsCard = () => {
   const handleDownload = () => {
     const link = document.createElement("a");
-    //link.href = companyProfile;
+    link.href = "https://res.cloudinary.com/dgsdn5qex/image/upload/fl_attachment/v1761846937/DvisionProfile_zdtstb.pdf"
     link.download = "Company_Profile.pdf";
     document.body.appendChild(link);
     link.click();
