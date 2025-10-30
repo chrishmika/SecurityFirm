@@ -7,6 +7,7 @@ import { AnimatePresence } from "motion/react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
+import { Link } from "react-router-dom";
 
 const EmployeeDataView = ({ data }) => {
   const [confirmation, setConfirmation] = useState(false);
@@ -103,7 +104,7 @@ const EmployeeDataView = ({ data }) => {
         {/* SPECIAL DETAILS */}
         <section>
           <h2 className="text-sm font-semibold mb-2">SPECIAL DETAILS</h2>
-          <Detail title="Disabilities" content={data?.disabilities || "none"} />
+          {/* <Detail title="Disabilities" content={data?.disabilities || "none"} /> */}
           <Detail title="Description" content={data?.description || "none"} />
         </section>
       </section>
@@ -112,13 +113,11 @@ const EmployeeDataView = ({ data }) => {
       <aside className=" p-4 overflow-hidden">
         <section className="mt-8">
           <h2 className="text-sm font-semibold">EMERGENCY</h2>
-
           <div className="mt-4 space-y-6">
             <Info label="Name" value={data?.emergancey[0]?.name || "none"} />
             <Info label="Address" value={data?.emergancey[0]?.address || "none"} />
             <Info label="Contacts" value={data?.emergancey[0]?.contact || "none"} />
           </div>
-
           {/* Uploaded Files Section */}
           <section className="mt-10">
             <h3 className="text-sm font-semibold mb-4">Files</h3>
@@ -141,14 +140,14 @@ const EmployeeDataView = ({ data }) => {
                       {/* PREVIEW */}
                       {isImage ? (
                         <img
-                          src={file.url}
-                          alt={file.label}
+                          src={file?.url}
+                          alt={file?.label}
                           className="h-20 w-20 object-cover rounded mb-2"
                         />
                       ) : isPdf ? (
                         <div className=" flex items-center justify-center bg-red-100 text-red-600 font-bold rounded mb-2">
                           <object
-                            data={file.url}
+                            data={file?.url}
                             type="application/pdf"
                             className="h-32 w-32 rounded border-0">
                             <p>Preview not available Click to download</p>
@@ -169,12 +168,19 @@ const EmployeeDataView = ({ data }) => {
             </ul>
           </section>
 
-          <div className="flex justify-end mt-10 gap-10 ">
+          <div className="relative h-40 bottom-0 left-0 flex justify-end mt-10 gap-10 items-end">
             <button
               className="rounded-lg text-white hover:cursor-pointer hover:bg-pink-600 py-2 px-4 h-9 bg-pink-400 "
               onClick={() => setConfirmation(!confirmation)}>
               {loading ? <ClipLoader size={15} /> : `Delete`}
             </button>
+
+            <button className="rounded-lg text-white hover:cursor-pointer hover:bg-pink-600 py-2 px-4 bg-pink-400 ">
+              <Link to={`/customers/edit/${data?._id}`} state={{ data }}>
+                Edit
+              </Link>
+            </button>
+            {console.log(data?._id)}
 
             <button className="rounded-lg text-white hover:cursor-pointer hover:bg-pink-600 py-2 px-4 bg-pink-400 ">
               Print

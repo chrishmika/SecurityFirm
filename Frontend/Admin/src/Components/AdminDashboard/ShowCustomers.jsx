@@ -136,7 +136,7 @@ const AddCompany = () => {
             </div>
 
             {/* Search Button */}
-            <button className="cursor-pointer border-2 rounded-2xl w-20 ml-2 bg-whit hover:font-bold">
+            <button className="cursor-pointer border-2 rounded-2xl w-20 ml-2 bg-whit hover:font-bold bg-white">
               Search
             </button>
           </form>

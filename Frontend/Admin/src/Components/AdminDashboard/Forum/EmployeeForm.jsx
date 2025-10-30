@@ -102,187 +102,218 @@ const EmployeeForm = () => {
 
   return (
     <div className={`flex justify-center p-6 bg-gray-100 min-h-screen `}>
-      <div className={`col-span-full ${loading ? "block" : "hidden"}`}>
-        <LoadingScreen />
-      </div>
-
-      <form
-        onSubmit={submitHandle}
-        className={`${
-          !loading ? "block" : "hidden"
-        } w-full max-w-5xl bg-white p-6 rounded-lg shadow space-y-6 }`}>
-        {/* Step 1: Personal Details */}
-        {step === 1 && (
-          <StepSection title="Personal Details">
-            {inputFields.map(({ label, name, placeholder = "", type = "text" }) => (
+      {loading ? (
+        <div className={`col-span-full `}>
+          <LoadingScreen />
+        </div>
+      ) : (
+        <form
+          onSubmit={submitHandle}
+          className={`w-full max-w-5xl bg-white p-6 rounded-lg shadow space-y-6 }`}>
+          {/* Step 1: Personal Details */}
+          {step === 1 && (
+            <StepSection title="Personal Details">
+              {inputFields.map(({ label, name, placeholder = "", type = "text" }) => (
+                <Input
+                  key={name}
+                  label={label}
+                  name={name}
+                  placeholder={placeholder}
+                  value={employee[name]}
+                  onChange={handleChange}
+                  type={type}
+                  required
+                />
+              ))}
               <Input
-                key={name}
-                label={label}
-                name={name}
-                placeholder={placeholder}
-                value={employee[name]}
+                label="NIC Number"
+                name="NIC"
+                value={employee.NIC}
                 onChange={handleChange}
-                type={type}
+                maxLength={12}
                 required
               />
-            ))}
+              <Select
+                label="Nationality"
+                name="nationality"
+                value={employee.nationality}
+                onChange={handleChange}
+                options={["Sinhalese", "Tamil", "Burghers"]}
+              />
+              <div className="flex gap-10">
+                <RadioGroup
+                  label="Marital Status"
+                  name="marital"
+                  options={["Yes", "No"]}
+                  onChange={handleChange}
+                />
 
-            <Select
-              label="Nationality"
-              name="nationality"
-              value={employee.nationality}
-              onChange={handleChange}
-              options={["Sinhalese", "Tamil", "Burghers"]}
-            />
-            <div className="flex gap-10">
+                <RadioGroup
+                  label="Gender"
+                  name="sex"
+                  options={["Male", "Female"]}
+                  onChange={handleChange}
+                />
+              </div>
+              <Select
+                label="Citizenship"
+                name="citizenship"
+                value={employee.citizenship}
+                onChange={handleChange}
+                options={[
+                  "Sri Lankan by Descent",
+                  "Sri Lankan by Registration",
+                  "Foreign National",
+                ]}
+              />
+              <StepButtons next={nextStep} />
+            </StepSection>
+          )}
+
+          {/* Step 2: Contact Details */}
+          {step === 2 && (
+            <StepSection title="Contact Details">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {["contact1", "contact2"].map((field, i) => (
+                  <Input
+                    key={field}
+                    label={`Contact Number ${i + 1}`}
+                    name={field}
+                    value={employee[field]}
+                    placeholder="e.g. 0712345678"
+                    maxLength={10}
+                    pattern="0\d{9}"
+                    onChange={handleChange}
+                  />
+                ))}
+              </div>
+              <Input
+                label="Email"
+                name="email"
+                value={employee.email}
+                onChange={handleChange}
+                type="email"
+                required
+              />
+              <StepButtons next={nextStep} back={prevStep} />
+            </StepSection>
+          )}
+
+          {/* Step 3: Job Details */}
+          {step === 3 && (
+            <StepSection title="Job Details">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Input label="EPF Number" name="EPF" value={employee.EPF} onChange={handleChange} />
+                <Input label="ETF Number" name="ETF" value={employee.ETF} onChange={handleChange} />
+                <Select
+                  label="Position"
+                  name="position"
+                  value={employee.position}
+                  onChange={handleChange}
+                  options={["LSO", "JSO", "OIC", "SO"]}
+                />
+              </div>
+              <Input
+                label="Basic Salary"
+                name="basicSalary"
+                value={employee.basicSalary}
+                onChange={handleChange}
+                placeholder={"1000000"}
+              />
+              <StepButtons next={nextStep} back={prevStep} />
+            </StepSection>
+          )}
+
+          {/* Step 4: Aditional Details */}
+          {step === 4 && (
+            <StepSection title="Aditional details">
               <RadioGroup
-                label="Marital Status"
-                name="marital"
+                label="Military Experience"
+                name="militaryStatus"
                 options={["Yes", "No"]}
                 onChange={handleChange}
               />
-
+              <Textarea
+                label="Experience"
+                name="experience"
+                value={employee.experience}
+                onChange={handleChange}
+              />
+              <Textarea
+                label="Special Abilities"
+                name="specialAbilities"
+                value={employee.specialAbilities}
+                onChange={handleChange}
+              />
               <RadioGroup
-                label="Gender"
-                name="sex"
-                options={["Male", "Female"]}
+                label="Handling Guns?"
+                name="gunHandling"
+                options={["Yes", "No"]}
+                onChange={handleChange}
+                inputProps={{ "data-gramm": "false" }}
+              />
+              <Textarea
+                label="Disabilities"
+                name="disabilities"
+                value={employee.disabilities}
                 onChange={handleChange}
               />
-            </div>
-            <Select
-              label="Citizenship"
-              name="citizenship"
-              value={employee.citizenship}
-              onChange={handleChange}
-              options={["Sri Lankan by Descent", "Sri Lankan by Registration", "Foreign National"]}
-            />
-            <StepButtons next={nextStep} />
-          </StepSection>
-        )}
-
-        {/* Step 2: Contact Details */}
-        {step === 2 && (
-          <StepSection title="Contact Details">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {["contact1", "contact2"].map((field, i) => (
-                <Input
-                  key={field}
-                  label={`Contact Number ${i + 1}`}
-                  name={field}
-                  value={employee[field]}
-                  placeholder="e.g. 0712345678"
-                  maxLength={10}
-                  pattern="0\d{9}"
-                  onChange={handleChange}
-                />
-              ))}
-            </div>
-            <Input
-              label="Email"
-              name="email"
-              value={employee.email}
-              onChange={handleChange}
-              type="email"
-              required
-            />
-            <StepButtons next={nextStep} back={prevStep} />
-          </StepSection>
-        )}
-
-        {/* Step 3: Job Details */}
-        {step === 3 && (
-          <StepSection title="Job Details">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Input label="EPF Number" name="EPF" value={employee.EPF} onChange={handleChange} />
-              <Input label="ETF Number" name="ETF" value={employee.ETF} onChange={handleChange} />
-              <Select
-                label="Position"
-                name="position"
-                value={employee.position}
+              <StepButtons next={nextStep} back={prevStep} />
+            </StepSection>
+          )}
+          {/* Step 5: Emergency Details */}
+          {step === 5 && (
+            <StepSection title="Emergency Details">
+              <Input
+                label="Emergancey Name"
+                name="emerganceyName"
+                value={employee.emerganceyName}
                 onChange={handleChange}
-                options={["LSO", "JSO", "OIC", "SO"]}
               />
-            </div>
-            <StepButtons next={nextStep} back={prevStep} />
-          </StepSection>
-        )}
+              <Input
+                label="Emergancey Address"
+                name="emerganceyAddress"
+                value={employee.emerganceyAddress}
+                onChange={handleChange}
+              />
+              <Input
+                label="Emergancey Contact"
+                name="emerganceyContact"
+                maxLength={10}
+                pattern="0\d{9}"
+                value={employee.emerganceyContact}
+                onChange={handleChange}
+              />
 
-        {/* Step 4: Emergency & Extra Details */}
-        {step === 4 && (
-          <StepSection title="Emergency Details & Specialities">
-            <Input
-              label="Basic Salary"
-              name="basicSalary"
-              value={employee.basicSalary}
-              onChange={handleChange}
-            />
-            <Input
-              label="NIC Number"
-              name="NIC"
-              value={employee.NIC}
-              onChange={handleChange}
-              maxLength={12}
-              required
-            />
-            <RadioGroup
-              label="Military Experience"
-              name="militaryStatus"
-              options={["Yes", "No"]}
-              onChange={handleChange}
-            />
-            <Textarea
-              label="Experience"
-              name="experience"
-              value={employee.experience}
-              onChange={handleChange}
-            />
-            <Textarea
-              label="Special Abilities"
-              name="specialAbilities"
-              value={employee.specialAbilities}
-              onChange={handleChange}
-            />
-            <RadioGroup
-              label="Handling Guns?"
-              name="gunHandling"
-              options={["Yes", "No"]}
-              onChange={handleChange}
-              inputProps={{ "data-gramm": "false" }}
-            />
-            <Textarea
-              label="Disabilities"
-              name="disabilities"
-              value={employee.disabilities}
-              onChange={handleChange}
-            />
-            <StepButtons next={nextStep} back={prevStep} />
-          </StepSection>
-        )}
+              <StepButtons next={nextStep} back={prevStep} />
+            </StepSection>
+          )}
 
-        {/* Step 5: Documents */}
-        {step === 5 && (
-          <StepSection title="Document Upload">
-            <div className="flex flex-wrap gap-4">
-              {documents.map(([name, ref]) => (
-                <FileUpload
-                  key={name}
-                  label={name.toUpperCase()}
-                  file={employee[name]}
-                  name={name}
-                  onChange={handleFileChange}
-                  clear={() => {
-                    setEmployee((prev) => ({ ...prev, [name]: null }));
-                    ref.current.value = null;
-                  }}
-                  ref={ref}
-                  onDownload={() => downloadFile(employee[name])}
-                />
-              ))}
-            </div>
-            <StepButtons back={prevStep} isFinal />
-          </StepSection>
-        )}
-      </form>
+          {/* Step 6: Documents */}
+          {step === 6 && (
+            <StepSection title="Document Upload">
+              <div className="flex flex-wrap gap-4">
+                {documents.map(([name, ref]) => (
+                  <FileUpload
+                    key={name}
+                    label={name.toUpperCase()}
+                    file={employee[name]}
+                    name={name}
+                    onChange={handleFileChange}
+                    clear={() => {
+                      setEmployee((prev) => ({ ...prev, [name]: null }));
+                      ref.current.value = null;
+                    }}
+                    ref={ref}
+                    onDownload={() => downloadFile(employee[name])}
+                  />
+                ))}
+              </div>
+              <StepButtons back={prevStep} isFinal />
+            </StepSection>
+          )}
+        </form>
+      )}
     </div>
   );
 };
@@ -352,7 +383,7 @@ const FileUpload = forwardRef(({ label, file, name, onChange, clear, onDownload 
           onClick={clear}
           className="absolute -top-2 -right-2 text-white bg-red-500 rounded-full cursor-pointer w-5 h-5"
         />
-        {file.file.type.startsWith("image/") ? (
+        {file.file?.type?.startsWith("image/") ? (
           <img
             src={file.src}
             alt={label}

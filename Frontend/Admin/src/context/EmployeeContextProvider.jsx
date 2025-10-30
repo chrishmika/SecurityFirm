@@ -19,7 +19,9 @@ export const EmployeeProvider = ({ children }) => {
     contact2: "",
     email: "",
     position: "",
-    emergancey: [], //need to create correctly
+    emerganceyName: "",
+    emerganceyAddress: "",
+    emerganceyContact: "",
     EPF: "", //need to capitalize both in database
     ETF: "", //need to capitalize
     marital: "",

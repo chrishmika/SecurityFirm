@@ -16,7 +16,7 @@ export const createEmployee = async (req, res) => {
     const NIC = newData.NIC;
 
     //fixing the address by joining 3 parts of the address
-    newData.addess = `${newData.number},${newData.street},${newData.city}`;
+    newData.address = `${newData.number},${newData.street},${newData.city}`;
 
     const existingEmployee = await Employee.findOne({ NIC });
     if (existingEmployee) return res.status(400).json({ error: `Employee already exist` });

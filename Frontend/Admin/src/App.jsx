@@ -29,6 +29,7 @@ import Login from "./Pages/auth/Login";
 import NotFound from "./Pages/error/NotFound.jsx";
 import Notifications from "./Components/AdminDashboard/Notifications";
 import { styles1 as styles } from "./Components/styles/loginStyles.js";
+import UpdateEmployeeData from "./Components/AdminDashboard/UpdateEmployeeData.jsx";
 
 //conditional routings
 const SignInRedirect = () => {
@@ -63,6 +64,7 @@ const webRouter = createBrowserRouter(
           <Route path="/" element={<AdminDashboard />} />
           <Route path="attendance" element={<AttendanceView />} />
           <Route path="customers" element={<ShowCustomers />} />
+          <Route path="customers/edit/:id" element={<UpdateEmployeeData />} />
           <Route path="addUsers" element={<AddUsers />} />
           <Route path="applications" element={<ApplicationsView />} />
           <Route path="notifications" element={<Notifications />} />
