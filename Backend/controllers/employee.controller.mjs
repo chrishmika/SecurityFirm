@@ -61,6 +61,7 @@ export const updateEmoloyee = async (req, res) => {
     const publicIds = [];
     const requesId = req.params.id;
     const updatedData = req.body;
+    console.log("updatable data ==>", updatedData);
 
     const employee = await Employee.findById(requesId);
     if (!employee) return res.status(400).json({ error: `Employee not exist` });
@@ -68,28 +69,28 @@ export const updateEmoloyee = async (req, res) => {
     if (updatedData.img) {
       publicIds.push(employee.img.split("/").pop().split(".")[0]);
 
-      const uploadedDocument = await cloudinary.uploader(newData.img);
+      const uploadedDocument = await cloudinary.uploader(updatedData.img);
       updatedData.img = uploadedDocument.secure_url;
     }
 
     if (updatedData.cv) {
       publicIds.push(employee.cv.split("/").pop().split(".")[0]);
 
-      const uploadedDocument = await cloudinary.uploader(newData.cv);
+      const uploadedDocument = await cloudinary.uploader(updatedData.cv);
       updatedData.cv = uploadedDocument.secure_url;
     }
 
     if (updatedData.gsCertificate) {
       publicIds.push(employee.gsCertificate.split("/").pop().split(".")[0]);
 
-      const uploadedDocument = await cloudinary.uploader(newData.gsCertificate);
+      const uploadedDocument = await cloudinary.uploader(updatedData.gsCertificate);
       updatedData.gsCertificate = uploadedDocument.secure_url;
     }
 
     if (updatedData.NICCopy) {
       publicIds.push(employee.NICCopy.split("/").pop().split(".")[0]);
 
-      const uploadedDocument = await cloudinary.uploader(newData.NICCopy);
+      const uploadedDocument = await cloudinary.uploader(updatedData.NICCopy);
       updatedData.NICCopy = uploadedDocument.secure_url;
     }
 

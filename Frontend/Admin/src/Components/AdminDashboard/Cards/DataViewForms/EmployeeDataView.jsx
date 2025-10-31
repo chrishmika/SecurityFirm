@@ -114,9 +114,9 @@ const EmployeeDataView = ({ data }) => {
         <section className="mt-8">
           <h2 className="text-sm font-semibold">EMERGENCY</h2>
           <div className="mt-4 space-y-6">
-            <Info label="Name" value={data?.emergancey[0]?.name || "none"} />
-            <Info label="Address" value={data?.emergancey[0]?.address || "none"} />
-            <Info label="Contacts" value={data?.emergancey[0]?.contact || "none"} />
+            <Info label="Name" value={data?.emerganceyName || "none"} />
+            <Info label="Address" value={data?.emerganceyAddress || "none"} />
+            <Info label="Contacts" value={data?.emerganceyContact || "none"} />
           </div>
           {/* Uploaded Files Section */}
           <section className="mt-10">
