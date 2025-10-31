@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useState } from "react";
 import { ClipLoader } from "react-spinners";
+import { Link } from "react-router-dom";
 
 const CompanyDataView = ({ data }) => {
   const [confirmation, setConfirmation] = useState(false);
@@ -166,6 +167,14 @@ const CompanyDataView = ({ data }) => {
             onClick={() => setConfirmation(!confirmation)}>
             {loading ? <ClipLoader size={15} /> : `Delete`}
           </button>
+
+          <button className="rounded-lg text-white hover:cursor-pointer hover:bg-pink-600 py-2 px-4 bg-pink-400 ">
+            <Link to={`/customers/editCompany/${data?._id}`} state={{ data }}>
+              Edit
+            </Link>
+          </button>
+          {console.log(data?._id)}
+
           <button className="rounded-lg text-white hover:cursor-pointer hover:bg-pink-600 py-2 px-4 bg-pink-400 ">
             Print
           </button>

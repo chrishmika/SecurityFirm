@@ -13,16 +13,10 @@ const UpdateEmployeeprevious = () => {
   const location = useLocation();
   const previous = location.state ? location.state.data : null;
 
-  console.log("previous=>", previous);
-
   // --- Store editable employee data ---
   const [newVal, setNewVal] = useState();
   const [confirmation, setConfirmation] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  // useEffect(() => {
-  //   if (previous) setNewVal(previous);
-  // }, [previous]);
 
   // --- Handle field changes ---
   const handleChange = (e) => {
@@ -51,19 +45,13 @@ const UpdateEmployeeprevious = () => {
     }
   };
 
-  const files = [
-    { label: "CV", url: previous?.cv },
-    { label: "GS", url: previous?.gsCertificate },
-    { label: "NIC Copy", url: previous?.NICCopy },
-  ];
-
   return (
     <main className="flex sm:flex-row flex-col justify-around h-full bg-white p-4 gap-4 text-sm text-gray-800 font-medium">
       {/* LEFT COLUMN - BASIC INFO */}
       <aside className="flex flex-col items-end p-2 space-y-4 overflow-hidden">
         <div className="w-full max-w-[280px] text-left">
           <img
-            src={newVal?.img || profilePic}
+            src={previous?.img || profilePic}
             alt="profile pic"
             className="w-28 h-28 rounded-full object-cover border-2 border-blue-500 shadow mb-4"
           />
@@ -253,25 +241,6 @@ const UpdateEmployeeprevious = () => {
               placeholder="Emergency Contact"
             />
           </div>
-
-          {/* FILE LINKS */}
-          {/* <section className="mt-10">
-            <h3 className="text-sm font-semibold mb-4">Files</h3>
-            <ul className="flex gap-6 text-gray-700">
-              {files.map((file) => (
-                <li key={file.label} className="flex flex-col items-center">
-                  <a
-                    href={file?.url ? file.url.replace("/upload/", "/upload/fl_attachment/") : "#"}
-                    download={file.label}
-                    className="text-blue-600 hover:underline"
-                    target="_blank"
-                    rel="noopener noreferrer">
-                    {file.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </section> */}
 
           {/* ACTION BUTTONS */}
           <div className="flex justify-end mt-10 gap-4">

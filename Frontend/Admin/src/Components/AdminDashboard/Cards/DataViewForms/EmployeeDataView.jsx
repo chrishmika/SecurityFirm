@@ -176,11 +176,10 @@ const EmployeeDataView = ({ data }) => {
             </button>
 
             <button className="rounded-lg text-white hover:cursor-pointer hover:bg-pink-600 py-2 px-4 bg-pink-400 ">
-              <Link to={`/customers/edit/${data?._id}`} state={{ data }}>
+              <Link to={`/customers/editEmployee/${data?._id}`} state={{ data }}>
                 Edit
               </Link>
             </button>
-            {console.log(data?._id)}
 
             <button className="rounded-lg text-white hover:cursor-pointer hover:bg-pink-600 py-2 px-4 bg-pink-400 ">
               Print

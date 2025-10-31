@@ -52,16 +52,18 @@ export const updateCompany = async (req, res) => {
   try {
     const requesId = req.params.id;
     const updatedData = req.body;
+    console.log("-==>", updatedData);
 
     const company = await Company.findById(requesId);
     if (!company) return res.status(400).json({ error: `Company not exist` });
 
     //update cloudinary
-    if (company.proposal) {
-      deleteCloudinary(company.proposal);
-      updatedData.proposal = uploadCloudinary(updatedData.proposal);
-    }
+    // if (company.proposal) {
+    //   deleteCloudinary(company.proposal);
+    //   updatedData.proposal = uploadCloudinary(updatedData.proposal);
+    // }
 
+    console.log("came to herere=0=0-=0=0'.");
     Object.assign(company, updatedData);
     await company.save();
 

@@ -16,7 +16,6 @@ const companySchema = new mongoose.Schema(
     },
     img: {
       type: String,
-      required: true,
     },
     companyId: {
       type: String,
