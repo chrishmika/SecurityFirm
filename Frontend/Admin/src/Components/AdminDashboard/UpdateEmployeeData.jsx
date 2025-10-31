@@ -48,13 +48,17 @@ const UpdateEmployeeprevious = () => {
   return (
     <main className="flex sm:flex-row flex-col justify-around h-full bg-white p-4 gap-4 text-sm text-gray-800 font-medium">
       {/* LEFT COLUMN - BASIC INFO */}
-      <aside className="flex flex-col items-end p-2 space-y-4 overflow-hidden">
+      <section className="flex flex-col items-end p-2 space-y-4 overflow-hidden">
         <div className="w-full max-w-[280px] text-left">
           <img
             src={previous?.img || profilePic}
             alt="profile pic"
             className="w-28 h-28 rounded-full object-cover border-2 border-blue-500 shadow mb-4"
           />
+          <div>
+            <label>Employee Number : </label>
+            <span className=" w-full p-1 rounded">{newVal?.empId || previous?.empId}</span>
+          </div>
 
           <input
             className="border w-full p-1 mb-2 rounded"
@@ -73,16 +77,6 @@ const UpdateEmployeeprevious = () => {
           />
 
           <div className="space-y-4 w-full">
-            <div>
-              <label>Employee Number</label>
-              <input
-                className="border w-full p-1 rounded"
-                name="empId"
-                value={newVal?.empId || previous?.empId}
-                onChange={handleChange}
-              />
-            </div>
-
             <div>
               <label>Full Name</label>
               <input
@@ -147,9 +141,9 @@ const UpdateEmployeeprevious = () => {
             </div>
           </div>
         </div>
-      </aside>
+      </section>
 
-      {/* MIDDLE COLUMN - JOB INFO */}
+      {/* RIGHT COLUMN - EMERGENCY + ACTIONS */}
       <section className="p-4 space-y-6 overflow-hidden">
         <header>
           <h1 className="text-2xl font-bold text-blue-900">{newVal?.name || previous?.name}</h1>
@@ -212,10 +206,9 @@ const UpdateEmployeeprevious = () => {
             placeholder="Special Abilities"
           />
         </section>
-      </section>
+        {/* </section> */}
 
-      {/* RIGHT COLUMN - EMERGENCY + ACTIONS */}
-      <aside className="p-4 overflow-hidden">
+        {/* <aside className="p-4 overflow-hidden"> */}
         <section className="mt-8">
           <h2 className="text-sm font-semibold">EMERGENCY</h2>
           <div className="mt-4 space-y-4">
@@ -259,7 +252,7 @@ const UpdateEmployeeprevious = () => {
               ConfirmationWindow(updateWithNewprevious, setConfirmation, "update this Record")}
           </AnimatePresence>
         </section>
-      </aside>
+      </section>
     </main>
   );
 };

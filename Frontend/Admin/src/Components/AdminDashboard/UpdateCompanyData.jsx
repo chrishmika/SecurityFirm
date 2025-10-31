@@ -68,7 +68,7 @@ const UpdateCompanyPrevious = () => {
               value={newVal?.name || previous?.name}
               onChange={handleChange}
               placeholder="Company Name"
-              className="text-2xl font-bold text-blue-900 w-full outline-none border-b"
+              className="text-2xl font-bold text-blue-900 w-full outline-none border-b mb-2"
             />
           </header>
 
@@ -172,7 +172,7 @@ const UpdateCompanyPrevious = () => {
         {/* Update button */}
         <div className="flex justify-end mt-4 gap-10">
           <button
-            className="rounded-lg text-white hover:bg-pink-600 py-2 px-4 h-9 bg-pink-400"
+            className="rounded-lg text-white hover:bg-green-600 py-2 px-4 bg-green-500"
             onClick={() => setConfirmation(!confirmation)}>
             {loading ? <ClipLoader size={15} /> : `Update`}
           </button>
