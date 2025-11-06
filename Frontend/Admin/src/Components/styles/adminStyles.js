@@ -8,5 +8,5 @@ export const adminStyles = {
   attendanceViewInputField: "px-2 w-full outline-0 cursor-default",
   tableData: "p-1 border border-gray-300",
   tablePosition: "my-10 overflow-x-auto ",
-  tableStyles: "table-auto w-full border-collapse border border-gray-400 rounded-3xl",
+  tableStyles: "table-auto w-full border-collapse border border-gray-400 rounded-3xl bg-white",
 };

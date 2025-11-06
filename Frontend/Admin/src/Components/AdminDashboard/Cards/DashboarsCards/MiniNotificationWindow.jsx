@@ -1,4 +1,4 @@
-import { PuffLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -26,16 +26,6 @@ const MiniNotificationWindow = () => {
 
   const notificationsset = notifications?.slice(0, 7);
 
-  // const viewNotificationhandler = async () => {
-  //     setViewNotification((prev) => !prev);
-  //     {
-  //       !isRead && setRead(true);
-  //     }
-  //     const response = await axios.get(`/api/notification/${_id}`, { withCredentials: true });
-  //     if (response.status == 200) {
-  //       console.log("read the notification", response.data);
-  //     }
-
   const deleteNotificationHandler = async (_id) => {
     console.log("ask to delete");
     //auto remove part is need to impliment
@@ -56,14 +46,14 @@ const MiniNotificationWindow = () => {
           <span className="font-bold text-2xl px-2 flex justify-center">Notifications</span>
         </div>
 
-        {fetching && <div className="flex justify-center items-center  w">{<PuffLoader />}</div>}
+        {fetching && <div className="flex justify-center items-center  w">{<ClipLoader />}</div>}
 
         <div className="">
           {notificationsset.map((notification, key) => (
             <div
               key={key}
               className={`flex justify-between mb-0.75 px-5 py-2 shadow-2xs rounded-2xl  hover:cursor-pointer ${
-                notification.read ? "bg-white" : "bg-green-200"
+                notification.read ? "bg-white" : "border-l-10 border-green-500"
               }`}>
               <div>
                 <strong>From: </strong>

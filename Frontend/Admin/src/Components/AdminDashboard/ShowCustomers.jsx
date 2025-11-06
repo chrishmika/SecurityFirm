@@ -8,6 +8,8 @@ import EmployeeDataView from "./Cards/DataViewForms/EmployeeDataView";
 import CompanyDataView from "./Cards/DataViewForms/CompanyDataView";
 import { toast } from "react-toastify";
 
+// import { icon } from "../../assets/boy1.png";
+
 const AddCompany = () => {
   const [choice, setChoice] = useState(false);
   // const [company, setCompany] = useState();
@@ -105,7 +107,7 @@ const AddCompany = () => {
               {/* Search Input */}
               <input
                 onChange={handelSelectedId}
-                className="px-3 pr-10 border-2 rounded-2xl focus:outline-none w-full appearance-none hover:border-gray-900 border-gray-400 no-arrow"
+                className="px-3 pr-10 border-2 bg-white rounded-2xl focus:outline-none w-full appearance-none hover:border-gray-900 no-arrow"
                 list="searchList"
                 placeholder={choice ? " Company Name" : " Employee Name"}
                 name={choice ? "Company" : "Employee"}
@@ -120,7 +122,7 @@ const AddCompany = () => {
                     setNameToFind("");
                     setSelected(null);
                   }}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-red-500 font-bold">
+                  className="absolute right-3 top-1/2 -translate-y-1/2 hover:text-red-500 font-bold">
                   <RiCloseFill />
                 </button>
               )}
@@ -134,7 +136,9 @@ const AddCompany = () => {
             </div>
 
             {/* Search Button */}
-            <button className="cursor-pointer border-2 rounded-2xl w-20 ml-2">Search</button>
+            <button className="cursor-pointer border-2 rounded-2xl w-20 ml-2 bg-whit hover:font-bold bg-white">
+              Search
+            </button>
           </form>
         </div>
       </div>
@@ -155,25 +159,19 @@ const AddCompany = () => {
             !isDataFetched ? "" : "hidden"
           }`}>
           {/* <div className="outline-1 w-20 h-20 rounded-full cursor-pointer relative -left-4 overflow-hidden flex justify-center items-center">
-            <img
-              src={namesData[0]?.img || icon}
-              onClick={() => {
-                handelSelectedId(namesData[0]?.name);
-                submitHandeler();
-              }}
-            />
+            <img src={namesData[-1]?.img || `../../assets/boy1.png`} />
           </div>
           <div className="outline-1 w-20 h-20 rounded-full cursor-pointer relative -left-1 overflow-hidden flex justify-center items-center">
-            <img src={namesData[1]?.img || icon} />
+            <img src={namesData[-2]?.img || "icon"} />
           </div>
           <div className="outline-1 w-20 h-20 rounded-full cursor-pointer relative left-1 overflow-hidden flex justify-center items-center">
-            <img src={namesData[2]?.img || icon} />
+            <img src={namesData[-3]?.img || "icon"} />
           </div>
           <div className="outline-1 w-20 h-20 rounded-full cursor-pointer relative left-4 overflow-hidden flex justify-center items-center">
-            <img src={namesData[3]?.img || icon} />
+            <img src={namesData[-4]?.img || "icon"} />
           </div> */}
 
-          {/* <span className=""> Search For details</span> */}
+          <span className=""> Search For details</span>
         </div>
       </div>
     </div>

@@ -59,22 +59,15 @@ const employeeSchema = new mongoose.Schema(
     email: {
       type: String,
     },
-    emergancey: [
-      {
-        name: {
-          type: String,
-          required: true,
-        },
-        contact: {
-          type: String,
-          required: true,
-        },
-        address: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
+    emerganceyName: {
+      type: String,
+    },
+    emerganceyContact: {
+      type: String,
+    },
+    emerganceyAddress: {
+      type: String,
+    },
     marital: {
       type: Boolean,
       required: true,
@@ -92,6 +85,9 @@ const employeeSchema = new mongoose.Schema(
       required: true,
     },
     militaryDescription: {
+      type: String,
+    },
+    experience: {
       type: String,
     },
     gunHandling: {

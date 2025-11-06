@@ -1,8 +1,39 @@
 /* eslint-disable react/prop-types */
+import { AnimatePresence } from "motion/react";
 import profilePic from "../../../../assets/boy1.png";
 import { Info } from "./Components";
+import ConfirmationWindow from "../../../../utils/ComfirmationWindowPopUp";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { useState } from "react";
+import { ClipLoader } from "react-spinners";
+import { Link } from "react-router-dom";
 
 const CompanyDataView = ({ data }) => {
+  const [confirmation, setConfirmation] = useState(false);
+  const [loading, setLoading] = useState(false);
+  console.log(data);
+
+  const deleteRecord = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.delete(`/api/company/${data._id}`, { withCredentials: true });
+      if (response.status == 200) {
+        toast.success(response.message || "Record deleted successfully!");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+      } else {
+        toast.error(response.message || "Failed to remove record!");
+      }
+    } catch (error) {
+      toast.error(`something went wrong!`);
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const files = [
     { label: "Proposal", url: data?.proposal },
     // { label: "GS", url: data?.gsCertificate },
@@ -130,11 +161,27 @@ const CompanyDataView = ({ data }) => {
             })}
           </ul>
         </div>
-        <div className="flex justify-end mt-4 ">
+        <div className="flex justify-end mt-4 gap-10">
+          <button
+            className="rounded-lg text-white hover:cursor-pointer hover:bg-pink-600 py-2 px-4 h-9 bg-pink-400 "
+            onClick={() => setConfirmation(!confirmation)}>
+            {loading ? <ClipLoader size={15} /> : `Delete`}
+          </button>
+
+          <button className="rounded-lg text-white hover:cursor-pointer hover:bg-pink-600 py-2 px-4 bg-pink-400 ">
+            <Link to={`/customers/editCompany/${data?._id}`} state={{ data }}>
+              Edit
+            </Link>
+          </button>
+          {console.log(data?._id)}
+
           <button className="rounded-lg text-white hover:cursor-pointer hover:bg-pink-600 py-2 px-4 bg-pink-400 ">
             Print
           </button>
         </div>
+        <AnimatePresence>
+          {confirmation && ConfirmationWindow(deleteRecord, setConfirmation, "Delete This Record")}
+        </AnimatePresence>
       </section>
     </main>
   );
