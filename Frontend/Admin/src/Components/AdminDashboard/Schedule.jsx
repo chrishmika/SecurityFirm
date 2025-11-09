@@ -70,11 +70,9 @@ const Schedule = () => {
       try {
         const data = { year: selectedYear, month: MonthInName(selectedMonth), company: companyId };
 
-        const response = await axios.post(
-          "http://localhost:5000/api/duty/viewSheetByDetails/",
-          data,
-          { withCredentials: true }
-        );
+        const response = await axios.post("/api/duty/viewSheetByDetails/", data, {
+          withCredentials: true,
+        });
         setDutySet(response.data);
         SetLoading(false);
         setShowData(true);
@@ -141,18 +139,16 @@ const Schedule = () => {
     }
 
     try {
-      const response = await axios.post(
-        `http://localhost:5000/api/duty/addDuty/${dutySet[0]._id}`,
-        dataCollection,
-        { withCredentials: true }
-      );
+      const response = await axios.post(`/api/duty/addDuty/${dutySet[0]._id}`, dataCollection, {
+        withCredentials: true,
+      });
 
       if (response.status === 200) {
         toast.success("Duty data saved successfully!");
 
         // refresh the dutySet with latest from backend
         const updated = await axios.post(
-          "http://localhost:5000/api/duty/viewSheetByDetails/",
+          "/api/duty/viewSheetByDetails/",
           { year: selectedYear, month: MonthInName(selectedMonth), company: companyId },
           { withCredentials: true }
         );

@@ -25,9 +25,7 @@ const AddCompany = () => {
     (async () => {
       try {
         const response = await axios(
-          `http://localhost:5000/api/${
-            choice ? "company/getCompanyList" : "employee/employeeList"
-          }`,
+          `/api/${choice ? "company/getCompanyList" : "employee/employeeList"}`,
           {
             withCredentials: true,
           }
@@ -63,7 +61,7 @@ const AddCompany = () => {
     try {
       setIsDataFetched(false);
       const response = await axios.post(
-        `http://localhost:5000/api/${choice ? "company" : "employee"}/${selected}`,
+        `/api/${choice ? "company" : "employee"}/${selected}`,
         {},
         {
           withCredentials: true,

@@ -74,7 +74,7 @@ const Schedule = () => {
 
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/duty/viewSheetByDetails/",
+          "/api/duty/viewSheetByDetails/",
           { year: selectedYear, month: MonthInName(selectedMonth), company: companyId },
           { withCredentials: true }
         );

@@ -40,10 +40,9 @@ const ApplicationCard = ({ data, choice }) => {
 
   const deleteFileHandler = async () => {
     try {
-      await axios.delete(
-        `http://localhost:5000/api/req/${choice ? "companyDel" : "employeeDel"}/${data?._id}`,
-        { withCredentials: true }
-      );
+      await axios.delete(`/api/req/${choice ? "companyDel" : "employeeDel"}/${data?._id}`, {
+        withCredentials: true,
+      });
       setIsDelete(true);
       toast.success("Deleted");
       //remove or hide certain data

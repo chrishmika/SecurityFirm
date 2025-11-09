@@ -93,7 +93,7 @@ const JobApplyForm = () => {
     //   formData.append("gsCertificationPath", uploadGsCertification);
     // }
     try {
-      await axios.post("http://localhost:5000/api/web/employeeRequest", formData, {
+      await axios.post("/api/web/employeeRequest", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
