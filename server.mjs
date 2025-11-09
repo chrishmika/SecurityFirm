@@ -44,20 +44,8 @@ app.use(
 app.use(express.json({ limit: "50mb" })); //this can cause DOS atatacks bit needed to upload pdfs
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use("/uploadDocument", express.static("/uploads")); //need to understand and not tested
+//app.use("/uploadDocument", express.static("/uploads")); //need to understand and not tested
 app.use(fileUpload());
-
-//deployment
-app.use("/app", express.static(join(__dirname, "Frontend/Admin/build")));
-app.use(express.static(join(__dirname, "Frontend/Website/build")));
-
-app.get("/app/*", (req, res) => {
-  res.sendFile(join(__dirname, "Frontend/Admin/build", "index.html"));
-});
-
-app.get("*", (req, res) => {
-  res.sendFile(join(__dirname, "Frontend/Website/build", "index.html"));
-});
 
 //base path router module
 app.use("/api/auth", authRouter);
@@ -68,6 +56,18 @@ app.use("/api/company", companyRouter);
 app.use("/api/notification", notificationRouter);
 app.use("/api/web", webRouter);
 app.use("/api/req", reqRouter); //not tested //from web site
+
+//deployment
+app.use("/app", express.static(join(__dirname, "Frontend/Admin/build")));
+app.use(express.static(join(__dirname, "Frontend/Website/build")));
+
+app.get(/^\/app\/.*/, (req, res) => {
+  res.sendFile(join(__dirname, "Frontend/Admin/build", "index.html"));
+});
+
+app.get(/^\/.*/, (req, res) => {
+  res.sendFile(join(__dirname, "Frontend/Website/build", "index.html"));
+});
 
 app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
 connectMongoDB();
