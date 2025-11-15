@@ -13,7 +13,7 @@ function BackButton() {
   return (
     <button onClick={goBack} className="flex items-center gap-2 cursor-pointer ">
       <FaArrowLeft />
-      Go Back
+      Back
     </button>
   );
 }

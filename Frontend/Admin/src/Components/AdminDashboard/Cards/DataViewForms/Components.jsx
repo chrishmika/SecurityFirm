@@ -3,7 +3,7 @@ export const Info = ({ label, value }) => (
   <div>
     <p className="font-semibold mb-1">{label}</p>
     {/* <p>{value}</p> */}
-    <input type="text" value={value} className="focus:outline-0 w-full" />
+    <input type="text" value={value} className="focus:outline-0 w-full" readOnly />
   </div>
 );
 
@@ -15,6 +15,7 @@ export const Detail = ({ title, content }) => (
       className="text-xs text-gray-600 leading-tight focus:outline-0 w-full"
       type="text"
       value={content}
+      readOnly
     />
   </div>
 );

@@ -3,7 +3,6 @@ import { toast } from "react-toastify";
 
 // Set your API key
 Geocode.setKey(import.meta.env.VITE_GOOGLE_GEOCODING_API_KEY);
-//Geocode.setKey("AIzaSyBH2VOQ_YGFTI5v_X4972IU9zVpwr8xtg4");
 Geocode.setLanguage("en");
 Geocode.setRegion("us");
 

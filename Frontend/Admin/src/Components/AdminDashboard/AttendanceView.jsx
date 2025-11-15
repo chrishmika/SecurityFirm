@@ -13,6 +13,7 @@ import MonthInName from "../../utils/MonthInName";
 
 import { adminStyles as styles } from "../styles/adminStyles";
 import BackButton from "../../utils/BackButton";
+import PrintAttendance from "../../utils/PrintAttendance";
 
 const Schedule = () => {
   //for calender
@@ -267,9 +268,9 @@ const Schedule = () => {
           </div>
 
           <div className="flex gap-2 justify-end">
-            <button className="rounded-2xl bg-amber-300 p-3 cursor-pointer">Print</button>
-            <button className="rounded-2xl bg-amber-300 p-3 cursor-pointer">Print All</button>
-            {/* printing part is need to be done */}
+            <button>
+              <PrintAttendance dutudata={dutySet} />
+            </button>
           </div>
         </div>
       )}
