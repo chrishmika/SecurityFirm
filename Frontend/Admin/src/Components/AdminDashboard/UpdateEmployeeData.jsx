@@ -7,6 +7,7 @@ import axios from "axios";
 
 import profilePic from "../../assets/boy1.png";
 import ConfirmationWindow from "../../utils/ComfirmationWindowPopUp";
+import BackButton from "../../utils/BackButton";
 
 const UpdateEmployeeprevious = () => {
   const { id } = useParams();
@@ -47,6 +48,9 @@ const UpdateEmployeeprevious = () => {
 
   return (
     <main className="flex sm:flex-row flex-col justify-around h-full bg-white p-4 gap-4 text-sm text-gray-800 font-medium">
+      <div className="">
+        <BackButton />
+      </div>
       {/* LEFT COLUMN - BASIC INFO */}
       <section className="flex flex-col items-end p-2 space-y-4 overflow-hidden">
         <div className="w-full max-w-[280px] text-left">

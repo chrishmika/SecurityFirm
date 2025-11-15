@@ -2,8 +2,8 @@ import * as Geocode from "react-geocode";
 import { toast } from "react-toastify";
 
 // Set your API key
-// Geocode.setApiKey(import.meta.REACT_APP_GOOGLE_GEOCODING_API_KEY);
-Geocode.setKey("AIzaSyBH2VOQ_YGFTI5v_X4972IU9zVpwr8xtg4");
+Geocode.setKey(import.meta.env.VITE_GOOGLE_GEOCODING_API_KEY);
+//Geocode.setKey("AIzaSyBH2VOQ_YGFTI5v_X4972IU9zVpwr8xtg4");
 Geocode.setLanguage("en");
 Geocode.setRegion("us");
 

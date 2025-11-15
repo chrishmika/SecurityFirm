@@ -18,7 +18,7 @@ import { motion, AnimatePresence } from "motion/react";
 import ConfirmationWindow from "../../utils/ComfirmationWindowPopUp";
 
 const Navigation = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(true);
   const [confirmation, setConfirmation] = useState(false);
   const { user } = useAuthContext();
   const { logout } = useLogout();
@@ -77,7 +77,7 @@ const Navigation = () => {
   return (
     <div
       className={`bg-[#312F2F] text-white shadow-2xl overflow-clips transition-all duration-300 ease-in-out ${
-        isMenuOpen ? "w-50" : "w-14"
+        isMenuOpen ? "w-55" : "w-14"
       } z-999 `}>
       <div className={`p-2 pt-5 flex flex-col justify-between h-screen`}>
         <div className="">

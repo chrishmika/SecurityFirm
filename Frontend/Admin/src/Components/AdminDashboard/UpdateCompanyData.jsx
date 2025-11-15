@@ -7,6 +7,7 @@ import axios from "axios";
 
 import profilePic from "../../assets/boy1.png";
 import ConfirmationWindow from "../../utils/ComfirmationWindowPopUp";
+import BackButton from "../../utils/BackButton";
 
 const UpdateCompanyPrevious = () => {
   const { id } = useParams();
@@ -52,8 +53,12 @@ const UpdateCompanyPrevious = () => {
   };
 
   return (
-    <main className="flex sm:flex-row flex-col justify-center sm:gap-10 p-4 bg-white text-sm text-gray-800 font-medium h-full">
-      <section className="flex flex-col p-4 space-y-6 overflow-hidden">
+    <main className="flex sm:flex-row flex-col justify-center sm:gap-10 p-4 bg-white text-sm text-gray-800 font-medium h-fit">
+      <section className="flex flex-col p-4 space-y-6 ">
+        <div>
+          <BackButton />
+        </div>
+
         <div className="w-full max-w-[280px] text-left">
           <img
             src={previous?.img || profilePic}
@@ -85,7 +90,7 @@ const UpdateCompanyPrevious = () => {
 
           <div className="space-y-4 w-full">
             <div>
-              <label>Company Number</label>
+              <label>Company Mobile Number</label>
               <input
                 type="text"
                 name="companyMobile"
