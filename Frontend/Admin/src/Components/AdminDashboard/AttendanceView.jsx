@@ -268,9 +268,7 @@ const Schedule = () => {
           </div>
 
           <div className="flex gap-2 justify-end">
-            <button>
               <PrintAttendance dutudata={dutySet} />
-            </button>
           </div>
         </div>
       )}

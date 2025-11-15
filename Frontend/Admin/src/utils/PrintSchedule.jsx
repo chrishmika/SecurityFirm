@@ -8,7 +8,7 @@ const PrintSchedule = ({ dutudata }) => {
         const companyName = sheet.company?.name || "Unknown Company";
         const monthYear = `${sheet.month || ""} - ${sheet.year || ""}`;
 
-        // Sort duties safely
+        // Sort duties
         const sortedDuties = Array.isArray(sheet.duties)
           ? [...sheet.duties].sort((a, b) => (a.day || 0) - (b.day || 0))
           : [];
@@ -56,7 +56,9 @@ const PrintSchedule = ({ dutudata }) => {
   };
 
   return (
-    <button onClick={handlePrint} className="bg-blue-400 text-white px-4 py-1 rounded">
+    <button
+      onClick={handlePrint}
+      className="bg-blue-400 text-white px-4 py-1 rounded-3xl p-3.5  hover:bg-blue-500 cursor-pointer mt-4   ">
       Print Schedule
     </button>
   );

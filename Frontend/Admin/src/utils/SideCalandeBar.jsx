@@ -16,7 +16,7 @@ const SideCalandeBar = ({
         <div className="flex flex-col mx-10 pt-4">
           <table>
             <thead>
-              <tr>
+              <tr className="bg-blue-100">
                 <th>Position</th>
                 <th>Requirement</th>
               </tr>
@@ -27,7 +27,9 @@ const SideCalandeBar = ({
                   company.count.map((requirement) => (
                     <tr
                       key={requirement._id}
-                      className={company.name == selectedCompanyName ? "" : "hidden"}>
+                      className={`${
+                        company.name == selectedCompanyName ? "" : "hidden"
+                      } even:bg-blue-100 odd:bg-white`}>
                       <td className="font-extrabold text-center">{requirement.position}</td>
                       <td className="text-center"> {requirement.amount}</td>
                     </tr>

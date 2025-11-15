@@ -64,7 +64,9 @@ const PrintAttendance = ({ dutudata }) => {
   };
 
   return (
-    <button onClick={handlePrint} className="bg-blue-400 text-white px-4 py-1 rounded">
+    <button
+      onClick={handlePrint}
+      className="bg-blue-400 text-white px-4 py-1 rounded-3xl p-3.5  hover:bg-blue-500 cursor-pointer mt-4   ">
       Print Attendance
     </button>
   );
