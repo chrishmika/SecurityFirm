@@ -2,18 +2,17 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
+import axios from "axios";
 
 import SideCalandeBar from "../../utils/SideCalandeBar";
-import NumberLine from "../../utils/NumberLine";
 import DutySearchForm from "./Forum/DutySearchForm";
 
-import axios from "axios";
+import NumberLine from "../../utils/NumberLine";
 import LoadingScreen from "../../utils/LoadingScreen";
 import MonthInName from "../../utils/MonthInName";
+import PrintAttendance from "../../utils/PrintAttendance";
 
 import { adminStyles as styles } from "../styles/adminStyles";
-import BackButton from "../../utils/BackButton";
-import PrintAttendance from "../../utils/PrintAttendance";
 
 const Schedule = () => {
   //for calender
@@ -268,7 +267,7 @@ const Schedule = () => {
           </div>
 
           <div className="flex gap-2 justify-end">
-              <PrintAttendance dutudata={dutySet} />
+            <PrintAttendance dutudata={dutySet} />
           </div>
         </div>
       )}

@@ -124,4 +124,38 @@ export const createCompany = async (req, res) => {
   }
 };
 
-//cloudinary function used
+export const getStatistics = async (req, res) => {
+  try {
+    const { year, month } = req.body;
+
+    // Find the duty sheet for the company, year, and month
+    const dutySheet = await Duty.findOne({
+      year: 2025,
+      month: "January",
+    });
+    console.log(dutySheet);
+    console.log(year, month);
+
+    if (!dutySheet || !Array.isArray(dutySheet.duties)) {
+      return res.status(200).json([0, 0, 0, dutySheet]); // No duties found
+    }
+    const today = new Date();
+    const day = today.getDate();
+    // Filter duties for the specific day
+    const todayDuties = dutySheet.duties.filter((d) => d.day === day);
+
+    // Count statuses
+    const count = { present: 0, late: 0, absent: 0 };
+    todayDuties.forEach((duty) => {
+      if (duty.status === "present") count.present++;
+      else if (duty.status === "late") count.late++;
+      else count.absent++;
+    });
+
+    // Return counts in order: [present, late, absent]
+    res.status(200).json([count.present, count.late, count.absent]);
+  } catch (error) {
+    console.error("Error fetching daily statistics:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
