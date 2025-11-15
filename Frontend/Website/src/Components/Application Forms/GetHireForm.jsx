@@ -115,7 +115,7 @@ const GetHireForm = () => {
     };
 
     try {
-      await axios.post("http://localhost:5000/api/web/companyRequest", getHireData);
+      await axios.post("/api/web/companyRequest", getHireData);
 
       setName("");
       setEmail("");
