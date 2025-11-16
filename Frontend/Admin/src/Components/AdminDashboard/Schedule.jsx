@@ -10,6 +10,7 @@ import DutySearchForm from "./Forum/DutySearchForm";
 import SideCalandeBar from "../../utils/SideCalandeBar";
 import LoadingScreen from "../../utils/LoadingScreen";
 import MonthInName from "../../utils/MonthInName";
+import PrintEmployeeData from "../../utils/PrintSchedule";
 
 //styles
 import { adminStyles as styles } from "../styles/adminStyles";
@@ -43,7 +44,7 @@ const Schedule = () => {
   useEffect(() => {
     //get the company list
     (async () => {
-      let response = await axios("http://localhost:5000/api/company/getCompanyList", {
+      let response = await axios("/api/company/getCompanyList", {
         withCredentials: true,
       });
       setCompanylist(response.data);
@@ -51,7 +52,7 @@ const Schedule = () => {
 
     //get the employee list
     (async () => {
-      const response = await axios("http://localhost:5000/api/employee/employeeList", {
+      const response = await axios("/api/employee/employeeList", {
         withCredentials: true,
       });
       setEmployeelist(response.data);
@@ -137,6 +138,8 @@ const Schedule = () => {
       toast.error("No changes to submit");
       return;
     }
+
+    // const printHandler = () =>{ <PrintEmployeeData updated={updated}/ >}
 
     try {
       const response = await axios.post(`/api/duty/addDuty/${dutySet[0]._id}`, dataCollection, {
@@ -225,8 +228,10 @@ const Schedule = () => {
           <div className={styles.tablePosition}>
             <form onSubmit={formDataSubmitHandle}>
               {Array.isArray(dutySet) &&
-                dutySet.map((sheet) => (
-                  <div key={selectedDay} className="overflow-y-scroll max-h-screen container">
+                dutySet.map((sheet, index) => (
+                  <div
+                    key={sheet._id || index}
+                    className="overflow-y-scroll max-h-screen container">
                     <table className={styles.tableStyles}>
                       <thead className="bg-gray-200">
                         <tr>
@@ -326,16 +331,17 @@ const Schedule = () => {
                   </div>
                 ))}
 
-              <div className="flex w-full justify-end">
+              <div className="flex w- justify-end gap-5">
                 <button className="p-3.5 bg-green-400 hover:bg-green-500 cursor-pointer mt-4 rounded-3xl  text-white">
                   Add Schedule
                 </button>
+                <PrintEmployeeData dutudata={dutySet} />
               </div>
             </form>
           </div>
         </div>
       )}
-
+      {console.log(dutySet)}
       {/* right side */}
       {showData && (
         <div>

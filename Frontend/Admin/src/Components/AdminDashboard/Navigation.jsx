@@ -6,7 +6,6 @@ import {
   FaFileLines,
   FaAtom,
   FaBinoculars,
-  FaEarthAmericas,
   FaBlackTie,
 } from "react-icons/fa6";
 import { useAuthContext } from "../../hooks/useAuthContext";
@@ -14,13 +13,13 @@ import { useLogout } from "../../hooks/useLogout";
 import { FaCircleUser } from "react-icons/fa6";
 import { IoNotifications } from "react-icons/io5";
 import { GrSchedule } from "react-icons/gr";
-import { motion, AnimatePresence } from "motion/react";
+import { AnimatePresence } from "motion/react";
 import ConfirmationWindow from "../../utils/ComfirmationWindowPopUp";
 
 const Navigation = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(true);
   const [confirmation, setConfirmation] = useState(false);
-  const { user } = useAuthContext();
+  // const { user } = useAuthContext();
   const { logout } = useLogout();
 
   const toggleNavigationMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -71,13 +70,16 @@ const Navigation = () => {
       path: "schedule",
       link: "Schedule",
     },
-    // { title: "Web", icon: <FaEarthAmericas className="text-xl" />, path: "web", link: "Web" },
   ];
+  useState(() => {
+    console.log(screen.width);
 
+    screen.width <= 500 ? setIsMenuOpen(false) : setIsMenuOpen(false);
+  }, []);
   return (
     <div
       className={`bg-[#312F2F] text-white shadow-2xl overflow-clips transition-all duration-300 ease-in-out ${
-        isMenuOpen ? "w-50" : "w-14"
+        isMenuOpen ? "w-55" : "w-14"
       } z-999 `}>
       <div className={`p-2 pt-5 flex flex-col justify-between h-screen`}>
         <div className="">

@@ -14,23 +14,28 @@ const SideCalandeBar = ({
       <div className={`${showData ? "block" : "hidden"} font-bold ml-5`}>
         <span>● Requirement</span>
         <div className="flex flex-col mx-10 pt-4">
-          <table className="">
-            <tr>
-              <th>Position</th>
-              <th>Requirement</th>
-            </tr>
-
-            {Array.isArray(companylist) &&
-              companylist.map((company) =>
-                company.count.map((requirement) => (
-                  <tr
-                    key={requirement._id}
-                    className={company.name == selectedCompanyName ? "" : "hidden"}>
-                    <td className="font-extrabold text-center">{requirement.position}</td>
-                    <td className="text-center"> {requirement.amount}</td>
-                  </tr>
-                ))
-              )}
+          <table>
+            <thead>
+              <tr className="bg-blue-100">
+                <th>Position</th>
+                <th>Requirement</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Array.isArray(companylist) &&
+                companylist.map((company) =>
+                  company.count.map((requirement) => (
+                    <tr
+                      key={requirement._id}
+                      className={`${
+                        company.name == selectedCompanyName ? "" : "hidden"
+                      } even:bg-blue-100 odd:bg-white`}>
+                      <td className="font-extrabold text-center">{requirement.position}</td>
+                      <td className="text-center"> {requirement.amount}</td>
+                    </tr>
+                  ))
+                )}
+            </tbody>
           </table>
         </div>
       </div>

@@ -34,7 +34,7 @@ const companySchema = new mongoose.Schema(
     },
     proposal: {
       type: String,
-      required: true,
+      // required: true,
     },
     companyEmail: {
       type: String,

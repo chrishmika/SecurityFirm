@@ -8,6 +8,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import { Link } from "react-router-dom";
+import PrintEmployeeData from "../../../../utils/PrintEmployeeData";
 
 const EmployeeDataView = ({ data }) => {
   const [confirmation, setConfirmation] = useState(false);
@@ -181,9 +182,7 @@ const EmployeeDataView = ({ data }) => {
               </Link>
             </button>
 
-            <button className="rounded-lg text-white hover:cursor-pointer hover:bg-pink-600 py-2 px-4 bg-pink-400 ">
-              Print
-            </button>
+            <PrintEmployeeData data={data} />
           </div>
           <AnimatePresence>
             {confirmation &&

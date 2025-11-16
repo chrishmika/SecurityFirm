@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
+import axios from "axios";
 
 import SideCalandeBar from "../../utils/SideCalandeBar";
-import NumberLine from "../../utils/NumberLine";
 import DutySearchForm from "./Forum/DutySearchForm";
 
-import axios from "axios";
+import NumberLine from "../../utils/NumberLine";
 import LoadingScreen from "../../utils/LoadingScreen";
 import MonthInName from "../../utils/MonthInName";
+import PrintAttendance from "../../utils/PrintAttendance";
 
 import { adminStyles as styles } from "../styles/adminStyles";
 
@@ -266,9 +267,7 @@ const Schedule = () => {
           </div>
 
           <div className="flex gap-2 justify-end">
-            <button className="rounded-2xl bg-amber-300 p-3 cursor-pointer">Print</button>
-            <button className="rounded-2xl bg-amber-300 p-3 cursor-pointer">Print All</button>
-            {/* printing part is need to be done */}
+            <PrintAttendance dutudata={dutySet} />
           </div>
         </div>
       )}

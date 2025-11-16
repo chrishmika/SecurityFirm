@@ -41,7 +41,7 @@ const NumberLine = ({ year, month, onSelectDay, today = 1 }) => {
     {
       dayName == "Sunday" &&
         boxes.push(
-          <div className="flex items-center">
+          <div key={`sep-${day}`} className="flex items-center">
             <FaGripLinesVertical />
           </div>
         );
