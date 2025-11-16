@@ -139,11 +139,7 @@ export const getStatistics = async (req, res) => {
     const day = today.getDate();
 
     // Flatten all duties from all sheets
-    console.log(dutySheets);
-    console.log("------------------------------------------------");
-
     const allDuties = dutySheets.flatMap((sheet) => sheet.duties || []);
-    console.log(allDuties);
 
     // Duties for today's date across all sheets
     const todayDuties = allDuties.filter((d) => d.day === day);
