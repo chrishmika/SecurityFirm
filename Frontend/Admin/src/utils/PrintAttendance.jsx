@@ -1,11 +1,9 @@
 /* eslint-disable react/prop-types */
-const PrintAttendance = ({ dutudata }) => {
-  console.log(dutudata);
-
+const PrintAttendance = ({ dutydata }) => {
   const handlePrint = () => {
-    if (!Array.isArray(dutudata)) return;
+    if (!Array.isArray(dutydata)) return;
 
-    let tableHTML = dutudata
+    let tableHTML = dutydata
       .map((sheet) => {
         const companyName = sheet.company?.name || "Unknown Company";
         const monthYear = `${sheet.month || ""} - ${sheet.year || ""}`;
