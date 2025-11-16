@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
+import { FaGripLinesVertical } from "react-icons/fa6";
 
 const NumberLine = ({ year, month, onSelectDay, today = 1 }) => {
   const [clicked, setClicked] = useState(today);
@@ -14,7 +15,7 @@ const NumberLine = ({ year, month, onSelectDay, today = 1 }) => {
 
     boxes.push(
       <div
-        className={`flex justify-center px-3 ${
+        className={`flex justify-center items-center rounded-md h-10 w-10 hover:bg-blue-100 cursor-pointer ${
           clicked == day
             ? "bg-blue-300"
             : dayName == "Sunday" || !clicked == day
@@ -22,25 +23,33 @@ const NumberLine = ({ year, month, onSelectDay, today = 1 }) => {
             : dayName == "Saturday"
             ? "bg-red-200"
             : "bg-gray-300"
-        } hover:bg-blue-100 cursor-pointer`}
+        } `}
         key={day}
         title={dayName}
         onClick={() => {
           setClicked(day);
           onSelectDay(day);
         }}>
-        {day}
+        <span className="flex items-center justify-center flex-col">
+          <span>{`${day}`}</span>
+          <span className="text-[11px] leading-0">{`${dayName.slice(0, 2)}`}</span>
+        </span>
       </div>
     );
 
     //seperate weeks
     {
-      dayName == "Sunday" ? boxes.push(` | `) : "";
+      dayName == "Sunday" &&
+        boxes.push(
+          <div key={`sep-${day}`} className="flex items-center">
+            <FaGripLinesVertical />
+          </div>
+        );
     }
   }
 
   return (
-    <div className="">
+    <div>
       <div className="flex gap-3 flex-wrap ">{boxes}</div>
     </div>
   );

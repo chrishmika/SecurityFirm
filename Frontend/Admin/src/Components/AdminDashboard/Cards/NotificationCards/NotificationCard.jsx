@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { FaRegStar } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
 import { IoCloseSharp } from "react-icons/io5";
 import axios from "axios";
 import { motion, AnimatePresence } from "motion/react";
+import { toast } from "react-toastify";
+import ConfirmationWindow from "../../../../utils/ComfirmationWindowPopUp";
+import { ClipLoader } from "react-spinners";
 
 const NotificationCard = ({ notification }) => {
   let { to, fromModel, type, favourite, read, description, createdAt, _id, from } = notification;
@@ -12,12 +15,21 @@ const NotificationCard = ({ notification }) => {
   const [favourites, setFavourite] = useState(favourite);
   const [viewNotification, setViewNotification] = useState(false);
   const [isRead, setRead] = useState(read);
+  const [loading, setLoading] = useState(false);
+  const [confirmation, setConfirmation] = useState(false);
+  const [deleted, setDeleted] = useState(false);
 
   const favBtnHandler = async () => {
     setFavourite(!favourites);
-    const response = await axios.put(`/api/notification/${_id}`, { withCredentials: true });
-    if (response.status == 200) {
-      console.log("fav the notification", response.data);
+    try {
+      const response = await axios.put(`/api/notification/${_id}`, { withCredentials: true });
+      if (response.status == 200) {
+        toast.success(`${response.data.message} `);
+      }
+    } catch (error) {
+      setFavourite(!favourites);
+      toast.success(`Something went wrong`);
+      console.log(error);
     }
   };
 
@@ -31,18 +43,29 @@ const NotificationCard = ({ notification }) => {
       console.log("read the notification", response.data);
     }
   };
+  console.log("notification =>", notification);
 
   const deleteNotificationHandler = async () => {
-    console.log("ask to delete");
-    //auto remove part is need to impliment
-    const response = await axios.delete(`/api/notification/${_id}`, { withCredentials: true });
-    if (response.status == 200) {
-      console.log("deleted", response.data);
+    setLoading(true);
+    try {
+      const response = await axios.delete(`/api/notification/${_id}`, { withCredentials: true });
+      if (response.status == 200) {
+        toast.success("deleted", response.data || "Notification Deleted!");
+        setViewNotification(false);
+        setDeleted(true);
+      } else {
+        toast.error("deleted", "Notification Delete fail");
+      }
+    } catch (error) {
+      toast.error("Something went wrong!");
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex justify-center items-center  ">
+    <div className={`flex justify-center items-center ${deleted && "hidden"}`}>
       <div
         className={`flex shadow-2xl backdrop-blur-2xl border-b-0 pb-3 justify-between sm:w-4xl w-screen m-1 px-5 cursor-pointer ${
           !isRead ? "border-l-6  border-l-lime-300" : "border-l-0"
@@ -67,9 +90,9 @@ const NotificationCard = ({ notification }) => {
             </button>
 
             <button
-              onClick={deleteNotificationHandler}
+              onClick={() => setConfirmation(!confirmation)}
               className="bg-red-500 rounded-2xl px-4 py-2 text-white cursor-pointer">
-              Delete
+              {loading ? <ClipLoader size={15} /> : `Delete`}
             </button>
           </div>
         </div>
@@ -116,17 +139,25 @@ const NotificationCard = ({ notification }) => {
                     )}
 
                     <button
-                      onClick={deleteNotificationHandler}
-                      className="bg-red-500 rounded-2xl px-4 py-2 text-white cursor-pointer">
-                      Delete
+                      onClick={() => setConfirmation(!confirmation)}
+                      className="bg-red-500 rounded-2xl px-4 py-2 text-white cursor-pointer hover:bg-red-700">
+                      {loading ? <ClipLoader size={15} /> : `Delete`}
                     </button>
                   </div>
-                  <span></span>
                 </div>
               </div>
             </motion.div>
           </motion.div>
         )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {confirmation &&
+          ConfirmationWindow(
+            deleteNotificationHandler,
+            setConfirmation,
+            "Delete This Notification"
+          )}
       </AnimatePresence>
     </div>
   );

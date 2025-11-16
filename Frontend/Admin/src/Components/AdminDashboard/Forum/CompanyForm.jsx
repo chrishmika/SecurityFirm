@@ -9,7 +9,7 @@ import { IoCloseSharp, IoDocumentAttachSharp } from "react-icons/io5";
 import { useCompanyContext } from "../../../hooks/useCompanyContext";
 
 import { toast } from "react-toastify";
-import LoadingScreen from "../subComponents/LoadingScreen";
+import LoadingScreen from "../../../utils/LoadingScreen";
 
 const availablePositions = ["LSO", "SO", "JSO", "OIC"];
 
@@ -144,320 +144,323 @@ const CompanyForm = () => {
 
   return (
     <div className="flex justify-center p-6 bg-gray-100 min-h-screen">
-      <div className={`col-span-full ${loading ? "block" : "hidden"}`}>
+      {loading ? (
         <LoadingScreen />
-      </div>
+      ) : (
+        <form
+          onSubmit={handleSubmit}
+          className={`w-full max-w-5xl bg-white p-6 rounded-lg shadow space-y-6 }`}>
+          {/* Company Details */}
+          <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
+            <h2 className="text-xl font-semibold">Company Details</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex gap-2 items-center">
+                <label>Company Name :</label>
+                <input
+                  name="name"
+                  value={company.name}
+                  onChange={handleChange}
+                  placeholder="DVision Security"
+                  className="input border-b-2 border-green-600"
+                  required
+                />
+              </div>
 
-      <form
-        onSubmit={handleSubmit}
-        className={`${
-          !loading ? "block" : "hidden"
-        } w-full max-w-5xl bg-white p-6 rounded-lg shadow space-y-6 }`}>
-        {/* Company Details */}
-        <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
-          <h2 className="text-xl font-semibold">Company Details</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="flex gap-2 items-center">
-              <label>Company Name :</label>
-              <input
-                name="name"
-                value={company.name}
-                onChange={handleChange}
-                placeholder="DVision Security"
-                className="input"
-                required
-              />
+              <div className="flex gap-2 items-center">
+                <label>Address :</label>
+                <input
+                  name="address"
+                  value={company?.address}
+                  onChange={handleChange}
+                  placeholder="Main street, Colombo"
+                  className="input border-b-2 border-green-600"
+                  required
+                />
+
+                <button
+                  type="button"
+                  onClick={handleGetLocation}
+                  className="btn mt-2 bg-green-600 px-1.5 py-1 rounded-md text-white  cursor-pointer hover:bg-green-800">
+                  Fetch Location
+                </button>
+              </div>
+
+              <div className="flex gap-2 items-center">
+                <label>Latitude :</label>
+                <input
+                  value={company?.latitude || ""}
+                  className="input border-b-2 border-green-600"
+                  readOnly
+                  required
+                />
+              </div>
+
+              <div className="flex gap-2 items-center">
+                <label>Longitude :</label>
+                <input
+                  value={company?.longitude || ""}
+                  className="input border-b-2 border-green-600"
+                  readOnly
+                  required
+                />
+              </div>
             </div>
+          </div>
 
-            <div className="flex gap-2 items-center">
-              <label>Address :</label>
-              <input
-                name="address"
-                value={company?.address}
-                onChange={handleChange}
-                placeholder="Main street, Colombo"
+          {/* Contract Period */}
+          <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
+            <h2 className="text-xl font-semibold">Contract Period</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex gap-1">
+                <label>From :</label>
+                <input
+                  type="date"
+                  name="contractFrom"
+                  onChange={handleChange}
+                  className="input border-b-2 border-green-600"
+                  required
+                />
+              </div>
+              <div className="flex gap-1">
+                <label>To :</label>
+                <input
+                  type="date"
+                  name="contractTo"
+                  onChange={handleChange}
+                  className="input border-b-2 border-green-600"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Agent Details */}
+          <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
+            <h2 className="text-xl font-semibold">Agent Details</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex gap-2 items-center">
+                <label>Agent Name :</label>
+                <input
+                  name="agent"
+                  value={company.agent}
+                  placeholder="Agent Name"
+                  onChange={handleChange}
+                  className="input border-b-2 border-green-600"
+                  required
+                />
+              </div>
+
+              <div className="flex gap-2 items-center">
+                <label>Agent NIC :</label>
+
+                <input
+                  name="agentNIC"
+                  value={company.agentNIC}
+                  maxLength={12}
+                  placeholder="NIC Number"
+                  onChange={handleChange}
+                  className="input border-b-2 border-green-600"
+                  required
+                />
+              </div>
+
+              <div className="flex gap-2 items-center">
+                <label>Agent Email :</label>
+                <input
+                  name="agentEmail"
+                  value={company.agentEmail}
+                  placeholder="Agent Email"
+                  onChange={handleChange}
+                  className="input border-b-2 border-green-600"
+                  required
+                />
+              </div>
+
+              <div className="flex gap-2 items-center">
+                <label>Agent Contact 1 :</label>
+                <input
+                  name="agentContact1"
+                  value={company.agentContact1}
+                  maxLength={10}
+                  pattern="0\d{9}"
+                  placeholder="e.g. 0712345678"
+                  onChange={handleChange}
+                  className="input border-b-2 border-green-600"
+                  required
+                />
+              </div>
+
+              <div className="flex gap-2 items-center">
+                <label>Agent Contact2 :</label>
+                <input
+                  name="agentContact2"
+                  value={company.agentContact2}
+                  maxLength={10}
+                  pattern="0\d{9}"
+                  placeholder="e.g. 0712345678"
+                  onChange={handleChange}
+                  className="input border-b-2 border-green-600"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Employment Requirements */}
+          <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
+            <h2 className="text-xl font-semibold">Employment Requirements</h2>
+            <div className="flex gap-4 items-end">
+              <select
+                name="position"
+                value={currentInputs.position}
+                onChange={handleRequirementInputChange}
                 className="input"
-                required
+                required>
+                <option>Select Position</option>
+                {availablePositions
+                  .filter((position) => !company?.count?.some((req) => req.position === position))
+                  .map((position) => (
+                    <option key={position} value={position}>
+                      {position}
+                    </option>
+                  ))}
+              </select>
+
+              <input
+                name="count"
+                type="number"
+                min="1"
+                value={currentInputs.count}
+                onChange={handleRequirementInputChange}
+                className="input border-b-2 border-green-600"
+                placeholder="Count"
               />
 
-              <button
-                type="button"
-                onClick={handleGetLocation}
-                className="btn mt-2 bg-green-600 px-1.5 py-1 rounded-md text-white  cursor-pointer hover:bg-green-800">
-                Fetch Location
+              <button onClick={addRequirement} className="text-green-600 text-3xl">
+                <IoMdAddCircle />
               </button>
             </div>
 
-            <div className="flex gap-2 items-center">
-              <label>Latitude :</label>
-              <input
-                value={company?.latitude || ""}
-                className="input border-b-2 border-green-600"
-                readOnly
-                required
-              />
-            </div>
+            <div className="space-y-2 max-h-40 overflow-y-auto">
+              <ul className="mt-4 space-y-2">
+                {company?.count?.map((req, index) => (
+                  <li key={index} className="flex gap-4 items-center">
+                    <input
+                      readOnly
+                      value={req.position}
+                      className="input w-full outline-0 "
+                      required
+                    />
+                    <input
+                      readOnly
+                      value={req.amount}
+                      className="input w-full outline-0 "
+                      required
+                    />
 
-            <div className="flex gap-2 items-center">
-              <label>Longitude :</label>
-              <input
-                value={company?.longitude || ""}
-                className="input border-b-2 border-green-600"
-                readOnly
-                required
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Contract Period */}
-        <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
-          <h2 className="text-xl font-semibold">Contract Period</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label>From</label>
-              <input
-                type="date"
-                name="contractFrom"
-                onChange={handleChange}
-                className="input"
-                required
-              />
-            </div>
-            <div>
-              <label>To</label>
-              <input
-                type="date"
-                name="contractTo"
-                onChange={handleChange}
-                className="input"
-                required
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Agent Details */}
-        <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
-          <h2 className="text-xl font-semibold">Agent Details</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="flex gap-2 items-center">
-              <label>Agent Name :</label>
-              <input
-                name="agent"
-                value={company.agent}
-                placeholder="Agent Name"
-                onChange={handleChange}
-                className="input"
-                required
-              />
-            </div>
-
-            <div className="flex gap-2 items-center">
-              <label>Agent NIC :</label>
-
-              <input
-                name="agentNIC"
-                value={company.agentNIC}
-                maxLength={12}
-                placeholder="NIC Number"
-                onChange={handleChange}
-                className="input"
-                required
-              />
-            </div>
-
-            <div className="flex gap-2 items-center">
-              <label>Agent Email :</label>
-              <input
-                name="agentEmail"
-                value={company.agentEmail}
-                placeholder="Agent Email"
-                onChange={handleChange}
-                className="input"
-                required
-              />
-            </div>
-
-            <div className="flex gap-2 items-center">
-              <label>Agent Contact 1 :</label>
-              <input
-                name="agentContact1"
-                value={company.agentContact1}
-                maxLength={10}
-                pattern="0\d{9}"
-                placeholder="e.g. 0712345678"
-                onChange={handleChange}
-                className="input"
-                required
-              />
-            </div>
-
-            <div className="flex gap-2 items-center">
-              <label>Agent Contact2 :</label>
-              <input
-                name="agentContact2"
-                value={company.agentContact2}
-                maxLength={10}
-                pattern="0\d{9}"
-                placeholder="e.g. 0712345678"
-                onChange={handleChange}
-                className="input"
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Employment Requirements */}
-        <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
-          <h2 className="text-xl font-semibold">Employment Requirements</h2>
-          <div className="flex gap-4 items-end">
-            <select
-              name="position"
-              value={currentInputs.position}
-              onChange={handleRequirementInputChange}
-              className="input"
-              required>
-              <option>Select Position</option>
-              {availablePositions
-                .filter((position) => !company?.count?.some((req) => req.position === position))
-                .map((position) => (
-                  <option key={position} value={position}>
-                    {position}
-                  </option>
+                    <button
+                      onClick={(e) => removeRequirement(index, e)}
+                      className="text-red-600 text-2xl">
+                      <FaCircleMinus />
+                    </button>
+                  </li>
                 ))}
-            </select>
+              </ul>
+            </div>
+          </div>
 
-            <input
-              name="count"
-              type="number"
-              min="1"
-              value={currentInputs.count}
-              onChange={handleRequirementInputChange}
-              className="input"
-              placeholder="Count"
-            />
+          {/* Company Contact */}
+          <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
+            <h2 className="text-xl font-semibold">Company Contact</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex gap-2">
+                <label>Company Email :</label>
+                <input
+                  name="companyEmail"
+                  value={company.companyEmail}
+                  onChange={handleChange}
+                  placeholder="Company Email"
+                  className="input border-b-2 border-green-600"
+                />
+              </div>
 
-            <button onClick={addRequirement} className="text-green-600 text-3xl">
-              <IoMdAddCircle />
+              <div className="flex gap-2 items-center">
+                <label>Company Contact :</label>
+                <input
+                  name="companyMobile"
+                  value={company.companyMobile}
+                  maxLength={10}
+                  pattern="0\d{9}"
+                  placeholder="e.g. 0712345678"
+                  onChange={handleChange}
+                  className="input border-b-2 border-green-600"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Documents */}
+          <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
+            <h2 className="text-xl font-semibold">Documents</h2>
+            <div className="flex gap-6">
+              <div>
+                {company?.proposal ? (
+                  <div className="relative">
+                    <IoCloseSharp
+                      onClick={() => setCompany((prev) => ({ ...prev, proposal: null }))}
+                      className="absolute right-1 top-1 cursor-pointer text-red-500"
+                    />
+                    {company?.proposal?.file.type.startsWith("image/") ? (
+                      <img
+                        src={company?.proposal?.src}
+                        alt={"proposal"}
+                        className="rounded-md cursor-pointer w-32 h-32"
+                      />
+                    ) : company?.proposal?.file.type === "application/pdf" ? (
+                      <object
+                        data={company?.proposal?.src}
+                        type="application/pdf"
+                        className="w-40 h-32 rounded-md overflow-hidden border-0"
+                      />
+                    ) : (
+                      <span>Unsupported file</span>
+                    )}
+                  </div>
+                ) : (
+                  <label className="cursor-pointer">
+                    <IoDocumentAttachSharp className="text-5xl text-gray-400 hover:text-black" />
+                    <input
+                      type="file"
+                      accept="image/*,application/pdf"
+                      name="proposal"
+                      ref={proposalRef}
+                      onChange={handleFileChange}
+                      hidden
+                      required
+                    />
+                    <span>Proposal</span>
+                  </label>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Buttons */}
+          <div className="flex gap-4">
+            <button
+              type="reset"
+              className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded w-full">
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              className="bg-[#2c2c2c] hover:bg-[#716acd] text-white px-4 py-2 rounded w-full">
+              Submit
             </button>
           </div>
-
-          <div className="space-y-2 max-h-40 overflow-y-auto">
-            <ul className="mt-4 space-y-2">
-              {company?.count?.map((req, index) => (
-                <li key={index} className="flex gap-4 items-center">
-                  <input
-                    readOnly
-                    value={req.position}
-                    className="input w-full outline-0 "
-                    required
-                  />
-                  <input readOnly value={req.amount} className="input w-full outline-0 " required />
-
-                  <button
-                    onClick={(e) => removeRequirement(index, e)}
-                    className="text-red-600 text-2xl">
-                    <FaCircleMinus />
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* Company Contact */}
-        <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
-          <h2 className="text-xl font-semibold">Company Contact</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="flex gap-2">
-              <label>Company Email :</label>
-              <input
-                name="companyEmail"
-                value={company.companyEmail}
-                onChange={handleChange}
-                placeholder="Company Email"
-                className="input"
-              />
-            </div>
-
-            <div className="flex gap-2 items-center">
-              <label>Company Contact :</label>
-              <input
-                name="companyMobile"
-                value={company.companyMobile}
-                maxLength={10}
-                pattern="0\d{9}"
-                placeholder="e.g. 0712345678"
-                onChange={handleChange}
-                className="input"
-                required
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Documents */}
-        <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
-          <h2 className="text-xl font-semibold">Documents</h2>
-          <div className="flex gap-6">
-            <div>
-              {company?.proposal ? (
-                <div className="relative">
-                  <IoCloseSharp
-                    onClick={() => setCompany((prev) => ({ ...prev, proposal: null }))}
-                    className="absolute right-1 top-1 cursor-pointer text-red-500"
-                  />
-                  {company?.proposal?.file.type.startsWith("image/") ? (
-                    <img
-                      src={company?.proposal?.src}
-                      alt={"proposal"}
-                      className="rounded-md cursor-pointer w-32 h-32"
-                    />
-                  ) : company?.proposal?.file.type === "application/pdf" ? (
-                    <object
-                      data={company?.proposal?.src}
-                      type="application/pdf"
-                      className="w-40 h-32 rounded-md overflow-hidden border-0"
-                    />
-                  ) : (
-                    <span>Unsupported file</span>
-                  )}
-                </div>
-              ) : (
-                <label className="cursor-pointer">
-                  <IoDocumentAttachSharp className="text-5xl text-gray-400 hover:text-black" />
-                  <input
-                    type="file"
-                    accept="image/*,application/pdf"
-                    name="proposal"
-                    ref={proposalRef}
-                    onChange={handleFileChange}
-                    hidden
-                    required
-                  />
-                  <span>Proposal</span>
-                </label>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Buttons */}
-        <div className="flex gap-4">
-          <button
-            type="submit"
-            className="bg-[#2c2c2c] hover:bg-[#716acd] text-white px-4 py-2 rounded w-full">
-            Submit
-          </button>
-
-          <button
-            type="reset"
-            className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded w-full">
-            Cancel
-          </button>
-        </div>
-      </form>
+        </form>
+      )}
     </div>
   );
 };

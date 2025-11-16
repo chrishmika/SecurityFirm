@@ -5,11 +5,12 @@ import { toast } from "react-toastify";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
 
-import NumberLine from "./subComponents/NumberLine";
-import DutySearchForm from "./subComponents/DutySearchForm";
-import SideCalandeBar from "./subComponents/SideCalandeBar";
-import LoadingScreen from "./subComponents/LoadingScreen";
-import MonthInName from "./subComponents/MonthInName";
+import NumberLine from "../../utils/NumberLine";
+import DutySearchForm from "./Forum/DutySearchForm";
+import SideCalandeBar from "../../utils/SideCalandeBar";
+import LoadingScreen from "../../utils/LoadingScreen";
+import MonthInName from "../../utils/MonthInName";
+import PrintEmployeeData from "../../utils/PrintSchedule";
 
 //styles
 import { adminStyles as styles } from "../styles/adminStyles";
@@ -43,7 +44,7 @@ const Schedule = () => {
   useEffect(() => {
     //get the company list
     (async () => {
-      let response = await axios("http://localhost:5000/api/company/getCompanyList", {
+      let response = await axios("/api/company/getCompanyList", {
         withCredentials: true,
       });
       setCompanylist(response.data);
@@ -51,7 +52,7 @@ const Schedule = () => {
 
     //get the employee list
     (async () => {
-      const response = await axios("http://localhost:5000/api/employee/employeeList", {
+      const response = await axios("/api/employee/employeeList", {
         withCredentials: true,
       });
       setEmployeelist(response.data);
@@ -70,11 +71,9 @@ const Schedule = () => {
       try {
         const data = { year: selectedYear, month: MonthInName(selectedMonth), company: companyId };
 
-        const response = await axios.post(
-          "http://localhost:5000/api/duty/viewSheetByDetails/",
-          data,
-          { withCredentials: true }
-        );
+        const response = await axios.post("/api/duty/viewSheetByDetails/", data, {
+          withCredentials: true,
+        });
         setDutySet(response.data);
         SetLoading(false);
         setShowData(true);
@@ -140,19 +139,19 @@ const Schedule = () => {
       return;
     }
 
+    // const printHandler = () =>{ <PrintEmployeeData updated={updated}/ >}
+
     try {
-      const response = await axios.post(
-        `http://localhost:5000/api/duty/addDuty/${dutySet[0]._id}`,
-        dataCollection,
-        { withCredentials: true }
-      );
+      const response = await axios.post(`/api/duty/addDuty/${dutySet[0]._id}`, dataCollection, {
+        withCredentials: true,
+      });
 
       if (response.status === 200) {
         toast.success("Duty data saved successfully!");
 
         // refresh the dutySet with latest from backend
         const updated = await axios.post(
-          "http://localhost:5000/api/duty/viewSheetByDetails/",
+          "/api/duty/viewSheetByDetails/",
           { year: selectedYear, month: MonthInName(selectedMonth), company: companyId },
           { withCredentials: true }
         );
@@ -229,115 +228,120 @@ const Schedule = () => {
           <div className={styles.tablePosition}>
             <form onSubmit={formDataSubmitHandle}>
               {Array.isArray(dutySet) &&
-                dutySet.map((sheet) => (
-                  <table className={styles.tableStyles} key={selectedDay}>
-                    <thead className="bg-gray-200">
-                      <tr>
-                        <th className={styles.tableTitle}>Position</th>
-                        <th className={styles.tableTitle}>Employee</th>
-                        <th className={styles.tableTitle}>Start/time</th>
-                        <th className={styles.tableTitle}>Shift</th>
-                        <th className={styles.tableTitle}>Remark</th>
-                        {/* <th className={styles.tableData}></th> */}
-                      </tr>
-                    </thead>
+                dutySet.map((sheet, index) => (
+                  <div
+                    key={sheet._id || index}
+                    className="overflow-y-scroll max-h-screen container">
+                    <table className={styles.tableStyles}>
+                      <thead className="bg-gray-200">
+                        <tr>
+                          <th className={styles.tableTitle}>Position</th>
+                          <th className={styles.tableTitle}>Employee</th>
+                          <th className={styles.tableTitle}>Start/time</th>
+                          <th className={styles.tableTitle}>Shift</th>
+                          <th className={styles.tableTitle}>Remark</th>
+                          {/* <th className={styles.tableData}></th> */}
+                        </tr>
+                      </thead>
 
-                    {/* {console.log(sheet.duties)} */}
+                      {/* {console.log(sheet.duties)} */}
 
-                    {/* from here data need to be in input form an data is need to be filtered and on-arrow neet to be used for datalist */}
-                    <tbody>
-                      {/* this pard works after fetching the relevant sheet */}
-                      {sheet.duties.map((duty, dindex) => {
-                        const currentRow = dataCollection.find((r) => r._id === duty._id) || duty;
-                        // const currentRow = duty;
+                      {/* from here data need to be in input form an data is need to be filtered and on-arrow neet to be used for datalist */}
+                      <tbody>
+                        {/* this pard works after fetching the relevant sheet */}
+                        {sheet.duties.map((duty, dindex) => {
+                          const currentRow = dataCollection.find((r) => r._id === duty._id) || duty;
+                          // const currentRow = duty;
 
-                        return (
-                          <tr
-                            key={duty._id}
-                            className={`${duty?.day == (selectedDay || 1) ? "box" : "hidden"}`}>
-                            {/* Position */}
-                            <td className={styles.tableData}>
-                              <input
-                                value={currentRow.position || "-"}
-                                className="outline-0"
-                                readOnly
-                              />
-                            </td>
+                          return (
+                            <tr
+                              key={duty._id}
+                              className={`${duty?.day == (selectedDay || 1) ? "box" : "hidden"}`}>
+                              {/* Position */}
+                              <td className={styles.tableData}>
+                                <input
+                                  value={currentRow.position || "-"}
+                                  className="outline-0"
+                                  readOnly
+                                />
+                              </td>
 
-                            {/* Employee */}
-                            <td className={styles.tableData}>
-                              <input
-                                list={`dataScheduleNames-${dindex}`}
-                                value={currentRow?.employeeName || duty.employee?.name || ""}
-                                onChange={(e) =>
-                                  formChangeHandler(dindex, "employeeName", e.target.value, duty)
-                                }
-                                className="bg-blue-100 px-2 w-full no-arrow"
-                              />
-                              <datalist id={`dataScheduleNames-${dindex}`}>
-                                {employeelist
-                                  .filter((employee) => employee?.position == duty?.position)
-                                  .map((employee) => (
-                                    <option key={employee._id} value={employee.name} />
-                                  ))}
-                              </datalist>
-                            </td>
+                              {/* Employee */}
+                              <td className={styles.tableData}>
+                                <input
+                                  list={`dataScheduleNames-${dindex}`}
+                                  value={currentRow?.employeeName || duty.employee?.name || ""}
+                                  onChange={(e) =>
+                                    formChangeHandler(dindex, "employeeName", e.target.value, duty)
+                                  }
+                                  className="bg-blue-100 px-2 w-full no-arrow"
+                                />
+                                <datalist id={`dataScheduleNames-${dindex}`}>
+                                  {employeelist
+                                    .filter((employee) => employee?.position == duty?.position)
+                                    .map((employee) => (
+                                      <option key={employee._id} value={employee.name} />
+                                    ))}
+                                </datalist>
+                              </td>
 
-                            {/* Start /known as time */}
-                            <td className={styles.tableData}>
-                              <select
-                                value={currentRow?.time}
-                                onChange={(e) =>
-                                  formChangeHandler(dindex, "time", e.target.value, duty)
-                                }
-                                className="bg-blue-100 px-2 w-full">
-                                <option>Select</option>
-                                <option value="8am">8am</option>
-                                <option value="6pm">6pm</option>
-                              </select>
-                            </td>
+                              {/* Start /known as time */}
+                              <td className={styles.tableData}>
+                                <select
+                                  value={currentRow?.time}
+                                  onChange={(e) =>
+                                    formChangeHandler(dindex, "time", e.target.value, duty)
+                                  }
+                                  className="bg-blue-100 px-2 w-full">
+                                  <option>Select</option>
+                                  <option value="8am">8am</option>
+                                  <option value="6pm">6pm</option>
+                                </select>
+                              </td>
 
-                            {/* Shift */}
-                            <td className={styles.tableData}>
-                              <select
-                                value={currentRow?.shift || ""}
-                                onChange={(e) =>
-                                  formChangeHandler(dindex, "shift", e.target.value, duty)
-                                }
-                                className="bg-blue-100 px-2 w-full">
-                                <option>Select</option>
-                                <option value="12">12</option>
-                                <option value="24">24</option>
-                              </select>
-                            </td>
+                              {/* Shift */}
+                              <td className={styles.tableData}>
+                                <select
+                                  value={currentRow?.shift || ""}
+                                  onChange={(e) =>
+                                    formChangeHandler(dindex, "shift", e.target.value, duty)
+                                  }
+                                  className="bg-blue-100 px-2 w-full">
+                                  <option>Select</option>
+                                  <option value="12">12</option>
+                                  <option value="24">24</option>
+                                </select>
+                              </td>
 
-                            {/* Remark */}
-                            <td className={styles.tableData}>
-                              <input
-                                value={currentRow?.remark || ""}
-                                onChange={(e) =>
-                                  formChangeHandler(dindex, "remark", e.target.value, duty)
-                                }
-                                className="bg-blue-100 px-2 w-full"
-                              />
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                              {/* Remark */}
+                              <td className={styles.tableData}>
+                                <input
+                                  value={currentRow?.remark || ""}
+                                  onChange={(e) =>
+                                    formChangeHandler(dindex, "remark", e.target.value, duty)
+                                  }
+                                  className="bg-blue-100 px-2 w-full"
+                                />
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
                 ))}
 
-              <div className="flex w-full justify-end">
+              <div className="flex w- justify-end gap-5">
                 <button className="p-3.5 bg-green-400 hover:bg-green-500 cursor-pointer mt-4 rounded-3xl  text-white">
                   Add Schedule
                 </button>
+                <PrintEmployeeData dutudata={dutySet} />
               </div>
             </form>
           </div>
         </div>
       )}
-
+      {console.log(dutySet)}
       {/* right side */}
       {showData && (
         <div>

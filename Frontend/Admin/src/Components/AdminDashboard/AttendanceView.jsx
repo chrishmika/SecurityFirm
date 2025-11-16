@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
-
-import SideCalandeBar from "./subComponents/SideCalandeBar";
-import NumberLine from "./subComponents/NumberLine";
-import DutySearchForm from "./subComponents/DutySearchForm";
-
 import axios from "axios";
-import LoadingScreen from "./subComponents/LoadingScreen";
-import MonthInName from "./subComponents/MonthInName";
+
+import SideCalandeBar from "../../utils/SideCalandeBar";
+import DutySearchForm from "./Forum/DutySearchForm";
+
+import NumberLine from "../../utils/NumberLine";
+import LoadingScreen from "../../utils/LoadingScreen";
+import MonthInName from "../../utils/MonthInName";
+import PrintAttendance from "../../utils/PrintAttendance";
 
 import { adminStyles as styles } from "../styles/adminStyles";
 
@@ -74,7 +75,7 @@ const Schedule = () => {
 
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/duty/viewSheetByDetails/",
+          "/api/duty/viewSheetByDetails/",
           { year: selectedYear, month: MonthInName(selectedMonth), company: companyId },
           { withCredentials: true }
         );
@@ -150,123 +151,123 @@ const Schedule = () => {
           <div className={styles.tablePosition}>
             {Array.isArray(dutySet) &&
               dutySet.map((sheet) => (
-                <table className={`${styles.tableStyles} border-l-5`} key={selectedDay}>
-                  <thead className="bg-gray-200 cursor-default">
-                    <tr>
-                      <th className={styles.tableTitle}>Position</th>
-                      <th className={styles.tableTitle}>Employee</th>
-                      <th className={styles.tableTitle}>Start</th>
-                      <th className={styles.tableTitle}>Shift</th>
-                      <th className={styles.tableTitle}>Check In</th>
-                      <th className={styles.tableTitle}>Check Out</th>
-                      <th className={styles.tableTitle}>Remark</th>
-                      <th className={styles.tableTitle}></th>
-                    </tr>
-                  </thead>
+                <div key={selectedDay} className="overflow-y-scroll max-h-screen container">
+                  <table className={`${styles.tableStyles} border-l-5`}>
+                    <thead className="bg-gray-200 cursor-default">
+                      <tr>
+                        <th className={styles.tableTitle}>Position</th>
+                        <th className={styles.tableTitle}>Employee</th>
+                        <th className={styles.tableTitle}>Start</th>
+                        <th className={styles.tableTitle}>Shift</th>
+                        <th className={styles.tableTitle}>Check In</th>
+                        <th className={styles.tableTitle}>Check Out</th>
+                        <th className={styles.tableTitle}>Remark</th>
+                        <th className={styles.tableTitle}></th>
+                      </tr>
+                    </thead>
 
-                  <tbody>
-                    {sheet.duties.map((duty, dindex) => (
-                      <tr
-                        key={dindex}
-                        className={`border-l-5 ${
-                          duty.status === "absent"
-                            ? "  border-l-red-400"
-                            : duty.status === "present"
-                            ? "border-l-green-300"
-                            : duty.status === "late"
-                            ? "border-l-yellow-300"
-                            : "bg-white"
-                        }
+                    <tbody>
+                      {sheet.duties.map((duty, dindex) => (
+                        <tr
+                          key={dindex}
+                          className={`border-l-5 ${
+                            duty.status === "absent"
+                              ? "  border-l-red-400"
+                              : duty.status === "present"
+                              ? "border-l-green-300"
+                              : duty.status === "late"
+                              ? "border-l-yellow-300"
+                              : "bg-white"
+                          }
                     ${duty.day == (selectedDay || 1) ? "box" : "hidden"}
                     `} //this is for attendance viewing area
-                      >
-                        {/* position */}
-                        <td className={styles.tableData}>
-                          <input
-                            name="position"
-                            value={duty.position}
-                            className="outline-0 cursor-default"
-                            readOnly
-                          />
-                          {/* {console.log("duty,", duty)} */}
-                        </td>
+                        >
+                          {/* position */}
+                          <td className={styles.tableData}>
+                            <input
+                              name="position"
+                              value={duty.position}
+                              className="outline-0 cursor-default"
+                              readOnly
+                            />
+                            {/* {console.log("duty,", duty)} */}
+                          </td>
 
-                        {/* employee */}
-                        <td className={styles.tableData}>
-                          <input
-                            className="bg-none font-bold px-2 w-full outline-0 cursor-default"
-                            value={duty.employee?.name || "Not Assinged"}
-                            readOnly
-                          />
-                        </td>
+                          {/* employee */}
+                          <td className={styles.tableData}>
+                            <input
+                              className="bg-none font-bold px-2 w-full outline-0 cursor-default"
+                              value={duty.employee?.name || "Not Assinged"}
+                              readOnly
+                            />
+                          </td>
 
-                        {/* start */}
-                        {/* neet fix values in here in propper way */}
-                        <td className={styles.tableData}>
-                          <input
-                            className={styles.attendanceViewInputField}
-                            value={duty.time || ""}
-                            readOnly
-                          />
-                        </td>
+                          {/* start */}
+                          {/* neet fix values in here in propper way */}
+                          <td className={styles.tableData}>
+                            <input
+                              className={styles.attendanceViewInputField}
+                              value={duty.time || ""}
+                              readOnly
+                            />
+                          </td>
 
-                        {/* neet fix values in here in propper way */}
-                        <td className={styles.tableData}>
-                          <input
-                            className={styles.attendanceViewInputField}
-                            value={`${duty.shift || "0"} hours`}
-                            readOnly
-                          />
-                        </td>
+                          {/* neet fix values in here in propper way */}
+                          <td className={styles.tableData}>
+                            <input
+                              className={styles.attendanceViewInputField}
+                              value={`${duty.shift || "0"} hours`}
+                              readOnly
+                            />
+                          </td>
 
-                        <td className={styles.tableData}>
-                          <input
-                            className={styles.attendanceViewInputField}
-                            value={duty.checkIn?.split("T")[1]?.substring(0, 5) || ""}
-                            readOnly
-                          />
-                        </td>
+                          <td className={styles.tableData}>
+                            <input
+                              className={styles.attendanceViewInputField}
+                              value={duty.checkIn?.split("T")[1]?.substring(0, 5) || ""}
+                              readOnly
+                            />
+                          </td>
 
-                        <td className={styles.tableData}>
-                          <input
-                            className={styles.attendanceViewInputField}
-                            value={duty.checkOut?.split("T")[1]?.substring(0, 5) || ""}
-                            readOnly
-                          />
-                        </td>
+                          <td className={styles.tableData}>
+                            <input
+                              className={styles.attendanceViewInputField}
+                              value={duty.checkOut?.split("T")[1]?.substring(0, 5) || ""}
+                              readOnly
+                            />
+                          </td>
 
-                        <td className={styles.tableData}>
-                          <input
-                            className={styles.attendanceViewInputField}
-                            value={duty.remark || ""}
-                            readOnly
-                          />
-                        </td>
+                          <td className={styles.tableData}>
+                            <input
+                              className={styles.attendanceViewInputField}
+                              value={duty.remark || ""}
+                              readOnly
+                            />
+                          </td>
 
-                        <td className={styles.tableData}>
-                          {duty.status == "present" ? (
-                            <button
-                              className={`bg-red-300 p-1 w-full cursor-pointer font-extralight hover:bg-red-400`}>
-                              Absent
-                            </button>
-                          ) : (
-                            <button
-                              className={`bg-green-300 p-1 w-full cursor-pointer font-extralight  hover:bg-green-400`}>
-                              Present
-                            </button>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                          <td className={styles.tableData}>
+                            {duty.status == "present" ? (
+                              <button
+                                className={`bg-red-300 p-1 w-full cursor-pointer font-extralight hover:bg-red-400`}>
+                                Absent
+                              </button>
+                            ) : (
+                              <button
+                                className={`bg-green-300 p-1 w-full cursor-pointer font-extralight  hover:bg-green-400`}>
+                                Present
+                              </button>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               ))}
           </div>
 
           <div className="flex gap-2 justify-end">
-            <button className="rounded-2xl bg-amber-300 p-3 cursor-pointer">Print</button>
-            <button className="rounded-2xl bg-amber-300 p-3 cursor-pointer">Print All</button>
-            {/* printing part is need to be done */}
+            <PrintAttendance dutudata={dutySet} />
           </div>
         </div>
       )}

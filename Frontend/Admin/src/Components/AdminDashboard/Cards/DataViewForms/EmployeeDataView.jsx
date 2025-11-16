@@ -1,13 +1,43 @@
 /* eslint-disable react/prop-types */
+import { useState } from "react";
 import profilePic from "../../../../assets/boy1.png";
+import ConfirmationWindow from "../../../../utils/ComfirmationWindowPopUp";
 import { Detail, Info } from "./Components";
+import { AnimatePresence } from "motion/react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { ClipLoader } from "react-spinners";
+import { Link } from "react-router-dom";
+import PrintEmployeeData from "../../../../utils/PrintEmployeeData";
 
 const EmployeeDataView = ({ data }) => {
+  const [confirmation, setConfirmation] = useState(false);
+  const [loading, setLoading] = useState(false);
   const files = [
     { label: "CV", url: data?.cv },
     { label: "GS", url: data?.gsCertificate },
     { label: "NIC Copy", url: data?.NICCopy },
   ];
+
+  const deleteRecord = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.delete(`/api/employee/${data._id}`, { withCredentials: true });
+      if (response.status == 200) {
+        toast.success(response.message || "Record deleted successfully!");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+      } else {
+        toast.error(response.message || "Failed to remove record!");
+      }
+    } catch (error) {
+      toast.error(`something went wrong!`);
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <main className="flex sm:flex-row flex-col justify-around  h-full bg-white p-4 gap-2 text-sm text-gray-800 font-medium">
@@ -75,7 +105,7 @@ const EmployeeDataView = ({ data }) => {
         {/* SPECIAL DETAILS */}
         <section>
           <h2 className="text-sm font-semibold mb-2">SPECIAL DETAILS</h2>
-          <Detail title="Disabilities" content={data?.disabilities || "none"} />
+          {/* <Detail title="Disabilities" content={data?.disabilities || "none"} /> */}
           <Detail title="Description" content={data?.description || "none"} />
         </section>
       </section>
@@ -84,13 +114,11 @@ const EmployeeDataView = ({ data }) => {
       <aside className=" p-4 overflow-hidden">
         <section className="mt-8">
           <h2 className="text-sm font-semibold">EMERGENCY</h2>
-
           <div className="mt-4 space-y-6">
-            <Info label="Name" value={data?.emergancey[0]?.name || "none"} />
-            <Info label="Address" value={data?.emergancey[0]?.address || "none"} />
-            <Info label="Contacts" value={data?.emergancey[0]?.contact || "none"} />
+            <Info label="Name" value={data?.emerganceyName || "none"} />
+            <Info label="Address" value={data?.emerganceyAddress || "none"} />
+            <Info label="Contacts" value={data?.emerganceyContact || "none"} />
           </div>
-
           {/* Uploaded Files Section */}
           <section className="mt-10">
             <h3 className="text-sm font-semibold mb-4">Files</h3>
@@ -113,14 +141,14 @@ const EmployeeDataView = ({ data }) => {
                       {/* PREVIEW */}
                       {isImage ? (
                         <img
-                          src={file.url}
-                          alt={file.label}
+                          src={file?.url}
+                          alt={file?.label}
                           className="h-20 w-20 object-cover rounded mb-2"
                         />
                       ) : isPdf ? (
                         <div className=" flex items-center justify-center bg-red-100 text-red-600 font-bold rounded mb-2">
                           <object
-                            data={file.url}
+                            data={file?.url}
                             type="application/pdf"
                             className="h-32 w-32 rounded border-0">
                             <p>Preview not available Click to download</p>
@@ -141,11 +169,25 @@ const EmployeeDataView = ({ data }) => {
             </ul>
           </section>
 
-          <div className="flex justify-end mt-10 ">
-            <button className="rounded-lg text-white hover:cursor-pointer hover:bg-pink-600 py-2 px-4 bg-pink-400 ">
-              Print
+          <div className="relative h-40 bottom-0 left-0 flex justify-end mt-10 gap-10 items-end">
+            <button
+              className="rounded-lg text-white hover:cursor-pointer hover:bg-pink-600 py-2 px-4 h-9 bg-pink-400 "
+              onClick={() => setConfirmation(!confirmation)}>
+              {loading ? <ClipLoader size={15} /> : `Delete`}
             </button>
+
+            <button className="rounded-lg text-white hover:cursor-pointer hover:bg-pink-600 py-2 px-4 bg-pink-400 ">
+              <Link to={`/customers/editEmployee/${data?._id}`} state={{ data }}>
+                Edit
+              </Link>
+            </button>
+
+            <PrintEmployeeData data={data} />
           </div>
+          <AnimatePresence>
+            {confirmation &&
+              ConfirmationWindow(deleteRecord, setConfirmation, "Delete This Record")}
+          </AnimatePresence>
         </section>
       </aside>
     </main>

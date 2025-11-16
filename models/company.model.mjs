@@ -16,7 +16,6 @@ const companySchema = new mongoose.Schema(
     },
     img: {
       type: String,
-      required: true,
     },
     companyId: {
       type: String,
@@ -35,7 +34,7 @@ const companySchema = new mongoose.Schema(
     },
     proposal: {
       type: String,
-      required: true,
+      // required: true,
     },
     companyEmail: {
       type: String,

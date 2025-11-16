@@ -4,6 +4,8 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import { v2 as cloudinary } from "cloudinary";
 import fileUpload from "express-fileupload";
+import path, { dirname, join } from "path";
+import { fileURLToPath } from "url";
 
 import connectMongoDB from "./db/connectMondoDB.mjs";
 
@@ -16,7 +18,11 @@ import notificationRouter from "./routes/notification.router.mjs";
 import webRouter from "./routes/web.router.mjs";
 import reqRouter from "./routes/request.router.mjs";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 dotenv.config();
+
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -38,7 +44,7 @@ app.use(
 app.use(express.json({ limit: "50mb" })); //this can cause DOS atatacks bit needed to upload pdfs
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use("/uploadDocument", express.static("/uploads")); //need to understand and not tested
+//app.use("/uploadDocument", express.static("/uploads")); //need to understand and not tested
 app.use(fileUpload());
 
 //base path router module
@@ -50,6 +56,18 @@ app.use("/api/company", companyRouter);
 app.use("/api/notification", notificationRouter);
 app.use("/api/web", webRouter);
 app.use("/api/req", reqRouter); //not tested //from web site
+
+//deployment
+app.use("/app", express.static(join(__dirname, "Frontend/Admin/build")));
+app.use(express.static(join(__dirname, "Frontend/Website/build")));
+
+app.get(/^\/app\/.*/, (req, res) => {
+  res.sendFile(join(__dirname, "Frontend/Admin/build", "index.html"));
+});
+
+app.get(/^\/.*/, (req, res) => {
+  res.sendFile(join(__dirname, "Frontend/Website/build", "index.html"));
+});
 
 app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
 connectMongoDB();

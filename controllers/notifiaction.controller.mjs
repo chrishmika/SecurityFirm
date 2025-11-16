@@ -51,7 +51,11 @@ export const markFavourite = async (req, res) => {
     await notification.save();
     console.log(notification);
 
-    res.status(200).json(notification);
+    if (notification.favourite) {
+      res.status(200).json({ notification, message: "Added to Favourite" });
+    } else {
+      res.status(200).json({ notification, message: "Removed from Favourite" });
+    }
   } catch (error) {
     console.log(`error on notification controller ${error.message}`);
     res.status(500).json({ error: `internal server error on markFavourite` });

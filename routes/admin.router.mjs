@@ -1,5 +1,5 @@
 import express from "express";
-import { createCompany, createEmployee } from "../controllers/admin.controller.mjs";
+import { createCompany, createEmployee, getStatistics } from "../controllers/admin.controller.mjs";
 import { protectedRoute } from "../middleware/protectedRoute.mjs";
 import { adminAccess } from "../middleware/adminAccess.mjs";
 
@@ -10,5 +10,6 @@ router.use(adminAccess);
 
 router.post("/createEmployee", protectedRoute, createEmployee);
 router.post("/createCompany", protectedRoute, createCompany);
+router.post("/viewStats", protectedRoute, getStatistics);
 
 export default router;

@@ -2,7 +2,7 @@
 
 const DutySearchForm = ({ submitHandler, changeHandler, selectedCompanyName, companylist }) => {
   return (
-    <div className="">
+    <div className="bg-white rounded-b-2xl shadow-2xl">
       <form
         onSubmit={submitHandler}
         className="flex flex-col gap-2 border-2 border-t-0 p-4 rounded-b-2xl">

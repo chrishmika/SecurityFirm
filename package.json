@@ -1,11 +1,12 @@
 {
   "name": "new-server",
   "version": "1.0.0",
-  "main": "Backend/server.mjs",
+  "main": "server.mjs",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon backend/server.mjs"
+    "dev": "nodemon server.mjs",
+    "heroku-postbuild": "cd Frontend/Website && npm install && npm run build && cd ../Admin && npm install && npm run build"
   },
   "keywords": [],
   "author": "",

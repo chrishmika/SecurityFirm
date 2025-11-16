@@ -18,7 +18,7 @@ const AddUsers = () => {
 
       <div className="flex items-center justify-center ">
         <div className="w-full max-w-5xl bg-white p-6 rounded-lg shadow-lg">
-          {/* <EmployeeSearch />*/}
+          {/* EmployeeSearch*/}
           {!choice ? <EmployeeForm /> : <CompanyForm />}
         </div>
       </div>
