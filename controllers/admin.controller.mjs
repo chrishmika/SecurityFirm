@@ -128,32 +128,37 @@ export const getStatistics = async (req, res) => {
   try {
     const { year, month } = req.body;
 
-    // Find the duty sheet for the company, year, and month
-    const dutySheet = await Duty.findOne({
-      year: 2025,
-      month: "January",
-    });
-    console.log(dutySheet);
-    console.log(year, month);
+    // Get all matching duty sheets
+    const dutySheets = await Duty.find({ year, month });
 
-    if (!dutySheet || !Array.isArray(dutySheet.duties)) {
-      return res.status(200).json([0, 0, 0, dutySheet]); // No duties found
+    if (!dutySheets.length) {
+      return res.status(200).json([0, 0, 0]);
     }
+
     const today = new Date();
     const day = today.getDate();
-    // Filter duties for the specific day
-    const todayDuties = dutySheet.duties.filter((d) => d.day === day);
 
-    // Count statuses
+    // Flatten all duties from all sheets
+    console.log(dutySheets);
+    console.log("------------------------------------------------");
+
+    const allDuties = dutySheets.flatMap((sheet) => sheet.duties || []);
+    console.log(allDuties);
+
+    // Duties for today's date across all sheets
+    const todayDuties = allDuties.filter((d) => d.day === day);
+
+    // Count them
     const count = { present: 0, late: 0, absent: 0 };
-    todayDuties.forEach((duty) => {
-      if (duty.status === "present") count.present++;
-      else if (duty.status === "late") count.late++;
+
+    todayDuties.forEach((d) => {
+      if (d.status === "present") count.present++;
+      else if (d.status === "late") count.late++;
       else count.absent++;
     });
 
-    // Return counts in order: [present, late, absent]
-    res.status(200).json([count.present, count.late, count.absent]);
+    res.status(200).json(dutySheets);
+    // res.status(200).json([count.present, count.late, count.absent]);
   } catch (error) {
     console.error("Error fetching daily statistics:", error);
     res.status(500).json({ message: "Internal server error" });
