@@ -72,8 +72,6 @@ const Navigation = () => {
     },
   ];
   useState(() => {
-    console.log(screen.width);
-
     screen.width <= 500 ? setIsMenuOpen(false) : setIsMenuOpen(false);
   }, []);
   return (
