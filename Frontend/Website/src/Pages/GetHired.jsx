@@ -35,9 +35,9 @@ const GetHired = () => {
             <div>
               <h3 className="text-xl font-semibold text-gray-700 mb-2">Company Address</h3>
               <p className="text-gray-600 leading-relaxed">
-                123 Business Avenue <br />
-                City, State 10001 <br />
-                Country
+                No 279/2,Elivila Road, <br />
+                Makandura,Gonawila, 60170 <br />
+                Sri Lanka
               </p>
             </div>
           </div>
@@ -48,9 +48,8 @@ const GetHired = () => {
             <div>
               <h3 className="text-xl font-semibold text-gray-700 mb-2">Phone Numbers</h3>
               <p className="text-gray-600 leading-relaxed">
-                Office: +1 (123) 456-7890 <br />
-                Emergency: +1 (123) 456-7891 <br />
-                Fax: +1 (123) 456-7892
+                Office: 031 2299454<br />
+                Emergency: 077 7446637 <br />
               </p>
             </div>
           </div>
@@ -61,8 +60,7 @@ const GetHired = () => {
             <div>
               <h3 className="text-xl font-semibold text-gray-700 mb-2">Email Address</h3>
               <p className="text-gray-600 leading-relaxed">
-                info@company.com <br />
-                support@company.com
+                dvisioninternational1@gmail.com<br />
               </p>
             </div>
           </div>
@@ -73,9 +71,8 @@ const GetHired = () => {
             <div>
               <h3 className="text-xl font-semibold text-gray-700 mb-2">Office Hours</h3>
               <p className="text-gray-600 leading-relaxed">
-                Monday–Friday: 9:00 AM – 5:00 PM <br />
-                Saturday: 10:00 AM – 2:00 PM <br />
-                Sunday: Closed
+                Monday–Sunday: 9:00 AM – 5:00 PM <br />
+                Sunday: 10:00 AM – 2:00 PM <br />
               </p>
             </div>
           </div>
@@ -88,7 +85,7 @@ const GetHired = () => {
               <div className="mt-2 rounded-lg overflow-hidden w-full shadow-md">
                 <iframe
                   title="Company Location"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.215373510518!2d-73.98784468459382!3d40.74844047932799!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQ0JzU0LjQiTiA3M8KwNTknMTkuNyJX!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus"
+                  src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1663.833750860656!2d79.9761102090686!3d7.321751794275841!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2slk!4v1763375186963!5m2!1sen!2slk"
                   width="100%"
                   height="220"
                   className="border-0"
