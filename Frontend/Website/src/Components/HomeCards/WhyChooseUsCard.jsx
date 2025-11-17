@@ -4,7 +4,7 @@ const WhyChooseUsCard = () => {
   const reasons = [
     {
       icon: "🛡️",
-      title: "Over 10 years of experience in the security industry",
+      title: "Over 2 years of experience in the security industry",
       gradient: "from-blue-500 to-cyan-500",
     },
     {
@@ -96,14 +96,14 @@ const WhyChooseUsCard = () => {
                     Join hundreds of satisfied clients who trust us with their security needs. Get a
                     customized quote today.
                   </p>
-                  <div className="flex justify-center space-x-4">
+                  {/* <div className="flex justify-center space-x-4">
                     <div className="bg-white/20 backdrop-blur-sm rounded-full px-6 py-3 text-sm font-semibold">
                       ⭐ 4.9/5 Client Rating
                     </div>
                     <div className="bg-white/20 backdrop-blur-sm rounded-full px-6 py-3 text-sm font-semibold">
                       🏆 Industry Leaders
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

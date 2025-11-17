@@ -67,16 +67,16 @@ const MainHomeCard = () => {
           <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">Contact Us</h2>
             <p className="text-gray-700 mb-2">
-              📞 <span className="font-semibold">+94 77 123 4567</span>
+              📞 <span className="font-semibold">+94 77 7446637</span>
             </p>
             <p className="text-gray-700 mb-6">
-              📧 <span className="font-semibold">info@dvision.com</span>
+              📧 <span className="font-semibold">dvisioninternational1@gmail.com</span>
             </p>
             <p className="text-gray-700 mb-2">
               🌎
               <span className="font-semibold">
-                958/35 kks road <br />
-                jaffna <br />
+                No 279/2,Elivila Road, <br />
+                Makandura,Gonawila, 60170<br />
               </span>
             </p>
             <button
