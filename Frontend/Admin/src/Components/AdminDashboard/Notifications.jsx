@@ -25,23 +25,23 @@ const Notifications = () => {
 
   return (
     <div className="my-10 overflow-y-scroll overflow-x-hidden container">
-      <div className="static w-full border-b-2 border-gray-400 pb-5 flex h-10 justify-center items-center font-bold mb-10 gap-3">
+      <div className="static w-full border-b-2 border-gray-400 pb-5 flex h-fit justify-center items-center font-bold mb-10 gap-3">
         <div
-          className="bg-amber-400 w-1/3 cursor-pointer hover:bg-amber-500 flex justify-center"
+          className="bg-blue-400 w-1/3 cursor-pointer hover:bg-blue-500 flex justify-center rounded-3xl h-10 items-center"
           onClick={() => {
             setFilter("");
           }}>
           All
         </div>
         <div
-          className="bg-green-400 w-1/3 cursor-pointer hover:bg-green-900 flex justify-center"
+          className="bg-blue-400 w-1/3 cursor-pointer hover:bg-blue-500 flex justify-center rounded-3xl h-10 items-center"
           onClick={() => {
             setFilter("company");
           }}>
           Company
         </div>
         <div
-          className="bg-orange-400 w-1/3 cursor-pointer hover:bg-orange-600 flex justify-center"
+          className="bg-blue-400 w-1/3 cursor-pointer hover:bg-blue-500 flex justify-center rounded-3xl h-10 items-center"
           onClick={() => {
             setFilter("employee");
           }}>

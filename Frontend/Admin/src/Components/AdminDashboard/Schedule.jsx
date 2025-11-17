@@ -335,7 +335,7 @@ const Schedule = () => {
                 <button className="p-3.5 bg-green-400 hover:bg-green-500 cursor-pointer mt-4 rounded-3xl  text-white">
                   Add Schedule
                 </button>
-                <PrintEmployeeData dutudata={dutySet} />
+                <PrintEmployeeData dutydata={dutySet} />
               </div>
             </form>
           </div>

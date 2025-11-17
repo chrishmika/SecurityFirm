@@ -9,7 +9,7 @@ export const EmployeeProvider = ({ children }) => {
     NIC: "",
     sex: "",
     birthday: "",
-    // address: "",
+    password: "",
     number: "",
     street: "",
     city: "",

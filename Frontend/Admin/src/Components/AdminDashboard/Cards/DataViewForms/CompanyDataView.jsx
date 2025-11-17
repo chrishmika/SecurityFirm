@@ -164,7 +164,7 @@ const CompanyDataView = ({ data }) => {
         </div>
         <div className="flex justify-end mt-4 gap-10">
           <button
-            className="rounded-lg text-white hover:cursor-pointer hover:bg-pink-600 py-2 px-4 h-9 bg-pink-400 "
+            className="rounded-lg text-white hover:cursor-pointer hover:bg-red-600 py-2 px-4 h-9 bg-red-400 "
             onClick={() => setConfirmation(!confirmation)}>
             {loading ? <ClipLoader size={15} /> : `Delete`}
           </button>

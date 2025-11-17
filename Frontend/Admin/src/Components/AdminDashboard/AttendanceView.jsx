@@ -248,13 +248,13 @@ const Schedule = () => {
                           <td className={styles.tableData}>
                             {duty.status == "present" ? (
                               <button
-                                className={`bg-red-300 p-1 w-full cursor-pointer font-extralight hover:bg-red-400`}>
-                                Absent
+                                className={`bg-green-300 p-1 w-full cursor-pointer font-extralight hover:bg-c-400`}>
+                                present
                               </button>
                             ) : (
                               <button
-                                className={`bg-green-300 p-1 w-full cursor-pointer font-extralight  hover:bg-green-400`}>
-                                Present
+                                className={`bg-red-300 p-1 w-full cursor-pointer font-extralight  hover:bg-red-400`}>
+                                Absent
                               </button>
                             )}
                           </td>
@@ -267,7 +267,7 @@ const Schedule = () => {
           </div>
 
           <div className="flex gap-2 justify-end">
-            <PrintAttendance dutudata={dutySet} />
+            <PrintAttendance dutydata={dutySet} />
           </div>
         </div>
       )}

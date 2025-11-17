@@ -203,6 +203,12 @@ const EmployeeForm = () => {
           {step === 3 && (
             <StepSection title="Job Details">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Input
+                  label="Password"
+                  name="password"
+                  value={employee.password}
+                  onChange={handleChange}
+                />
                 <Input label="EPF Number" name="EPF" value={employee.EPF} onChange={handleChange} />
                 <Input label="ETF Number" name="ETF" value={employee.ETF} onChange={handleChange} />
                 <Select
