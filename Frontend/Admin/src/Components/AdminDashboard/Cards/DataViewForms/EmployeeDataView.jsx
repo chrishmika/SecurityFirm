@@ -171,7 +171,7 @@ const EmployeeDataView = ({ data }) => {
 
           <div className="relative h-40 bottom-0 left-0 flex justify-end mt-10 gap-10 items-end">
             <button
-              className="rounded-lg text-white hover:cursor-pointer hover:bg-pink-600 py-2 px-4 h-9 bg-pink-400 "
+              className="rounded-lg text-white hover:cursor-pointer hover:bg-red-600 py-2 px-4 h-9 bg-red-400 "
               onClick={() => setConfirmation(!confirmation)}>
               {loading ? <ClipLoader size={15} /> : `Delete`}
             </button>

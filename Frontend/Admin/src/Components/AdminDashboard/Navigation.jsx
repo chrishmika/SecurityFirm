@@ -35,28 +35,28 @@ const Navigation = () => {
     //   link: "Dashboard",
     // },
     {
-      title: "Attendance",
+      title: "Attendance View",
       icon: <FaBinoculars className="text-xl" />,
       path: "attendance",
-      link: "Attendance",
+      link: "Attendance View",
     },
     {
-      title: "Customers",
+      title: "Customers Details",
       icon: <FaBlackTie className="text-xl" />,
       path: "customers",
-      link: "Connections",
+      link: "Customers Details",
     },
     {
-      title: "Add Users",
+      title: "Add New Users",
       icon: <FaImagePortrait className="text-xl" />,
       path: "addUsers",
-      link: "Connect",
+      link: "Add New Users",
     },
     {
-      title: "Applications",
+      title: "View Applications",
       icon: <FaFileLines className="text-xl" />,
       path: "applications",
-      link: "Applications",
+      link: "View Applications",
     },
     {
       title: "Notifications",
@@ -65,10 +65,10 @@ const Navigation = () => {
       link: "Notifications",
     },
     {
-      title: "Schedule",
+      title: "Create Schedule",
       icon: <GrSchedule className="text-xl" />,
       path: "schedule",
-      link: "Schedule",
+      link: "Create Schedule",
     },
   ];
   useState(() => {
