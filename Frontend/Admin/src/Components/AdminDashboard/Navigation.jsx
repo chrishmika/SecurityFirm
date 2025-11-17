@@ -28,12 +28,12 @@ const Navigation = () => {
   ////////add "are you sure you wanna logout" confirmation window
 
   const navItems = [
-    {
-      title: "Dashboard",
-      icon: <FaAtom className="text-xl" />,
-      path: "",
-      link: "Dashboard",
-    },
+    // {
+    //   title: "Dashboard",
+    //   icon: <FaAtom className="text-xl" />,
+    //   path: "",
+    //   link: "Dashboard",
+    // },
     {
       title: "Attendance",
       icon: <FaBinoculars className="text-xl" />,

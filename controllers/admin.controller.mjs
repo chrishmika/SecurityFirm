@@ -113,7 +113,7 @@ export const createCompany = async (req, res) => {
       admin._id,
       newRequest._id,
       "Company",
-      "New Company Joined",
+      "company",
       `new company ${newRequest.name} joined`
     );
 
