@@ -36,7 +36,7 @@ const AboutUs = () => {
         <AboutUsCard />
         <OurVisionCard />
         <WhyChooseUsCard />
-        <OurTeamCard />
+        {/* <OurTeamCard /> */}
       </div>
     </div>
   );
