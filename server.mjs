@@ -59,14 +59,14 @@ app.use("/api/web", webRouter);
 app.use("/api/req", reqRouter); //not tested //from web site
 
 //deployment
-app.use("/app", express.static(join(__dirname, "Frontend/Admin/dist")));
-app.use(express.static(join(__dirname, "Frontend/Website/dist")));
-
-// Paths to your built frontends
-const adminBuildPath = join(__dirname, "Frontend/Admin/dist"); // or "build" if React/Vue
-const websiteBuildPath = join(__dirname, "Frontend/Website/dist"); // or "build"
-
 if (process.env.NODE_ENV === "production") {
+  app.use("/app", express.static(join(__dirname, "Frontend/Admin/dist")));
+  app.use(express.static(join(__dirname, "Frontend/Website/dist")));
+
+  // Paths to your built frontends
+  const adminBuildPath = join(__dirname, "Frontend/Admin/dist"); // or "build" if React/Vue
+  const websiteBuildPath = join(__dirname, "Frontend/Website/dist"); // or "build"
+
   app.get("/app/*", (req, res) => {
     const adminIndex = join(adminBuildPath, "index.html");
     if (fs.existsSync(adminIndex)) {
