@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useLogin from "../../hooks/useLogin";
 import { toast } from "react-toastify";
-
+import logoMain from "../../assets/logo-01.png";
 //css styles
 import { styles1 as styles } from "../../Components/styles/loginStyles";
 
@@ -36,7 +36,7 @@ const Login = () => {
 
       <div className={styles.loginContainer}>
         <div className={styles.loginCompanyLogo}>
-          <img src="/logo-01.png" className="h-auto w-60 " />
+          <img src={logoMain} className="h-auto w-60 " />
         </div>
 
         <div className={styles.loginFormContainer}>
