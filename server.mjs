@@ -58,15 +58,15 @@ app.use("/api/web", webRouter);
 app.use("/api/req", reqRouter); //not tested //from web site
 
 //deployment
-app.use("/app", express.static(join(__dirname, "Frontend/Admin/build")));
-app.use(express.static(join(__dirname, "Frontend/Website/build")));
+app.use("/app", express.static(join(__dirname, "Frontend/Admin/dist")));
+app.use(express.static(join(__dirname, "Frontend/Website/dist")));
 
 app.get(/^\/app\/.*/, (req, res) => {
-  res.sendFile(join(__dirname, "Frontend/Admin/build", "index.html"));
+  res.sendFile(join(__dirname, "Frontend/Admin/dist", "index.html"));
 });
 
 app.get(/^\/.*/, (req, res) => {
-  res.sendFile(join(__dirname, "Frontend/Website/build", "index.html"));
+  res.sendFile(join(__dirname, "Frontend/Website/dist", "index.html"));
 });
 
 app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
