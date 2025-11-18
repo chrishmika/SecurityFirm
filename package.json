@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.mjs",
-    "heroku-postbuild": "cd Frontend/Website && npm install && npm run build && cd ../Admin && npm install && npm run build"
+    "heroku-postbuild": "cd Frontend/Admin && npm install && npm run build && cd ../Website && npm install && npm run build"
   },
   "keywords": [],
   "author": "",

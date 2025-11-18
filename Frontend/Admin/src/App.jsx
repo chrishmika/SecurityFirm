@@ -62,7 +62,8 @@ const webRouter = createBrowserRouter(
           </NotSignInRedirect>
         }>
         <Route path="/" element={<Admin />}>
-          <Route path="/" element={<AdminDashboard />} />
+          {/* <Route path="/" element={<AdminDashboard />} /> */}
+          <Route path="/" element={<AttendanceView />} />
           <Route path="attendance" element={<AttendanceView />} />
           <Route path="customers" element={<ShowCustomers />} />
           <Route path="customers/editEmployee/:id" element={<UpdateEmployeeData />} />
