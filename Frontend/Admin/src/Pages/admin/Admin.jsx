@@ -19,5 +19,3 @@ const Admin = () => {
 };
 
 export default Admin;
-
-// http://localhost:2000/

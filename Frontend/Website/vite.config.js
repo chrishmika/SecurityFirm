@@ -9,7 +9,7 @@ export default defineConfig({
     port: 2001,
     proxy: {
       "/api": {
-        target: "http://localhost:5000", //need to change for other pcs
+        target: " https://dvision-security-bbb0c037f11e.herokuapp.com/api/", //need to change for other pcs
         changeOrigin: true,
         secure: false,
       },

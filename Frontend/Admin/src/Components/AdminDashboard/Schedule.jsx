@@ -359,10 +359,3 @@ const Schedule = () => {
 };
 
 export default Schedule;
-
-//to get list of companies and employees to choose them on list to assign
-//http://localhost:5000/api/company/getCompanyList
-//http://localhost:5000/api/employee/employeeList
-//need to print the schedule
-
-// go and fix fix look data base and see the issues

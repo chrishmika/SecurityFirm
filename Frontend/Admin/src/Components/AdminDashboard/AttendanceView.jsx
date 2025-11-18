@@ -39,7 +39,7 @@ const Schedule = () => {
 
   useEffect(() => {
     (async () => {
-      const response = await axios("http://localhost:5000/api/company/getCompanyList", {
+      const response = await axios("/api/company/getCompanyList", {
         withCredentials: true,
       });
       if (!response) {
@@ -290,6 +290,3 @@ const Schedule = () => {
 
 export default Schedule;
 
-//to get list of companies and employees to choose them on list to assign
-//http://localhost:5000/api/company/getCompanyList
-//http://localhost:5000/api/employee/employeeList
