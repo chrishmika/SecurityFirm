@@ -78,7 +78,8 @@ const webRouter = createBrowserRouter(
       {/* add user Routes which irusha is creating on mobile app sides on deploying*/}
       <Route path="*" element={<NotFound />} />
     </React.Fragment>
-  )
+  ),
+  { basename: "/app" }
 );
 
 const App = () => {
