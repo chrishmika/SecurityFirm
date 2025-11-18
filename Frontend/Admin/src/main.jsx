@@ -9,14 +9,12 @@ import { CompanyProvider } from "./context/CompanyContextProvider.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter basename="/app">
-      <AuthContexProvider>
-        <EmployeeProvider>
-          <CompanyProvider>
-            <App />
-          </CompanyProvider>
-        </EmployeeProvider>
-      </AuthContexProvider>
-    </BrowserRouter>
+    <AuthContexProvider>
+      <EmployeeProvider>
+        <CompanyProvider>
+          <App />
+        </CompanyProvider>
+      </EmployeeProvider>
+    </AuthContexProvider>
   </StrictMode>
 );
