@@ -1,5 +1,5 @@
 import React from "react";
-import ClientCard from "./clientCard";
+import ClientCard from "./ClientCard";
 
 import { clients } from "../../AdditionalData.json";
 
