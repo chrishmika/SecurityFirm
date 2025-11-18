@@ -18,24 +18,24 @@ const JoinUs = () => {
       {/* Image + Paragraph Section */}
       <div className="flex flex-col lg:flex-row mb-8 items-center gap-6">
         <div className="flex-1 p-4 text-left">
-          <p className="text-gray-700 leading-relaxed mb-5">
-            At <span className="text-blue-600 font-semibold">D-vision</span>, we are always looking
+          <p className="text-3xl text-gray-700 mb-5 pb-3">
+            At <span className=" text-blue-600 font-semibold">D-vision</span>, we are always looking
             for dedicated security professionals to join our team. We offer competitive wages,
             benefits, and flexible hours. If you are passionate about safety and protection, apply
             now to start your career in security with us.
           </p>
 
-          <h2 className="text-2xl text-blue-900 font-semibold mb-3">
+          <h2 className="text-4xl text-blue-900 font-semibold mb-3">
             Security Guard Application Process
           </h2>
-          <ul className="list-disc list-inside text-gray-700 leading-relaxed mb-5">
+          <ul className="list-disc list-inside text-xl text-gray-700 leading-relaxed mb-5">
             <li>Our HR team will review your application.</li>
             <li>Shortlisted candidates will be contacted for an interview.</li>
             <li>Successful applicants undergo training before deployment.</li>
           </ul>
 
-          <p className="text-gray-700 mb-5">
-            Click the button below to start the application process on Indeed.
+          <p className="text-2xl text-gray-700 mb-5">
+            Fill out the form below to apply.
           </p>
         </div>
 

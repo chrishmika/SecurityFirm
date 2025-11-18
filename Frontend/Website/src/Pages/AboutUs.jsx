@@ -17,12 +17,12 @@ const AboutUs = () => {
 
       {/* Intro Paragraphs */}
       <div className="max-w-4xl mx-auto text-center mb-12 space-y-4">
-        <p className="text-gray-700 leading-relaxed text-lg">
+        <p className="text-gray-700 leading-relaxed text-xl">
           We are a leading security service provider dedicated to ensuring the safety and security
           of our clients. With years of experience in the industry, we offer a wide range of
           security solutions tailored to meet the unique needs of each client.
         </p>
-        <p className="text-gray-700 leading-relaxed text-lg">
+        <p className="text-gray-700 leading-relaxed text-xl">
           Founded with a vision to redefine security services,{" "}
           <span className="text-blue-600 font-semibold">D Vision</span> was established by industry
           veterans who recognized the need for a more customer-focused and responsive approach. From

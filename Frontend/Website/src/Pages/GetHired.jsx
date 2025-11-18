@@ -12,11 +12,10 @@ const GetHired = () => {
 
       {/* Sub Header */}
       <div className="text-center mb-6">
-        <h2 className="text-2xl text-gray-800 font-medium mb-3">
-          “Have questions or need security services? Reach out to us or request a custom quote
-          below.” 👇
+        <h2 className="text-3xl text-gray-800 font-medium mb-3">
+          “Have questions or need security services?” 
         </h2>
-        <p className="text-gray-600 max-w-3xl mx-auto leading-relaxed">
+        <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
           Fill out our Security Services Quote Form and we’ll get back to you immediately with a
           tailored proposal. Whether you need a one-time event security guard or a long-term
           contract, we’ve got you covered with professional manpower and reliable solutions.
@@ -24,10 +23,10 @@ const GetHired = () => {
       </div>
 
       {/* Contact Info + Form Section */}
-      <div className="flex flex-col lg:flex-row-reverse w-full max-w-7xl mx-auto gap-10 p-6">
+      <div className="flex flex-col lg:flex-row-reverse w-full max-w-7xl mx-auto gap-10 p-6 bg-yellow-50 rounded-3xl">
         {/* Contact Info Section */}
-        <div className="flex-1">
-          <h2 className="text-3xl font-bold text-gray-800 mb-8">Contact Us</h2>
+        <div className="flex-1 bg-white pb-5 px-5 ">
+          <h2 className="text-3xl font-bold text-gray-800 mb-8 bg-yellow-50 p-5">Contact Us</h2>
 
           {/* Address */}
           <div className="flex items-start mb-6">

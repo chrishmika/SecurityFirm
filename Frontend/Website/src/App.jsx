@@ -4,6 +4,8 @@ import {
   RouterProvider,
   Route,
   createRoutesFromElements,
+  ScrollRestoration,
+  Outlet
 } from "react-router-dom";
 
 //website imports
@@ -17,12 +19,22 @@ import GetHired from "./Pages/GetHired";
 import JobApplyForm from "./Components/Application Forms/JobApplyForm";
 import NotFound from "./Pages/notFound/NotFound";
 
+// Create a wrapper component with ScrollRestoration
+const LayoutWithScroll = () => {
+  return (
+    <>
+      <Layout />
+      <ScrollRestoration />
+    </>
+  );
+};
+
 // Using the createRoutesFromElements approach from the main branch
 //routings that related with website
 const webRouter = createBrowserRouter(
   createRoutesFromElements(
     <React.Fragment>
-      <Route path="/" element={<Layout />}>
+      <Route path="/" element={<LayoutWithScroll />}>
         <Route path="/" element={<Home />} />
         <Route path="about" element={<AboutUs />} />
         <Route path="services" element={<Services />} />
