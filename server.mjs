@@ -6,7 +6,6 @@ import { v2 as cloudinary } from "cloudinary";
 import fileUpload from "express-fileupload";
 import path, { dirname, join } from "path";
 import { fileURLToPath } from "url";
-import fs from "fs";
 
 import connectMongoDB from "./db/connectMondoDB.mjs";
 
@@ -59,35 +58,16 @@ app.use("/api/web", webRouter);
 app.use("/api/req", reqRouter); //not tested //from web site
 
 //deployment
-if (process.env.NODE_ENV === "production") {
-  app.use("/app", express.static(join(__dirname, "Frontend/Admin/dist")));
-  app.use(express.static(join(__dirname, "Frontend/Website/dist")));
+app.use("/app", express.static(join(__dirname, "Frontend/Admin/dist")));
+app.use(express.static(join(__dirname, "Frontend/Website/dist")));
 
-  // Paths to your built frontends
-  const adminBuildPath = join(__dirname, "Frontend/Admin/dist"); // or "build" if React/Vue
-  const websiteBuildPath = join(__dirname, "Frontend/Website/dist"); // or "build"
+app.get(/^\/app\/.*/, (req, res) => {
+  res.sendFile(join(__dirname, "Frontend/Admin/dist", "index.html"));
+});
 
-  app.get("/app/*", (req, res) => {
-    const adminIndex = join(adminBuildPath, "index.html");
-    if (fs.existsSync(adminIndex)) {
-      res.sendFile(adminIndex);
-    } else {
-      res.status(500).send("Admin SPA not built yet");
-    }
-  });
-
-  // Website SPA catch-all
-  app.get("*", (req, res) => {
-    if (!req.path.startsWith("/api") && !req.path.startsWith("/app")) {
-      const websiteIndex = join(websiteBuildPath, "index.html");
-      if (fs.existsSync(websiteIndex)) {
-        res.sendFile(websiteIndex);
-      } else {
-        res.status(500).send("Website SPA not built yet");
-      }
-    }
-  });
-}
+app.get(/^\/.*/, (req, res) => {
+  res.sendFile(join(__dirname, "Frontend/Website/dist", "index.html"));
+});
 
 app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
 connectMongoDB();
