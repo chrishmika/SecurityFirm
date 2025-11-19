@@ -82,9 +82,7 @@ export const createEmployee = async (req, res) => {
     const msg = error?.message || JSON.stringify(error) || "Unknown error";
     console.log(msg);
 
-    return res
-      .status(500)
-      .json({ error: `internal server error on admin controller,${error.message}` });
+    return res.status(500).json({ error: `internal server error on admin controller` });
   }
 };
 
