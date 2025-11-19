@@ -55,7 +55,6 @@ const PieChart = ({ companyId }) => {
 
     const index = elements[0].index;
     const label = chartData.labels[index];
-    console.log("Clicked slice:", label);
     // Add navigation or filtering logic here
   };
 

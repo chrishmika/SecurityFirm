@@ -81,7 +81,6 @@ const CompanyForm = () => {
 
   const handleRequirementInputChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
     setCurrentInputs((prev) => ({
       ...prev,
       [name]: name === "count" ? (value === "" ? "" : Number(value)) : value,
@@ -90,7 +89,6 @@ const CompanyForm = () => {
 
   const addRequirement = (e) => {
     e.preventDefault();
-    console.log(e.target.value);
 
     // validations
     if (!currentInputs.position || currentInputs.position === "Select Position") {
@@ -112,8 +110,6 @@ const CompanyForm = () => {
     setCurrentInputs({ position: "", count: "" });
   };
 
-  console.log("currentInputs", currentInputs);
-
   const removeRequirement = (index, e) => {
     e.preventDefault();
     setCompany((prev) => ({
@@ -124,7 +120,6 @@ const CompanyForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("company,", company);
 
     try {
       SetLoading(true);

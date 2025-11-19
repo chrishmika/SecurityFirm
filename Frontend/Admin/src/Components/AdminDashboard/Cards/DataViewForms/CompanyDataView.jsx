@@ -13,7 +13,6 @@ import PrintCompanyData from "../../../../utils/PrintCompanyData";
 const CompanyDataView = ({ data }) => {
   const [confirmation, setConfirmation] = useState(false);
   const [loading, setLoading] = useState(false);
-  console.log(data);
 
   const deleteRecord = async () => {
     try {
@@ -29,7 +28,6 @@ const CompanyDataView = ({ data }) => {
       }
     } catch (error) {
       toast.error(`something went wrong!`);
-      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -174,7 +172,6 @@ const CompanyDataView = ({ data }) => {
               Edit
             </Link>
           </button>
-          {console.log(data?._id)}
 
           <PrintCompanyData data={data} />
         </div>

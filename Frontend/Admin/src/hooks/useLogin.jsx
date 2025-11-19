@@ -16,8 +16,6 @@ const useLogin = () => {
       SetLoading(true);
       const response = await axios.post("/api/auth/login", loginData, { withCredentials: true });
 
-      console.log(response);
-
       setStatus("LOGIN");
       setUser(response.data);
       SetLoading(false);
@@ -25,8 +23,6 @@ const useLogin = () => {
       SetLoading(false);
 
       const errMsg = error.response?.data?.error || "Login failed";
-      console.log(errMsg);
-      // Notify(errMsg); //message from backend //this pard dosent work
 
       return;
     }

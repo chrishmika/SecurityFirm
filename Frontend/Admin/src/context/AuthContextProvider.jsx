@@ -13,7 +13,6 @@ export const AuthContexProvider = ({ children }) => {
     (async () => {
       try {
         const res = await axios.get("/api/auth/me", { withCredentials: true });
-        console.log(res.data);
 
         setUser(res.data);
       } catch (error) {

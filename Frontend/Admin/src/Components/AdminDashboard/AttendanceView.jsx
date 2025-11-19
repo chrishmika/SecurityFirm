@@ -53,7 +53,6 @@ const Schedule = () => {
     e.preventDefault();
     if (e.target.name == "yearMonth") {
       const year_month = e.target.value.split("-");
-      console.log(year_month);
 
       setSelectedYear(year_month[0]);
       setSelectedMonth(year_month[1]);
@@ -190,7 +189,6 @@ const Schedule = () => {
                               className="outline-0 cursor-default"
                               readOnly
                             />
-                            {/* {console.log("duty,", duty)} */}
                           </td>
 
                           {/* employee */}
@@ -289,4 +287,3 @@ const Schedule = () => {
 };
 
 export default Schedule;
-

@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getDistance } from "geolib";
 import React, { createContext, useState } from "react";
-import * as Location from 'expo-location'; // Replace react-native-geolocation-service
+import * as Location from "expo-location"; // Replace react-native-geolocation-service
 import { useEffect } from "react";
 
 export const LocationContext = createContext();
@@ -20,16 +20,15 @@ export const LocationProvider = ({ children }) => {
     checkInTime: null,
     checkOutTime: null,
     status: null,
-    ot: 0
+    ot: 0,
   });
 
-  
   const getCurrentLocation = async () => {
     try {
       // Request permissions
       let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        throw new Error('Permission to access location was denied');
+      if (status !== "granted") {
+        throw new Error("Permission to access location was denied");
       }
 
       // Get current position
@@ -215,11 +214,6 @@ export const LocationProvider = ({ children }) => {
         throw new Error("You must be at your assigned location to check in");
       }
 
-      console.log("Sending check-in payload:", {
-        dutyId: dutyInfo.dutyId,
-        location: locationCheck.current,
-      });
-
       const authToken = await AsyncStorage.getItem("authToken");
       const response = await fetch(`${baseUrl}/checkin`, {
         method: "POST",
@@ -235,7 +229,6 @@ export const LocationProvider = ({ children }) => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.log("Server error response:", errorData);
         throw new Error(errorData.message || "Check-in failed");
       }
 
@@ -250,7 +243,7 @@ export const LocationProvider = ({ children }) => {
     }
   };
 
-    const performCheckOut = async () => {
+  const performCheckOut = async () => {
     try {
       setIsLoading(true);
       setError(null);
@@ -265,23 +258,23 @@ export const LocationProvider = ({ children }) => {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           dutyId: dutyInfo.dutyId,
-          location: current
-        })
+          location: current,
+        }),
       });
 
       const result = await res.json();
       if (!res.ok) throw new Error(result.message);
 
       // Update local status
-      setStatusInfo(prev => ({
+      setStatusInfo((prev) => ({
         ...prev,
         checkOutTime: result.checkOutTime,
         ot: result.ot,
-        status: "present"
+        status: "present",
       }));
 
       return result;
@@ -294,24 +287,23 @@ export const LocationProvider = ({ children }) => {
     }
   };
 
-
   const fetchDutyStatus = async () => {
     try {
       const token = await AsyncStorage.getItem("authToken");
       const res = await fetch(`${baseUrl}/${dutyInfo.dutyId}/status`, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
       if (res.ok) {
         // setStatusInfo(data);
-        const isCheckedIn  = Boolean(data.checkInTime);
+        const isCheckedIn = Boolean(data.checkInTime);
         const isCheckedOut = Boolean(data.checkOutTime);
 
-    setStatusInfo({
-      ...data,
-      isCheckedIn,
-      isCheckedOut
-    });
+        setStatusInfo({
+          ...data,
+          isCheckedIn,
+          isCheckedOut,
+        });
       } else {
         console.warn("Status fetch error:", data.message);
       }
@@ -319,8 +311,6 @@ export const LocationProvider = ({ children }) => {
       console.error("Failed fetching duty status", e);
     }
   };
-
-
 
   const value = {
     currentLocation,

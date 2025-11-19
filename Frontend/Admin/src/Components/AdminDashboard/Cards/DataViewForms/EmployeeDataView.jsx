@@ -33,7 +33,6 @@ const EmployeeDataView = ({ data }) => {
       }
     } catch (error) {
       toast.error(`something went wrong!`);
-      console.log(error);
     } finally {
       setLoading(false);
     }

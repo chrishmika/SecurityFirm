@@ -25,7 +25,6 @@ const Login = () => {
       Login(loginData.NIC, loginData.password);
     } catch (error) {
       toast.error(error.response.data.error);
-      console.log(error);
     }
   };
 

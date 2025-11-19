@@ -53,7 +53,6 @@ const AuthScreen = () => {
         try {
             await login(nic, password);
             // Redirect to home or dashboard after successful login
-            console.log("Login successful");
         } catch (error) {
             // console.error("Login failed:", error);
             setError(error.message || 'Login failed. Please try again.');

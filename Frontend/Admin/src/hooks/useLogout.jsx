@@ -7,7 +7,6 @@ export const useLogout = () => {
   const logout = async () => {
     // localStorage.removeItem("user");
     const deleteToken = await axios.post("/api/auth/logout", {}, { withCredentials: true }); //hope this will fix the logout
-    console.log(deleteToken);
 
     setUser(null);
     setStatus("LOGOUT");

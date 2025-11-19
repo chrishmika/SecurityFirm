@@ -28,7 +28,6 @@ import { motion, AnimatePresence } from "motion/react";
 import { IoCloseSharp } from "react-icons/io5";
 
 const ApplicationCard = ({ data, choice }) => {
-  console.log(data);
   const [isSelected, setIsSelected] = useState(false);
   const [isDeleted, setIsDelete] = useState(false);
 

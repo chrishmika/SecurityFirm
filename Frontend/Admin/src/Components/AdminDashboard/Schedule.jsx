@@ -106,10 +106,8 @@ const Schedule = () => {
       const existing = [...prev];
 
       const rowIndex = existing.findIndex((r) => r._id === duty._id);
-      console.log("existing", existing);
 
       let updatedRow = rowIndex !== -1 ? { ...existing[rowIndex] } : { ...duty };
-      console.log("updatedRow", updatedRow);
 
       // special case for employee
       if (field === "employeeName") {
@@ -161,7 +159,6 @@ const Schedule = () => {
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Duty update failed");
-      console.log(error.message);
     }
   };
 
@@ -244,7 +241,6 @@ const Schedule = () => {
                         </tr>
                       </thead>
 
-                      {/* {console.log(sheet.duties)} */}
 
                       {/* from here data need to be in input form an data is need to be filtered and on-arrow neet to be used for datalist */}
                       <tbody>
@@ -341,7 +337,6 @@ const Schedule = () => {
           </div>
         </div>
       )}
-      {console.log(dutySet)}
       {/* right side */}
       {showData && (
         <div>

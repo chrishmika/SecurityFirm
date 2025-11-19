@@ -29,7 +29,6 @@ const NotificationCard = ({ notification }) => {
     } catch (error) {
       setFavourite(!favourites);
       toast.success(`Something went wrong`);
-      console.log(error);
     }
   };
 
@@ -39,9 +38,6 @@ const NotificationCard = ({ notification }) => {
       !isRead && setRead(true);
     }
     const response = await axios.get(`/api/notification/${_id}`, { withCredentials: true });
-    if (response.status == 200) {
-      console.log("read the notification", response.data);
-    }
   };
   console.log("notification =>", notification);
 
@@ -58,7 +54,6 @@ const NotificationCard = ({ notification }) => {
       }
     } catch (error) {
       toast.error("Something went wrong!");
-      console.log(error);
     } finally {
       setLoading(false);
     }

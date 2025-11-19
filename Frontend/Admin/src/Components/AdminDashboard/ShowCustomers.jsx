@@ -42,8 +42,6 @@ const AddCompany = () => {
     })();
   }, [choice]);
 
-  console.log("list of name list", namesData);
-
   const handelSelectedId = (e) => {
     e.preventDefault();
     try {
@@ -51,9 +49,7 @@ const AddCompany = () => {
 
       const employee = namesData.find((emp) => emp.name == e.target.value);
       setSelected(employee._id);
-    } catch {
-      console.log("cannot find id for this");
-    }
+    } catch {}
   };
 
   const submitHandeler = async (e) => {
@@ -75,7 +71,6 @@ const AddCompany = () => {
       }
       setIsDataFetched(true);
     } catch (error) {
-      console.log(error);
       toast.error("No data found");
     }
   };

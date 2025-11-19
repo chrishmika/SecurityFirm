@@ -3,7 +3,6 @@ import profilePic from "../assets/boy1.png";
 
 const PrintCompanyData = ({ data }) => {
   const handlePrint = () => {
-    console.log(data);
     if (!data) return;
 
     const tableRows = Array.isArray(data.count)

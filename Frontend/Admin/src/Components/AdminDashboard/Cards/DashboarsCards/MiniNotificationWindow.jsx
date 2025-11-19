@@ -16,7 +16,6 @@ const MiniNotificationWindow = () => {
           })
         );
         setFetching(false);
-        console.log(response.data);
       } catch (error) {
         setFetching(false);
         console.error("Failed to fetch notifications:", error);
@@ -27,12 +26,8 @@ const MiniNotificationWindow = () => {
   const notificationsset = notifications?.slice(0, 7);
 
   const deleteNotificationHandler = async (_id) => {
-    console.log("ask to delete");
     //auto remove part is need to impliment
     const response = await axios.delete(`/api/notification/${_id}`, { withCredentials: true });
-    if (response.status == 200) {
-      console.log("deleted", response.data);
-    }
 
     setNotifications((prevNotifications) => {
       return prevNotifications.filter((notification) => notification._id !== _id);
