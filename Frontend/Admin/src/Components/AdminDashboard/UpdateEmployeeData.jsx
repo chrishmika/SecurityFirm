@@ -52,7 +52,7 @@ const UpdateEmployeeprevious = () => {
         <BackButton />
       </div>
       {/* LEFT COLUMN - BASIC INFO */}
-      <section className="flex flex-col items-end p-2 space-y-4 overflow-hidden">
+      <section className="flex flex-col items-end p-2 space-y-4 overflow-scroll">
         <div className="w-full max-w-[280px] text-left">
           <img
             src={previous?.img || profilePic}
@@ -148,7 +148,7 @@ const UpdateEmployeeprevious = () => {
       </section>
 
       {/* RIGHT COLUMN - EMERGENCY + ACTIONS */}
-      <section className="p-4 space-y-6 overflow-hidden">
+      <section className="p-4 space-y-6 overflow-scroll">
         <header>
           <h1 className="text-2xl font-bold text-blue-900">{newVal?.name || previous?.name}</h1>
           <input
