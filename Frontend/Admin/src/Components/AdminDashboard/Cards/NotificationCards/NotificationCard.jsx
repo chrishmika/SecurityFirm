@@ -43,7 +43,6 @@ const NotificationCard = ({ notification }) => {
       console.log("read the notification", response.data);
     }
   };
-  console.log("notification =>", notification);
 
   const deleteNotificationHandler = async () => {
     setLoading(true);
