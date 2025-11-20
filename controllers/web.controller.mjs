@@ -99,7 +99,6 @@ export const employeeRequest = async (req, res) => {
   }
 };
 
-//not tested uploaded to local storage multer this feels like unusable
 export const uploadDocument = async (req, res) => {
   try {
     if (!req.file) {
