@@ -23,12 +23,12 @@ router.post("/viewSheets", protectedRoute, viewAllDutySheets);
 router.post("/viewSheetByDetails", protectedRoute, viewSheetByDetails);
 router.post("/viewSheet/:id", protectedRoute, viewDutySheet);
 router.delete("/:id", protectedRoute, deleteDutySheet);
-router.put("/:id", protectedRoute, updateSheet); //not tested
+router.put("/:id", protectedRoute, updateSheet); 
 
 router.post("/addDuty/:id", protectedRoute, addDuties);
 
-router.put("/editDuty/:sheetId/:dutyEntryId", protectedRoute, editDuty); //not tested
-router.delete("/deleteDuty/:sheetId/:dutyEntryId", protectedRoute, deleteDuty); //not tested
+router.put("/editDuty/:sheetId/:dutyEntryId", protectedRoute, editDuty); 
+router.delete("/deleteDuty/:sheetId/:dutyEntryId", protectedRoute, deleteDuty); 
 
 
 router.post("/checkin", protectedRoute, checkInDuty);
