@@ -27,7 +27,6 @@ export const signup = async (req, res) => {
     });
 
     if (newUser) {
-      // generateTokenAndSetCookie(newUser._id, res);  //no need to reate token when siginup new person
       await newUser.save();
       newUser.password = "";
       res.status(200).json(newUser);
@@ -83,7 +82,7 @@ export const login = async (req, res) => {
       nic: user.NIC, // Map NIC to nic for frontend consistency
       role: user.role,
       empId: employee?.empId || "00000",
-      employeID : employee?._id //new code added here <---------------------------
+      employeID : employee?._id //new code added here 
     };
     
     // Return both token and user data for React Native
