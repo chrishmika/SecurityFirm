@@ -8,7 +8,7 @@ router.post("/companyRequest", companyRequest);
 router.post("/employeeRequest", employeeRequest);
 router.post("/application", allApplications);
 router.post("/CompanyApplications", allCompanyApplications);
-router.post("/uploadDocument", upload.single("file"), uploadDocument); //not tested uploaded to local storage multer
+router.post("/uploadDocument", upload.single("file"), uploadDocument); 
 
 export default router;
 
