@@ -33,7 +33,7 @@ npm run dev
 Run the following command in new terminal:
 
 ```bash
-cd Frontend/website
+cd Frontend/Website
 npm install
 npm run dev
 ```
