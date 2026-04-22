@@ -1,12 +1,5 @@
 import mongoose from "mongoose";
-
-// Counter schema for tracking sequence
-const counterSchema = new mongoose.Schema({
-  id: { type: String, required: true }, // sequence name (e.g. "empId")
-  seq: { type: Number, default: 0 },
-});
-
-const Counter = mongoose.model("Counter", counterSchema);
+import Counter from "./counter.model.mjs";
 
 // Employee schema
 const employeeSchema = new mongoose.Schema(
@@ -132,7 +125,7 @@ const employeeSchema = new mongoose.Schema(
 employeeSchema.pre("save", async function (next) {
   if (this.isNew) {
     const counter = await Counter.findOneAndUpdate(
-      { id: "empId" }, // sequence name
+      { _id: "empId" }, // sequence name
       { $inc: { seq: 1 } }, // increment by 1
       { new: true, upsert: true } // create if not exists
     );

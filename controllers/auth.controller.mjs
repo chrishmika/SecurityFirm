@@ -12,7 +12,7 @@ export const signup = async (req, res) => {
     const existingUser = await User.findOne({ NIC });
     if (existingUser) return res.status(400).json({ error: "User already exists" });
 
-    if (password.length < 4)
+    if (password.length < 5)
       return res.status(400).json({ error: `password must be atleast 5 characters long` });
 
     //hashing passwod
@@ -100,59 +100,70 @@ export const login = async (req, res) => {
 };
 
 export const forgetPassword = async (req, res) => {
-  const { NIC, newPassword } = req.body;
+  try {
+    const { NIC, newPassword } = req.body;
 
-  const user = await User.findOne({ NIC });
-  if (!user) return res.status(404).json({ error: `Invalid user` });
+    const user = await User.findOne({ NIC });
+    if (!user) return res.status(404).json({ error: `Invalid user` });
 
-  const validate = newPassword.length > 4;
-  if (!validate) return res.status(404).json({ error: `password must have atleast 4 charactors` });
+    const validate = newPassword.length >= 5;
+    if (!validate) return res.status(400).json({ error: `password must have atleast 5 characters` });
 
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(newPassword, salt);
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
 
-  user.password = hashedPassword;
+    user.password = hashedPassword;
 
-  await user.save();
+    await user.save();
 
-  //create new Notification
-  const admin = await User.findOne({ role: "admin" });
-  createNotification(
-    admin._id,
-    req.user._id,
-    "password",
-    "Password was Changed By Admin under user forget password"
-  );
+    //create new Notification
+    const admin = await User.findOne({ role: "admin" });
+    createNotification(
+      admin._id,
+      req.user._id,
+      "User",
+      "employee",
+      "Password was Changed By Admin under user forget password"
+    );
 
-  res.status(200).json({ message: `password updated sucessfull`, user });
+    res.status(200).json({ message: `password updated sucessfull`, user });
+  } catch (error) {
+    console.log(`error in forgetPassword controller ${error.message}`);
+    res.status(500).json({ error: "internal server error on forgetPassword" });
+  }
 };
 
 export const changePassword = async (req, res) => {
-  const { NIC, newPassword, oldPassword } = req.body;
+  try {
+    const { NIC, newPassword, oldPassword } = req.body;
 
-  if (req.user.NIC != NIC) return res.status(400).json({ error: `NIC not matched with the user` });
+    if (req.user.NIC != NIC) return res.status(400).json({ error: `NIC not matched with the user` });
 
-  const user = await User.findOne({ NIC });
-  if (!user) return res.status(404).json({ error: `invalid user` });
+    const user = await User.findOne({ NIC });
+    if (!user) return res.status(404).json({ error: `invalid user` });
 
-  const validateLength = newPassword.length > 4;
-  if (!validateLength)
-    return res.status(404).json({ error: `password must have atleast 4 charactors` });
+    const validateLength = newPassword.length >= 5;
+    if (!validateLength)
+      return res.status(400).json({ error: `password must have atleast 5 characters` });
 
-  const validate = await bcrypt.compare(oldPassword, user.password);
-  if (!validate) return res.status(404).json({ error: `Password not matched` });
+    const validate = await bcrypt.compare(oldPassword, user.password);
+    if (!validate) return res.status(404).json({ error: `Password not matched` });
 
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(newPassword, salt);
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
 
-  user.password = hashedPassword;
-  await user.save();
+    user.password = hashedPassword;
+    await user.save();
 
-  //create new Notification
-  const admin = await User.findOne({ role: "admin" });
-  createNotification(admin._id, req.user._id, "password", "Password was Changed By user");
+    //create new Notification
+    const admin = await User.findOne({ role: "admin" });
+    createNotification(admin._id, req.user._id, "User", "employee", "Password was Changed By user");
 
-  res.status(200).json({ message: `password updated sucessfull`, user });
+    res.status(200).json({ message: `password updated sucessfull`, user });
+  } catch (error) {
+    console.log(`error in changePassword controller ${error.message}`);
+    res.status(500).json({ error: "internal server error on changePassword" });
+  }
 };
 
 export const logout = async (req, res) => {

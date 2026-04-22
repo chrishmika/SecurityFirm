@@ -3,7 +3,7 @@ import { protectedRoute } from "../middleware/protectedRoute.mjs";
 import {
   deleteEmployee,
   getEmployeeList,
-  updateEmoloyee,
+  updateEmployee,
   viewEmployee,
   viewEmployees,
 } from "../controllers/employee.controller.mjs";
@@ -17,7 +17,7 @@ router.use(adminAccess);
 router.post("/", protectedRoute, viewEmployees);
 router.post("/:id", protectedRoute, viewEmployee);
 router.delete("/:id", protectedRoute, deleteEmployee);
-router.put("/:id", protectedRoute, updateEmoloyee);
+router.put("/:id", protectedRoute, updateEmployee);
 router.get("/employeeList", getEmployeeList);
 
 export default router;

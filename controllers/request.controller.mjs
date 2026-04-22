@@ -101,7 +101,7 @@ export const acceptCompanyReq = async (req, res) => {
     const request = await CompanyRequest.findById(requestId);
     if (!request) return res.status(404).json({ error: `request not found` });
 
-    request.status = accept;
+    request.status = "accepted";
     await request.save();
 
     res.status(200).json(request);
@@ -209,7 +209,7 @@ export const acceptEmployeeReq = async (req, res) => {
     const request = await Application.findById(requestId);
     if (!request) return res.status(404).json({ error: `request not found` });
 
-    request.status = accept;
+    request.status = "accepted";
     await request.save();
 
     res.status(200).json(request);

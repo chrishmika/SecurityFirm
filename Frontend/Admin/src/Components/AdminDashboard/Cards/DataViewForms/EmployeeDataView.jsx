@@ -31,7 +31,7 @@ const EmployeeDataView = ({ data }) => {
       } else {
         toast.error(response.message || "Failed to remove record!");
       }
-    } catch (error) {
+    } catch {
       toast.error(`something went wrong!`);
     } finally {
       setLoading(false);

@@ -84,10 +84,10 @@ export const editDuty = async (req, res) => {
     const updateFields = req.body;
 
     const result = await Duty.findOneAndUpdate(
-      { _id: sheetId, "duty._id": dutyEntryId },
+      { _id: sheetId, "duties._id": dutyEntryId },
       {
         $set: Object.fromEntries(
-          Object.entries(updateFields).map(([key, val]) => [`duty.$.${key}`, val])
+          Object.entries(updateFields).map(([key, val]) => [`duties.$.${key}`, val])
         ),
       },
       { new: true }
@@ -109,7 +109,7 @@ export const deleteDuty = async (req, res) => {
 
     const result = await Duty.findByIdAndUpdate(
       sheetId,
-      { $pull: { duty: { _id: dutyEntryId } } },
+      { $pull: { duties: { _id: dutyEntryId } } },
       { new: true }
     );
 
