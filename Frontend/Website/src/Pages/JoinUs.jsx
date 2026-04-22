@@ -1,5 +1,5 @@
-//import img1 from "../assets/joinus.jpeg"; // make sure you have an image
-import JobApplyForm from "../Components/Application Forms/JobApplyForm";
+//import img1 from "../Assets/joinus.jpeg"; // make sure you have an image
+import JobApplyForm from "../Components/ApplicationForms/JobApplyForm";
 import { NavLink, Outlet } from "react-router-dom";
 
 const JoinUs = () => {

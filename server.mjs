@@ -7,7 +7,7 @@ import fileUpload from "express-fileupload";
 import path, { dirname, join } from "path";
 import { fileURLToPath } from "url";
 
-import connectMongoDB from "./db/connectMondoDB.mjs";
+import connectMongoDB from "./db/connectMongoDB.mjs";
 
 import authRouter from "./routes/auth.router.mjs";
 import adminRouter from "./routes/admin.router.mjs";

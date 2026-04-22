@@ -4,8 +4,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { forwardRef } from "react";
 
-import { useEmployeeContext } from "../../../hooks/useEmployeeContext";
-import LoadingScreen from "../../../utils/LoadingScreen";
+import { useEmployeeContext } from "../../../Hooks/useEmployeeContext";
+import LoadingScreen from "../../../Utils/LoadingScreen";
 
 import { CiFileOn } from "react-icons/ci";
 import { IoCloseSharp } from "react-icons/io5";

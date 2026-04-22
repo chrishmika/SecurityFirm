@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import img from "../../assets/sec.png";
+import img from "../../Assets/sec.png";
 
 const MainHomeCard = () => {
   const [showPopup, setShowPopup] = useState(false);

@@ -4,7 +4,7 @@ import MainHomeCard from "../Components/HomeCards/MainHomeCard";
 import AboutUsCard from "../Components/HomeCards/AboutUsCard";
 import WhyChooseUsCard from "../Components/HomeCards/WhyChooseUsCard";
 import ServicesListCard from "../Components/HomeCards/ServicesListCard";
-import AllServises from "../Components/HomeCards/AllServises";
+import AllServices from "../Components/HomeCards/AllServices";
 import InfiniteScrollAnimationPage from "../Components/HomeCards/InfiniteScrollLogo";
 import JoinOurTeam from "../Components/HomeCards/JoinUsCard";
 
@@ -16,7 +16,7 @@ const Home = () => {
       <WhyChooseUsCard />
       <AboutUsCard />
       <ServicesListCard isHome={true} />
-      <AllServises />
+      <AllServices />
       <InfiniteScrollAnimationPage />
       <JoinOurTeam />
     </div>

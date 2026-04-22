@@ -4,7 +4,7 @@ import { CategoryScale } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import MonthInName from "../../../../utils/MonthInName";
+import MonthInName from "../../../../Utils/MonthInName";
 
 Chart.register(CategoryScale, ChartDataLabels);
 

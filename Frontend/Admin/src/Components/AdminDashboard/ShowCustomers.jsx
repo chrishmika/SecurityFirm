@@ -8,7 +8,7 @@ import EmployeeDataView from "./Cards/DataViewForms/EmployeeDataView";
 import CompanyDataView from "./Cards/DataViewForms/CompanyDataView";
 import { toast } from "react-toastify";
 
-// import { icon } from "../../assets/boy1.png";
+// import { icon } from "../../Assets/boy1.png";
 
 const AddCompany = () => {
   const [choice, setChoice] = useState(false);
@@ -152,7 +152,7 @@ const AddCompany = () => {
             !isDataFetched ? "" : "hidden"
           }`}>
           {/* <div className="outline-1 w-20 h-20 rounded-full cursor-pointer relative -left-4 overflow-hidden flex justify-center items-center">
-            <img src={namesData[-1]?.img || `../../assets/boy1.png`} />
+            <img src={namesData[-1]?.img || `../../Assets/boy1.png`} />
           </div>
           <div className="outline-1 w-20 h-20 rounded-full cursor-pointer relative -left-1 overflow-hidden flex justify-center items-center">
             <img src={namesData[-2]?.img || "icon"} />

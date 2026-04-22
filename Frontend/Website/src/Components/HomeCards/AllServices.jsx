@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 
-const AllServises = () => {
+const AllServices = () => {
   const navigate = useNavigate();
 
   const handleClick = (e) => {
@@ -21,4 +21,4 @@ const AllServises = () => {
   );
 };
 
-export default AllServises;
+export default AllServices;

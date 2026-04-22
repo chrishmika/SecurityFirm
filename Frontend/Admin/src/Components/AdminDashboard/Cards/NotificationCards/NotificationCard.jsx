@@ -6,7 +6,7 @@ import { IoCloseSharp } from "react-icons/io5";
 import axios from "axios";
 import { motion, AnimatePresence } from "motion/react";
 import { toast } from "react-toastify";
-import ConfirmationWindow from "../../../../utils/ComfirmationWindowPopUp";
+import ConfirmationWindow from "../../../../Utils/ConfirmationWindowPopUp";
 import { ClipLoader } from "react-spinners";
 
 const NotificationCard = ({ notification }) => {

@@ -8,13 +8,13 @@ import {
   FaBinoculars,
   FaBlackTie,
 } from "react-icons/fa6";
-import { useAuthContext } from "../../hooks/useAuthContext";
-import { useLogout } from "../../hooks/useLogout";
+import { useAuthContext } from "../../Hooks/useAuthContext";
+import { useLogout } from "../../Hooks/useLogout";
 import { FaCircleUser } from "react-icons/fa6";
 import { IoNotifications } from "react-icons/io5";
 import { GrSchedule } from "react-icons/gr";
 import { AnimatePresence } from "motion/react";
-import ConfirmationWindow from "../../utils/ComfirmationWindowPopUp";
+import ConfirmationWindow from "../../Utils/ConfirmationWindowPopUp";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(true);

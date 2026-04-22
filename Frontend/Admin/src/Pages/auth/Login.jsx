@@ -1,7 +1,7 @@
 import { useState } from "react";
-import useLogin from "../../hooks/useLogin";
+import useLogin from "../../Hooks/useLogin";
 import { toast } from "react-toastify";
-import logoMain from "../../assets/logo-01.png";
+import logoMain from "../../Assets/logo-01.png";
 //css styles
 import { styles1 as styles } from "../../Components/styles/loginStyles";
 

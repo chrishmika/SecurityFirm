@@ -5,12 +5,12 @@ import { toast } from "react-toastify";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
 
-import NumberLine from "../../utils/NumberLine";
+import NumberLine from "../../Utils/NumberLine";
 import DutySearchForm from "./Forum/DutySearchForm";
-import SideCalandeBar from "../../utils/SideCalandeBar";
-import LoadingScreen from "../../utils/LoadingScreen";
-import MonthInName from "../../utils/MonthInName";
-import PrintEmployeeData from "../../utils/PrintSchedule";
+import SideCalendarBar from "../../Utils/SideCalendarBar";
+import LoadingScreen from "../../Utils/LoadingScreen";
+import MonthInName from "../../Utils/MonthInName";
+import PrintEmployeeData from "../../Utils/PrintSchedule";
 
 //styles
 import { adminStyles as styles } from "../styles/adminStyles";
@@ -340,7 +340,7 @@ const Schedule = () => {
       {/* right side */}
       {showData && (
         <div>
-          <SideCalandeBar
+          <SideCalendarBar
             showData={showData}
             companylist={companylist}
             selectedCompanyName={selectedCompanyName}

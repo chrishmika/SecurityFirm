@@ -1,4 +1,4 @@
-import notFound from "../../assets/notFound.png";
+import notFound from "../../Assets/notFound.png";
 const NotFound = () => {
   return (
     <div className="h-screen bg-[#e4dddd] text-black flex flex-col justify-center items-center">

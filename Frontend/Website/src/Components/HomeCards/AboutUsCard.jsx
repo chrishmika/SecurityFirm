@@ -1,5 +1,5 @@
-import img from "../../assets/S5.png";
-//import companyProfile from "../../assets/company-profile.pdf"; // <-- Add your PDF file here
+import img from "../../Assets/S5.png";
+//import companyProfile from "../../Assets/company-profile.pdf"; // <-- Add your PDF file here
 
 const AboutUsCard = () => {
   const handleDownload = () => {

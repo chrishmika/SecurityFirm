@@ -1,14 +1,14 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import profilePic from "../../../../assets/boy1.png";
-import ConfirmationWindow from "../../../../utils/ComfirmationWindowPopUp";
+import profilePic from "../../../../Assets/boy1.png";
+import ConfirmationWindow from "../../../../Utils/ConfirmationWindowPopUp";
 import { Detail, Info } from "./Components";
 import { AnimatePresence } from "motion/react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import { Link } from "react-router-dom";
-import PrintEmployeeData from "../../../../utils/PrintEmployeeData";
+import PrintEmployeeData from "../../../../Utils/PrintEmployeeData";
 
 const EmployeeDataView = ({ data }) => {
   const [confirmation, setConfirmation] = useState(false);

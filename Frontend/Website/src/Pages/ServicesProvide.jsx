@@ -1,4 +1,4 @@
-import img1 from "../assets/dvidion post update 06-05.png";
+import img1 from "../Assets/dvidion post update 06-05.png";
 
 // import ServicesListCard from "../Components/HomeCards/ServicesListCard";
 import ServicesListCard from "../Components/HomeCards/ServicesListCard";

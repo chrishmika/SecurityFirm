@@ -16,8 +16,8 @@ import Services from "./Pages/ServicesProvide";
 import JoinUs from "./Pages/JoinUs";
 import Home from "./Pages/Home";
 import GetHired from "./Pages/GetHired";
-import JobApplyForm from "./Components/Application Forms/JobApplyForm";
-import NotFound from "./Pages/notFound/NotFound";
+import JobApplyForm from "./Components/ApplicationForms/JobApplyForm";
+import NotFound from "./Pages/NotFound/NotFound";
 
 // Create a wrapper component with ScrollRestoration
 const LayoutWithScroll = () => {

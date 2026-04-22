@@ -1,15 +1,15 @@
 import { useRef, useState } from "react";
 import axios from "axios";
-import getCoordinates from "../../../utils/getCoordinates";
+import getCoordinates from "../../../Utils/getCoordinates";
 
 import { IoMdAddCircle } from "react-icons/io";
 import { FaCircleMinus } from "react-icons/fa6";
 import { IoCloseSharp, IoDocumentAttachSharp } from "react-icons/io5";
 
-import { useCompanyContext } from "../../../hooks/useCompanyContext";
+import { useCompanyContext } from "../../../Hooks/useCompanyContext";
 
 import { toast } from "react-toastify";
-import LoadingScreen from "../../../utils/LoadingScreen";
+import LoadingScreen from "../../../Utils/LoadingScreen";
 
 const availablePositions = ["LSO", "SO", "JSO", "OIC"];
 

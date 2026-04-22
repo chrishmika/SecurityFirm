@@ -1,6 +1,6 @@
 import express from "express";
 import { protectedRoute } from "../middleware/protectedRoute.mjs";
-import { deleteNotification, FavouriteNotifications, getNotifications, markFavourite, viewNotification } from "../controllers/notifiaction.controller.mjs";
+import { deleteNotification, FavouriteNotifications, getNotifications, markFavourite, viewNotification } from "../controllers/notification.controller.mjs";
 import { adminAccess } from "../middleware/adminAccess.mjs";
 
 const router = express.Router();

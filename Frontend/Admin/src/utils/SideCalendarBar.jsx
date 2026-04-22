@@ -2,7 +2,7 @@
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
-const SideCalandeBar = ({
+const SideCalendarBar = ({
   showData,
   companylist,
   selectedCompanyName,
@@ -61,4 +61,4 @@ const SideCalandeBar = ({
   );
 };
 
-export default SideCalandeBar;
+export default SideCalendarBar;

@@ -5,9 +5,9 @@ import { AnimatePresence } from "motion/react";
 import { ClipLoader } from "react-spinners";
 import axios from "axios";
 
-import profilePic from "../../assets/boy1.png";
-import ConfirmationWindow from "../../utils/ComfirmationWindowPopUp";
-import BackButton from "../../utils/BackButton";
+import profilePic from "../../Assets/boy1.png";
+import ConfirmationWindow from "../../Utils/ConfirmationWindowPopUp";
+import BackButton from "../../Utils/BackButton";
 
 const UpdateCompanyPrevious = () => {
   const { id } = useParams();

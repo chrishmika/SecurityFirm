@@ -1,6 +1,6 @@
 import React from "react";
 import InfiniteScrollAnimationPage from "../Components/HomeCards/InfiniteScrollLogo";
-import GetHireForm from "../Components/Application Forms/GetHireForm";
+import GetHireForm from "../Components/ApplicationForms/GetHireForm";
 
 const GetHired = () => {
   return (

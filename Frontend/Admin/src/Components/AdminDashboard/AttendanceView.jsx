@@ -4,13 +4,13 @@ import { FaArrowLeft } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
 import axios from "axios";
 
-import SideCalandeBar from "../../utils/SideCalandeBar";
+import SideCalendarBar from "../../Utils/SideCalendarBar";
 import DutySearchForm from "./Forum/DutySearchForm";
 
-import NumberLine from "../../utils/NumberLine";
-import LoadingScreen from "../../utils/LoadingScreen";
-import MonthInName from "../../utils/MonthInName";
-import PrintAttendance from "../../utils/PrintAttendance";
+import NumberLine from "../../Utils/NumberLine";
+import LoadingScreen from "../../Utils/LoadingScreen";
+import MonthInName from "../../Utils/MonthInName";
+import PrintAttendance from "../../Utils/PrintAttendance";
 
 import { adminStyles as styles } from "../styles/adminStyles";
 
@@ -273,7 +273,7 @@ const Schedule = () => {
       {/* right side */}
       {showData && (
         <div>
-          <SideCalandeBar
+          <SideCalendarBar
             showData={showData}
             companylist={companylist}
             selectedCompanyName={selectedCompanyName}

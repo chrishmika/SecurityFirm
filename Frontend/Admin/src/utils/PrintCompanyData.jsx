@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import profilePic from "../assets/boy1.png";
+import profilePic from "../Assets/boy1.png";
 
 const PrintCompanyData = ({ data }) => {
   const handlePrint = () => {

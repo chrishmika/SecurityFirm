@@ -7,7 +7,7 @@ import {
   createRoutesFromElements,
   Navigate,
 } from "react-router-dom";
-import { useAuthContext } from "./hooks/useAuthContext";
+import { useAuthContext } from "./Hooks/useAuthContext";
 import { ClipLoader } from "react-spinners";
 import { ToastContainer } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
