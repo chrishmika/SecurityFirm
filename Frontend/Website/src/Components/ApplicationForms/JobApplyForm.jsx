@@ -3,24 +3,20 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { useRef } from "react";
 
-
-
 const JobApplyForm = () => {
-
   const formRef = useRef(null);
 
-  //file handle karanna use state
   const [idCard, setIdCard] = useState(null);
   const [cv, setCv] = useState(null);
-  
+
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
   const [address, setAddress] = useState("");
   const [gender, setGender] = useState("*");
- 
+
   const [disabilities, setDisabilities] = useState("");
   const [militaryStatus, setMilitaryStatus] = useState("");
-  
+
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
 
@@ -29,7 +25,6 @@ const JobApplyForm = () => {
   const [errors, setErrors] = useState({
     email: "",
     mobile: "",
-    
   });
 
   const validateForm = () => {
@@ -37,7 +32,6 @@ const JobApplyForm = () => {
     const newErrors = {
       email: "",
       mobile: "",
-      
     };
 
     if (email && !/\S+@\S+\.\S+/.test(email)) {
@@ -66,7 +60,6 @@ const JobApplyForm = () => {
     formData.append("sex", gender);
     formData.append("disabilities", disabilities);
     formData.append("militaryStatus", militaryStatus);
-    
 
     if (idCard) {
       formData.append("NICCopy", idCard);
@@ -74,7 +67,7 @@ const JobApplyForm = () => {
     if (cv) {
       formData.append("cv", cv);
     }
-    
+
     try {
       await axios.post("/api/web/employeeRequest", formData, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -89,9 +82,9 @@ const JobApplyForm = () => {
       setCv(null);
       setEmail("");
       setMobile("");
+      setMilitaryStatus("");
 
       if (formRef.current) formRef.current.reset();
-      
 
       toast.success("Application submitted successfully", {
         position: "top-right",
@@ -197,7 +190,6 @@ const JobApplyForm = () => {
                         <option>Please select your gender</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
-                        
                       </select>
                     </div>
 

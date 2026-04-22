@@ -1,5 +1,11 @@
 import express from "express";
-import { companyRequest, allApplications, employeeRequest, uploadDocument, allCompanyApplications } from "../controllers/web.controller.mjs";
+import {
+  companyRequest,
+  allApplications,
+  employeeRequest,
+  uploadDocument,
+  allCompanyApplications,
+} from "../controllers/web.controller.mjs";
 import { upload } from "../middleware/localStorage.mjs";
 
 const router = express.Router();

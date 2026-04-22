@@ -57,13 +57,6 @@ export const updateCompany = async (req, res) => {
     const company = await Company.findById(requesId);
     if (!company) return res.status(400).json({ error: `Company not exist` });
 
-    //update cloudinary
-    // if (company.proposal) {
-    //   deleteCloudinary(company.proposal);
-    //   updatedData.proposal = uploadCloudinary(updatedData.proposal);
-    // }
-
-    console.log("came to herere=0=0-=0=0'.");
     Object.assign(company, updatedData);
     await company.save();
 
@@ -84,4 +77,4 @@ export const getCompanyList = async (req, res) => {
   }
 };
 
-//cloudinary function userd
+//cloudinary function used

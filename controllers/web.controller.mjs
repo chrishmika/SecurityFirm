@@ -42,7 +42,7 @@ export const companyRequest = async (req, res) => {
 export const employeeRequest = async (req, res) => {
   try {
     const { name, contact, sex, military, email, dob, disabilities, address } = req.body;
-    let { NICCopy, cv } = req.files;
+    let { NICCopy, cv } = req.files || {};
 
     console.log(req.files, "application form data");
 
@@ -104,7 +104,7 @@ export const uploadDocument = async (req, res) => {
 export const allApplications = async (req, res) => {
   try {
     const response = await Application.find().sort({ createdAt: -1 });
-    if (response.length === 0) return res.status(404).json({ error: `No applications found` });
+    if (response.length === 0) return res.status(200).json([]);
 
     res.status(200).json(response);
   } catch (error) {
@@ -116,7 +116,7 @@ export const allApplications = async (req, res) => {
 export const allCompanyApplications = async (req, res) => {
   try {
     const response = await CompanyRequest.find().sort({ createdAt: -1 });
-    if (response.length === 0) return res.status(404).json({ error: `No applications found` });
+    if (response.length === 0) return res.status(200).json([]);
 
     res.status(200).json(response);
   } catch (error) {
