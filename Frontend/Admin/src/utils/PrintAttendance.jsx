@@ -8,57 +8,122 @@ const PrintAttendance = ({ dutydata }) => {
         const companyName = sheet.company?.name || "Unknown Company";
         const monthYear = `${sheet.month || ""} - ${sheet.year || ""}`;
 
-        // Sort duties safely
-        const sortedDuties = Array.isArray(sheet.duties)
-          ? [...sheet.duties].sort((a, b) => (a.day || 0) - (b.day || 0))
-          : [];
+        // Group duties by employee
+        const employeeMap = {};
 
-        const rows = sortedDuties
-          .map(
-            (duty) => `
-            <tr>
-              <td>${duty.day || "-"}</td>
-              <td>${duty.position || "-"}</td>
-              <td>${duty.employee?.name || "-"}</td>
-              <td>${duty.time || "-"}</td>
-              <td>${duty.shift || "-"}</td>
-              <td>${duty.checkIn?.split("T")[1]?.substring(0, 5) || "-"}</td>
-              <td>${duty.checkOut?.split("T")[1]?.substring(0, 5) || "-"}</td>
-              <td>${duty.remark || "-"}</td>
-              <td>${duty.status || "-"}</td>
-            </tr>
-          `
-          )
+        if (Array.isArray(sheet.duties)) {
+          sheet.duties.forEach((duty) => {
+            const empName = duty.employee?.name || "Not Assigned";
+            if (!employeeMap[empName]) {
+              employeeMap[empName] = {
+                name: empName,
+                position: duty.position || "-",
+                attendance: {},
+                present: 0,
+                absent: 0,
+                late: 0,
+              };
+            }
+
+            let statusChar = "";
+            if (duty.status === "present") {
+              statusChar = "P";
+              employeeMap[empName].present += 1;
+            } else if (duty.status === "absent") {
+              statusChar = "A";
+              employeeMap[empName].absent += 1;
+            } else if (duty.status === "late") {
+              statusChar = "L";
+              employeeMap[empName].late += 1;
+            } else {
+              statusChar = "-";
+            }
+
+            employeeMap[empName].attendance[duty.day] = statusChar;
+          });
+        }
+
+        const employees = Object.values(employeeMap);
+
+        // Generate headers for days 1-31
+        let dayHeaders = "";
+        for (let i = 1; i <= 31; i++) {
+          dayHeaders += `<th>${i}</th>`;
+        }
+
+        const rows = employees
+          .map((emp) => {
+            let dayCells = "";
+            for (let i = 1; i <= 31; i++) {
+              dayCells += `<td>${emp.attendance[i] || ""}</td>`;
+            }
+
+            return `
+              <tr>
+                <td style="white-space: nowrap; text-align: left; padding-left: 5px;">${emp.name}</td>
+                <td>${emp.position}</td>
+                ${dayCells}
+                <td style="font-weight: bold; background-color: #e6ffe6;">${emp.present}</td>
+                <td style="font-weight: bold; background-color: #ffe6e6;">${emp.absent}</td>
+                <td style="font-weight: bold; background-color: #ffffe6;">${emp.late}</td>
+              </tr>
+            `;
+          })
           .join("");
 
         return `
-          <h3>${companyName} - ${monthYear}</h3>
-          <table border="1" cellspacing="0" cellpadding="5" style="border-collapse: collapse; margin-bottom: 20px;">
-            <thead>
-              <tr>
-                <th>Day</th>
-                <th>Position</th>
-                <th>Employee</th>
-                <th>Start/Time</th>
-                <th>Shift</th>
-                <th>Check In</th>
-                <th>Check Out</th>
-                <th>Remark</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${rows}
-            </tbody>
-          </table>
+          <div style="page-break-after: always; font-family: sans-serif;">
+            <h2 style="text-align: center; color: #333; margin-bottom: 5px;">${companyName}</h2>
+            <h4 style="text-align: center; color: #666; margin-top: 0;">Attendance Report: ${monthYear}</h4>
+            
+            <div style="margin-bottom: 10px; font-size: 13px; display: flex; justify-content: center; gap: 20px;">
+              <span><strong>P:</strong> Present</span>
+              <span><strong>A:</strong> Absent</span>
+              <span><strong>L:</strong> Late</span>
+            </div>
+
+            <table border="1" cellspacing="0" cellpadding="3" style="width: 100%; border-collapse: collapse; font-size: 11px; text-align: center;">
+              <thead style="background-color: #f2f2f2;">
+                <tr>
+                  <th style="text-align: left; padding-left: 5px;">Employee Name</th>
+                  <th>Position</th>
+                  ${dayHeaders}
+                  <th>P</th>
+                  <th>A</th>
+                  <th>L</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows.length > 0 ? rows : '<tr><td colspan="36" style="padding: 10px;">No attendance records found</td></tr>'}
+              </tbody>
+            </table>
+          </div>
         `;
       })
       .join("");
 
     const printWindow = window.open("", "_blank");
-    printWindow.document.write(`<html><body>${tableHTML}</body></html>`);
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Attendance Report</title>
+          <style>
+            @media print {
+              @page { size: landscape; margin: 10mm; }
+              body { -webkit-print-color-adjust: exact; color-adjust: exact; }
+            }
+            body { font-family: Arial, sans-serif; }
+          </style>
+        </head>
+        <body>
+          ${tableHTML}
+          <script>
+            window.onload = function() { setTimeout(() => { window.print(); window.close(); }, 250); }
+          </script>
+        </body>
+      </html>
+    `);
     printWindow.document.close();
-    printWindow.print();
   };
 
   return (
