@@ -19,19 +19,6 @@ export const companyRequest = async (req, res) => {
       dataItems.proposal = uploadCloudinary(dataItems?.proposal);
     }
     console.log("dataItems", dataItems);
-
-    // const newRequest = new CompanyRequest({
-    //   name,
-    //   address,
-    //   email,
-    //   contact,
-    //   description,
-    //   period,
-    //   count, //in model , not in web
-    //   type,
-    //   proposal, //in model , not in web
-    //   date,
-    // });
     const newRequest = new CompanyRequest(dataItems);
     await newRequest.save();
 
@@ -42,7 +29,7 @@ export const companyRequest = async (req, res) => {
       newRequest._id,
       "CompanyRequest",
       "company",
-      "company request is send for services"
+      "company request is send for services",
     );
 
     res.status(200).json({ message: `Request Sent`, newRequest });

@@ -167,7 +167,7 @@ const Schedule = () => {
       {!showData && !loading && (
         <div className={styles.searchArea}>
           {/* Find Duty sheet */}
-          <div className="md:w-1/3 w-70">
+          <div className="md:w-1/3 w-72">
             <h2 className={styles.searchAreaTitle}>
               <span className={styles.searchAreaTitleText}>
                 <FaSearch />
@@ -252,7 +252,7 @@ const Schedule = () => {
                           return (
                             <tr
                               key={duty._id}
-                              className={`${duty?.day == (selectedDay || 1) ? "box" : "hidden"}`}>
+                              className={`${duty?.day == (selectedDay || 1) ? "table-row" : "hidden"}`}>
                               {/* Position */}
                               <td className={styles.tableData}>
                                 <input
@@ -328,7 +328,7 @@ const Schedule = () => {
                 ))}
 
               <div className="flex w- justify-end gap-5">
-                <button className="p-3.5 bg-green-400 hover:bg-green-500 cursor-pointer mt-4 rounded-3xl  text-white">
+                <button className="px-4 py-2 bg-green-400 hover:bg-green-500 cursor-pointer mt-4 rounded-3xl text-white">
                   Add Schedule
                 </button>
                 <PrintEmployeeData dutydata={dutySet} />

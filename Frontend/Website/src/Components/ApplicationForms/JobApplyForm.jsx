@@ -104,7 +104,6 @@ const JobApplyForm = () => {
         theme: "light",
       });
     } catch (error) {
-      console.error(error);
       toast.error("Application submission failed", {
         position: "top-right",
         autoClose: 2000,

@@ -142,7 +142,6 @@ const GetHireForm = () => {
         theme: "light",
       });
     } catch (error) {
-      console.error("Submission error:", error);
       toast.error("Application submission failed", {
         position: "top-right",
         autoClose: 3000,
@@ -182,8 +181,9 @@ const GetHireForm = () => {
             Email :{" "}
           </label>
           <input
-            className={`bg-gray-50 border ${errors.email ? "border-red-500" : "border-gray-300"
-              } rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full`}
+            className={`bg-gray-50 border ${
+              errors.email ? "border-red-500" : "border-gray-300"
+            } rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full`}
             type="email"
             onChange={(e) => {
               setEmail(e.target.value);
@@ -201,8 +201,9 @@ const GetHireForm = () => {
             Mobile :{" "}
           </label>
           <input
-            className={`bg-gray-50 border ${errors.mobile ? "border-red-500" : "border-gray-300"
-              } rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full`}
+            className={`bg-gray-50 border ${
+              errors.mobile ? "border-red-500" : "border-gray-300"
+            } rounded-lg text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full`}
             type="text"
             onChange={(e) => {
               setMobile(e.target.value);
@@ -300,8 +301,9 @@ const GetHireForm = () => {
             What type of service are you looking for?
           </label>
           <select
-            className={`bg-gray-50 border ${errors.serviceType ? "border-red-500" : "border-gray-300"
-              } text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
+            className={`bg-gray-50 border ${
+              errors.serviceType ? "border-red-500" : "border-gray-300"
+            } text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
             onChange={(e) => {
               setServiceType(e.target.value);
               if (errors.serviceType) setErrors({ ...errors, serviceType: "" });
@@ -316,10 +318,14 @@ const GetHireForm = () => {
             <option value="Industrial & Warehouse Security">Industrial & Warehouse Security</option>
             <option value="Residential Security Services">Residential Security Services</option>
             <option value="VIP & Executive Protection">VIP & Executive Protection</option>
-            <option value="Bank & Financial Institution Security">Bank & Financial Institution Security</option>
+            <option value="Bank & Financial Institution Security">
+              Bank & Financial Institution Security
+            </option>
             <option value="CCTV & Surveillance Monitoring">CCTV & Surveillance Monitoring</option>
             <option value="Mobile Patrol Services">Mobile Patrol Services</option>
-            <option value="Industrial & Construction Site Security">Industrial & Construction Site Security</option>
+            <option value="Industrial & Construction Site Security">
+              Industrial & Construction Site Security
+            </option>
             <option value="Cash-in-Transit (CIT) Services">Cash-in-Transit (CIT) Services</option>
           </select>
           {errors.serviceType && <p className="text-red-500 text-xs mt-1">{errors.serviceType}</p>}

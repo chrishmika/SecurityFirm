@@ -26,7 +26,7 @@ const NotificationCard = ({ notification }) => {
       if (response.status == 200) {
         toast.success(`${response.data.message} `);
       }
-    } catch (error) {
+    } catch {
       setFavourite(!favourites);
       toast.success(`Something went wrong`);
     }
@@ -39,7 +39,6 @@ const NotificationCard = ({ notification }) => {
     }
     const response = await axios.get(`/api/notification/${_id}`, { withCredentials: true });
   };
-  console.log("notification =>", notification);
 
   const deleteNotificationHandler = async () => {
     setLoading(true);
@@ -52,7 +51,7 @@ const NotificationCard = ({ notification }) => {
       } else {
         toast.error("deleted", "Notification Delete fail");
       }
-    } catch (error) {
+    } catch {
       toast.error("Something went wrong!");
     } finally {
       setLoading(false);
@@ -151,7 +150,7 @@ const NotificationCard = ({ notification }) => {
           ConfirmationWindow(
             deleteNotificationHandler,
             setConfirmation,
-            "Delete This Notification"
+            "Delete This Notification",
           )}
       </AnimatePresence>
     </div>

@@ -38,24 +38,23 @@ app.use(
     // origin: ["http://localhost:8081", "https://swxlqlfk-2000.asse.devtunnels.ms"],
     origin: true,
     credentials: true,
-  })
+  }),
 );
 
-app.use(express.json({ limit: "50mb" })); //this can cause DOS atatacks bit needed to upload pdfs
+app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-//app.use("/uploadDocument", express.static("/uploads")); //need to understand and not tested
 app.use(fileUpload());
 
 //base path router module
 app.use("/api/auth", authRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/employee", employeeRouter);
-app.use("/api/duty", dutyRouter); //testing...
+app.use("/api/duty", dutyRouter);
 app.use("/api/company", companyRouter);
 app.use("/api/notification", notificationRouter);
 app.use("/api/web", webRouter);
-app.use("/api/req", reqRouter); //not tested //from web site
+app.use("/api/req", reqRouter);
 
 //deployment
 app.use("/app", express.static(join(__dirname, "Frontend/Admin/dist")));

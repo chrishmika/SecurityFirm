@@ -114,26 +114,26 @@ const PrintCompanyData = ({ data }) => {
 
     <h1>${data.name || "-"}</h1>
 
-    <div class="section">
+    <div className="section">
       <h2>Contact Information</h2>
       <p>Email: ${data.companyEmail || "-"}</p>
       <p>Mobile: ${data.companyMobile || "-"}</p>
       <p>Address: ${data.address || "-"}</p>
     </div>
 
-    <div class="section">
+    <div className="section">
       <h2>Coordinates</h2>
       <p>Longitude: ${data.longitude || "-"}</p>
       <p>Latitude: ${data.latitude || "-"}</p>
     </div>
 
-    <div class="section">
+    <div className="section">
       <h2>Contract Period</h2>
       <p>From: ${data.contractPeriod?.[0]?.from || "-"}</p>
       <p>To: ${data.contractPeriod?.[0]?.to || "-"}</p>
     </div>
 
-    <div class="section">
+    <div className="section">
       <h2>Requirement Count</h2>
       <table>
         <thead>
@@ -148,7 +148,7 @@ const PrintCompanyData = ({ data }) => {
       </table>
     </div>
 
-    <div class="section">
+    <div className="section">
       <h2>Company Representative</h2>
       <p>Name: ${data.agent || "-"}</p>
       <p>NIC: ${data.agentNIC || "-"}</p>

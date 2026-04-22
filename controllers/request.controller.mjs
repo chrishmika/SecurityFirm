@@ -96,12 +96,13 @@ export const favouriteCompanyRequests = async (req, res) => {
 
 export const acceptCompanyReq = async (req, res) => {
   try {
-    const requestId = req.params.id;
+    console.log("ewsdljfdlsfj");
 
+    const requestId = req.params.id;
     const request = await CompanyRequest.findById(requestId);
     if (!request) return res.status(404).json({ error: `request not found` });
 
-    request.status = "accepted";
+    request.status = "accept";
     await request.save();
 
     res.status(200).json(request);
@@ -205,16 +206,52 @@ export const favouriteEmployeeRequests = async (req, res) => {
 export const acceptEmployeeReq = async (req, res) => {
   try {
     const requestId = req.params.id;
+    console.log("id", requestId);
 
     const request = await Application.findById(requestId);
     if (!request) return res.status(404).json({ error: `request not found` });
 
-    request.status = "accepted";
+    request.status = "accept";
+    console.log("request", request);
     await request.save();
 
     res.status(200).json(request);
   } catch (error) {
     console.log(`error on web controller ${error.message}`);
     res.status(500).json({ error: `internal server error on acceptEmployeeReq` });
+  }
+};
+
+export const rejectCompanyReq = async (req, res) => {
+  try {
+    const requestId = req.params.id;
+
+    const request = await CompanyRequest.findById(requestId);
+    if (!request) return res.status(404).json({ error: `request not found` });
+
+    request.status = "reject";
+    await request.save();
+
+    res.status(200).json(request);
+  } catch (error) {
+    console.log(`error on web controller ${error.message}`);
+    res.status(500).json({ error: `internal server error on rejectCompanyReq` });
+  }
+};
+
+export const rejectEmployeeReq = async (req, res) => {
+  try {
+    const requestId = req.params.id;
+
+    const request = await Application.findById(requestId);
+    if (!request) return res.status(404).json({ error: `request not found` });
+
+    request.status = "reject";
+    await request.save();
+
+    res.status(200).json(request);
+  } catch (error) {
+    console.log(`error on web controller ${error.message}`);
+    res.status(500).json({ error: `internal server error on rejectEmployeeReq` });
   }
 };

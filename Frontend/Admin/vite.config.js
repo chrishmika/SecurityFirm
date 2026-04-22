@@ -10,7 +10,8 @@ export default defineConfig({
     open: "/app/",
     proxy: {
       "/api": {
-        target: " https://dvision-security-bbb0c037f11e.herokuapp.com/", //need to change for other pcs
+        // target: " https://dvision-security-bbb0c037f11e.herokuapp.com/",
+        target: "http://localhost:5000",
         changeOrigin: true,
         secure: false,
       },

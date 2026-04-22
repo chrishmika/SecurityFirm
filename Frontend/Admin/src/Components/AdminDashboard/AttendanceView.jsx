@@ -94,7 +94,7 @@ const Schedule = () => {
       {!showData && !loading && (
         <div className={styles.searchArea}>
           {/* Find Duty sheet */}
-          <div className="md:w-1/3 w-70 ">
+          <div className="md:w-1/3 w-72 ">
             <h2 className={styles.searchAreaTitle}>
               <span className={styles.searchAreaTitleText}>
                 <FaSearch />
@@ -178,7 +178,7 @@ const Schedule = () => {
                               ? "border-l-yellow-300"
                               : "bg-white"
                           }
-                    ${duty.day == (selectedDay || 1) ? "box" : "hidden"}
+                    ${duty.day == (selectedDay || 1) ? "table-row" : "hidden"}
                     `} //this is for attendance viewing area
                         >
                           {/* position */}
@@ -194,7 +194,7 @@ const Schedule = () => {
                           {/* employee */}
                           <td className={styles.tableData}>
                             <input
-                              className="bg-none font-bold px-2 w-full outline-0 cursor-default"
+                              className="bg-transparent font-bold px-2 w-full outline-0 cursor-default"
                               value={duty.employee?.name || "Not Assinged"}
                               readOnly
                             />

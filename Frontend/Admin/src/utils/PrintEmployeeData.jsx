@@ -59,7 +59,7 @@ const PrintEmployeeData = ({ data }) => {
     </style>
   </head>
   <body>
-    <div class="report-container">
+    <div className="report-container">
     <img src=${data.img || profilePic} alt="profile image" width="200px"/>
       <h1>${data.name || "Employee Details"}</h1>
 

@@ -72,7 +72,7 @@ export const createEmployee = async (req, res) => {
       newlyAdded._id,
       "Employee",
       "employee",
-      `New Employee joined to company password ${newData.password}  id ${newlyAdded.empId}`
+      `New Employee joined to company password ${newData.password}  id ${newlyAdded.empId}`,
     );
 
     res.status(200).json({ message: `added successfull`, newRequest });
@@ -100,9 +100,7 @@ export const createCompany = async (req, res) => {
       newData.proposal = uploadedDocument.secure_url;
     }
 
-    console.log(newData);
     const newRequest = new Company(newData);
-    console.log(newRequest);
 
     await newRequest.save();
 
@@ -114,7 +112,7 @@ export const createCompany = async (req, res) => {
       newRequest._id,
       "Company",
       "company",
-      `new company ${newRequest.name} joined`
+      `new company ${newRequest.name} joined`,
     );
 
     res.status(200).json({ message: `added successfull`, newRequest });

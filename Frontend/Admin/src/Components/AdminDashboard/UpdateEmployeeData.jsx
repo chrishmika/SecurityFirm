@@ -14,12 +14,10 @@ const UpdateEmployeeprevious = () => {
   const location = useLocation();
   const previous = location.state ? location.state.data : null;
 
-  // --- Store editable employee data ---
   const [newVal, setNewVal] = useState();
   const [confirmation, setConfirmation] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // --- Handle field changes ---
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewVal((prev) => ({
@@ -28,7 +26,6 @@ const UpdateEmployeeprevious = () => {
     }));
   };
 
-  // --- Update employee record ---
   const updateWithNewprevious = async () => {
     try {
       setLoading(true);
@@ -133,8 +130,8 @@ const UpdateEmployeeprevious = () => {
                   newVal?.marital !== undefined
                     ? String(newVal.marital)
                     : previous?.marital !== undefined
-                    ? String(previous.marital)
-                    : ""
+                      ? String(previous.marital)
+                      : ""
                 }
                 onChange={handleChange}
                 className="border w-full p-1 rounded">
